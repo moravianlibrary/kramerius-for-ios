@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>EA73E192-E73E-41C8-8BFA-F94242AC0645</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MZK_iOS</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>14F4265FA325D19C1A00B802E34B432D2943B619</key>
+		<string>https://bitbucket.org/skodik/kramerius-for-ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MZK_iOS/MZK_iOS.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>14F4265FA325D19C1A00B802E34B432D2943B619</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/skodik/kramerius-for-ios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>14F4265FA325D19C1A00B802E34B432D2943B619</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>14F4265FA325D19C1A00B802E34B432D2943B619</string>
+			<key>IDESourceControlWCCName</key>
+			<string>kramerius-for-ios</string>
+		</dict>
+	</array>
+</dict>
+</plist>
