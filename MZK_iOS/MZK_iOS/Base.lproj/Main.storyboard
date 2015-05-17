@@ -91,13 +91,14 @@
                         <viewControllerLayoutGuide type="top" id="L75-9f-Zy0"/>
                         <viewControllerLayoutGuide type="bottom" id="goc-Uu-dJc"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="27N-b8-mKv">
+                    <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="27N-b8-mKv">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iA2-Oy-Bhv">
+                            <webView multipleTouchEnabled="YES" contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iA2-Oy-Bhv">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <dataDetectorType key="dataDetectorTypes" calendarEvent="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="l9D-rH-xq3" id="rfh-1z-pLV"/>
                                 </connections>
@@ -139,18 +140,28 @@
                                             <action selector="onClose:" destination="l9D-rH-xq3" eventType="touchUpInside" id="lb1-wA-Fam"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nV0-G1-Xkn">
+                                        <rect key="frame" x="146" y="15" width="308" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="Qeh-Ou-mIW" firstAttribute="leading" secondItem="fZe-bH-K01" secondAttribute="leading" constant="8" id="1YK-5h-bMC"/>
+                                    <constraint firstAttribute="centerY" secondItem="nV0-G1-Xkn" secondAttribute="centerY" constant="-0.5" id="27a-Xr-71E"/>
                                     <constraint firstAttribute="bottom" secondItem="1Rr-NJ-Vnc" secondAttribute="bottom" constant="4" id="3O8-18-ndo"/>
                                     <constraint firstAttribute="centerY" secondItem="XaB-AI-4Xe" secondAttribute="centerY" constant="-2" id="9Vi-pp-Peb"/>
                                     <constraint firstAttribute="height" constant="50" id="DSU-aD-mcG"/>
                                     <constraint firstItem="1Rr-NJ-Vnc" firstAttribute="leading" secondItem="fZe-bH-K01" secondAttribute="leading" constant="62" id="VWF-io-cuG"/>
                                     <constraint firstAttribute="bottom" secondItem="Qeh-Ou-mIW" secondAttribute="bottom" constant="10" id="WWQ-nw-M04"/>
+                                    <constraint firstItem="nV0-G1-Xkn" firstAttribute="leading" secondItem="1Rr-NJ-Vnc" secondAttribute="trailing" constant="10" id="XJT-Rs-5GC"/>
                                     <constraint firstItem="1Rr-NJ-Vnc" firstAttribute="top" secondItem="fZe-bH-K01" secondAttribute="top" constant="4" id="fGp-Q0-gsm"/>
                                     <constraint firstItem="Qeh-Ou-mIW" firstAttribute="top" secondItem="fZe-bH-K01" secondAttribute="top" constant="10" id="g95-lb-HHH"/>
+                                    <constraint firstItem="nV0-G1-Xkn" firstAttribute="top" secondItem="fZe-bH-K01" secondAttribute="top" constant="15" id="gBl-Dr-bPH"/>
                                     <constraint firstAttribute="bottom" secondItem="XaB-AI-4Xe" secondAttribute="bottom" constant="8" id="gwl-dN-z3j"/>
+                                    <constraint firstItem="XaB-AI-4Xe" firstAttribute="leading" secondItem="nV0-G1-Xkn" secondAttribute="trailing" constant="92" id="iD4-mA-O4j"/>
                                     <constraint firstItem="XaB-AI-4Xe" firstAttribute="top" secondItem="fZe-bH-K01" secondAttribute="top" constant="12" id="r9F-2E-imQ"/>
                                     <constraint firstAttribute="trailing" secondItem="XaB-AI-4Xe" secondAttribute="trailing" constant="8" id="z0n-78-EKU"/>
                                 </constraints>
@@ -158,8 +169,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nN4-kv-hMH">
                                 <rect key="frame" x="0.0" y="550" width="600" height="50"/>
                                 <subviews>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="4a3-kx-whb">
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="4a3-kx-whb">
                                         <rect key="frame" x="59" y="10" width="466" height="31"/>
+                                        <connections>
+                                            <action selector="onPageChanged:" destination="l9D-rH-xq3" eventType="valueChanged" id="GeR-ht-MCK"/>
+                                        </connections>
                                     </slider>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10/20" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1wK-Id-J9N">
                                         <rect key="frame" x="531" y="14" width="42" height="21"/>
@@ -179,6 +193,10 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="onShowGrid:" destination="l9D-rH-xq3" eventType="touchUpInside" id="dLH-bL-2Mi"/>
+                                            <action selector="reload" destination="iA2-Oy-Bhv" eventType="touchUpInside" id="FCD-gF-mWQ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -201,7 +219,7 @@
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="nN4-kv-hMH" firstAttribute="leading" secondItem="27N-b8-mKv" secondAttribute="leadingMargin" constant="-16" id="2yQ-mR-xdF"/>
                             <constraint firstAttribute="width" secondItem="iA2-Oy-Bhv" secondAttribute="width" id="45N-Ld-IXx"/>
@@ -213,6 +231,8 @@
                             <constraint firstAttribute="trailingMargin" secondItem="iA2-Oy-Bhv" secondAttribute="trailing" constant="-16" id="mCd-Tt-xOr"/>
                             <constraint firstItem="ocn-tK-jy7" firstAttribute="centerY" secondItem="nN4-kv-hMH" secondAttribute="centerY" constant="-275" id="pG3-vX-4Ad"/>
                             <constraint firstAttribute="trailingMargin" secondItem="nN4-kv-hMH" secondAttribute="trailing" constant="-16" id="r5c-45-ZP5"/>
+                            <constraint firstItem="iA2-Oy-Bhv" firstAttribute="top" secondItem="L75-9f-Zy0" secondAttribute="bottom" constant="-20" id="rEK-xc-qLT"/>
+                            <constraint firstItem="goc-Uu-dJc" firstAttribute="top" secondItem="iA2-Oy-Bhv" secondAttribute="bottom" id="rix-io-Pxz"/>
                             <constraint firstItem="goc-Uu-dJc" firstAttribute="top" secondItem="iA2-Oy-Bhv" secondAttribute="bottom" id="rrP-ex-6Ce"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fZe-bH-K01" secondAttribute="trailing" constant="-16" id="uuG-Rl-GII"/>
                             <constraint firstItem="fZe-bH-K01" firstAttribute="top" secondItem="L75-9f-Zy0" secondAttribute="bottom" constant="-20" id="wCH-vg-4A0"/>
@@ -222,6 +242,10 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="pageCount" destination="1wK-Id-J9N" id="oc9-UO-0iN"/>
+                        <outlet property="pageSlider" destination="4a3-kx-whb" id="z5u-Ra-fj4"/>
+                        <outlet property="showGrid" destination="PBf-1b-45q" id="qvJ-cp-gIB"/>
+                        <outlet property="titleLabel" destination="nV0-G1-Xkn" id="44S-lG-VEn"/>
                         <outlet property="webView" destination="iA2-Oy-Bhv" id="iBw-R7-m0I"/>
                     </connections>
                 </viewController>

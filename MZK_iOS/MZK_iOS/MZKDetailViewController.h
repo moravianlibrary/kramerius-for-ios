@@ -10,6 +10,7 @@
 #import "MZKItemResource.h"
 
 @interface MZKDetailViewController : UIViewController
+
 @property (nonatomic, strong) MZKItemResource *item;
 
 -(void)setItem:(MZKItemResource *)item;

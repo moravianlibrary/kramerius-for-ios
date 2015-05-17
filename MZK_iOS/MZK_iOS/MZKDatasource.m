@@ -8,6 +8,7 @@
 
 #import "MZKDatasource.h"
 #import "MZKItemResource.h"
+#import "MZKPageObject.h"
 
 @implementation MZKDatasource
 
@@ -17,7 +18,13 @@
 
 -(void)getChildrenForItem:(NSString *)pid
 {
+    NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/item/%@/children", pid];
+    [self checkAndSetBaseUrl];
     
+    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
+    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    
+    [self downloadDataFromURL:url withOperation:3];
 }
 
 -(void)getItem:(NSString *)pid
@@ -39,7 +46,7 @@
 
 -(void)getMostRecent
 {
-    NSString *recent = @"/search/api/v5.0/feed/newest";
+    NSString *recent = @"/search/api/v5.0/feed/custom";
     [self checkAndSetBaseUrl];
     
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, recent];
@@ -133,6 +140,44 @@
     return results;
 }
 
+-(NSArray *)parseJSONDataForChildren:(NSData*)data error:(NSError *)error
+{
+    NSError *localError = nil;
+    NSArray *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
+    
+    if (localError != nil) {
+        error = localError;
+        return nil;
+    }
+    
+    NSMutableArray *pages = [NSMutableArray new];
+    
+    for (int i = 0; i<parsedObject.count; i++) {
+        
+         MZKPageObject *page = [MZKPageObject new];
+        
+       page.pid = [[parsedObject objectAtIndex:i] objectForKey:@"pid"];
+       page.model = [[parsedObject objectAtIndex:i] objectForKey:@"model"];
+        page.rootPid =  [[parsedObject objectAtIndex:i] objectForKey:@"root_pid"];
+        page.rootTitle =  [[parsedObject objectAtIndex:i] objectForKey:@"root_title"];
+        page.policy =  [[parsedObject objectAtIndex:i] objectForKey:@"public"];
+        page.page =  [[[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"pagenumber"] integerValue];
+        page.type = [[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"type"];
+        page.title = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
+        
+        [pages addObject:page];
+        
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(pagesLoadedForItem:)]) {
+        [self.delegate pagesLoadedForItem:pages];
+    }
+    
+    
+   
+    return pages;
+}
+
 -(MZKItemResource *)parseObjectFromDictionary:(NSDictionary *)rawData
 {
     MZKItemResource *newItem = [MZKItemResource new];
@@ -180,6 +225,9 @@
                     
                     case 2:
                      [self parseJSONDataForDetail:data error:error];
+                case 3:
+                    [self parseJSONDataForChildren:data error:error];
+                    break;
                 default:
                     break;
             }

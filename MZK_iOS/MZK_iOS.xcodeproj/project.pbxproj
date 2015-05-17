@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		16EA5BDF3E1D1DA08D0A333D /* libPods-MZK_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC293F8D6E164513E13E590B /* libPods-MZK_iOS.a */; };
+		2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D02A4611B0624C100D51B0C /* MZKPageObject.m */; };
 		2D1A8DDF1AFD036E00494743 /* MZKMenuClickableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1A8DDE1AFD036E00494743 /* MZKMenuClickableHeader.m */; };
 		2D1A8DE11AFD039200494743 /* MZKMenuClickableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D1A8DE01AFD039200494743 /* MZKMenuClickableHeader.xib */; };
 		2D2505C71AFE08C30079F70E /* MZKItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505C61AFE08C30079F70E /* MZKItemTableViewCell.m */; };
@@ -32,6 +33,8 @@
 /* Begin PBXFileReference section */
 		01C5E5E76CAC21A74454F404 /* Pods-MZK_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		17FD2D438425BEFC1B68C2BB /* libPods-MZK_iOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MZK_iOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02A4601B0624C100D51B0C /* MZKPageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKPageObject.h; sourceTree = "<group>"; };
+		2D02A4611B0624C100D51B0C /* MZKPageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKPageObject.m; sourceTree = "<group>"; };
 		2D1A8DDD1AFD036E00494743 /* MZKMenuClickableHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKMenuClickableHeader.h; sourceTree = "<group>"; };
 		2D1A8DDE1AFD036E00494743 /* MZKMenuClickableHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKMenuClickableHeader.m; sourceTree = "<group>"; };
 		2D1A8DE01AFD039200494743 /* MZKMenuClickableHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MZKMenuClickableHeader.xib; sourceTree = "<group>"; };
@@ -110,6 +113,8 @@
 				2DB8A7991ACD073400A1BB2E /* AppDelegate.m */,
 				2D2A647E1AF8EF3800D82E04 /* MZKMainViewController.h */,
 				2D2A647F1AF8EF3800D82E04 /* MZKMainViewController.m */,
+				2D665DBB1B02927500B11765 /* MZKDetailViewController.h */,
+				2D665DBC1B02927500B11765 /* MZKDetailViewController.m */,
 				2DB8A7A11ACD073400A1BB2E /* Main.storyboard */,
 				2DB8A7A41ACD073400A1BB2E /* Images.xcassets */,
 				2DB8A7A61ACD073400A1BB2E /* LaunchScreen.xib */,
@@ -133,10 +138,10 @@
 				2D2505CC1AFE73300079F70E /* MZKConstants.m */,
 				2D2505CE1AFE76880079F70E /* MZKDomainHolder.h */,
 				2D2505CF1AFE76880079F70E /* MZKDomainHolder.m */,
-				2D665DBB1B02927500B11765 /* MZKDetailViewController.h */,
-				2D665DBC1B02927500B11765 /* MZKDetailViewController.m */,
 				2D665DBE1B03D98C00B11765 /* MZKCollectionsViewController.h */,
 				2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */,
+				2D02A4601B0624C100D51B0C /* MZKPageObject.h */,
+				2D02A4611B0624C100D51B0C /* MZKPageObject.m */,
 			);
 			path = MZK_iOS;
 			sourceTree = "<group>";
@@ -299,6 +304,7 @@
 				2D665DBD1B02927500B11765 /* MZKDetailViewController.m in Sources */,
 				2DE387601AE523B400A2004E /* MZKItemResource.m in Sources */,
 				2D2505D01AFE76880079F70E /* MZKDomainHolder.m in Sources */,
+				2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */,
 				2D2505CD1AFE73300079F70E /* MZKConstants.m in Sources */,
 				2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */,
 				2D2A647A1AF74AC300D82E04 /* MZKMenuTableViewCell.m in Sources */,

@@ -14,6 +14,7 @@
 @optional
 -(void)dataLoaded:(NSArray*)data withKey:(NSString *)key;
 -(void)detailForItemLoaded:(MZKItemResource *)item;
+-(void)pagesLoadedForItem:(NSArray *)pages;
 
 @end
 
