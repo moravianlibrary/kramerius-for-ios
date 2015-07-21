@@ -122,7 +122,7 @@
     
     self.pageSlider.minimumValue =0;
     self.pageSlider.maximumValue = loadedPages.count-1;
-    self.pageSlider.value = 0;
+    self.pageSlider.value = currentIndex;
 
 }
 
@@ -134,12 +134,18 @@
 
 -(void)loadImageStreamsForItem:(NSString *)pid
 {
+    
+    
     NSString*item = @"http://kramerius.mzk.cz";
     NSString*finalURL = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full", item, pid ];
     
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:finalURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:130];
     [req setHTTPMethod: @"GET"];
-    [self.webView loadRequest:req];
+    
+    NSString *webString = [NSString stringWithFormat:@"<img  src=\"%@\" alt=\"strom\">", finalURL];
+    //[self.webView loadRequest:req];
+    
+    [self.webView loadHTMLString:webString baseURL:nil];
     
     CGSize contentSize = self.webView.scrollView.contentSize;
     CGFloat d = contentSize.height/2 - self.webView.center.y;

@@ -111,12 +111,23 @@
 {
     MZKItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MZKItemTableViewCell"];
     
+    cell.itemImage.image = nil;
     MZKItemResource *item = [self itemAtIndexPath:indexPath];
     if (item) {
         cell.itemName.text = item.title;
         cell.itemInfo.text = item.issn;
         cell.item = item;
-    }
+        NSString*url = @"http://kramerius.mzk.cz";
+        NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/thumb",url, item.pid ];
+        
+        dispatch_async(dispatch_get_global_queue(0,0), ^{
+            NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:path]];
+            if ( data == nil )
+                return;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [cell.itemImage setImage:[UIImage imageWithData: data]];
+            });
+        });    }
     
     
     return cell;
