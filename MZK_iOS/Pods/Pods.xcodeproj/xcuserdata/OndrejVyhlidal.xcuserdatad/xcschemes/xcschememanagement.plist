@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-MZK_iOS-SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-MZK_iOS.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0495B9DFA6A4D34EF171CD4C</key>
+		<key>388E4F638D4575E015E08539</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1A1322C3370A3BCB8AFAD7C6</key>
+		<key>BEB73CF7C907AF091CAFB1B4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D191A1CCC314425E1F87FAF7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
