@@ -7,7 +7,44 @@
 //
 
 #import "MZKPageObject.h"
+#import "XMLReader.h"
+#import <CoreGraphics/CoreGraphics.h>
 
 @implementation MZKPageObject
+
+-(void)loadPageResolution
+{
+    NSString *finalString = [NSString stringWithFormat:@"http://kramerius.mzk.cz/search/zoomify/%@/ImageProperties.xml", _pid];
+    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    
+    NSURLRequest *req = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
+    [NSURLConnection sendAsynchronousRequest:req queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
+        
+        if (error) {
+            NSLog(@"Download failed with error:%@", [error debugDescription]);
+            
+        } else {
+            NSDictionary *dict = [XMLReader dictionaryForXMLData:data
+                                                         options:XMLReaderOptionsProcessNamespaces
+                                                           error:&error];
+            
+            NSDictionary *list = [dict objectForKey:@"IMAGE_PROPERTIES"];
+            NSInteger width = [[list objectForKey:@"WIDTH"] integerValue];
+            NSInteger height = [[list objectForKey:@"HEIGHT"] integerValue];
+            
+            self.height = height;
+            self.width = width;
+            if ([self.delegate respondsToSelector:@selector(pageLoadedForItem:)]) {
+                __weak typeof(self) welf = self;
+                
+                [self.delegate pageLoadedForItem:welf];
+            }
+        }
+    }];
+
+    
+}
+
+
 
 @end

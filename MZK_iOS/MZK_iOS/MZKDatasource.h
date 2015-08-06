@@ -26,6 +26,7 @@
 -(void)getItem:(NSString *)pid;
 -(void)getChildrenForItem:(NSString *)pid;
 -(void)getSiblingsForItem:(NSString *)pid;
+-(void)getImagePropertiesForPageItem:(NSString *)pid;
 
 -(void)getMostRecent;
 -(void)getRecommended;

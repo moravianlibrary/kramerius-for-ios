@@ -8,7 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+@class MZKPageObject;
+@protocol PageResolutionLoadedDelegate <NSObject>
+
+
+-(void)pageLoadedForItem:(MZKPageObject *)pageObject;
+
+@end
+
 @interface MZKPageObject : NSObject
+@property (nonatomic, weak) __weak id<PageResolutionLoadedDelegate> delegate;
 @property (readwrite) BOOL datanode;
 @property (readwrite) NSInteger page;
 
@@ -19,5 +28,9 @@
 @property (nonatomic, strong) NSString *policy;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSArray *title;
+@property (atomic, readwrite) NSInteger width;
+@property (atomic, readwrite) NSInteger height;
+
+-(void)loadPageResolution;
 
 @end

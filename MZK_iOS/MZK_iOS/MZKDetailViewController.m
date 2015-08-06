@@ -10,12 +10,14 @@
 #import "MZKDatasource.h"
 #import "MZKPageObject.h"
 
-@interface MZKDetailViewController ()<DataLoadedDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
+@interface MZKDetailViewController ()<DataLoadedDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, PageResolutionLoadedDelegate>
 {
     MZKDatasource *detailDatasource;
     MZKItemResource *loadedItem;
     NSArray *loadedPages;
     NSUInteger currentIndex;
+    BOOL hidingBars;
+    BOOL barsHidden;
 }
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet UISlider *pageSlider;
@@ -25,10 +27,15 @@
 
 @property (nonatomic, strong) UISwipeGestureRecognizer *leftGestureRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *rightGestureRecognizer;
+@property (nonatomic, strong) IBOutlet UITapGestureRecognizer *tapGestureRecognizer;
+@property (weak, nonatomic) IBOutlet UIView *topBar;
+@property (weak, nonatomic) IBOutlet UIView *bottomBar;
 
 - (IBAction)onClose:(id)sender;
 - (IBAction)onPageChanged:(id)sender;
 - (IBAction)onShowGrid:(id)sender;
+
+- (IBAction)onTap:(id)sender;
 
 
 
@@ -43,13 +50,11 @@
     self.webView.delegate = self;
     currentIndex = 0;
 
-   // NSURLRequest *itemRequest =
-    //self.webView loadRequest:
-    
     if (self.item) {
          [self loadImageStreamsForItem:_item.pid];
         [detailDatasource getChildrenForItem:_item.pid];
         self.titleLabel.text = _item.title;
+        
     }
     
     self.pageSlider.continuous = NO;
@@ -58,40 +63,46 @@
     
     //setup gesture recognizers
     
-    self.leftGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onSwipeLeft)];
-    self.leftGestureRecognizer.numberOfTouchesRequired=1;
-    self.leftGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-    self.leftGestureRecognizer.delegate = self;
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+    singleTap.numberOfTapsRequired = 1;
+    singleTap.delegate = self;
+    self.tapGestureRecognizer = singleTap;
+    [self.webView addGestureRecognizer:singleTap];
     
-    [self.view addGestureRecognizer:self.leftGestureRecognizer];
+    [self.webView setBackgroundColor:[UIColor greenColor]];
+    [self.webView.scrollView setBackgroundColor:[UIColor grayColor]];
     
-    self.rightGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onSwipeRight)];
-    self.rightGestureRecognizer.numberOfTouchesRequired=1;
-    self.rightGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
-    self.rightGestureRecognizer.delegate = self;
-    
-     [self.view addGestureRecognizer:self.rightGestureRecognizer];
-    
+    barsHidden = hidingBars = NO;
 }
 
--(void)onSwipeLeft
+-(void)displayItemWithURL:(NSString *)url withWith:(double) width andHeight:(double)height
 {
-    MZKPageObject *obj = [loadedPages objectAtIndex:++currentIndex];
-    [self loadImageStreamsForItem:obj.pid];
-    NSLog(@"left swipe");
+    NSString *path = [[NSBundle mainBundle]
+                      pathForResource:@"index"
+                      ofType:@"html"];
     
-}
-
-
--(void)onSwipeRight
-{
-    MZKPageObject *obj = [loadedPages objectAtIndex:--currentIndex];
-    [self loadImageStreamsForItem:obj.pid];
-    NSLog(@"right swipe");
-
+    NSURL *targetURL = [NSURL fileURLWithPath:path];
     
-}
+    
+    
+    NSString *theAbsoluteURLString = [targetURL absoluteString];
+    
+    NSString *queryString = [NSString stringWithFormat:@"?url=http://kramerius.mzk.cz/search/zoomify/%@/&width=%f&height=%f", url, width, height];
+    
+    NSString *absoluteURLwithQueryString = [theAbsoluteURLString stringByAppendingString: queryString];
+    
+    NSURL *finalURL = [NSURL URLWithString: absoluteURLwithQueryString];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:(NSTimeInterval)10.0 ];
+    
+    if (!_webView) {
+        NSLog(@"NO WeB View");
+    }
+    [_webView setContentMode:UIViewContentModeScaleToFill];
+    [_webView.scrollView setContentSize:CGSizeMake(_webView.frame.size.width, _webView.frame.size.height)];
 
+    [_webView loadRequest:request];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -104,7 +115,7 @@
     [self loadDataForItem:_item];
 }
 
--(void)loadDataForItem:(MZKItemResource *)itemRes
+-(void)loadDataForItem:(MZKItemResource *)item
 {
     if (!detailDatasource) {
         detailDatasource = [MZKDatasource new];
@@ -112,12 +123,43 @@
     }
    // [detailDatasource getItem:itemRes.pid];
     
-    self.titleLabel.text = itemRes.title;
+    self.titleLabel.text = item.title;
     
 }
 
+-(void)loadImagePropertiesForItem:(NSString *)pid
+{
+    if (loadedPages) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"pid ==%@", pid];
+        NSArray *filtered = [loadedPages filteredArrayUsingPredicate:predicate];
+        if (filtered.count > 0) {
+            MZKPageObject *pageObj = (MZKPageObject *)[filtered objectAtIndex:0];
+            [pageObj setDelegate:self];
+            [pageObj loadPageResolution];
+        }
+    }
+    
+}
+
+-(void)pageLoadedForItem:(MZKPageObject *)pageObject
+{
+    NSLog(@"Page Resolution LOADED");
+    
+    if (pageObject.pid == [[loadedPages objectAtIndex:currentIndex] pid]) {
+        [self displayItemWithURL:pageObject.pid withWith:pageObject.width andHeight:pageObject.height];
+    }
+    
+}
 -(void)updateUserInterfaceAfterPageChange
 {
+    __weak MZKDetailViewController *weakSelf= self;
+    if(![NSThread isMainThread]){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf updateUserInterfaceAfterPageChange];
+        });
+        return;
+    }
+
     self.pageCount.text = [NSString stringWithFormat:@"%lu/%lu", (unsigned long)currentIndex,(unsigned long)loadedPages.count];
     
     self.pageSlider.minimumValue =0;
@@ -126,31 +168,25 @@
 
 }
 
--(void)pagesLoadedForItem:(NSArray *)pages
-{
-    loadedPages = pages;
-    [self updateUserInterfaceAfterPageChange];
-}
+
 
 -(void)loadImageStreamsForItem:(NSString *)pid
 {
-    
-    
-    NSString*item = @"http://kramerius.mzk.cz";
-    NSString*finalURL = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full", item, pid ];
-    
-    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:finalURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:130];
-    [req setHTTPMethod: @"GET"];
-    
-    NSString *webString = [NSString stringWithFormat:@"<img  src=\"%@\" alt=\"strom\">", finalURL];
-    //[self.webView loadRequest:req];
-    
-    [self.webView loadHTMLString:webString baseURL:nil];
-    
-    CGSize contentSize = self.webView.scrollView.contentSize;
-    CGFloat d = contentSize.height/2 - self.webView.center.y;
-    [self.webView.scrollView setContentOffset:CGPointMake(0, d) animated:NO];
-    
+//    NSString*item = @"http://kramerius.mzk.cz";
+//    NSString*finalURL = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full", item, pid ];
+//    
+//    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:finalURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:130];
+//    [req setHTTPMethod: @"GET"];
+//    
+//    NSString *webString = [NSString stringWithFormat:@"<img  src=\"%@\" alt=\"strom\">", finalURL];
+//    //[self.webView loadRequest:req];
+//    
+//  //  [self.webView loadHTMLString:webString baseURL:nil];
+//    
+//    CGSize contentSize = self.webView.scrollView.contentSize;
+//    CGFloat d = contentSize.height/2 - self.webView.center.y;
+//   // [self.webView.scrollView setContentOffset:CGPointMake(0, d) animated:NO];
+//    
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
@@ -167,6 +203,15 @@
 {
     NSLog(@"Failed to load with error :%@",[error debugDescription]);
     
+}
+
+-(void)pagesLoadedForItem:(NSArray *)pages
+{
+    loadedPages = pages;
+    [self updateUserInterfaceAfterPageChange];
+    
+    [self loadImagePropertiesForItem: [[pages objectAtIndex:currentIndex] pid]];
+
 }
 
 -(void)detailForItemLoaded:(MZKItemResource *)item
@@ -203,7 +248,10 @@
     currentIndex = myInt;
     
     MZKPageObject *obj = [loadedPages objectAtIndex:myInt];
-    [self loadImageStreamsForItem:obj.pid];
+    
+    [self loadImagePropertiesForItem:obj.pid];
+    
+    //[self loadImageStreamsForItem:obj.pid];
     
     [self updateUserInterfaceAfterPageChange];
     
@@ -212,4 +260,80 @@
 
 - (IBAction)onShowGrid:(id)sender {
 }
+
+#pragma mark - tap gesture recognizer
+
+-(IBAction)onTap:(id)sender
+{
+    NSLog(@"Tap detected!");
+    
+    if (!hidingBars) {
+        
+        barsHidden?[self showBars:YES]:[self hideBars:YES];
+    }
+    
+}
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if (gestureRecognizer ==self.tapGestureRecognizer) {
+        return YES;
+    }
+    return NO;
+}
+
+
+#pragma mark - top bar hiding
+-(BOOL)prefersStatusBarHidden{
+    return YES;
+}
+
+-(void)showBars:(BOOL)animated
+{
+    if (animated) {
+        hidingBars = YES;
+        [UIView animateWithDuration:.5 animations:^{
+           self.topBar.alpha = self.bottomBar.alpha = 1.0;
+            
+            
+        } completion:^(BOOL finished) {
+            barsHidden = NO;
+            hidingBars = NO;
+        }];
+    }
+    else
+    {
+        self.topBar.alpha = self.bottomBar.alpha = 1.0;
+        barsHidden = NO;
+        
+    }
+    
+}
+
+-(void)hideBars:(BOOL)animated
+{
+    if (animated) {
+        hidingBars = YES;
+        [UIView animateWithDuration:.5 animations:^{
+            self.topBar.alpha = self.bottomBar.alpha = 0.0;
+            
+        } completion:^(BOOL finished) {
+            barsHidden = YES;
+              hidingBars = NO;
+        }];
+    }
+    else
+    {
+         self.topBar.alpha = self.bottomBar.alpha = 0.0;
+         barsHidden = YES;
+
+    }
+  
+
+}
+
 @end

@@ -1,4 +1,4 @@
-//
+ //
 //  MZKDatasource.m
 //  MZK_iOS
 //
@@ -9,6 +9,20 @@
 #import "MZKDatasource.h"
 #import "MZKItemResource.h"
 #import "MZKPageObject.h"
+#import "XMLReader.h"
+#import <CoreGraphics/CoreGraphics.h>
+
+
+enum _downloadOperation{
+    downloadItem,
+    downloadChildren,
+    downloadSiblings,
+    downloadImageProperties,
+    downloadMostRecent,
+    downloadRecommended,
+};
+typedef enum _downloadOperation downloadOperation;
+
 
 @implementation MZKDatasource
 
@@ -24,7 +38,7 @@
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
-    [self downloadDataFromURL:url withOperation:3];
+    [self downloadDataFromURL:url withOperation:downloadChildren];
 }
 
 -(void)getItem:(NSString *)pid
@@ -35,13 +49,21 @@
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
-    [self downloadDataFromURL:url withOperation:2];
+    [self downloadDataFromURL:url withOperation:downloadItem];
 
 }
 
 -(void)getSiblingsForItem:(NSString *)pid
 {
     
+}
+
+-(void)getImagePropertiesForPageItem:(NSString *)pid
+{
+    NSString *finalString = [NSString stringWithFormat:@"http://kramerius.mzk.cz/search/zoomify/%@/ImageProperties.xml", pid];
+    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    
+    [self downloadDataFromURL:url withOperation:downloadImageProperties];
 }
 
 -(void)getMostRecent
@@ -53,7 +75,7 @@
 
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
-    [self downloadDataFromURL:url withOperation:0];
+    [self downloadDataFromURL:url withOperation:downloadMostRecent];
     
     
 }
@@ -66,8 +88,8 @@
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, desired];
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
-    [self downloadDataFromURL:url withOperation:1];
-    
+    [self downloadDataFromURL:url withOperation:downloadRecommended];
+
 }
 
 #pragma mark - privateMethods
@@ -84,7 +106,7 @@
     
 }
 
--(NSArray *)parseJSONData:(NSData*)data error:(NSError *)error withOperation:(NSUInteger)operation
+-(NSArray *)parseJSONData:(NSData*)data error:(NSError *)error withOperation:(downloadOperation)operation
 {
     NSError *localError = nil;
     NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
@@ -108,10 +130,10 @@
     }
     
     switch (operation) {
-        case 0:
+        case downloadMostRecent:
     [self.delegate dataLoaded:results withKey:@"recent"];
             break;
-        case 1:
+        case downloadRecommended:
       [self.delegate dataLoaded:results withKey:@"reccomended"];
             break;
             
@@ -156,8 +178,8 @@
         
          MZKPageObject *page = [MZKPageObject new];
         
-       page.pid = [[parsedObject objectAtIndex:i] objectForKey:@"pid"];
-       page.model = [[parsedObject objectAtIndex:i] objectForKey:@"model"];
+        page.pid = [[parsedObject objectAtIndex:i] objectForKey:@"pid"];
+        page.model = [[parsedObject objectAtIndex:i] objectForKey:@"model"];
         page.rootPid =  [[parsedObject objectAtIndex:i] objectForKey:@"root_pid"];
         page.rootTitle =  [[parsedObject objectAtIndex:i] objectForKey:@"root_title"];
         page.policy =  [[parsedObject objectAtIndex:i] objectForKey:@"public"];
@@ -204,7 +226,22 @@
 }
 
 
--(void)downloadDataFromURL:(NSURL *)strURL withOperation:(NSUInteger)operation
+-(CGRect)parseImagePropertiesWithData:(NSData *)data error:(NSError *)error
+{
+    NSDictionary *dict = [XMLReader dictionaryForXMLData:data
+                                                 options:XMLReaderOptionsProcessNamespaces
+                                                   error:&error];
+    
+    NSDictionary *list = [dict objectForKey:@"IMAGE_PROPERTIES"];
+    NSInteger width = [[list objectForKey:@"WIDTH"] integerValue];
+    NSInteger height = [[list objectForKey:@"HEIGHT"] integerValue];
+    
+    return CGRectMake(0,0,width,height);
+    
+}
+
+
+-(void)downloadDataFromURL:(NSURL *)strURL withOperation:(downloadOperation)operation
 {
     //change this implementation
     NSURLRequest *req = [NSURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
@@ -214,19 +251,24 @@
             NSLog(@"Download failed with error:%@", [error debugDescription]);
             [self downloadFailed];
         } else {
+            NSLog(@"operation:%lu", (unsigned long)operation);
             switch (operation) {
-                case 0:
-                     [self parseJSONData:data error:error withOperation:0];
+                case downloadMostRecent:
+                     [self parseJSONData:data error:error withOperation:operation];
                     break;
                     
-                    case 1:
-                    [self parseJSONData:data error:error withOperation:1];
+                    case downloadRecommended:
+                    [self parseJSONData:data error:error withOperation:operation];
                     break;
                     
-                    case 2:
+                    case downloadItem:
                      [self parseJSONDataForDetail:data error:error];
-                case 3:
+                case downloadChildren:
                     [self parseJSONDataForChildren:data error:error];
+                    break;
+                    
+                case downloadImageProperties:
+                    [self parseImagePropertiesWithData:data error:error];
                     break;
                 default:
                     break;

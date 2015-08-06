@@ -6,13 +6,13 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		W7cS20w7m8KOgH1E3DT9vvPOgGw=
+		e+zXda3sFFl6lu346oufHJ9DJ68=
 		</data>
 		<key>Base.lproj/LaunchScreen.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			D+36rIlg/US7qGxv2QYqelQNNWA=
+			etDAKQ86Jhg/VEyB9GVOLSmGMx0=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -21,7 +21,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8K+RPoKG3xPHmPdlA5bpV9wSHO0=
+			80ItkIzglUFHrp4caUSRA6nJacU=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -39,7 +39,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			+y9iLyZ8KSfVBQjBiaDMlRyr4bU=
+			HRnb1WQFkXmLoD0EZEcHjny+YwQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -48,7 +48,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			tA08RMdEjEUfU6C904vSQ8XRc1g=
+			e63CEHSlP6ClBQICMYNbShO0KMY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -57,7 +57,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			aKReaeup4GsI3Ae8+R1kHiT6DU4=
+			tvHo4ODex0YKFLLcC+1XTIsW874=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -66,7 +66,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6k/Uszdg+8UQZykBRdIkBlh4QCk=
+			qzyANLcKhaOb/QM0azdfYsyt5z4=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -75,7 +75,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VheP26Qpqwyygru22Yck1pj31qA=
+			VanOA9F8T5kE0nvKyiVjmWXvIsY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -84,7 +84,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Fmbka6+H01Sh7Ate9oHUiCk+w9o=
+			HHfewGvbABXPjTSl6yXXQ7BBAeQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -93,18 +93,18 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			INkMvthOLXtC/TrdyJMFXe/iWZI=
+			jSSqlhtu7823ApMYazB2h9Xx2d8=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
 		<key>Info.plist</key>
 		<data>
-		sTlEEg544+InmOlvkc+StRmP8mI=
+		bofAlKMSMxbCgytTcPc1tgl62hc=
 		</data>
 		<key>MZKMenuClickableHeader.nib</key>
 		<data>
-		vte3QIxOns8N7e34ymlv49UFAmA=
+		TTtlbZwHJW9YL/3kRfK+Y5KfgCs=
 		</data>
 		<key>Menu-50.png</key>
 		<data>
@@ -116,20 +116,40 @@
 		</data>
 		<key>embedded.mobileprovision</key>
 		<data>
-		nbqECwDHMjA+OUFKxvWRdqajPSM=
+		iL74JmD+7RE7tFaM2MGu6XsEVaU=
+		</data>
+		<key>index.html</key>
+		<data>
+		NhTVWoKb8ZidQ7uMiVeeH4J7Lpc=
+		</data>
+		<key>ol-debug.js</key>
+		<data>
+		5DSwrtdobefpZmaWN1RQ69EygzY=
+		</data>
+		<key>ol.css</key>
+		<data>
+		qfqdjDVy8ey7vXO65Lkj1duvrGc=
+		</data>
+		<key>ol.js</key>
+		<data>
+		XS+cz3nRdrIH504RLrJsg1YmeYM=
+		</data>
+		<key>zoomify.js</key>
+		<data>
+		55BtJzxDLGeex0zzuQRCKtMtsHc=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		W7cS20w7m8KOgH1E3DT9vvPOgGw=
+		e+zXda3sFFl6lu346oufHJ9DJ68=
 		</data>
 		<key>Base.lproj/LaunchScreen.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			D+36rIlg/US7qGxv2QYqelQNNWA=
+			etDAKQ86Jhg/VEyB9GVOLSmGMx0=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -138,7 +158,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8K+RPoKG3xPHmPdlA5bpV9wSHO0=
+			80ItkIzglUFHrp4caUSRA6nJacU=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -156,7 +176,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			+y9iLyZ8KSfVBQjBiaDMlRyr4bU=
+			HRnb1WQFkXmLoD0EZEcHjny+YwQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -165,7 +185,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			tA08RMdEjEUfU6C904vSQ8XRc1g=
+			e63CEHSlP6ClBQICMYNbShO0KMY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -174,7 +194,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			aKReaeup4GsI3Ae8+R1kHiT6DU4=
+			tvHo4ODex0YKFLLcC+1XTIsW874=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -183,7 +203,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6k/Uszdg+8UQZykBRdIkBlh4QCk=
+			qzyANLcKhaOb/QM0azdfYsyt5z4=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -192,7 +212,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VheP26Qpqwyygru22Yck1pj31qA=
+			VanOA9F8T5kE0nvKyiVjmWXvIsY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -201,7 +221,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Fmbka6+H01Sh7Ate9oHUiCk+w9o=
+			HHfewGvbABXPjTSl6yXXQ7BBAeQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -210,14 +230,14 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			INkMvthOLXtC/TrdyJMFXe/iWZI=
+			jSSqlhtu7823ApMYazB2h9Xx2d8=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
 		<key>MZKMenuClickableHeader.nib</key>
 		<data>
-		vte3QIxOns8N7e34ymlv49UFAmA=
+		TTtlbZwHJW9YL/3kRfK+Y5KfgCs=
 		</data>
 		<key>Menu-50.png</key>
 		<data>
@@ -225,7 +245,27 @@
 		</data>
 		<key>embedded.mobileprovision</key>
 		<data>
-		nbqECwDHMjA+OUFKxvWRdqajPSM=
+		iL74JmD+7RE7tFaM2MGu6XsEVaU=
+		</data>
+		<key>index.html</key>
+		<data>
+		NhTVWoKb8ZidQ7uMiVeeH4J7Lpc=
+		</data>
+		<key>ol-debug.js</key>
+		<data>
+		5DSwrtdobefpZmaWN1RQ69EygzY=
+		</data>
+		<key>ol.css</key>
+		<data>
+		qfqdjDVy8ey7vXO65Lkj1duvrGc=
+		</data>
+		<key>ol.js</key>
+		<data>
+		XS+cz3nRdrIH504RLrJsg1YmeYM=
+		</data>
+		<key>zoomify.js</key>
+		<data>
+		55BtJzxDLGeex0zzuQRCKtMtsHc=
 		</data>
 	</dict>
 	<key>rules</key>
