@@ -147,7 +147,7 @@
     if (items) {
         NSString *key = [[items allKeys] objectAtIndex:path.section];
         NSArray *itemsForKey =[items objectForKey:key];
-        NSLog(@"Path:%@", [path description]);
+        
         item =  [[items objectForKey:key] objectAtIndex:path.row];
 
     }

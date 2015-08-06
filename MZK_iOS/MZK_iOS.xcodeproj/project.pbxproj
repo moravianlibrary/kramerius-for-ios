@@ -12,6 +12,7 @@
 		2D1A8DDF1AFD036E00494743 /* MZKMenuClickableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1A8DDE1AFD036E00494743 /* MZKMenuClickableHeader.m */; };
 		2D1A8DE11AFD039200494743 /* MZKMenuClickableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D1A8DE01AFD039200494743 /* MZKMenuClickableHeader.xib */; };
 		2D24F06D1B7378740073FC83 /* MZKSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */; };
+		2D24F0701B7387E40073FC83 /* MZKDataSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F06F1B7387E40073FC83 /* MZKDataSourceViewController.m */; };
 		2D2505C71AFE08C30079F70E /* MZKItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505C61AFE08C30079F70E /* MZKItemTableViewCell.m */; };
 		2D2505CA1AFE721A0079F70E /* MZKDomainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505C91AFE721A0079F70E /* MZKDomainItem.m */; };
 		2D2505CD1AFE73300079F70E /* MZKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505CC1AFE73300079F70E /* MZKConstants.m */; };
@@ -45,6 +46,8 @@
 		2D1A8DE01AFD039200494743 /* MZKMenuClickableHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MZKMenuClickableHeader.xib; sourceTree = "<group>"; };
 		2D24F06B1B7378740073FC83 /* MZKSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSearchViewController.h; sourceTree = "<group>"; };
 		2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchViewController.m; sourceTree = "<group>"; };
+		2D24F06E1B7387E40073FC83 /* MZKDataSourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDataSourceViewController.h; sourceTree = "<group>"; };
+		2D24F06F1B7387E40073FC83 /* MZKDataSourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDataSourceViewController.m; sourceTree = "<group>"; };
 		2D2505C51AFE08C30079F70E /* MZKItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKItemTableViewCell.h; sourceTree = "<group>"; };
 		2D2505C61AFE08C30079F70E /* MZKItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKItemTableViewCell.m; sourceTree = "<group>"; };
 		2D2505C81AFE721A0079F70E /* MZKDomainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDomainItem.h; sourceTree = "<group>"; };
@@ -141,6 +144,8 @@
 				2D2A647F1AF8EF3800D82E04 /* MZKMainViewController.m */,
 				2D665DBB1B02927500B11765 /* MZKDetailViewController.h */,
 				2D665DBC1B02927500B11765 /* MZKDetailViewController.m */,
+				2D24F06E1B7387E40073FC83 /* MZKDataSourceViewController.h */,
+				2D24F06F1B7387E40073FC83 /* MZKDataSourceViewController.m */,
 				2DB8A7A11ACD073400A1BB2E /* Main.storyboard */,
 				2DB8A7A41ACD073400A1BB2E /* Images.xcassets */,
 				2DB8A7A61ACD073400A1BB2E /* LaunchScreen.xib */,
@@ -348,6 +353,7 @@
 				2D24F06D1B7378740073FC83 /* MZKSearchViewController.m in Sources */,
 				2D2A647A1AF74AC300D82E04 /* MZKMenuTableViewCell.m in Sources */,
 				2DD583A01B6FA0BA001ED3B3 /* XMLReader.m in Sources */,
+				2D24F0701B7387E40073FC83 /* MZKDataSourceViewController.m in Sources */,
 				2D1A8DDF1AFD036E00494743 /* MZKMenuClickableHeader.m in Sources */,
 				2D2A64771AF74A6300D82E04 /* MZKMenuViewController.m in Sources */,
 				2DB8A7971ACD073400A1BB2E /* main.m in Sources */,

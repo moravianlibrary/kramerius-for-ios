@@ -277,7 +277,7 @@
         <!--Search View Controller-->
         <scene sceneID="gcM-W4-3zD">
             <objects>
-                <viewController id="An6-WR-1u7" userLabel="Search View Controller" sceneMemberID="viewController">
+                <viewController id="An6-WR-1u7" userLabel="Search View Controller" customClass="MZKSearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JyM-qo-dH1"/>
                         <viewControllerLayoutGuide type="bottom" id="1CM-3b-nGz"/>
@@ -291,6 +291,45 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tMb-Xe-YGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="480" y="-596"/>
+        </scene>
+        <!--Collections View Controller-->
+        <scene sceneID="XsS-Cw-F65">
+            <objects>
+                <viewController id="8gK-WS-OFf" customClass="MZKCollectionsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="brJ-cR-kmC"/>
+                        <viewControllerLayoutGuide type="bottom" id="Wbv-L4-sm5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0Yc-e9-F4L">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="5SK-dR-DPs">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="9zd-k4-r6P">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9zd-k4-r6P" id="HEz-Nh-ubF">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Wbv-L4-sm5" firstAttribute="top" secondItem="5SK-dR-DPs" secondAttribute="bottom" id="2C8-lJ-tIl"/>
+                            <constraint firstItem="5SK-dR-DPs" firstAttribute="leading" secondItem="0Yc-e9-F4L" secondAttribute="leading" id="Bbi-2o-A2P"/>
+                            <constraint firstAttribute="trailing" secondItem="5SK-dR-DPs" secondAttribute="trailing" id="bWx-FP-b9F"/>
+                            <constraint firstItem="5SK-dR-DPs" firstAttribute="top" secondItem="0Yc-e9-F4L" secondAttribute="top" id="gl7-1h-SMB"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QGv-IN-9oW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1170" y="-612"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="TT5-U7-Qz3">
@@ -402,6 +441,45 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fbZ-74-Keh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="480" y="62"/>
+        </scene>
+        <!--Data Source View Controller-->
+        <scene sceneID="Xps-o2-mv1">
+            <objects>
+                <viewController id="6df-qc-DMZ" customClass="MZKDataSourceViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fAK-RB-FMh"/>
+                        <viewControllerLayoutGuide type="bottom" id="S11-Fb-LR7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ssx-dm-Smy">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="6UR-4k-IaJ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="T4C-RZ-C4B">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T4C-RZ-C4B" id="BEL-bq-b42">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="6UR-4k-IaJ" secondAttribute="trailing" id="Bwl-BO-OhR"/>
+                            <constraint firstItem="6UR-4k-IaJ" firstAttribute="top" secondItem="ssx-dm-Smy" secondAttribute="top" id="RV1-fV-jqD"/>
+                            <constraint firstItem="6UR-4k-IaJ" firstAttribute="leading" secondItem="ssx-dm-Smy" secondAttribute="leading" id="SB8-dJ-4lh"/>
+                            <constraint firstItem="S11-Fb-LR7" firstAttribute="top" secondItem="6UR-4k-IaJ" secondAttribute="bottom" id="xbd-v3-STX"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uDi-6P-cAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1864" y="-612"/>
         </scene>
     </scenes>
     <resources>
