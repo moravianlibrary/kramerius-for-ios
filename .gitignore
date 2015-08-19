@@ -18,3 +18,7 @@ MZK_iOS/Build/Intermediates/Pods.build/Debug-iphoneos/Pods-MZK_iOS-MSDynamicsDra
 *.hmap
 
 *.dat
+
+*.o
+
+*.dat
