@@ -7,8 +7,12 @@
 //
 
 #import "MZKCollectionsViewController.h"
+#import "MZKDatasource.h"
 
 @interface MZKCollectionsViewController ()
+{
+    MZKDatasource * _datasource;
+}
 
 @end
 
@@ -17,6 +21,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _datasource = [[MZKDatasource alloc] init];
+    [_datasource getInfoAboutCollections];
 }
 
 - (void)didReceiveMemoryWarning {

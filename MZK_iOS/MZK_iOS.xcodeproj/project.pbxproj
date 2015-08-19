@@ -13,6 +13,7 @@
 		2D1A8DE11AFD039200494743 /* MZKMenuClickableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D1A8DE01AFD039200494743 /* MZKMenuClickableHeader.xib */; };
 		2D24F06D1B7378740073FC83 /* MZKSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */; };
 		2D24F0701B7387E40073FC83 /* MZKDataSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F06F1B7387E40073FC83 /* MZKDataSourceViewController.m */; };
+		2D24F0761B74C0A80073FC83 /* MZKCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F0751B74C0A80073FC83 /* MZKCollectionItem.m */; };
 		2D2505C71AFE08C30079F70E /* MZKItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505C61AFE08C30079F70E /* MZKItemTableViewCell.m */; };
 		2D2505CA1AFE721A0079F70E /* MZKDomainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505C91AFE721A0079F70E /* MZKDomainItem.m */; };
 		2D2505CD1AFE73300079F70E /* MZKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505CC1AFE73300079F70E /* MZKConstants.m */; };
@@ -48,6 +49,8 @@
 		2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchViewController.m; sourceTree = "<group>"; };
 		2D24F06E1B7387E40073FC83 /* MZKDataSourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDataSourceViewController.h; sourceTree = "<group>"; };
 		2D24F06F1B7387E40073FC83 /* MZKDataSourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDataSourceViewController.m; sourceTree = "<group>"; };
+		2D24F0741B74C0A80073FC83 /* MZKCollectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionItem.h; sourceTree = "<group>"; };
+		2D24F0751B74C0A80073FC83 /* MZKCollectionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionItem.m; sourceTree = "<group>"; };
 		2D2505C51AFE08C30079F70E /* MZKItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKItemTableViewCell.h; sourceTree = "<group>"; };
 		2D2505C61AFE08C30079F70E /* MZKItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKItemTableViewCell.m; sourceTree = "<group>"; };
 		2D2505C81AFE721A0079F70E /* MZKDomainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDomainItem.h; sourceTree = "<group>"; };
@@ -152,8 +155,6 @@
 				2DB8A7941ACD073400A1BB2E /* Supporting Files */,
 				2DE3875E1AE523B400A2004E /* MZKItemResource.h */,
 				2DE3875F1AE523B400A2004E /* MZKItemResource.m */,
-				2DE387611AE526AA00A2004E /* MZKDatasource.h */,
-				2DE387621AE526AA00A2004E /* MZKDatasource.m */,
 				2D2A64751AF74A6300D82E04 /* MZKMenuViewController.h */,
 				2D2A64761AF74A6300D82E04 /* MZKMenuViewController.m */,
 				2D2A64781AF74AC300D82E04 /* MZKMenuTableViewCell.h */,
@@ -169,10 +170,14 @@
 				2D2505CC1AFE73300079F70E /* MZKConstants.m */,
 				2D2505CE1AFE76880079F70E /* MZKDomainHolder.h */,
 				2D2505CF1AFE76880079F70E /* MZKDomainHolder.m */,
-				2D665DBE1B03D98C00B11765 /* MZKCollectionsViewController.h */,
-				2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */,
 				2D02A4601B0624C100D51B0C /* MZKPageObject.h */,
 				2D02A4611B0624C100D51B0C /* MZKPageObject.m */,
+				2D665DBE1B03D98C00B11765 /* MZKCollectionsViewController.h */,
+				2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */,
+				2DE387611AE526AA00A2004E /* MZKDatasource.h */,
+				2DE387621AE526AA00A2004E /* MZKDatasource.m */,
+				2D24F0741B74C0A80073FC83 /* MZKCollectionItem.h */,
+				2D24F0751B74C0A80073FC83 /* MZKCollectionItem.m */,
 			);
 			path = MZK_iOS;
 			sourceTree = "<group>";
@@ -348,6 +353,7 @@
 				2DE387601AE523B400A2004E /* MZKItemResource.m in Sources */,
 				2D2505D01AFE76880079F70E /* MZKDomainHolder.m in Sources */,
 				2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */,
+				2D24F0761B74C0A80073FC83 /* MZKCollectionItem.m in Sources */,
 				2D2505CD1AFE73300079F70E /* MZKConstants.m in Sources */,
 				2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */,
 				2D24F06D1B7378740073FC83 /* MZKSearchViewController.m in Sources */,

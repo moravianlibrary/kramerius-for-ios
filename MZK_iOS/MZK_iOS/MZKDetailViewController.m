@@ -10,7 +10,7 @@
 #import "MZKDatasource.h"
 #import "MZKPageObject.h"
 
-@interface MZKDetailViewController ()<DataLoadedDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, PageResolutionLoadedDelegate>
+@interface MZKDetailViewController ()<DataLoadedDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, PageResolutionLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 {
     MZKDatasource *detailDatasource;
     MZKItemResource *loadedItem;
@@ -30,12 +30,18 @@
 @property (nonatomic, strong) IBOutlet UITapGestureRecognizer *tapGestureRecognizer;
 @property (weak, nonatomic) IBOutlet UIView *topBar;
 @property (weak, nonatomic) IBOutlet UIView *bottomBar;
+@property (weak, nonatomic) IBOutlet UIView *collectionViewContainer;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionPageView;
 
 - (IBAction)onClose:(id)sender;
 - (IBAction)onPageChanged:(id)sender;
 - (IBAction)onShowGrid:(id)sender;
 
 - (IBAction)onTap:(id)sender;
+
+- (IBAction)onNextPage:(id)sender;
+- (IBAction)onPreviousPage:(id)sender;
+- (IBAction)onShowPages:(id)sender;
 
 
 
@@ -75,15 +81,61 @@
     barsHidden = hidingBars = NO;
 }
 
--(void)displayItemWithURL:(NSString *)url withWith:(double) width andHeight:(double)height
+-(void)displayItem:(MZKPageObject*)page withURL:(NSString *)url withWith:(double) width andHeight:(double)height
 {
     NSString *path = [[NSBundle mainBundle]
                       pathForResource:@"index"
                       ofType:@"html"];
     
     NSURL *targetURL = [NSURL fileURLWithPath:path];
+    NSError *error;
     
+    NSMutableString *indexString = [[NSString stringWithContentsOfURL:targetURL encoding:NSUTF8StringEncoding error:&error] mutableCopy];
+    float scale = [self calculateInitialScaleForResource:page];
+    NSLog(@"%.2f", scale);
     
+//    
+//    if (!error) {
+//        float scale = [self calculateInitialScaleForResource:page];
+//        
+//        NSRange range = [indexString rangeOfString:@"initial-scale="];
+//        if (range.location == NSNotFound) {
+//            NSLog(@"string was not found");
+//        } else {
+//            NSLog(@"position %lu", (unsigned long)range.location);
+//            int startPosition =(int)range.location+(int)range.length;
+//            int replacementLength = 0;
+//            
+//            for (int i=startPosition; i<indexString.length; i++) {
+//                if ([indexString characterAtIndex:i] ==',' ) {
+//                    replacementLength = (int)indexString.length - i;
+//                    
+//                    [indexString replaceCharactersInRange:NSMakeRange(startPosition,replacementLength) withString:[NSString stringWithFormat:@"%.02f", scale]];
+//                    break;
+//                }
+//                
+//            }
+//            
+//            
+//            
+//            
+//        }
+//        
+    
+        
+//        NSString *stringWithFactor = [indexString stringByReplacingOccurrencesOfString:@"#SCALE_FACTOR" withString:[NSString stringWithFormat:@"%f", scale]];
+//        NSURL *tmp = [targetURL URLByDeletingLastPathComponent];
+//        
+//        NSString *fileName = [NSString stringWithFormat:@"%@index.html",
+//                              [tmp absoluteString]];
+//        error = nil;
+//        
+//        [stringWithFactor writeToFile:fileName atomically:NO encoding:NSUTF8StringEncoding error:&error];
+//        
+//        if (error) {
+//            NSLog(@"Error while writing to FILE!!!!");
+//        }
+//    }
     
     NSString *theAbsoluteURLString = [targetURL absoluteString];
     
@@ -146,7 +198,7 @@
     NSLog(@"Page Resolution LOADED");
     
     if (pageObject.pid == [[loadedPages objectAtIndex:currentIndex] pid]) {
-        [self displayItemWithURL:pageObject.pid withWith:pageObject.width andHeight:pageObject.height];
+        [self displayItem:pageObject withURL:pageObject.pid withWith:pageObject.width andHeight:pageObject.height];
     }
     
 }
@@ -238,22 +290,13 @@
 
 - (IBAction)onPageChanged:(id)sender {
     
-    
-    NSLog(@"slider value:%f", self.pageSlider.value);
     double value = self.pageSlider.value;
     int myInt = (int)(value + (value>0 ? 0.5 : -0.5));
     
     
     [self.pageSlider setValue:myInt animated:YES];
     currentIndex = myInt;
-    
-    MZKPageObject *obj = [loadedPages objectAtIndex:myInt];
-    
-    [self loadImagePropertiesForItem:obj.pid];
-    
-    //[self loadImageStreamsForItem:obj.pid];
-    
-    [self updateUserInterfaceAfterPageChange];
+    [self switchPage];
     
     
 }
@@ -273,6 +316,36 @@
     }
     
 }
+
+-(void)switchPage
+{
+    MZKPageObject *obj = [loadedPages objectAtIndex:currentIndex];
+    
+    [self loadImagePropertiesForItem:obj.pid];
+
+    [self updateUserInterfaceAfterPageChange];
+}
+
+- (IBAction)onNextPage:(id)sender {
+    if (++currentIndex <=loadedPages.count-1) {
+       
+        [self switchPage];
+    }
+
+}
+
+- (IBAction)onPreviousPage:(id)sender {
+    NSInteger tmpi = currentIndex;
+    tmpi--;
+    if (tmpi >=0) {
+        currentIndex--;
+       [self switchPage];
+    }
+}
+
+- (IBAction)onShowPages:(id)sender {
+}
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
@@ -335,5 +408,19 @@
   
 
 }
+
+#pragma mark - JS and HTML parameters
+
+-(float)calculateInitialScaleForResource:(MZKPageObject *)pageObject
+{
+    float aspectRatio =(float)pageObject.width / (float)pageObject.height;
+    float height = aspectRatio *_webView.frame.size.width;
+    float finalRatio = _webView.frame.size.width/height;
+    
+    NSLog(@"Final ratio:%f", finalRatio);
+    
+    return finalRatio;
+}
+
 
 @end

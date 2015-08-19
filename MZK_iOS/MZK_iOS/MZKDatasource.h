@@ -15,6 +15,7 @@
 -(void)dataLoaded:(NSArray*)data withKey:(NSString *)key;
 -(void)detailForItemLoaded:(MZKItemResource *)item;
 -(void)pagesLoadedForItem:(NSArray *)pages;
+-(void)collectionListLoaded:(NSArray *)collections;
 
 @end
 
@@ -30,5 +31,7 @@
 
 -(void)getMostRecent;
 -(void)getRecommended;
+
+-(void)getInfoAboutCollections;
 
 @end

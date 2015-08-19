@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 Ondrej Vyhlidal. All rights reserved.
 //
 
+#import "XMLReader.h"
+#import <CoreGraphics/CoreGraphics.h>
 #import "MZKDatasource.h"
 #import "MZKItemResource.h"
 #import "MZKPageObject.h"
-#import "XMLReader.h"
-#import <CoreGraphics/CoreGraphics.h>
-
+#import "MZKCollectionItem.h"
 
 enum _downloadOperation{
     downloadItem,
@@ -20,6 +20,7 @@ enum _downloadOperation{
     downloadImageProperties,
     downloadMostRecent,
     downloadRecommended,
+    downloadCollectionInfo,
 };
 typedef enum _downloadOperation downloadOperation;
 
@@ -27,7 +28,16 @@ typedef enum _downloadOperation downloadOperation;
 @implementation MZKDatasource
 
 
-
+-(void)getInfoAboutCollections
+{
+    [self checkAndSetBaseUrl];
+    
+    NSString *itemDataStr =@"/search/api/v5.0/vc";
+    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
+    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    
+    [self downloadDataFromURL:url withOperation:downloadCollectionInfo];
+}
 
 
 -(void)getChildrenForItem:(NSString *)pid
@@ -200,6 +210,40 @@ typedef enum _downloadOperation downloadOperation;
     return pages;
 }
 
+-(NSArray *)parseJSONDataForCollections:(NSData*)data error:(NSError *)error
+{
+    NSError *localError = nil;
+    NSArray *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
+    
+    if (localError != nil) {
+        error = localError;
+        return nil;
+    }
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i<results.count; i++) {
+        
+        MZKCollectionItem *cItem = [MZKCollectionItem new];
+        
+        cItem.pid = [[parsedObject objectAtIndex:i] objectForKey:@"pid"];
+        cItem.nameENG = [[[parsedObject objectAtIndex:i] objectForKey:@"descs"] objectForKey:@"en"];
+        cItem.nameCZ = [[[parsedObject objectAtIndex:i] objectForKey:@"descs"] objectForKey:@"cs"];
+        cItem.label =[[parsedObject objectAtIndex:i] objectForKey:@"label"];
+       
+        
+        [results addObject:cItem];
+        
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(collectionListLoaded:)]) {
+        [self.delegate collectionListLoaded:results];
+    }
+ 
+    
+    return results;
+}
+
+
 -(MZKItemResource *)parseObjectFromDictionary:(NSDictionary *)rawData
 {
     MZKItemResource *newItem = [MZKItemResource new];
@@ -270,6 +314,9 @@ typedef enum _downloadOperation downloadOperation;
                 case downloadImageProperties:
                     [self parseImagePropertiesWithData:data error:error];
                     break;
+                    
+                    case downloadCollectionInfo:
+                    [self parseJSONDataForCollections:data error:error];
                 default:
                     break;
             }
