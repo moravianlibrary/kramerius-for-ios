@@ -36,3 +36,5 @@ MZK_iOS/Build/Intermediates/MZK_iOS.build/Debug-iphonesimulator/MZK_iOS.build/MZ
 *.o
 
 *.LinkFileList
+
+MZK_iOS/Build/Products/Debug-iphoneos/MZK_iOS.app/Base.lproj/Main.storyboardc/Pmi-7y-hag-view-cUi-r2-6eM.nib
