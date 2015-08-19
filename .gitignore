@@ -26,3 +26,13 @@ MZK_iOS/Build/Intermediates/Pods.build/Debug-iphoneos/Pods-MZK_iOS-MSDynamicsDra
 *.hmap
 
 MZK_iOS/Build/Intermediates/Pods.build/Debug-iphonesimulator/Pods-MZK_iOS-SDWebImage.build/dgph
+
+MZK_iOS/Build/Intermediates/MZK_iOS.build/Debug-iphonesimulator/MZK_iOS.build/MZK_iOS.hmap
+
+*.dat
+
+*.d
+
+*.o
+
+*.LinkFileList
