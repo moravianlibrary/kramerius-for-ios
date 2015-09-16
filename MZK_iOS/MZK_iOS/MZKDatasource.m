@@ -12,6 +12,7 @@
 #import "MZKItemResource.h"
 #import "MZKPageObject.h"
 #import "MZKCollectionItem.h"
+#import  <AFNetworking.h>
 
 enum _downloadOperation{
     downloadItem,
@@ -21,6 +22,7 @@ enum _downloadOperation{
     downloadMostRecent,
     downloadRecommended,
     downloadCollectionInfo,
+    downloadCollectionItems,
 };
 typedef enum _downloadOperation downloadOperation;
 
@@ -61,6 +63,31 @@ typedef enum _downloadOperation downloadOperation;
     
     [self downloadDataFromURL:url withOperation:downloadItem];
 
+}
+-(void)getCollectionItems:(NSString *)collectionPID
+{
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @"remitest", @"login",
+                            @"password", @"password",
+                            @3, @"api_version",
+                            nil];
+    [manager POST:@"https://8tracks.com/sessions.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        // do your stuff
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        // fail cases
+    }];
+    
+    
+    NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/search?q=collection:\"%@\"%20AND%20dostupnost%3A*public*%20AND%20(fedora.model%3Amonograph%20OR%20fedora.model%3Aperiodical%20OR%20fedora.model%3Agraphic%20OR%20fedora.model%3Aarchive%20OR%20fedora.model%3Amanuscript%20OR%20fedora.model%3Amap%20OR%20fedora.model%3Asheetmusic%20OR%20fedora.model%3Asoundrecording)", collectionPID];
+    
+    [self checkAndSetBaseUrl];
+    
+    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
+    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    
+    [self downloadDataFromURL:url withOperation:downloadCollectionItems];
 }
 
 -(void)getSiblingsForItem:(NSString *)pid
@@ -221,7 +248,7 @@ typedef enum _downloadOperation downloadOperation;
     }
     NSMutableArray *results = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i<results.count; i++) {
+    for (int i = 0; i<parsedObject.count; i++) {
         
         MZKCollectionItem *cItem = [MZKCollectionItem new];
         
@@ -236,11 +263,18 @@ typedef enum _downloadOperation downloadOperation;
     }
     
     if ([self.delegate respondsToSelector:@selector(collectionListLoaded:)]) {
-        [self.delegate collectionListLoaded:results];
+        [self.delegate collectionListLoaded:[results copy]];
+        NSLog(@"Collections count:%lu", (unsigned long)results.count);
     }
+    
  
     
     return results;
+}
+
+-(NSArray *)parseJSONDataForCollectionItems:(NSData*)data error:(NSError *)error
+{
+    return nil;
 }
 
 
@@ -284,11 +318,41 @@ typedef enum _downloadOperation downloadOperation;
     
 }
 
+-(void)parseCollectionData:(NSData *)data error:(NSError *)error
+{
+    NSDictionary *dict = [XMLReader dictionaryForXMLData:data
+                                                 options:XMLReaderOptionsProcessNamespaces
+                                                   error:&error];
+    
+    NSDictionary *list = [dict objectForKey:@"IMAGE_PROPERTIES"];
+    NSInteger width = [[list objectForKey:@"WIDTH"] integerValue];
+    NSInteger height = [[list objectForKey:@"HEIGHT"] integerValue];
+
+}
+
 
 -(void)downloadDataFromURL:(NSURL *)strURL withOperation:(downloadOperation)operation
 {
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @"remitest", @"login",
+                            @"password", @"password",
+                            @3, @"api_version",
+                            nil];
+    [manager POST:@"https://8tracks.com/sessions.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        // do your stuff
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        // fail cases
+    }];
+    
     //change this implementation
-    NSURLRequest *req = [NSURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
+    
+    [req setValue:@"curl -H \"Accept: application/json\" " forHTTPHeaderField:];
+    
+    NSLog(@"Request: %@, with operation:%u", [req description], operation);
+    
     [NSURLConnection sendAsynchronousRequest:req queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
         
         if (error) {
@@ -307,6 +371,7 @@ typedef enum _downloadOperation downloadOperation;
                     
                     case downloadItem:
                      [self parseJSONDataForDetail:data error:error];
+                    break;
                 case downloadChildren:
                     [self parseJSONDataForChildren:data error:error];
                     break;
@@ -315,9 +380,16 @@ typedef enum _downloadOperation downloadOperation;
                     [self parseImagePropertiesWithData:data error:error];
                     break;
                     
-                    case downloadCollectionInfo:
+                case downloadCollectionInfo:
                     [self parseJSONDataForCollections:data error:error];
+                
+                    break;
+                case downloadCollectionItems:
+                    [self parseJSONDataForCollectionItems:data error:error];
+                
                 default:
+                    
+                    
                     break;
             }
            

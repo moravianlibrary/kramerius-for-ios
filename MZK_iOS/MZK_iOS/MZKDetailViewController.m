@@ -138,7 +138,12 @@
 //    }
     
     NSString *theAbsoluteURLString = [targetURL absoluteString];
-    
+    if (width ==0 ) {
+        width = self.view.frame.size.width;
+    }
+    if (height ==0 ) {
+        height = self.view.frame.size.height;
+    }
     NSString *queryString = [NSString stringWithFormat:@"?url=http://kramerius.mzk.cz/search/zoomify/%@/&width=%f&height=%f", url, width, height];
     
     NSString *absoluteURLwithQueryString = [theAbsoluteURLString stringByAppendingString: queryString];
@@ -147,6 +152,8 @@
     
     NSURLRequest *request = [NSURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:(NSTimeInterval)10.0 ];
     
+    NSLog(@"Request:%@", [request description]);
+    
     if (!_webView) {
         NSLog(@"NO WeB View");
     }
@@ -154,6 +161,8 @@
     [_webView.scrollView setContentSize:CGSizeMake(_webView.frame.size.width, _webView.frame.size.height)];
 
     [_webView loadRequest:request];
+    
+    NSLog(@"Width:%f  Height:%f", width, height);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -173,7 +182,7 @@
         detailDatasource = [MZKDatasource new];
         detailDatasource.delegate = self;
     }
-   // [detailDatasource getItem:itemRes.pid];
+    [detailDatasource getItem:item.pid];
     
     self.titleLabel.text = item.title;
     

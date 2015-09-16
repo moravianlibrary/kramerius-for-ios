@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MZKDataSourceViewController : UIViewController
+@interface MZKDataSourceViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @end

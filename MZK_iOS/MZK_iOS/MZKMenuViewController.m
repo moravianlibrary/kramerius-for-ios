@@ -8,6 +8,7 @@
 
 #import "MZKMenuViewController.h"
 #import "MZKMenuClickableHeader.h"
+#import "MZKDataSourceViewController.h"
 
 NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
 @interface MZKMenuViewController ()<MenuClickableHeaderDelegate>
@@ -95,12 +96,12 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
 {
     self.paneViewControllerType = NSUIntegerMax;
     self.paneViewControllerTitles = @{
-                                      @(MZKMainViewController) : @"Home",
-                                      @(MZKCollectionsViewController) : @"Collections",
-                                      @(MSPaneViewControllerTypeBounce) : @"Search",
-                                      @(MSPaneViewControllerTypeGestures) : @"Recent",
-                                      @(MSPaneViewControllerTypeControls) : @"Settings",
-                                      @(MSPaneViewControllerTypeMap) : @"Help and Feedback"
+                                      @(MZKMainViewController) : @"Hlavní strana",
+                                      @(MZKCollectionsViewController) : @"Kolekce",
+                                      @(MSPaneViewControllerTypeBounce) : @"Hledání",
+                                      @(MSPaneViewControllerTypeGestures) : @"Nejnovější",
+                                      @(MSPaneViewControllerTypeControls) : @"Nastavení",
+                                      @(MSPaneViewControllerTypeMap) : @"Pomoc a zpětná vazba"
                                       };
     
     self.paneViewControllerIdentifiers = @{
@@ -148,7 +149,8 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
     
     paneViewController.navigationItem.title = self.paneViewControllerTitles[@(paneViewControllerType)];
     
-    self.paneRevealLeftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Menu-50"] style:UIBarButtonItemStylePlain target:self action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
+    
+    self.paneRevealLeftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_back"] style:UIBarButtonItemStylePlain target:self action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
    
     paneViewController.navigationItem.leftBarButtonItem = self.paneRevealLeftBarButtonItem;
     
@@ -162,6 +164,11 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
 
 -(void)onMenuHeader
 {
+    NSLog(@"Menu header touched");
+    MZKDataSourceViewController *dsVc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MZKDataSourceViewController"];
+    [self presentViewController:dsVc animated:YES completion:^{
+        
+    }];
     
 }
 
@@ -235,7 +242,7 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
 
 - (void)dynamicsDrawerRevealLeftBarButtonItemTapped:(id)sender
 {
-   // [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionLeft animated:YES allowUserInterruption:YES completion:nil];
+    [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionLeft animated:YES allowUserInterruption:YES completion:nil];
 }
 
 

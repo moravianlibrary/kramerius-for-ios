@@ -4,12 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pods-MZK_iOS-MSDynamicsDrawerViewController.xcscheme</key>
+		<key>AFNetworking.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-MZK_iOS-SDWebImage.xcscheme</key>
+		<key>MSDynamicsDrawerViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -19,20 +19,30 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>388E4F638D4575E015E08539</key>
+		<key>04CC9183181FB067A26C688BBBD31B60</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BEB73CF7C907AF091CAFB1B4</key>
+		<key>5352D432641F0656C90741034E32F31E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D191A1CCC314425E1F87FAF7</key>
+		<key>96E43B5CE5C64C0CA8691D419D1730AC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A48AC8F037255DED10C11F6CF9EB00D7</key>
 		<dict>
 			<key>primary</key>
 			<true/>

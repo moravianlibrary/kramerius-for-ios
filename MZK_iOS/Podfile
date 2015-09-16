@@ -4,5 +4,7 @@
 target 'MZK_iOS' do
 pod 'MSDynamicsDrawerViewController', '~> 1.5'
 pod 'SDWebImage', '~>3.7'
+pod 'AFNetworking', '~> 2.0'
+
 end
 
