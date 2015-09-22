@@ -12,7 +12,7 @@
 #import "MZKItemResource.h"
 #import "MZKPageObject.h"
 #import "MZKCollectionItem.h"
-#import  <AFNetworking.h>
+#import "MZKCollectionItemResource.h"
 
 enum _downloadOperation{
     downloadItem,
@@ -66,25 +66,12 @@ typedef enum _downloadOperation downloadOperation;
 }
 -(void)getCollectionItems:(NSString *)collectionPID
 {
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"remitest", @"login",
-                            @"password", @"password",
-                            @3, @"api_version",
-                            nil];
-    [manager POST:@"https://8tracks.com/sessions.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        // do your stuff
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        // fail cases
-    }];
-    
-    
-    NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/search?q=collection:\"%@\"%20AND%20dostupnost%3A*public*%20AND%20(fedora.model%3Amonograph%20OR%20fedora.model%3Aperiodical%20OR%20fedora.model%3Agraphic%20OR%20fedora.model%3Aarchive%20OR%20fedora.model%3Amanuscript%20OR%20fedora.model%3Amap%20OR%20fedora.model%3Asheetmusic%20OR%20fedora.model%3Asoundrecording)", collectionPID];
+    NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/search?q=collection:\"%@\" AND dostupnost:*public* AND (fedora.model:monograph OR fedora.model:periodical OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:map OR fedora.model:sheetmusic OR fedora.model:soundrecording)", collectionPID];
     
     [self checkAndSetBaseUrl];
     
-    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
+    NSString *finalStringURL = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
+    NSString *finalString  = [finalStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
     [self downloadDataFromURL:url withOperation:downloadCollectionItems];
@@ -274,7 +261,46 @@ typedef enum _downloadOperation downloadOperation;
 
 -(NSArray *)parseJSONDataForCollectionItems:(NSData*)data error:(NSError *)error
 {
-    return nil;
+    NSError *localError = nil;
+    NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
+    
+    if (localError != nil) {
+        error = localError;
+        return nil;
+    }
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+    
+    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
+    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
+    
+    NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
+    
+    
+    for (int i = 0; i<parsedObject.count; i++) {
+        
+        MZKCollectionItemResource *cItem = [MZKCollectionItemResource new];
+        NSDictionary *itemDict =[parsedObject objectAtIndex:i];
+        cItem.numFound = numberOfResults;
+        cItem.start = start;
+        cItem.pid = [itemDict objectForKey:@"PID"];
+        cItem.datumStr = [itemDict objectForKey:@"datum_str"];
+        cItem.documentCreator = [itemDict objectForKey:@"dc.creator"];
+        cItem.title = [itemDict objectForKey:@"dc.title"];
+        cItem.rootPid = [itemDict objectForKey:@"root_pid"];
+        cItem.rootTitle =[itemDict objectForKey:@"root_title"];
+        
+        [results addObject:cItem];
+        
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(collectionItemsLoaded:)]) {
+        [self.delegate collectionItemsLoaded:[results copy]];
+        NSLog(@"Collections count:%lu", (unsigned long)results.count);
+    }
+    
+    
+    
+    return results;
 }
 
 
@@ -333,27 +359,20 @@ typedef enum _downloadOperation downloadOperation;
 
 -(void)downloadDataFromURL:(NSURL *)strURL withOperation:(downloadOperation)operation
 {
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"remitest", @"login",
-                            @"password", @"password",
-                            @3, @"api_version",
-                            nil];
-    [manager POST:@"https://8tracks.com/sessions.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        // do your stuff
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        // fail cases
-    }];
-    
+
     //change this implementation
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
-    
-    [req setValue:@"curl -H \"Accept: application/json\" " forHTTPHeaderField:];
+   // [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    if (operation ==downloadCollectionItems) {
+         [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        NSLog(@"%@", req.allHTTPHeaderFields);;
+    }
+   
+    //[req addValue:@"json" forHttpHeaderField:@"Content-type"];
     
     NSLog(@"Request: %@, with operation:%u", [req description], operation);
     
-    [NSURLConnection sendAsynchronousRequest:req queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
+    [NSURLConnection sendAsynchronousRequest:[req copy] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
         
         if (error) {
             NSLog(@"Download failed with error:%@", [error debugDescription]);

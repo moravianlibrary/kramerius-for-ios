@@ -10,11 +10,14 @@
 #import "MZKDatasource.h"
 #import "MZKCollectionTableViewCell.h"
 #import "MZKCollectionItem.h"
+#import "MZKCollectionDetailViewController.h"
 
 @interface MZKCollectionsViewController ()<DataLoadedDelegate,UITableViewDataSource, UITableViewDelegate>
 {
     MZKDatasource * _datasource;
     NSArray *_collections;
+    NSArray *_collectionItems;
+    NSString *_selectedCollectionName;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -28,6 +31,7 @@
     _datasource = [[MZKDatasource alloc] init];
     [_datasource setDelegate:self];
     [_datasource getInfoAboutCollections];
+    _selectedCollectionName = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,6 +64,27 @@
     [self.tableView reloadData];
 }
 
+-(void)collectionItemsLoaded:(NSArray *)collectionItems
+{
+    // open colleciton detail from here
+    
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf collectionItemsLoaded:collectionItems];
+        });
+        return;
+    }
+    _collectionItems = collectionItems;
+    //open detail
+    
+    [self performSegueWithIdentifier:@"OpenCollection" sender:self];
+    
+   
+
+}
+
 
 #pragma mark - UITableView Delegate and Datasource
 
@@ -88,7 +113,25 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MZKCollectionItem  *item = [_collections objectAtIndex:indexPath.row];
-    [_datasource getChildrenForItem:item.pid];
+    [_datasource getCollectionItems:item.pid];
+    _selectedCollectionName = item.nameCZ;
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Make sure your segue name in storyboard is the same as this line
+    if ([[segue identifier] isEqualToString:@"OpenCollection"])
+    {
+        // Get reference to the destination view controller
+        MZKCollectionDetailViewController *vc = [segue destinationViewController];
+        
+        // Pass any objects to the view controller here, like...
+        [vc setItems:_collectionItems];
+        [vc setSelectedCollectionName:_selectedCollectionName];
+        
+    }
 }
 
 @end

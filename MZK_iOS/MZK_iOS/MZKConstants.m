@@ -10,4 +10,11 @@
 
 @implementation MZKConstants
 
+NSString *const MyFirstConstant = @"FirstConstant";
+
+NSString *const kDefaultDatasourceName = @"kDefaultDatasourceName";
+NSString *const kDefaultDatasourceProtocol = @"kDefaultDatasourceProtocol";
+NSString *const kDefaultDatasourceStringURL = @"kDefaultDatasourceStringURL";
+NSString *const kDefaultImageName = @"kDefaultDatasourceImageName";
+
 @end

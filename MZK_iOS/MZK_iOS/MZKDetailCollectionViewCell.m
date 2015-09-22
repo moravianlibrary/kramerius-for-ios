@@ -10,4 +10,10 @@
 
 @implementation MZKDetailCollectionViewCell
 
+-(void)prepareForReuse
+{
+    _itemIconImageview.image = nil;
+    _itemTypeIcon.image = nil;
+}
+
 @end

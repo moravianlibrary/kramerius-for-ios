@@ -148,7 +148,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    //set the default datasource... 
+    //set the default datasource...
+    
+    MZKResourceItem *item = [_libraries objectAtIndex:indexPath.row];
+    
+    //[NSUserDefaults standardUserDefaults] setObject:item. forKey:<#(NSString *)#>
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
         

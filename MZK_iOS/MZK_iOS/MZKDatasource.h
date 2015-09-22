@@ -16,6 +16,7 @@
 -(void)detailForItemLoaded:(MZKItemResource *)item;
 -(void)pagesLoadedForItem:(NSArray *)pages;
 -(void)collectionListLoaded:(NSArray *)collections;
+-(void)collectionItemsLoaded:(NSArray *)collectionItems;
 
 @end
 
@@ -33,5 +34,6 @@
 -(void)getRecommended;
 
 -(void)getInfoAboutCollections;
+-(void)getCollectionItems:(NSString *)collectionPID;
 
 @end

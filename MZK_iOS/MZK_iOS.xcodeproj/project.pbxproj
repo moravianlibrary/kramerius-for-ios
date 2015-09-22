@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		16EA5BDF3E1D1DA08D0A333D /* libPods-MZK_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC293F8D6E164513E13E590B /* libPods-MZK_iOS.a */; };
+		2D009CD51BAAE52E0042021D /* MZKCollectionItemResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D009CD41BAAE52E0042021D /* MZKCollectionItemResource.m */; };
 		2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D02A4611B0624C100D51B0C /* MZKPageObject.m */; };
 		2D1A8DDF1AFD036E00494743 /* MZKMenuClickableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1A8DDE1AFD036E00494743 /* MZKMenuClickableHeader.m */; };
 		2D1A8DE11AFD039200494743 /* MZKMenuClickableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D1A8DE01AFD039200494743 /* MZKMenuClickableHeader.xib */; };
@@ -45,6 +46,8 @@
 /* Begin PBXFileReference section */
 		01C5E5E76CAC21A74454F404 /* Pods-MZK_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		17FD2D438425BEFC1B68C2BB /* libPods-MZK_iOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MZK_iOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D009CD31BAAE52E0042021D /* MZKCollectionItemResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionItemResource.h; sourceTree = "<group>"; };
+		2D009CD41BAAE52E0042021D /* MZKCollectionItemResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionItemResource.m; sourceTree = "<group>"; };
 		2D02A4601B0624C100D51B0C /* MZKPageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKPageObject.h; sourceTree = "<group>"; };
 		2D02A4611B0624C100D51B0C /* MZKPageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKPageObject.m; sourceTree = "<group>"; };
 		2D1A8DDD1AFD036E00494743 /* MZKMenuClickableHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKMenuClickableHeader.h; sourceTree = "<group>"; };
@@ -143,6 +146,8 @@
 				2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */,
 				2D24F0741B74C0A80073FC83 /* MZKCollectionItem.h */,
 				2D24F0751B74C0A80073FC83 /* MZKCollectionItem.m */,
+				2D009CD31BAAE52E0042021D /* MZKCollectionItemResource.h */,
+				2D009CD41BAAE52E0042021D /* MZKCollectionItemResource.m */,
 			);
 			name = Collections;
 			sourceTree = "<group>";
@@ -379,6 +384,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D009CD51BAAE52E0042021D /* MZKCollectionItemResource.m in Sources */,
 				2DB8A79A1ACD073400A1BB2E /* AppDelegate.m in Sources */,
 				2DE387631AE526AB00A2004E /* MZKDatasource.m in Sources */,
 				2D2A64801AF8EF3800D82E04 /* MZKMainViewController.m in Sources */,

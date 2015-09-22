@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface MZKCollectionDetailViewController : UIViewController
-@property (nonatomic, strong) NSMutableArray *items;
+@property (nonatomic, strong) NSArray *items;
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, strong) NSString *selectedCollectionName;
 
 @end

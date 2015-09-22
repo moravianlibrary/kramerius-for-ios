@@ -10,4 +10,12 @@
 
 @interface MZKConstants : NSObject
 
+FOUNDATION_EXPORT NSString *const MyFirstConstant;
+
+FOUNDATION_EXPORT NSString *const kDefaultDatasourceName;
+FOUNDATION_EXPORT NSString *const kDefaultDatasourceProtocol;
+FOUNDATION_EXPORT NSString *const kDefaultDatasourceStringURL;
+FOUNDATION_EXPORT NSString *const kDefaultImageName;
+
+
 @end
