@@ -10,6 +10,7 @@
 #import "MZKDetailCollectionViewCell.h"
 #import "MZKCollectionItemResource.h"
 #import "MZKDatasource.h"
+#import "MZKDetailViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 
@@ -17,6 +18,7 @@
 {
     MZKDatasource *_datasource;
     NSArray *_loadedItems;
+    MZKCollectionItemResource *_selectedItem;
 }
 @property (weak, nonatomic) IBOutlet UILabel *collectionName;
 - (IBAction)onBack:(id)sender;
@@ -26,11 +28,11 @@
 @implementation MZKCollectionDetailViewController
 
 - (void)viewDidLoad {
-     // Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     [super viewDidLoad];
     self.collectionName.text = _selectedCollectionName;
     
-   
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,14 +50,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 #pragma mark - Collection View Delegate and Datasource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView*)collectionView {
     // just one section
@@ -69,7 +71,7 @@
 
 - (MZKDetailCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MZKDetailCollectionViewCell* newCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"MZKDetailCollectionViewCell"
-                                                                           forIndexPath:indexPath];
+                                                                                          forIndexPath:indexPath];
     MZKCollectionItemResource *item = [_items objectAtIndex:indexPath.row];
     
     newCell.itemNameLabel.text =item.title;
@@ -79,10 +81,18 @@
     
     
     [newCell.itemIconImageview sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
-
     
-   // newCell.cellLabel.text = [NSString stringWithFormat:@"Section:%d, Item:%d", indexPath.section, indexPath.item];
+    
+    // newCell.cellLabel.text = [NSString stringWithFormat:@"Section:%d, Item:%d", indexPath.section, indexPath.item];
     return newCell;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    MZKCollectionItemResource *item = [_items objectAtIndex:indexPath.row];
+    _selectedItem = item;
+    
+    [self performSegueWithIdentifier:@"OpenCollectionDetail" sender:nil];
 }
 
 - (IBAction)onBack:(id)sender {
@@ -90,5 +100,30 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
         
     }];
+}
+
+#pragma mark - segues
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    // Make sure your segue name in storyboard is the same as this line
+    if ([[segue identifier] isEqualToString:@"OpenCollectionDetail"])
+    {
+        // Get reference to the destination view controller
+        MZKDetailViewController *vc = [segue destinationViewController];
+        
+        // Pass any objects to the view controller here, like...
+        [vc setItem:_selectedItem];
+    }
+    
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if (_selectedItem) {
+        return YES;
+    }
+    return NO;
 }
 @end

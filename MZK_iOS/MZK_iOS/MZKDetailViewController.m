@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomBar;
 @property (weak, nonatomic) IBOutlet UIView *collectionViewContainer;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionPageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomBarSpaceConstraint;
 
 - (IBAction)onClose:(id)sender;
 - (IBAction)onPageChanged:(id)sender;
@@ -378,9 +379,10 @@
 {
     if (animated) {
         hidingBars = YES;
+        _bottomBarSpaceConstraint.constant = _bottomBar.frame.size.height;
         [UIView animateWithDuration:.5 animations:^{
            self.topBar.alpha = self.bottomBar.alpha = 1.0;
-            
+            [self.view layoutIfNeeded];
             
         } completion:^(BOOL finished) {
             barsHidden = NO;
@@ -391,6 +393,7 @@
     {
         self.topBar.alpha = self.bottomBar.alpha = 1.0;
         barsHidden = NO;
+        _bottomBarSpaceConstraint.constant = _bottomBar.frame.size.height;
         
     }
     
@@ -400,8 +403,10 @@
 {
     if (animated) {
         hidingBars = YES;
+        _bottomBarSpaceConstraint.constant = 0;
         [UIView animateWithDuration:.5 animations:^{
             self.topBar.alpha = self.bottomBar.alpha = 0.0;
+             [self.view layoutIfNeeded];
             
         } completion:^(BOOL finished) {
             barsHidden = YES;
@@ -412,6 +417,7 @@
     {
          self.topBar.alpha = self.bottomBar.alpha = 0.0;
          barsHidden = YES;
+        _bottomBarSpaceConstraint.constant = 0;
 
     }
   
