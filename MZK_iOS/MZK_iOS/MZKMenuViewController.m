@@ -99,27 +99,21 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
                                       @(MZKMainViewController) : @"Hlavní strana",
                                       @(MZKCollectionsViewController) : @"Kolekce",
                                       @(MSPaneViewControllerTypeBounce) : @"Hledání",
-                                      @(MSPaneViewControllerTypeGestures) : @"Nejnovější",
-                                      @(MSPaneViewControllerTypeControls) : @"Nastavení",
-                                      @(MSPaneViewControllerTypeMap) : @"Pomoc a zpětná vazba"
+                                      @(MSPaneViewControllerTypeGestures) : @"Nejnovější"
                                       };
     
     self.paneViewControllerIdentifiers = @{
                                            @(MZKMainViewController) : @"MainViewController",
                                            @(MZKCollectionsViewController) : @"Collections",
                                            @(MSPaneViewControllerTypeBounce) : @"Bounce",
-                                           @(MSPaneViewControllerTypeGestures) : @"Gestures",
-                                           @(MSPaneViewControllerTypeControls) : @"Controls",
-                                           @(MSPaneViewControllerTypeMap) : @"Map"
+                                           @(MSPaneViewControllerTypeGestures) : @"Gestures"
                                            };
     
     self.paneViewControllersIcons = @{
                                       @(MZKMainViewController) : @"ic_home_grey",
                                       @(MZKCollectionsViewController) : @"ic_group_grey",
                                       @(MSPaneViewControllerTypeBounce) : @"ic_search_grey",
-                                      @(MSPaneViewControllerTypeGestures) : @"ic_recent_grey",
-                                      @(MSPaneViewControllerTypeControls) : @"ic_settings_grey",
-                                      @(MSPaneViewControllerTypeMap) : @"ic_help_grey"
+                                      @(MSPaneViewControllerTypeGestures) : @"ic_recent_grey"
                                       };
 
 
