@@ -9,6 +9,7 @@
 #import "MZKDataSourceViewController.h"
 #import "MZKResourceItem.h"
 #import "MZKDataSourceTableViewCell.h"
+#import "MZKConstants.h"
 
 @interface MZKDataSourceViewController (){
     
@@ -17,6 +18,7 @@
 
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+- (IBAction)onBack:(id)sender;
 
 @end
 
@@ -151,13 +153,25 @@
     //set the default datasource...
     
     MZKResourceItem *item = [_libraries objectAtIndex:indexPath.row];
+    [self saveToUserDefaults:item];
     
-    //[NSUserDefaults standardUserDefaults] setObject:item. forKey:<#(NSString *)#>
+    [self onBack:nil];
+}
+
+-(void)saveToUserDefaults:(MZKResourceItem *)item
+{
+    [[NSUserDefaults standardUserDefaults] setObject:item.name forKey:kDefaultDatasourceName];
+    [[NSUserDefaults standardUserDefaults] setObject:item.stringURL forKey:kDefaultDatasourceStringURL];
+    [[NSUserDefaults standardUserDefaults] setObject:item.imageName forKey:kDefaultImageName];
+    [[NSUserDefaults standardUserDefaults] setObject:item.protocol forKey:kDefaultDatasourceProtocol];
+
+}
+
+
+- (IBAction)onBack:(id)sender {
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
         
     }];
 }
-
-
 @end

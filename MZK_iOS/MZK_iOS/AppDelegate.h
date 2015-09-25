@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MZKResourceItem.h"
 
 @class MSDynamicsDrawerViewController;
 
@@ -14,6 +15,10 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
+@property (nonatomic, strong) MZKResourceItem *defaultDatasourceItem;
+
+-(void)saveToUserDefaults:(MZKResourceItem *)item;
+-(MZKResourceItem *)getDatasourceItem;
 
 
 @end

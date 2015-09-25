@@ -13,6 +13,7 @@
 #import "MZKPageObject.h"
 #import "MZKCollectionItem.h"
 #import "MZKCollectionItemResource.h"
+#import "AppDelegate.h"
 
 enum _downloadOperation{
     downloadItem,
@@ -27,7 +28,18 @@ enum _downloadOperation{
 typedef enum _downloadOperation downloadOperation;
 
 
+
 @implementation MZKDatasource
+
+-(id)init
+{
+    self = [super init];
+    if (self) {
+        [self checkAndSetBaseUrl];
+    }
+    
+    return self;
+}
 
 
 -(void)getInfoAboutCollections
@@ -119,10 +131,16 @@ typedef enum _downloadOperation downloadOperation;
 #pragma mark - privateMethods
 -(void)checkAndSetBaseUrl
 {
-    if (!self.baseStringURL) {
-       self.baseStringURL = @"http://kramerius.mzk.cz"; //search/api/v5.0/feed/mostdesirable
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    MZKResourceItem *item = appDelegate.getDatasourceItem;
+    if (!item) {
+        NSLog(@"Default URL not set!");
     }
+    self.baseStringURL = [NSString stringWithFormat:@"%@://%@", item.protocol, item.stringURL];
+    
 }
+
+
 
 -(void)downloadFailed
 {

@@ -9,6 +9,8 @@
 #import "MZKMenuViewController.h"
 #import "MZKMenuClickableHeader.h"
 #import "MZKDataSourceViewController.h"
+#import "MZKConstants.h"
+#import "AppDelegate.h"
 
 NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
 @interface MZKMenuViewController ()<MenuClickableHeaderDelegate>
@@ -54,6 +56,7 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
     //setu table view for
     //[self initializeMenu];
    // [self.tableView registerClass:[MZKMenuTableViewCell class] forCellReuseIdentifier:MZKMenuCellIdentifier];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
     [self initializeMenuHeader];
 }
 
@@ -85,6 +88,7 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
     headerView.delegate = self;
     self.tableView.tableHeaderView = headerView;
 }
+
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
@@ -238,6 +242,21 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
 {
     [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen inDirection:MSDynamicsDrawerDirectionLeft animated:YES allowUserInterruption:YES completion:nil];
 }
+
+#pragma mark - notification handling
+-(void)defaultDatasourceChangedNotification:(NSNotification *)notf
+{
+    //change heade of table view...
+    
+    //
+}
+
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 
 @end

@@ -10,6 +10,7 @@
 #import "MZKDatasource.h"
 #import "MZKItemTableViewCell.h"
 #import "MZKDetailViewController.h"
+#import "MZKConstants.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
 
@@ -42,6 +43,9 @@
                   forControlEvents:UIControlEventValueChanged];
     
     [self.tableView addSubview:refreshControl];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
 }
 
 -(void)reloadValues
@@ -179,5 +183,19 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+#pragma mark - notification handling
+-(void)defaultDatasourceChangedNotification:(NSNotification *)notf
+{
+    [self.tableView reloadData];
+}
+
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 @end

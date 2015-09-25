@@ -8,7 +8,9 @@
 
 #import "AppDelegate.h"
 #import "MZKMenuViewController.h"
+#import  "MZKConstants.h"
 #import <MSDynamicsDrawerViewController.h>
+#import "MZKConstants.h"
 
 @interface AppDelegate ()<MSDynamicsDrawerViewControllerDelegate>
 
@@ -41,6 +43,12 @@
 //    [self.window addSubview:self.windowBackground];
 //    [self.window sendSubviewToBack:self.windowBackground];
     
+    
+    
+    if (!self.defaultDatasourceItem) {
+        [self setDefaultDatasource];
+    }
+    
 
     self.window.rootViewController = self.dynamicsDrawerViewController;
     
@@ -67,6 +75,59 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+-(void)setDefaultDatasource
+{
+    //load from user defaults
+    MZKResourceItem *item  = [self loadDatasourceFromUserDefaults];
+    if (item) {
+        self.defaultDatasourceItem = item;
+    }else
+    {
+        MZKResourceItem *item1 = [MZKResourceItem new];
+        item1.name = @"Moravská zemská knihovna";
+        item1.protocol = @"http";
+        item1.stringURL = @"kramerius.mzk.cz";
+        item1.imageName = @"logo_mzk";
+        
+        self.defaultDatasourceItem = item1;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDatasourceItemChanged object:nil];
+}
+
+-(MZKResourceItem*)loadDatasourceFromUserDefaults
+{
+    MZKResourceItem *item = [MZKResourceItem new];
+    item.protocol = [[NSUserDefaults standardUserDefaults] stringForKey:kDefaultDatasourceProtocol];
+    item.name = [[NSUserDefaults standardUserDefaults] stringForKey:kDefaultDatasourceName];
+    item.stringURL = [[NSUserDefaults standardUserDefaults] stringForKey:kDefaultDatasourceStringURL];
+    item.imageName = [[NSUserDefaults standardUserDefaults] stringForKey:kDefaultImageName];
+    
+    
+    if (item.protocol && item.stringURL && item.imageName &&item.name) {
+        return item;
+    }else return nil;
+}
+
+-(void)saveToUserDefaults:(MZKResourceItem *)item
+{
+    self.defaultDatasourceItem  =item;
+    [[NSUserDefaults standardUserDefaults] setObject:item.name forKey:kDefaultDatasourceName];
+    [[NSUserDefaults standardUserDefaults] setObject:item.stringURL forKey:kDefaultDatasourceStringURL];
+    [[NSUserDefaults standardUserDefaults] setObject:item.imageName forKey:kDefaultImageName];
+    [[NSUserDefaults standardUserDefaults] setObject:item.protocol forKey:kDefaultDatasourceProtocol];
+    
+}
+
+-(MZKResourceItem *)getDatasourceItem
+{
+    if (!self.defaultDatasourceItem) {
+        [self setDefaultDatasource];
+    }
+    
+    return self.defaultDatasourceItem;
 }
 
 @end

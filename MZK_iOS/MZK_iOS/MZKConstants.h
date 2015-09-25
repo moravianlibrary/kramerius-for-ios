@@ -18,4 +18,7 @@ FOUNDATION_EXPORT NSString *const kDefaultDatasourceStringURL;
 FOUNDATION_EXPORT NSString *const kDefaultImageName;
 
 
+FOUNDATION_EXPORT NSString *const kDatasourceItemChanged;
+
+
 @end

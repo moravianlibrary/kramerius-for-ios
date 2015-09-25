@@ -17,4 +17,6 @@ NSString *const kDefaultDatasourceProtocol = @"kDefaultDatasourceProtocol";
 NSString *const kDefaultDatasourceStringURL = @"kDefaultDatasourceStringURL";
 NSString *const kDefaultImageName = @"kDefaultDatasourceImageName";
 
+NSString *const kDatasourceItemChanged = @"kDatasourceItemChanged";
+
 @end

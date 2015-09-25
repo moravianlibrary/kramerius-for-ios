@@ -11,6 +11,7 @@
 #import "MZKCollectionTableViewCell.h"
 #import "MZKCollectionItem.h"
 #import "MZKCollectionDetailViewController.h"
+#import "MZKConstants.h"
 
 @interface MZKCollectionsViewController ()<DataLoadedDelegate,UITableViewDataSource, UITableViewDelegate>
 {
@@ -32,6 +33,8 @@
     [_datasource setDelegate:self];
     [_datasource getInfoAboutCollections];
     _selectedCollectionName = nil;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -132,6 +135,19 @@
         [vc setSelectedCollectionName:_selectedCollectionName];
         
     }
+}
+
+
+#pragma mark - notification handling
+-(void)defaultDatasourceChangedNotification:(NSNotification *)notf
+{
+    [self.tableView reloadData];
+}
+
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
