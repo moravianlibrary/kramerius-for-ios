@@ -107,6 +107,7 @@
     
     
     if (item.protocol && item.stringURL && item.imageName &&item.name) {
+        NSLog(@"ItemLoaded");
         return item;
     }else return nil;
 }
@@ -119,6 +120,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:item.imageName forKey:kDefaultImageName];
     [[NSUserDefaults standardUserDefaults] setObject:item.protocol forKey:kDefaultDatasourceProtocol];
     
+    [self setDefaultDatasource];
 }
 
 -(MZKResourceItem *)getDatasourceItem

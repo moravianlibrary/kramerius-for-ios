@@ -11,6 +11,7 @@
 #import "MZKItemTableViewCell.h"
 #import "MZKDetailViewController.h"
 #import "MZKConstants.h"
+#import "AppDelegate.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
 
@@ -21,6 +22,8 @@
     UIRefreshControl *refreshControl;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UIView *activityIndicatorContentView;
 
 @end
 
@@ -32,20 +35,19 @@
     datasource = [MZKDatasource new];
     datasource.delegate = self;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
+    
+    [self refreshAllValues];
+}
+
+-(void)refreshAllValues
+{
+    items = nil;
     [datasource getRecommended];
     [datasource getMostRecent];
+    self.activityIndicator.hidden = NO;
+    [self.activityIndicator startAnimating];
     
-    refreshControl = [[UIRefreshControl alloc] init];
-   
-    refreshControl.tintColor = [UIColor blueColor];
-    [refreshControl addTarget:self
-                            action:@selector(reloadValues)
-                  forControlEvents:UIControlEventValueChanged];
-    
-    [self.tableView addSubview:refreshControl];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
 }
 
 -(void)reloadValues
@@ -63,19 +65,30 @@
 {
     if (data.count>0) {
         
-    
-    if (!items) {
-        items = [NSMutableDictionary new];
-    }
-    if (![[items allKeys] containsObject:key]) {
-        [items setObject:data forKey:key];
-    }else{
-        [items setObject:data forKey:key];
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-    });
+        [self.activityIndicator stopAnimating];
+        
+        
+        if (!items) {
+            items = [NSMutableDictionary new];
+        }
+        if (![[items allKeys] containsObject:key]) {
+            [items setObject:data forKey:key];
+        }else{
+            [items setObject:data forKey:key];
+        }
+        
+        __weak typeof(self) wealf = self;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [wealf.tableView reloadData];
+            wealf.activityIndicator.hidden= YES;
+            [wealf.activityIndicator stopAnimating];
+        });
+        
+        if (![NSThread mainThread]) {
+            [self performSelectorOnMainThread:@selector(reloadData) withObject:self.tableView waitUntilDone:NO];
+            NSLog(@"Not main thread ======");
+        }
         
     }
 }
@@ -85,7 +98,7 @@
 
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 //{
-//    
+//
 //}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -97,20 +110,22 @@
 {
     MZKItemTableViewCell *cell = (MZKItemTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
     [self performSegueWithIdentifier:@"OpenDetail" sender:cell];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSInteger numberof = 0;
-        if ([[items allKeys] objectAtIndex:section]) {
+    if ([[items allKeys] objectAtIndex:section]) {
         numberof = [[items objectForKey:[[items allKeys] objectAtIndex:section]] count];
     }
     
-    NSLog(@"Number of rows: %ld", (long)numberof);
+    //   NSLog(@"Number of rows: %ld", (long)numberof);
     
     return numberof;
-
-
+    
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -123,14 +138,19 @@
         cell.itemName.text = item.title;
         cell.itemInfo.text = item.issn;
         cell.item = item;
-        NSString*url = @"http://kramerius.mzk.cz";
+        cell.itemKind.text = item.model;
+        
+        
+        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        
+        NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
         NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/thumb",url, item.pid ];
         
-     
+        
         [cell.itemImage sd_setImageWithURL:[NSURL URLWithString:path]
-                                  placeholderImage:nil];
+                          placeholderImage:nil];
     }
-       
+    
     
     return cell;
 }
@@ -140,7 +160,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     NSInteger numberOfsections = [[items allKeys] count];
-    NSLog(@"Number of sections %li", (long)numberOfsections);
+    //   NSLog(@"Number of sections %li", (long)numberOfsections);
     return numberOfsections;
     
 }
@@ -150,10 +170,9 @@
     MZKItemResource *item;
     if (items) {
         NSString *key = [[items allKeys] objectAtIndex:path.section];
-        NSArray *itemsForKey =[items objectForKey:key];
         
         item =  [[items objectForKey:key] objectAtIndex:path.row];
-
+        
     }
     return item;
 }
@@ -175,20 +194,27 @@
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 
 #pragma mark - notification handling
 -(void)defaultDatasourceChangedNotification:(NSNotification *)notf
 {
-    [self.tableView reloadData];
+    if ( ![[NSThread currentThread] isEqual:[NSThread mainThread]] )
+    {
+        [self performSelectorOnMainThread:@selector(refreshAllValues) withObject:self waitUntilDone:NO];
+    }
+    else
+    {
+        [self refreshAllValues];
+    }
 }
 
 

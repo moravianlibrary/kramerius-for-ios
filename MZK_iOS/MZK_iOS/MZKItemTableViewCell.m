@@ -20,4 +20,13 @@
     // Configure the view for the selected state
 }
 
+
+-(void)prepareForReuse
+{
+    [super prepareForReuse];
+    self.item = nil;
+    self.itemImage = nil;
+    self.itemKindIcon = nil;
+}
+
 @end

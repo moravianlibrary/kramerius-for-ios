@@ -10,6 +10,7 @@
 #import "MZKResourceItem.h"
 #import "MZKDataSourceTableViewCell.h"
 #import "MZKConstants.h"
+#import "AppDelegate.h"
 
 @interface MZKDataSourceViewController (){
     
@@ -88,10 +89,10 @@
     item6.imageName = @"logo_kkkv";
     
     MZKResourceItem *item7 = [MZKResourceItem new];
-    item1.name = @"Knihovna Akademie věd ČR";
-    item1.protocol = @"http";
-    item1.stringURL = @"kramerius.lib.cas.cz";
-    item1.imageName = @"logo_knav";
+    item7.name = @"Knihovna Akademie věd ČR";
+    item7.protocol = @"http";
+    item7.stringURL = @"kramerius.lib.cas.cz";
+    item7.imageName = @"logo_knav";
     
     return [NSArray arrayWithObjects:item1, item2, item3, item4, item5, item6, item7, nil];
     
@@ -160,11 +161,9 @@
 
 -(void)saveToUserDefaults:(MZKResourceItem *)item
 {
-    [[NSUserDefaults standardUserDefaults] setObject:item.name forKey:kDefaultDatasourceName];
-    [[NSUserDefaults standardUserDefaults] setObject:item.stringURL forKey:kDefaultDatasourceStringURL];
-    [[NSUserDefaults standardUserDefaults] setObject:item.imageName forKey:kDefaultImageName];
-    [[NSUserDefaults standardUserDefaults] setObject:item.protocol forKey:kDefaultDatasourceProtocol];
-
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    [appDelegate saveToUserDefaults:item];
 }
 
 

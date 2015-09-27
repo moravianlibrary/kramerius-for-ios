@@ -145,6 +145,7 @@ typedef enum _downloadOperation downloadOperation;
 -(void)downloadFailed
 {
     NSLog(@"Download Failed");
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
 }
 
@@ -183,6 +184,7 @@ typedef enum _downloadOperation downloadOperation;
             break;
     }
     
+     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
     return results;
 }
@@ -236,6 +238,7 @@ typedef enum _downloadOperation downloadOperation;
     if ([self.delegate respondsToSelector:@selector(pagesLoadedForItem:)]) {
         [self.delegate pagesLoadedForItem:pages];
     }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
     
    
@@ -273,7 +276,7 @@ typedef enum _downloadOperation downloadOperation;
     }
     
  
-    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     return results;
 }
 
@@ -315,7 +318,7 @@ typedef enum _downloadOperation downloadOperation;
         [self.delegate collectionItemsLoaded:[results copy]];
         NSLog(@"Collections count:%lu", (unsigned long)results.count);
     }
-    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
     
     return results;
@@ -377,16 +380,15 @@ typedef enum _downloadOperation downloadOperation;
 
 -(void)downloadDataFromURL:(NSURL *)strURL withOperation:(downloadOperation)operation
 {
-
-    //change this implementation
-    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
-   // [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
+    
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
+    
     if (operation ==downloadCollectionItems) {
          [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];
         NSLog(@"%@", req.allHTTPHeaderFields);;
     }
    
-    //[req addValue:@"json" forHttpHeaderField:@"Content-type"];
     
     NSLog(@"Request: %@, with operation:%u", [req description], operation);
     
@@ -396,7 +398,8 @@ typedef enum _downloadOperation downloadOperation;
             NSLog(@"Download failed with error:%@", [error debugDescription]);
             [self downloadFailed];
         } else {
-            NSLog(@"operation:%lu", (unsigned long)operation);
+            NSLog(@"Download sucessful with operation:%lu", (unsigned long)operation);
+
             switch (operation) {
                 case downloadMostRecent:
                      [self parseJSONData:data error:error withOperation:operation];

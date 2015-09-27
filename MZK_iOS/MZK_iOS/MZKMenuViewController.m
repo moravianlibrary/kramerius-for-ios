@@ -87,6 +87,8 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
     headerView.frame = CGRectMake(0, 0, self.tableView.bounds.size.width, 100);
     headerView.delegate = self;
     self.tableView.tableHeaderView = headerView;
+    
+    [self defaultDatasourceChangedNotification:nil];
 }
 
 -(void)viewDidLayoutSubviews
@@ -164,8 +166,10 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
 {
     NSLog(@"Menu header touched");
     MZKDataSourceViewController *dsVc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MZKDataSourceViewController"];
+    
+    __weak typeof(self) wealf;
     [self presentViewController:dsVc animated:YES completion:^{
-        
+        [wealf.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed];
     }];
     
 }
@@ -249,6 +253,12 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
     //change heade of table view...
     
     //
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    MZKResourceItem *item = appDelegate.getDatasourceItem;
+    
+    headerView.libraryName.text = item.name;
+    headerView.libraryIcon.image = [UIImage imageNamed:item.imageName];
+    headerView.libraryInfo.text = item.stringURL;
 }
 
 
