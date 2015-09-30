@@ -1,0 +1,1 @@
+/Users/OndrejVyhlidal/PersonalFolder/Projects/kramerius-for-ios/MZK_iOS/Build/Intermediates/ArchiveIntermediates/MZK_iOS/InstallationBuildProductsLocation/Applications/MZK_iOS.app

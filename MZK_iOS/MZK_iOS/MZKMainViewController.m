@@ -103,7 +103,13 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [[items allKeys] objectAtIndex:section];
+    NSString *s;
+    if ([[[items allKeys] objectAtIndex:section] caseInsensitiveCompare:@"recent"] == NSOrderedSame) {
+        s= @"Nejnovější";
+    }else{
+        s= @"Doporučené";
+    }
+    return s;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
