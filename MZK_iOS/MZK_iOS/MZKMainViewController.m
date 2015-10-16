@@ -12,10 +12,11 @@
 #import "MZKDetailViewController.h"
 #import "MZKConstants.h"
 #import "AppDelegate.h"
+#import "MZKItemCollectionViewCell.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
 
-@interface MZKMainViewController ()<DataLoadedDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 {
     MZKDatasource *datasource;
     NSMutableDictionary *items;
@@ -24,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContentView;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
 
@@ -43,17 +45,16 @@
 -(void)refreshAllValues
 {
     items = nil;
-    [datasource getRecommended];
+#warning disabled recomended!!!
+   // [datasource getRecommended];
     [datasource getMostRecent];
-    self.activityIndicator.hidden = NO;
+    self.activityIndicatorContentView.hidden = self.activityIndicator.hidden = NO;
     [self.activityIndicator startAnimating];
-    
 }
 
 -(void)reloadValues
 {
     [refreshControl endRefreshing];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,10 +65,6 @@
 -(void)dataLoaded:(NSArray *)data withKey:(NSString *)key
 {
     if (data.count>0) {
-        
-        [self.activityIndicator stopAnimating];
-        
-        
         if (!items) {
             items = [NSMutableDictionary new];
         }
@@ -81,8 +78,9 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [wealf.tableView reloadData];
-            wealf.activityIndicator.hidden= YES;
             [wealf.activityIndicator stopAnimating];
+            wealf.activityIndicatorContentView.hidden = self.activityIndicator.hidden = YES;
+    
         });
         
         if (![NSThread mainThread]) {
@@ -91,6 +89,61 @@
         }
         
     }
+}
+
+#pragma mark - Collection View Datasource
+
+- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
+   
+    NSInteger numberof = 0;
+    if ([[items allKeys] objectAtIndex:section]) {
+        numberof = [[items objectForKey:[[items allKeys] objectAtIndex:section]] count];
+    }
+
+    return numberof;
+}
+
+- (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
+    return 1;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[cv dequeueReusableCellWithReuseIdentifier:@"MZKItemCollectionViewCell" forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor whiteColor];
+    MZKItemResource *item = [self itemAtIndexPath:indexPath];
+    if (item) {
+        cell.itemName.text = item.title;
+        cell.itemAuthors.text = item.authors;
+        cell.item = item;
+        cell.itemType.text = item.model;
+        
+        
+        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        
+        NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
+        NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/thumb",url, item.pid ];
+        
+        
+        [cell.itemImage sd_setImageWithURL:[NSURL URLWithString:path]
+                          placeholderImage:nil];
+    }
+
+    
+    return cell;
+}
+
+#pragma mark - UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    [self performSegueWithIdentifier:@"OpenDetail" sender:cell];
+    
+    [collectionView deselectItemAtIndexPath:indexPath animated:NO];
+
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+    // TODO: Deselect item
 }
 
 #pragma mark - UITableViewDatasource and Delegate
@@ -213,6 +266,7 @@
 #pragma mark - notification handling
 -(void)defaultDatasourceChangedNotification:(NSNotification *)notf
 {
+    NSLog(@"Notification received:%@", [notf description]);
     if ( ![[NSThread currentThread] isEqual:[NSThread mainThread]] )
     {
         [self performSelectorOnMainThread:@selector(refreshAllValues) withObject:self waitUntilDone:NO];

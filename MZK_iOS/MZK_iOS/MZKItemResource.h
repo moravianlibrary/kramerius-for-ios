@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString *pid;
 @property (nonatomic, strong) NSString *model;
 @property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *authors;
 
 @property (nonatomic, strong) NSString *rootTitle;
 @property (nonatomic, strong) NSString *rootPid;

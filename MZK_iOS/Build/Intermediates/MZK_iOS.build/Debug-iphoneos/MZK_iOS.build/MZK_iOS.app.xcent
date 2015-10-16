@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>application-identifier</key>
-	<string>DF6BF8KM3L.com.vyhlidal.MZK-iOS</string>
+	<string>873S4GA3KJ.cz.mzk.ios.MZK-iOS</string>
 	<key>com.apple.developer.team-identifier</key>
-	<string>DF6BF8KM3L</string>
+	<string>873S4GA3KJ</string>
 	<key>get-task-allow</key>
 	<true/>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>DF6BF8KM3L.com.vyhlidal.MZK-iOS</string>
+		<string>873S4GA3KJ.cz.mzk.ios.MZK-iOS</string>
 	</array>
 </dict>
 </plist>

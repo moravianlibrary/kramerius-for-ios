@@ -159,11 +159,11 @@ typedef enum _downloadOperation downloadOperation;
         return nil;
     }
     
-    NSArray *tmpObjects = [parsedObject objectForKey:@"data"];
+     NSArray *tmpObjects = [parsedObject objectForKey:@"data"];
     
-     NSMutableArray *results = [[NSMutableArray alloc] init];
+     NSMutableArray *results = [NSMutableArray new];
     
-    for (int i; i<tmpObjects.count; i++) {
+    for (int i =0; i<tmpObjects.count; i++) {
     
         NSDictionary *tmpDataObject = [tmpObjects objectAtIndex:i];
         if (![[tmpDataObject allKeys] containsObject:@"exception"]) {
@@ -177,7 +177,7 @@ typedef enum _downloadOperation downloadOperation;
     [self.delegate dataLoaded:results withKey:@"recent"];
             break;
         case downloadRecommended:
-      [self.delegate dataLoaded:results withKey:@"reccomended"];
+    [self.delegate dataLoaded:results withKey:@"reccomended"];
             break;
             
         default:

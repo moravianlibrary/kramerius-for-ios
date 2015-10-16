@@ -23,7 +23,7 @@
 
 -(void)prepareForReuse
 {
-    [super prepareForReuse];
+    //[super prepareForReuse];
     self.item = nil;
     self.itemImage = nil;
     self.itemKindIcon = nil;

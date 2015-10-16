@@ -20,5 +20,10 @@ FOUNDATION_EXPORT NSString *const kDefaultImageName;
 
 FOUNDATION_EXPORT NSString *const kDatasourceItemChanged;
 
+#pragma mark - types keys
+
+#pragma mark - datasource keys
+
+
 
 @end
