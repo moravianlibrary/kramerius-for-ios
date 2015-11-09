@@ -28,6 +28,7 @@
 @property (nonatomic, strong) NSString *policy;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSArray *title;
+@property (nonatomic, strong) NSNumber *titleStringValue;
 @property (atomic, readwrite) NSInteger width;
 @property (atomic, readwrite) NSInteger height;
 

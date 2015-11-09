@@ -19,13 +19,14 @@
 @interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 {
     MZKDatasource *datasource;
-    NSMutableDictionary *items;
+    NSArray *_recent;
+    NSArray *_recommended;
     UIRefreshControl *refreshControl;
 }
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContentView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControll;
 
 @end
 
@@ -38,15 +39,14 @@
     datasource.delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
+   // [self.collectionView registerClass:[MZKItemCollectionViewCell class] forCellWithReuseIdentifier:@"MZKItemCollectionViewCell"];
     
     [self refreshAllValues];
 }
 
 -(void)refreshAllValues
 {
-    items = nil;
-#warning disabled recomended!!!
-   // [datasource getRecommended];
+    [datasource getRecommended];
     [datasource getMostRecent];
     self.activityIndicatorContentView.hidden = self.activityIndicator.hidden = NO;
     [self.activityIndicator startAnimating];
@@ -64,52 +64,55 @@
 
 -(void)dataLoaded:(NSArray *)data withKey:(NSString *)key
 {
-    if (data.count>0) {
-        if (!items) {
-            items = [NSMutableDictionary new];
-        }
-        if (![[items allKeys] containsObject:key]) {
-            [items setObject:data forKey:key];
-        }else{
-            [items setObject:data forKey:key];
-        }
-        
-        __weak typeof(self) wealf = self;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [wealf.tableView reloadData];
-            [wealf.activityIndicator stopAnimating];
-            wealf.activityIndicatorContentView.hidden = self.activityIndicator.hidden = YES;
-    
-        });
-        
-        if (![NSThread mainThread]) {
-            [self performSelectorOnMainThread:@selector(reloadData) withObject:self.tableView waitUntilDone:NO];
-            NSLog(@"Not main thread ======");
-        }
-        
+    if ([key isEqualToString:kRecent]) {
+        _recent = data;
     }
+    
+    if ([key isEqualToString:kRecommended]) {
+        _recommended = data;
+    }
+    
+    __weak typeof(self) wealf = self;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [wealf.collectionView reloadData];
+        [wealf.activityIndicator stopAnimating];
+        wealf.activityIndicatorContentView.hidden = self.activityIndicator.hidden = YES;
+        
+    });
+    
+    if (![NSThread mainThread]) {
+        [self performSelectorOnMainThread:@selector(reloadData) withObject:self.collectionView waitUntilDone:NO];
+        NSLog(@"Not main thread ======");
+    }
+
 }
 
 #pragma mark - Collection View Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
    
-    NSInteger numberof = 0;
-    if ([[items allKeys] objectAtIndex:section]) {
-        numberof = [[items objectForKey:[[items allKeys] objectAtIndex:section]] count];
+    switch (_segmentControll.selectedSegmentIndex) {
+        case 0:
+            return  _recent.count;
+            break;
+            case 1:
+            return _recommended.count;
+            
+        default:
+            break;
     }
-
-    return numberof;
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
     return 1;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[cv dequeueReusableCellWithReuseIdentifier:@"MZKItemCollectionViewCell" forIndexPath:indexPath];
+- (MZKItemCollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    MZKItemCollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"MZKItemCollectionViewCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
+    
     MZKItemResource *item = [self itemAtIndexPath:indexPath];
     if (item) {
         cell.itemName.text = item.title;
@@ -132,6 +135,23 @@
     return cell;
 }
 
+-(MZKItemResource *)itemAtIndexPath:(NSIndexPath *)path
+{
+    switch (_segmentControll.selectedSegmentIndex) {
+        case 0:
+            return [_recent objectAtIndex:path.row];
+            break;
+            case 1:
+            return [_recommended objectAtIndex:path.row];
+            break;
+            
+        default:
+            break;
+    }
+    
+    return nil;
+}
+
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -144,96 +164,6 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     // TODO: Deselect item
-}
-
-#pragma mark - UITableViewDatasource and Delegate
-// Section header & footer information. Views are preferred over title should you decide to provide both
-
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//
-//}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    NSString *s;
-    if ([[[items allKeys] objectAtIndex:section] caseInsensitiveCompare:@"recent"] == NSOrderedSame) {
-        s= @"Nejnovější";
-    }else{
-        s= @"Doporučené";
-    }
-    return s;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    MZKItemTableViewCell *cell = (MZKItemTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-    [self performSegueWithIdentifier:@"OpenDetail" sender:cell];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    NSInteger numberof = 0;
-    if ([[items allKeys] objectAtIndex:section]) {
-        numberof = [[items objectForKey:[[items allKeys] objectAtIndex:section]] count];
-    }
-    
-    //   NSLog(@"Number of rows: %ld", (long)numberof);
-    
-    return numberof;
-    
-    
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    MZKItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MZKItemTableViewCell"];
-    
-    cell.itemImage.image = nil;
-    MZKItemResource *item = [self itemAtIndexPath:indexPath];
-    if (item) {
-        cell.itemName.text = item.title;
-        cell.itemInfo.text = item.issn;
-        cell.item = item;
-        cell.itemKind.text = item.model;
-        
-        
-        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-        
-        NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
-        NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/thumb",url, item.pid ];
-        
-        
-        [cell.itemImage sd_setImageWithURL:[NSURL URLWithString:path]
-                          placeholderImage:nil];
-    }
-    
-    
-    return cell;
-}
-
-
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    NSInteger numberOfsections = [[items allKeys] count];
-    //   NSLog(@"Number of sections %li", (long)numberOfsections);
-    return numberOfsections;
-    
-}
-
--(MZKItemResource *)itemAtIndexPath:(NSIndexPath *)path
-{
-    MZKItemResource *item;
-    if (items) {
-        NSString *key = [[items allKeys] objectAtIndex:path.section];
-        
-        item =  [[items objectForKey:key] objectAtIndex:path.row];
-        
-    }
-    return item;
 }
 
 #pragma mark - segues
@@ -274,6 +204,25 @@
     else
     {
         [self refreshAllValues];
+    }
+}
+
+#pragma mark - segment controll
+- (IBAction)segmentControllValueChanged:(UISegmentedControl *)sender
+{
+    switch (_segmentControll.selectedSegmentIndex) {
+        case 0:
+            NSLog(@"0 segmet");
+            [_collectionView reloadData];
+            break;
+            
+        case 1:
+            NSLog(@"1 segmet");
+            [_collectionView reloadData];
+            break;
+            
+        default:
+            break;
     }
 }
 

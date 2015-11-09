@@ -18,5 +18,7 @@ NSString *const kDefaultDatasourceStringURL = @"kDefaultDatasourceStringURL";
 NSString *const kDefaultImageName = @"kDefaultDatasourceImageName";
 
 NSString *const kDatasourceItemChanged = @"kDatasourceItemChanged";
+NSString *const kRecent = @"recent";
+NSString *const kRecommended = @"recommended";
 
 @end

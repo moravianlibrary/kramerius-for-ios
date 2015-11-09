@@ -9,5 +9,9 @@
 #import "MZKItemCollectionViewCell.h"
 
 @implementation MZKItemCollectionViewCell
+-(void)awakeFromNib
+{
+    [super awakeFromNib];
+}
 
 @end

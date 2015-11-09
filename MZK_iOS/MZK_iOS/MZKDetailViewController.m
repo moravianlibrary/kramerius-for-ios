@@ -9,8 +9,13 @@
 #import "MZKDetailViewController.h"
 #import "MZKDatasource.h"
 #import "MZKPageObject.h"
+#import "MZKPageDetailCollectionViewCell.h"
+#import "AppDelegate.h"
+#import <UIImageView+WebCache.h>
 
-@interface MZKDetailViewController ()<DataLoadedDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, PageResolutionLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
+
+@interface MZKDetailViewController ()<DataLoadedDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, PageResolutionLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 {
     MZKDatasource *detailDatasource;
     MZKItemResource *loadedItem;
@@ -18,6 +23,7 @@
     NSUInteger currentIndex;
     BOOL hidingBars;
     BOOL barsHidden;
+    
 }
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet UISlider *pageSlider;
@@ -95,49 +101,6 @@
     float scale = [self calculateInitialScaleForResource:page];
     NSLog(@"%.2f", scale);
     
-//    
-//    if (!error) {
-//        float scale = [self calculateInitialScaleForResource:page];
-//        
-//        NSRange range = [indexString rangeOfString:@"initial-scale="];
-//        if (range.location == NSNotFound) {
-//            NSLog(@"string was not found");
-//        } else {
-//            NSLog(@"position %lu", (unsigned long)range.location);
-//            int startPosition =(int)range.location+(int)range.length;
-//            int replacementLength = 0;
-//            
-//            for (int i=startPosition; i<indexString.length; i++) {
-//                if ([indexString characterAtIndex:i] ==',' ) {
-//                    replacementLength = (int)indexString.length - i;
-//                    
-//                    [indexString replaceCharactersInRange:NSMakeRange(startPosition,replacementLength) withString:[NSString stringWithFormat:@"%.02f", scale]];
-//                    break;
-//                }
-//                
-//            }
-//            
-//            
-//            
-//            
-//        }
-//        
-    
-        
-//        NSString *stringWithFactor = [indexString stringByReplacingOccurrencesOfString:@"#SCALE_FACTOR" withString:[NSString stringWithFormat:@"%f", scale]];
-//        NSURL *tmp = [targetURL URLByDeletingLastPathComponent];
-//        
-//        NSString *fileName = [NSString stringWithFormat:@"%@index.html",
-//                              [tmp absoluteString]];
-//        error = nil;
-//        
-//        [stringWithFactor writeToFile:fileName atomically:NO encoding:NSUTF8StringEncoding error:&error];
-//        
-//        if (error) {
-//            NSLog(@"Error while writing to FILE!!!!");
-//        }
-//    }
-    
     NSString *theAbsoluteURLString = [targetURL absoluteString];
     if (width ==0 ) {
         width = self.view.frame.size.width;
@@ -212,6 +175,7 @@
     }
     
 }
+
 -(void)updateUserInterfaceAfterPageChange
 {
     __weak MZKDetailViewController *weakSelf= self;
@@ -228,6 +192,17 @@
     self.pageSlider.maximumValue = loadedPages.count-1;
     self.pageSlider.value = currentIndex;
 
+}
+
+-(void)displayPage:(MZKPageObject *)pageObject
+{
+    NSUInteger targetIndex = [loadedPages indexOfObjectIdenticalTo:pageObject];
+    
+    [self displayItem:pageObject withURL:pageObject.pid withWith:pageObject.width andHeight:pageObject.height];
+    currentIndex = targetIndex;
+    self.pageSlider.value = currentIndex;
+    [self updateUserInterfaceAfterPageChange];
+    
 }
 
 
@@ -273,6 +248,9 @@
     [self updateUserInterfaceAfterPageChange];
     
     [self loadImagePropertiesForItem: [[pages objectAtIndex:currentIndex] pid]];
+    
+    //[self performSelectorOnMainThread:@selector(reloadData) withObject:self.collectionPageView waitUntilDone:NO];
+   // [self.collectionPageView reloadData];
 
 }
 
@@ -312,6 +290,9 @@
 }
 
 - (IBAction)onShowGrid:(id)sender {
+    
+    _collectionViewContainer.hidden = !_collectionViewContainer.hidden;
+    [self.collectionPageView reloadData];
 }
 
 #pragma mark - tap gesture recognizer
@@ -423,6 +404,46 @@
   
 
 }
+#pragma mark - collection view delegate and datasource
+- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
+
+    return loadedPages.count;
+}
+
+- (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
+    return 1;
+}
+
+- (MZKPageDetailCollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    MZKPageDetailCollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:kCellIdentificator forIndexPath:indexPath];
+    
+    MZKPageObject *page = [loadedPages objectAtIndex:indexPath.row];
+    if (page) {
+        
+    
+        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        
+        NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
+        NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/thumb",url, page.pid ];
+        
+        cell.pageNumber.text = [NSString stringWithFormat:@"%i", page.titleStringValue.intValue] ;
+        [cell.pageThumbnail sd_setImageWithURL:[NSURL URLWithString:path]
+                          placeholderImage:nil];
+        cell.page = page;
+    
+    }
+    
+    return cell;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    MZKPageObject *p = [loadedPages objectAtIndex:indexPath.row];
+    [self displayPage:p];
+    [self onShowGrid:nil];
+}
+
+
 
 #pragma mark - JS and HTML parameters
 

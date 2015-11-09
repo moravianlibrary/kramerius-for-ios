@@ -26,6 +26,7 @@
 		2D2A647A1AF74AC300D82E04 /* MZKMenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2A64791AF74AC300D82E04 /* MZKMenuTableViewCell.m */; };
 		2D2A64801AF8EF3800D82E04 /* MZKMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2A647F1AF8EF3800D82E04 /* MZKMainViewController.m */; };
 		2D2A64821AF8FC9400D82E04 /* Menu-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D2A64811AF8FC9400D82E04 /* Menu-50.png */; };
+		2D2DA5201BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA51F1BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m */; };
 		2D409B781B8B460E00B49EAD /* MZKDataSourceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D409B771B8B460E00B49EAD /* MZKDataSourceTableViewCell.m */; };
 		2D409B7B1B8B4C8B00B49EAD /* MZKResourceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D409B7A1B8B4C8B00B49EAD /* MZKResourceItem.m */; };
 		2D58E8F61BA57BAC000D444C /* MZKCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */; };
@@ -80,6 +81,8 @@
 		2D2A647E1AF8EF3800D82E04 /* MZKMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKMainViewController.h; sourceTree = "<group>"; };
 		2D2A647F1AF8EF3800D82E04 /* MZKMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKMainViewController.m; sourceTree = "<group>"; };
 		2D2A64811AF8FC9400D82E04 /* Menu-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-50.png"; sourceTree = "<group>"; };
+		2D2DA51E1BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKPageDetailCollectionViewCell.h; sourceTree = "<group>"; };
+		2D2DA51F1BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKPageDetailCollectionViewCell.m; sourceTree = "<group>"; };
 		2D409B761B8B460E00B49EAD /* MZKDataSourceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDataSourceTableViewCell.h; sourceTree = "<group>"; };
 		2D409B771B8B460E00B49EAD /* MZKDataSourceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDataSourceTableViewCell.m; sourceTree = "<group>"; };
 		2D409B791B8B4C8B00B49EAD /* MZKResourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKResourceItem.h; sourceTree = "<group>"; };
@@ -89,8 +92,8 @@
 		2D5A06561BB194E2009FD19C /* MZKClickableFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKClickableFooter.h; sourceTree = "<group>"; };
 		2D5A06571BB194E2009FD19C /* MZKClickableFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKClickableFooter.m; sourceTree = "<group>"; };
 		2D5A06591BB19503009FD19C /* MZKClickableFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MZKClickableFooter.xib; sourceTree = "<group>"; };
-		2D665DBB1B02927500B11765 /* MZKDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDetailViewController.h; sourceTree = "<group>"; };
-		2D665DBC1B02927500B11765 /* MZKDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDetailViewController.m; sourceTree = "<group>"; };
+		2D665DBB1B02927500B11765 /* MZKDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKDetailViewController.h; path = ../MZKDetailViewController.h; sourceTree = "<group>"; };
+		2D665DBC1B02927500B11765 /* MZKDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKDetailViewController.m; path = ../MZKDetailViewController.m; sourceTree = "<group>"; };
 		2D665DBE1B03D98C00B11765 /* MZKCollectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionsViewController.h; sourceTree = "<group>"; };
 		2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionsViewController.m; sourceTree = "<group>"; };
 		2D8BB7C51BCE3FC4008E53A1 /* MZKItemCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKItemCollectionViewCell.h; sourceTree = "<group>"; };
@@ -131,6 +134,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D2DA51D1BEF9B3A00423447 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				2D665DBB1B02927500B11765 /* MZKDetailViewController.h */,
+				2D665DBC1B02927500B11765 /* MZKDetailViewController.m */,
+				2D2DA51E1BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.h */,
+				2D2DA51F1BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		2D89DB7A1B5E57DA00E69119 /* OpenLayers */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +213,7 @@
 		2DB8A7931ACD073400A1BB2E /* MZK_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2D2DA51D1BEF9B3A00423447 /* Detail */,
 				2DAA60761BA759350004A718 /* Collections */,
 				2DD5839D1B6FA0BA001ED3B3 /* XMLParser */,
 				2D89DB7A1B5E57DA00E69119 /* OpenLayers */,
@@ -209,8 +224,6 @@
 				2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */,
 				2D2A647E1AF8EF3800D82E04 /* MZKMainViewController.h */,
 				2D2A647F1AF8EF3800D82E04 /* MZKMainViewController.m */,
-				2D665DBB1B02927500B11765 /* MZKDetailViewController.h */,
-				2D665DBC1B02927500B11765 /* MZKDetailViewController.m */,
 				2D409B791B8B4C8B00B49EAD /* MZKResourceItem.h */,
 				2D409B7A1B8B4C8B00B49EAD /* MZKResourceItem.m */,
 				2D24F06E1B7387E40073FC83 /* MZKDataSourceViewController.h */,
@@ -418,6 +431,7 @@
 				2D58E8F61BA57BAC000D444C /* MZKCollectionTableViewCell.m in Sources */,
 				2D2505D01AFE76880079F70E /* MZKDomainHolder.m in Sources */,
 				2D5A06581BB194E2009FD19C /* MZKClickableFooter.m in Sources */,
+				2D2DA5201BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m in Sources */,
 				2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */,
 				2D409B7B1B8B4C8B00B49EAD /* MZKResourceItem.m in Sources */,
 				2DAA60721BA758AB0004A718 /* MZKCollectionDetailViewController.m in Sources */,

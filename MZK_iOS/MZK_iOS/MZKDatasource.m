@@ -14,6 +14,7 @@
 #import "MZKCollectionItem.h"
 #import "MZKCollectionItemResource.h"
 #import "AppDelegate.h"
+#import "MZKConstants.h"
 
 enum _downloadOperation{
     downloadItem,
@@ -104,7 +105,8 @@ typedef enum _downloadOperation downloadOperation;
 
 -(void)getMostRecent
 {
-    NSString *recent = @"/search/api/v5.0/feed/custom";
+    
+    NSString *recent = @"/search/api/v5.0/feed/newest";
     [self checkAndSetBaseUrl];
     
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, recent];
@@ -118,7 +120,7 @@ typedef enum _downloadOperation downloadOperation;
 
 -(void)getRecommended
 {
-    NSString *desired = @"/search/api/v5.0/feed/mostdesirable";
+    NSString *desired = @"/search/api/v5.0/feed/custom";
     [self checkAndSetBaseUrl];
     
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, desired];
@@ -174,10 +176,10 @@ typedef enum _downloadOperation downloadOperation;
     
     switch (operation) {
         case downloadMostRecent:
-    [self.delegate dataLoaded:results withKey:@"recent"];
+    [self.delegate dataLoaded:results withKey:kRecent];
             break;
         case downloadRecommended:
-    [self.delegate dataLoaded:results withKey:@"reccomended"];
+    [self.delegate dataLoaded:results withKey:kRecommended];
             break;
             
         default:
@@ -230,6 +232,7 @@ typedef enum _downloadOperation downloadOperation;
         page.page =  [[[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"pagenumber"] integerValue];
         page.type = [[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"type"];
         page.title = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
+        page.titleStringValue =[NSNumber numberWithInt:[[[[parsedObject objectAtIndex:i] objectForKey:@"title"] objectAtIndex:0] intValue]];
         
         [pages addObject:page];
         

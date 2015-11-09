@@ -12,6 +12,7 @@
 #import "MZKDatasource.h"
 #import "MZKDetailViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "MZKItemCollectionViewCell.h"
 
 
 @interface MZKCollectionDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, DataLoadedDelegate>
@@ -69,18 +70,21 @@
     return [_items count];
 }
 
-- (MZKDetailCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MZKDetailCollectionViewCell* newCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"MZKDetailCollectionViewCell"
+- (MZKItemCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    MZKItemCollectionViewCell* newCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"MZKItemCollectionViewCell"
                                                                                           forIndexPath:indexPath];
     MZKCollectionItemResource *item = [_items objectAtIndex:indexPath.row];
     
-    newCell.itemNameLabel.text =item.title;
+    newCell.itemName.text =item.title;
+    newCell.itemAuthors.text = item.authors;
+    newCell.itemType.text = item.documentType;
+    //newCell.itemTypeIcon
     
     NSString*url = @"http://kramerius.mzk.cz";
     NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/thumb",url, item.pid ];
     
     
-    [newCell.itemIconImageview sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
+    [newCell.itemImage sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
     
     
     // newCell.cellLabel.text = [NSString stringWithFormat:@"Section:%d, Item:%d", indexPath.section, indexPath.item];
