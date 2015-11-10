@@ -135,6 +135,29 @@
     return cell;
 }
 
+#pragma mark - UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    
+    NSLog(@"Model:%@",  cell.item.model);
+    
+    if ([cell.item.model isEqualToString:@"soundrecording"]) {
+        [self performSegueWithIdentifier:@"OpenSoundDetail" sender:cell.item];
+    }else
+    {
+        [self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
+    }
+    
+    [collectionView deselectItemAtIndexPath:indexPath animated:NO];
+    
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+    // TODO: Deselect item
+}
+
+
 -(MZKItemResource *)itemAtIndexPath:(NSIndexPath *)path
 {
     switch (_segmentControll.selectedSegmentIndex) {
@@ -152,27 +175,6 @@
     return nil;
 }
 
-#pragma mark - UICollectionViewDelegate
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
-   
-    NSLog(@"Model:%@",  cell.item.model);
-   
-    if ([cell.item.model isEqualToString:@"soundrecording"]) {
-        [self performSegueWithIdentifier:@"OpenSoundDetail" sender:cell.item];
-    }else
-    {
-         [self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
-    }
-    
-    [collectionView deselectItemAtIndexPath:indexPath animated:NO];
-
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO: Deselect item
-}
 
 #pragma mark - segues
 
