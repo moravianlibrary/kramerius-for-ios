@@ -205,8 +205,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
 }
 
-
-
 -(void)loadImageStreamsForItem:(NSString *)pid
 {
 //    NSString*item = @"http://kramerius.mzk.cz";

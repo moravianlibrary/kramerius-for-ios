@@ -31,6 +31,7 @@
 @property (nonatomic, strong) NSNumber *titleStringValue;
 @property (atomic, readwrite) NSInteger width;
 @property (atomic, readwrite) NSInteger height;
+@property (nonatomic, strong) NSString *stringTitleHack;
 
 -(void)loadPageResolution;
 

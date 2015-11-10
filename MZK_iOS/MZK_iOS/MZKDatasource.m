@@ -1,4 +1,4 @@
- //
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  //
 //  MZKDatasource.m
 //  MZK_iOS
 //
@@ -223,7 +223,6 @@ typedef enum _downloadOperation downloadOperation;
     for (int i = 0; i<parsedObject.count; i++) {
         
          MZKPageObject *page = [MZKPageObject new];
-        
         page.pid = [[parsedObject objectAtIndex:i] objectForKey:@"pid"];
         page.model = [[parsedObject objectAtIndex:i] objectForKey:@"model"];
         page.rootPid =  [[parsedObject objectAtIndex:i] objectForKey:@"root_pid"];
@@ -232,8 +231,17 @@ typedef enum _downloadOperation downloadOperation;
         page.page =  [[[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"pagenumber"] integerValue];
         page.type = [[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"type"];
         page.title = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
-        page.titleStringValue =[NSNumber numberWithInt:[[[[parsedObject objectAtIndex:i] objectForKey:@"title"] objectAtIndex:0] intValue]];
-        
+
+#warning !!!Hack - different return types!!!
+        if ([page.model isEqualToString:@"soundunit"]) {
+            
+            page.stringTitleHack = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
+        }
+        else
+        {
+             page.titleStringValue =[NSNumber numberWithInt:[[[[parsedObject objectAtIndex:i] objectForKey:@"title"] objectAtIndex:0] intValue]];
+        }
+
         [pages addObject:page];
         
     }

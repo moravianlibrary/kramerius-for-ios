@@ -13,7 +13,7 @@
 #import "MZKConstants.h"
 #import "AppDelegate.h"
 #import "MZKItemCollectionViewCell.h"
-
+#import "MZKMusicViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 @interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
@@ -156,7 +156,15 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
-    [self performSegueWithIdentifier:@"OpenDetail" sender:cell];
+   
+    NSLog(@"Model:%@",  cell.item.model);
+   
+    if ([cell.item.model isEqualToString:@"soundrecording"]) {
+        [self performSegueWithIdentifier:@"OpenSoundDetail" sender:cell.item];
+    }else
+    {
+         [self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
+    }
     
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
 
@@ -177,7 +185,13 @@
         MZKDetailViewController *vc = [segue destinationViewController];
         
         // Pass any objects to the view controller here, like...
-        [vc setItem:((MZKItemTableViewCell*)sender).item];
+        [vc setItem:sender];
+    }
+    else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
+    {
+        MZKMusicViewController *vc = [segue destinationViewController];
+        [vc setItem:sender];
+        //set item
     }
 }
 
