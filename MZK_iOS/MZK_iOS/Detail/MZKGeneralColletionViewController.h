@@ -7,11 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MZKItemResource.h"
 
 @interface MZKGeneralColletionViewController : UIViewController
 
 @property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) MZKItemResource *parentObject;
+@property (nonatomic, strong) NSString *parentPID;
+@property (nonatomic, readwrite) BOOL isFirst;
 
 -(void)setItems:(NSArray *)items;
-
+-(void)setParentObject:(MZKItemResource *)parentObject;
+-(void)setParentPID:(NSString *)parentPID;
 @end

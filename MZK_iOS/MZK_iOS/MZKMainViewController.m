@@ -15,6 +15,7 @@
 #import "MZKItemCollectionViewCell.h"
 #import "MZKMusicViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "MZKGeneralColletionViewController.h"
 
 @interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 {
@@ -142,9 +143,10 @@
     
     NSLog(@"Model:%@",  cell.item.model);
     
-    if ([cell.item.model isEqualToString:@"soundrecording"]) {
-        [self performSegueWithIdentifier:@"OpenSoundDetail" sender:cell.item];
+    if ([cell.item.model isEqualToString:@"soundrecording"] || [cell.item.model isEqualToString:@"periodical"]) {
+        [self performSegueWithIdentifier:@"OpenGeneralList" sender:cell.item];
     }else
+        
     {
         [self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
     }
@@ -193,6 +195,18 @@
     {
         MZKMusicViewController *vc = [segue destinationViewController];
         [vc setItem:sender];
+        //set item
+    }
+    else if ([[segue identifier] isEqualToString:@"OpenGeneralList"])
+    {
+        UINavigationController *navVC =[segue destinationViewController];
+        MZKGeneralColletionViewController *vc =(MZKGeneralColletionViewController *)navVC.topViewController;
+        [vc setParentPID:((MZKItemResource *)sender).pid];
+        vc.isFirst = YES;
+        NSLog(@"%@", [navVC description]);
+       // MZKGeneralColletionViewController *rootViewController = [self.navigationController.viewControllers firstObject];
+       // [rootViewController setParentObject:sender];
+                
         //set item
     }
 }

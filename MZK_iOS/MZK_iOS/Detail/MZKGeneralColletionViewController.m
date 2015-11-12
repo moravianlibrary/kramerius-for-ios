@@ -10,11 +10,18 @@
 #import "MZKItemCollectionViewCell.h"
 #import "AppDelegate.h"
 #import <UIImageView+WebCache.h>
+#import "MZKDatasource.h"
+#import "MZKPageObject.h"
+#import "MZKMusicViewController.h"
+#import "MZKDetailViewController.h"
 
-@interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate>
+{
+    MZKDatasource *_datasource;
+    MZKItemResource *parentItemResource;
+}
 @property (weak, nonatomic) IBOutlet UICollectionView *_collectionView;
-@property (weak, nonatomic) IBOutlet UIView *_headerView;
-@property (weak, nonatomic) IBOutlet UIButton *_backButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 
 @end
 
@@ -23,7 +30,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.backButton.title = @"Zpět";
+    
+    if (_items) {
+        [self._collectionView reloadData];
+    }
+    
     // Do any additional setup after loading the view.
+}
+
+-(void)refreshTitle
+{
+    self.navigationItem.title = parentItemResource.title;
+}
+
+-(IBAction)onClose:(id)sender
+{
+    NSLog(@"ONCLose");
+    
+    if (self.isFirst) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+    }
+    else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,6 +67,29 @@
 -(void)setItems:(NSArray *)items
 {
     _items = items;
+ 
+}
+
+-(void)setParentObject:(MZKItemResource *)parentObject
+{
+    _parentObject = parentObject;
+    if (!_datasource) {
+        _datasource  = [MZKDatasource new];
+        _datasource.delegate = self;
+    }
+    
+    [_datasource getChildrenForItem:_parentObject.pid];
+}
+
+-(void)setParentPID:(NSString *)parentPID
+{
+    _parentPID = parentPID;
+    if (!_datasource) {
+        _datasource  = [MZKDatasource new];
+        _datasource.delegate = self;
+    }
+    [_datasource getItem:_parentPID];
+   
 }
 
 /*
@@ -61,11 +117,11 @@
     MZKItemCollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"MZKItemCollectionViewCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
     
-    MZKItemResource *item = [_items objectAtIndex:indexPath.row];
+    MZKPageObject *item = [_items objectAtIndex:indexPath.row];
     if (item) {
-        cell.itemName.text = item.title;
-        cell.itemAuthors.text = item.authors;
-        cell.item = item;
+        cell.itemName.text = item.stringTitleHack;
+        //cell.itemAuthors.text = item.authors;
+        //cell.item = item;
         cell.itemType.text = item.model;
         
         
@@ -89,13 +145,44 @@
     MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     
     NSLog(@"Model:%@",  cell.item.model);
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    MZKPageObject *po =[_items objectAtIndex:indexPath.row];
+   // [_datasource getItem:po.pid];
+    
+    if ([po.model isEqualToString:@"soundunit"]) {
+        NSLog(@"Soundunit");
+        [[MZKMusicViewController sharedInstance] setItemPID:po.pid];
+        [self presentViewController:[MZKMusicViewController sharedInstance] animated:YES completion:nil];
+        
+
+    }
+    else if (po.datanode) {
+        //should dive deeper
+        NSLog(@"Datanode");
+        
+        
+      //  MZKGeneralColletionViewController *nextViewController = [[MZKGeneralColletionViewController alloc] init];
+        MZKGeneralColletionViewController *nextViewController = [storyboard instantiateViewControllerWithIdentifier:@"MZKGeneralColletionViewController"];
+        [nextViewController setParentPID:po.pid];
+        nextViewController.isFirst = NO;
+        
+        [self.navigationController pushViewController:nextViewController animated:YES];
+    }
     
     
-    if ([cell.item.model isEqualToString:@"soundrecording"]) {
-        [self performSegueWithIdentifier:@"OpenSoundDetail" sender:cell.item];
-    }else
+    if ([po.model isEqualToString:@"periodicalvolume"])
     {
-        [self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
+        //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
+        
+        MZKDetailViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKDetailViewController"];
+        
+        // Pass any objects to the view controller here, like...
+        [vc setItemPID:po.pid];
+        
+        [self presentViewController:vc animated:YES completion:^{
+        
+        }];
+
     }
     
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
@@ -108,6 +195,34 @@
    // YourViewControllerClass *viewController = [[UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"ViewController"];
 
    // self presentViewController:<#(nonnull UIViewController *)#> animated:<#(BOOL)#> completion:<#^(void)completion#>
+}
+
+#pragma mark - Data Loaded delegate and Datasource methods
+-(void)childrenForItemLoaded:(NSArray *)items
+{
+    _items = items;
+    
+    __weak typeof(self) wealf = self;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [wealf._collectionView reloadData];
+        
+    });
+}
+
+-(void)detailForItemLoaded:(MZKItemResource *)item
+{
+    parentItemResource = item;
+    NSLog(@"item datanode: %s", item.datanode? "JOP":"NOPE");
+    //NSLog(@"")
+    
+    __weak typeof(self) wealf = self;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [wealf refreshTitle];
+         [_datasource getChildrenForItem:item.pid];
+    });
+
 }
 
 

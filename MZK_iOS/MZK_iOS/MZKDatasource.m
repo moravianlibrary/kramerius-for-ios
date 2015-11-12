@@ -191,21 +191,19 @@ typedef enum _downloadOperation downloadOperation;
     return results;
 }
 
--(NSArray *)parseJSONDataForDetail:(NSData*)data error:(NSError *)error
+-(void)parseJSONDataForDetail:(NSData*)data error:(NSError *)error
 {
     NSError *localError = nil;
     NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
     
     if (localError != nil) {
         error = localError;
-        return nil;
+        return;
     }
-     NSMutableArray *results = [[NSMutableArray alloc] init];
-    MZKItemResource *resItem;
-    
-    [self.delegate detailForItemLoaded:resItem];
-    
-    return results;
+    MZKItemResource *resItem = [self parseObjectFromDictionary:parsedObject];
+    if ([self.delegate respondsToSelector:@selector(detailForItemLoaded:)]) {
+         [self.delegate detailForItemLoaded:resItem];
+    }
 }
 
 -(NSArray *)parseJSONDataForChildren:(NSData*)data error:(NSError *)error
@@ -231,9 +229,10 @@ typedef enum _downloadOperation downloadOperation;
         page.page =  [[[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"pagenumber"] integerValue];
         page.type = [[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"type"];
         page.title = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
+        page.datanode= [[[parsedObject objectAtIndex:i] objectForKey:@"datanode"] boolValue];
 
 #warning !!!Hack - different return types!!!
-        if ([page.model isEqualToString:@"soundunit"]) {
+        if ([page.model isEqualToString:@"soundunit"] || [page.model isEqualToString:@"track"] || [page.model isEqualToString:@"page"] || [page.model isEqualToString:@"periodicalvolume"] || [page.model isEqualToString:@"periodicalitem"]) {
             
             page.stringTitleHack = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
         }
@@ -249,6 +248,11 @@ typedef enum _downloadOperation downloadOperation;
     if ([self.delegate respondsToSelector:@selector(pagesLoadedForItem:)]) {
         [self.delegate pagesLoadedForItem:pages];
     }
+    else if ([self.delegate respondsToSelector:@selector(childrenForItemLoaded:)])
+    {
+        [self.delegate childrenForItemLoaded:pages];
+    }
+   
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
     
@@ -345,7 +349,7 @@ typedef enum _downloadOperation downloadOperation;
     newItem.issn = [rawData objectForKey:@"issn"];
     newItem.datumStr = [rawData objectForKey:@"datumStr"];
     
-      newItem.rootPid = [rawData objectForKey:@"root_pid"];
+    newItem.rootPid = [rawData objectForKey:@"root_pid"];
     
     if ([[rawData objectForKey:@"title"] isKindOfClass:[NSString class]]) {
          newItem.title = [rawData objectForKey:@"title"];
@@ -353,6 +357,8 @@ typedef enum _downloadOperation downloadOperation;
     
       newItem.rootTitle = [rawData objectForKey:@"root_title"];
       newItem.policy = [rawData objectForKey:@"public"];
+    
+     newItem.datanode= [[rawData objectForKey:@"datanode"] boolValue];
     
     
     

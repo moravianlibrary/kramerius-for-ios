@@ -12,6 +12,8 @@
 @interface MZKMusicViewController : UIViewController
 
 @property (nonatomic, strong) MZKItemResource *item;
-
++(instancetype)sharedInstance;
 -(void)setItem:(MZKItemResource *)item;
+-(void)setItemPID:(NSString *)itemPid;
+
 @end

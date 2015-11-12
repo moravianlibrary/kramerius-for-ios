@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "MZKMenuTableViewCell.h"
 #import <MSDynamicsDrawerViewController.h>
+#import "MZKMusicViewController.h"
 
 typedef NS_ENUM(NSUInteger, MSPaneViewControllerType) {
     MZKMainViewController,
     MZKCollectionsViewController,
+    MZKMusicVC,
+    MZKSearchViewController,
     MSPaneViewControllerTypeBounce,
     MSPaneViewControllerTypeGestures,
     MSPaneViewControllerTypeControls,
@@ -29,6 +32,7 @@ typedef NS_ENUM(NSUInteger, MSPaneViewControllerType) {
 
 @property (nonatomic, assign) MSPaneViewControllerType paneViewControllerType;
 @property (nonatomic, weak) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
+@property (nonatomic, strong) MZKMusicViewController *musicController;
 - (void)transitionToViewController:(MSPaneViewControllerType)paneViewControllerType;
 
 @end

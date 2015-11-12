@@ -18,6 +18,7 @@
 -(void)pagesLoadedForItem:(NSArray *)pages;
 -(void)collectionListLoaded:(NSArray *)collections;
 -(void)collectionItemsLoaded:(NSArray *)collectionItems;
+-(void)childrenForItemLoaded:(NSArray *)items;
 
 @end
 

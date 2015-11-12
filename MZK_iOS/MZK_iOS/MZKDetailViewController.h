@@ -14,6 +14,7 @@
 @property (nonatomic, strong) MZKItemResource *item;
 
 -(void)setItem:(MZKItemResource *)item;
+-(void)setItemPID:(NSString *)pid;
 
 
 @end

@@ -134,6 +134,16 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     // Dispose of any resources that can be recreated.
 }
 
+-(void)setItemPID:(NSString *)pid
+{
+    if (!detailDatasource) {
+        detailDatasource = [MZKDatasource new];
+        detailDatasource.delegate = self;
+    }
+    [detailDatasource getItem:pid];
+
+}
+
 -(void)setItem:(MZKItemResource *)item
 {
     _item = item;
@@ -191,6 +201,10 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     self.pageSlider.minimumValue =0;
     self.pageSlider.maximumValue = loadedPages.count-1;
     self.pageSlider.value = currentIndex;
+    if (loadedItem.title) {
+         self.titleLabel.text = loadedItem.title;
+    }
+   
 
 }
 
@@ -245,18 +259,24 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     loadedPages = pages;
     [self updateUserInterfaceAfterPageChange];
     
-    [self loadImagePropertiesForItem: [[pages objectAtIndex:currentIndex] pid]];
+    [self loadImagePropertiesForItem: [[loadedPages objectAtIndex:currentIndex] pid]];
     
-    //[self performSelectorOnMainThread:@selector(reloadData) withObject:self.collectionPageView waitUntilDone:NO];
-   // [self.collectionPageView reloadData];
-
 }
 
 -(void)detailForItemLoaded:(MZKItemResource *)item
 {
     loadedItem = item;
-   
+    self.titleLabel.text = item.title;
     
+    [detailDatasource getChildrenForItem:loadedItem.pid];
+    __weak typeof(self) wealf = self;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+          wealf.titleLabel.text = _item.title;
+        
+    });
+  
+
 }
 /*
 #pragma mark - Navigation

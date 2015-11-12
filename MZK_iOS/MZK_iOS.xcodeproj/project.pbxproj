@@ -22,6 +22,8 @@
 		2D2763D71B6B641900CC7E4F /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 2D2763D41B6B641900CC7E4F /* index.html */; };
 		2D2763D81B6B641900CC7E4F /* ol.js in Resources */ = {isa = PBXBuildFile; fileRef = 2D2763D51B6B641900CC7E4F /* ol.js */; };
 		2D2763D91B6B641900CC7E4F /* zoomify.js in Resources */ = {isa = PBXBuildFile; fileRef = 2D2763D61B6B641900CC7E4F /* zoomify.js */; };
+		2D2787C41BF4B92A0007D00E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2787C31BF4B92A0007D00E /* MediaPlayer.framework */; };
+		2D2787C61BF4BB4A0007D00E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2787C51BF4BB4A0007D00E /* AVFoundation.framework */; };
 		2D2A64771AF74A6300D82E04 /* MZKMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2A64761AF74A6300D82E04 /* MZKMenuViewController.m */; };
 		2D2A647A1AF74AC300D82E04 /* MZKMenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2A64791AF74AC300D82E04 /* MZKMenuTableViewCell.m */; };
 		2D2A64801AF8EF3800D82E04 /* MZKMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2A647F1AF8EF3800D82E04 /* MZKMainViewController.m */; };
@@ -76,6 +78,8 @@
 		2D2763D41B6B641900CC7E4F /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		2D2763D51B6B641900CC7E4F /* ol.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ol.js; sourceTree = "<group>"; };
 		2D2763D61B6B641900CC7E4F /* zoomify.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = zoomify.js; sourceTree = "<group>"; };
+		2D2787C31BF4B92A0007D00E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		2D2787C51BF4BB4A0007D00E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2D2A64751AF74A6300D82E04 /* MZKMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKMenuViewController.h; sourceTree = "<group>"; };
 		2D2A64761AF74A6300D82E04 /* MZKMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKMenuViewController.m; sourceTree = "<group>"; };
 		2D2A64781AF74AC300D82E04 /* MZKMenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKMenuTableViewCell.h; sourceTree = "<group>"; };
@@ -133,6 +137,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D2787C61BF4BB4A0007D00E /* AVFoundation.framework in Frameworks */,
+				2D2787C41BF4B92A0007D00E /* MediaPlayer.framework in Frameworks */,
 				16EA5BDF3E1D1DA08D0A333D /* libPods-MZK_iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,6 +318,8 @@
 		C4864A5EBA3AC6CFFA83C9E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D2787C51BF4BB4A0007D00E /* AVFoundation.framework */,
+				2D2787C31BF4B92A0007D00E /* MediaPlayer.framework */,
 				17FD2D438425BEFC1B68C2BB /* libPods-MZK_iOSTests.a */,
 				BC293F8D6E164513E13E590B /* libPods-MZK_iOS.a */,
 			);
@@ -567,6 +575,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MZK_iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -581,6 +590,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MZK_iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

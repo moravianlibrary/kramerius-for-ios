@@ -13,15 +13,16 @@
 #import "AppDelegate.h"
 
 NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
+NSString *const kMZKMusicViewController = @"MZKMusicViewController";
 @interface MZKMenuViewController ()<MenuClickableHeaderDelegate>
 {
     MZKMenuClickableHeader *headerView;
 }
 
 // menu properties
-@property (nonatomic, strong) NSDictionary *paneViewControllerIdentifiers;
-@property (nonatomic, strong) NSDictionary *paneViewControllerTitles;
-@property (nonatomic, strong) NSDictionary *paneViewControllersIcons;
+@property (nonatomic, strong) NSMutableDictionary *paneViewControllerIdentifiers;
+@property (nonatomic, strong) NSMutableDictionary *paneViewControllerTitles;
+@property (nonatomic, strong) NSMutableDictionary *paneViewControllersIcons;
 
 @property (nonatomic, strong) UIBarButtonItem *paneStateBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem *paneRevealLeftBarButtonItem;
@@ -101,28 +102,34 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
 -(void)initializeMenu
 {
     self.paneViewControllerType = NSUIntegerMax;
-    self.paneViewControllerTitles = @{
+    self.paneViewControllerTitles = [NSMutableDictionary new];
+    [_paneViewControllerTitles addEntriesFromDictionary:@{
                                       @(MZKMainViewController) : @"Hlavní strana",
                                       @(MZKCollectionsViewController) : @"Kolekce",
-                                      @(MSPaneViewControllerTypeBounce) : @"Hledání",
-                                      @(MSPaneViewControllerTypeGestures) : @"Nejnovější"
-                                      };
+                                      @(MZKSearchViewController) : @"Hledání",
+                                      @(MZKMusicVC) : @"Přehrávač"
+                                      }];
     
-    self.paneViewControllerIdentifiers = @{
+    self.paneViewControllerIdentifiers =[NSMutableDictionary new];
+    [_paneViewControllerIdentifiers addEntriesFromDictionary:@{
                                            @(MZKMainViewController) : @"MainViewController",
                                            @(MZKCollectionsViewController) : @"Collections",
-                                           @(MSPaneViewControllerTypeBounce) : @"Bounce",
-                                           @(MSPaneViewControllerTypeGestures) : @"Gestures"
-                                           };
+                                           @(MZKSearchViewController) : @"MZKSearchViewController",
+                                           @(MZKMusicVC) : @"MZKMusicViewController"
+                                           }];
     
-    self.paneViewControllersIcons = @{
+    self.paneViewControllersIcons = [NSMutableDictionary new];
+    [_paneViewControllersIcons addEntriesFromDictionary:@{
                                       @(MZKMainViewController) : @"ic_home_grey",
                                       @(MZKCollectionsViewController) : @"ic_group_grey",
-                                      @(MSPaneViewControllerTypeBounce) : @"ic_search_grey",
-                                      @(MSPaneViewControllerTypeGestures) : @"ic_recent_grey"
-                                      };
-
-
+                                      @(MZKSearchViewController) : @"ic_search_grey",
+                                      @(MZKMusicVC): @"audioPlay"
+                                      }];
+//    [_paneViewControllerTitles setObject:@"Hudebni prehravac" forKey:kMZKMusicViewController];
+//    [_paneViewControllerIdentifiers setObject:kMZKMusicViewController forKey:kMZKMusicViewController];
+//    [_paneViewControllersIcons setObject:@"ic_search_grey" forKey:kMZKMusicViewController];
+    self.musicController = [MZKMusicViewController sharedInstance];
+    NSLog(@"Music controller:%@", [self.musicController description]);
 }
 
 - (MSPaneViewControllerType)paneViewControllerTypeForIndexPath:(NSIndexPath *)indexPath
@@ -176,7 +183,7 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
 
 
 #pragma mark - orientation changes
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
@@ -194,28 +201,6 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
     return 6; //array count
 }
 
-/*
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    //UITableViewHeaderFooterView *headerView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:MSDrawerHeaderReuseIdentifier];
-   // headerView.textLabel.text = [self.sectionTitles[@(section)] uppercaseString];
-    return headerView;
-}
- 
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 30.0;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return FLT_EPSILON;
-}
- 
-  */
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MZKMenuTableViewCell *cell = (MZKMenuTableViewCell*)[tableView dequeueReusableCellWithIdentifier:MZKMenuCellIdentifier];
@@ -229,7 +214,21 @@ NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MSPaneViewControllerType paneViewControllerType = [self paneViewControllerTypeForIndexPath:indexPath];
+    if(paneViewControllerType == MZKMusicVC)
+    {
+        if (!self.musicController) {
+            self.musicController =[self.storyboard instantiateViewControllerWithIdentifier:kMZKMusicViewController];
+        }
+       
+        [self presentViewController:self.musicController animated:YES completion:^{
+             [self.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed animated:NO allowUserInterruption:NO completion:nil];
+            
+        }];
+    }
+    else
+    {
     [self transitionToViewController:paneViewControllerType];
+    }
     
     // Prevent visual display bug with cell dividers
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
