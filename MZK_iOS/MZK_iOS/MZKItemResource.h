@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSString *model;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *authors;
+@property (nonatomic, strong) NSArray *author;
 
 @property (nonatomic, strong) NSString *rootTitle;
 @property (nonatomic, strong) NSString *rootPid;
@@ -28,6 +29,8 @@
 @property (nonatomic, strong) NSString *issn;
 @property (nonatomic, strong) NSString *policy;
 @property (nonatomic, strong) NSString *datumStr;
+
+-(NSString *)getAuthorsStringRepresentation;
 
 
 @end

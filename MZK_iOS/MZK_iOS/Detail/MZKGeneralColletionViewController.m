@@ -14,14 +14,19 @@
 #import "MZKPageObject.h"
 #import "MZKMusicViewController.h"
 #import "MZKDetailViewController.h"
+#import "MZKSearchBarCollectionReusableView.h"
 
-@interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate>
+@interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate, UISearchBarDelegate>
 {
     MZKDatasource *_datasource;
     MZKItemResource *parentItemResource;
+    MZKSearchBarCollectionReusableView *_searchBarView;
 }
 @property (weak, nonatomic) IBOutlet UICollectionView *_collectionView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
+@property (weak, nonatomic) IBOutlet UIView *dimmingView;
+@property (weak, nonatomic) IBOutlet UIView *activityIndicatorContainerView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -36,6 +41,7 @@
         [self._collectionView reloadData];
     }
     
+    [self hideDimmingView];
     // Do any additional setup after loading the view.
 }
 
@@ -46,8 +52,6 @@
 
 -(IBAction)onClose:(id)sender
 {
-    NSLog(@"ONCLose");
-    
     if (self.isFirst) {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             
@@ -67,11 +71,11 @@
 -(void)setItems:(NSArray *)items
 {
     _items = items;
- 
 }
 
 -(void)setParentObject:(MZKItemResource *)parentObject
 {
+    [self showLoadingIndicator];
     _parentObject = parentObject;
     if (!_datasource) {
         _datasource  = [MZKDatasource new];
@@ -83,13 +87,19 @@
 
 -(void)setParentPID:(NSString *)parentPID
 {
+    [self showLoadingIndicator];
     _parentPID = parentPID;
     if (!_datasource) {
         _datasource  = [MZKDatasource new];
         _datasource.delegate = self;
     }
     [_datasource getItem:_parentPID];
-   
+}
+
+-(void)downloadFailedWithRequest:(NSString *)request
+{
+    [self hideLoadingIndicator];
+    [self showErrorWithTitle:@"" subtitle:@""];
 }
 
 /*
@@ -120,8 +130,8 @@
     MZKPageObject *item = [_items objectAtIndex:indexPath.row];
     if (item) {
         cell.itemName.text = item.stringTitleHack;
-        //cell.itemAuthors.text = item.authors;
-        //cell.item = item;
+        cell.itemAuthors.text = item.getAuthorsStringRepresentation;
+        cell.pObject = item;
         cell.itemType.text = item.model;
         
         
@@ -170,7 +180,7 @@
     }
     
     
-    if ([po.model isEqualToString:@"periodicalvolume"])
+    if ([po.model isEqualToString:@"periodicalitem"])
     {
         //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
         
@@ -185,16 +195,36 @@
 
     }
     
+    if ([po.model isEqualToString:@"periodicalvolume"])
+    {
+        //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
+        
+        MZKGeneralColletionViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKGeneralColletionViewController"];
+        
+        // Pass any objects to the view controller here, like...
+        [vc setParentPID:po.pid];
+        vc.isFirst = NO;
+        
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
     
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO: Deselect item
-
-   // YourViewControllerClass *viewController = [[UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"ViewController"];
-
-   // self presentViewController:<#(nonnull UIViewController *)#> animated:<#(BOOL)#> completion:<#^(void)completion#>
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionReusableView *reusableview = nil;
+    
+    if (kind == UICollectionElementKindSectionHeader) {
+        MZKSearchBarCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SearchHeader" forIndexPath:indexPath];
+        headerView.searchBar.layer.borderWidth = 1.0;
+        headerView.searchBar.layer.borderColor = [[UIColor clearColor] CGColor];
+        reusableview = headerView;
+         _searchBarView = headerView;
+        
+    }
+    return reusableview;
 }
 
 #pragma mark - Data Loaded delegate and Datasource methods
@@ -206,6 +236,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [wealf._collectionView reloadData];
+        [wealf hideLoadingIndicator];
         
     });
 }
@@ -213,18 +244,77 @@
 -(void)detailForItemLoaded:(MZKItemResource *)item
 {
     parentItemResource = item;
-    NSLog(@"item datanode: %s", item.datanode? "JOP":"NOPE");
-    //NSLog(@"")
-    
     __weak typeof(self) wealf = self;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [wealf refreshTitle];
          [_datasource getChildrenForItem:item.pid];
+        [wealf hideLoadingIndicator];
     });
 
 }
 
+-(void)searchResultsLoaded:(NSArray *)results
+{
+    [self hideDimmingView];
+}
+
+#pragma mark - Search bar delegate
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    if (searchText.length >3) {
+        if (!_datasource) {
+            _datasource = [MZKDatasource new];
+            _datasource.delegate = self;
+        }
+        
+        [_datasource getSearchResults:searchText];
+    }
+    else
+    {
+        [self showDimmingView];
+    }
+}
+
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    [self showDimmingView];
+}
+
+-(void)showDimmingView
+{
+    [UIView animateWithDuration:0.4 animations:^{
+        _dimmingView.alpha = 0.4;
+    }];
+}
+
+-(void)hideDimmingView
+{
+    [UIView animateWithDuration:0.4 animations:^{
+        _dimmingView.alpha = 0.0;
+    }];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    searchBar.text = @"";
+    [self hideDimmingView];
+}
+
+-(void)showLoadingIndicator
+{
+    self.activityIndicatorContainerView.hidden = self.activityIndicator.hidden = NO;
+    [self.view bringSubviewToFront:self.activityIndicatorContainerView];
+    [self.activityIndicator startAnimating];
+    
+}
+
+-(void)hideLoadingIndicator
+{
+    [self.activityIndicator stopAnimating];
+    self.activityIndicatorContainerView.hidden = self.activityIndicator.hidden = YES;
+}
 
 
 @end

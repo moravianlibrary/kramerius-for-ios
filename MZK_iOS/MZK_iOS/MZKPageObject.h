@@ -20,7 +20,7 @@
 @property (nonatomic, weak) __weak id<PageResolutionLoadedDelegate> delegate;
 @property (readwrite) BOOL datanode;
 @property (readwrite) NSInteger page;
-
+@property (nonatomic, strong) NSArray *author;
 @property (nonatomic, strong) NSString *pid;
 @property (nonatomic, strong) NSString *model;
 @property (nonatomic, strong) NSString *rootTitle;
@@ -34,5 +34,6 @@
 @property (nonatomic, strong) NSString *stringTitleHack;
 
 -(void)loadPageResolution;
+-(NSString *)getAuthorsStringRepresentation;
 
 @end

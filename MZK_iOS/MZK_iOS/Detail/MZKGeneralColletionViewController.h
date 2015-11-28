@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "MZKItemResource.h"
+#import "MZKBaseViewController.h"
 
-@interface MZKGeneralColletionViewController : UIViewController
+@interface MZKGeneralColletionViewController : MZKBaseViewController
 
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, strong) MZKItemResource *parentObject;

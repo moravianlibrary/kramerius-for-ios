@@ -42,7 +42,7 @@
 //    [self.window makeKeyAndVisible];
 //    [self.window addSubview:self.windowBackground];
 //    [self.window sendSubviewToBack:self.windowBackground];
-    
+
     
     
     if (!self.defaultDatasourceItem) {

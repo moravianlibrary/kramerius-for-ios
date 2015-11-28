@@ -1,4 +1,4 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  //
+//
 //  MZKDatasource.m
 //  MZK_iOS
 //
@@ -25,6 +25,7 @@ enum _downloadOperation{
     downloadRecommended,
     downloadCollectionInfo,
     downloadCollectionItems,
+    search,
 };
 typedef enum _downloadOperation downloadOperation;
 
@@ -75,7 +76,7 @@ typedef enum _downloadOperation downloadOperation;
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
     [self downloadDataFromURL:url withOperation:downloadItem];
-
+    
 }
 -(void)getCollectionItems:(NSString *)collectionPID
 {
@@ -110,7 +111,7 @@ typedef enum _downloadOperation downloadOperation;
     [self checkAndSetBaseUrl];
     
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, recent];
-
+    
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
     [self downloadDataFromURL:url withOperation:downloadMostRecent];
@@ -127,7 +128,22 @@ typedef enum _downloadOperation downloadOperation;
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
     [self downloadDataFromURL:url withOperation:downloadRecommended];
+    
+}
 
+
+-(void)getSearchResults:(NSString *)searchQuery
+{
+    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search?q=%@", searchQuery];
+    if (!searchQuery) {
+        sq = @"/search/api/v5.0/search?q=*:*";
+    }
+    [self checkAndSetBaseUrl];
+    
+    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq];
+    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    
+    [self downloadDataFromURL:url withOperation:search];
 }
 
 #pragma mark - privateMethods
@@ -149,6 +165,10 @@ typedef enum _downloadOperation downloadOperation;
     NSLog(@"Download Failed");
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
+    if ([self.delegate respondsToSelector:@selector(downloadFailedWithRequest:)]) {
+        [self.delegate downloadFailedWithRequest:@""];
+    }
+    
 }
 
 -(NSArray *)parseJSONData:(NSData*)data error:(NSError *)error withOperation:(downloadOperation)operation
@@ -161,32 +181,32 @@ typedef enum _downloadOperation downloadOperation;
         return nil;
     }
     
-     NSArray *tmpObjects = [parsedObject objectForKey:@"data"];
+    NSArray *tmpObjects = [parsedObject objectForKey:@"data"];
     
-     NSMutableArray *results = [NSMutableArray new];
+    NSMutableArray *results = [NSMutableArray new];
     
     for (int i =0; i<tmpObjects.count; i++) {
-    
+        
         NSDictionary *tmpDataObject = [tmpObjects objectAtIndex:i];
         if (![[tmpDataObject allKeys] containsObject:@"exception"]) {
-             [results addObject:[self parseObjectFromDictionary:tmpDataObject]];
+            [results addObject:[self parseObjectFromDictionary:tmpDataObject]];
         }
-       
+        
     }
     
     switch (operation) {
         case downloadMostRecent:
-    [self.delegate dataLoaded:results withKey:kRecent];
+            [self.delegate dataLoaded:results withKey:kRecent];
             break;
         case downloadRecommended:
-    [self.delegate dataLoaded:results withKey:kRecommended];
+            [self.delegate dataLoaded:results withKey:kRecommended];
             break;
             
         default:
             break;
     }
     
-     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
     return results;
 }
@@ -202,7 +222,7 @@ typedef enum _downloadOperation downloadOperation;
     }
     MZKItemResource *resItem = [self parseObjectFromDictionary:parsedObject];
     if ([self.delegate respondsToSelector:@selector(detailForItemLoaded:)]) {
-         [self.delegate detailForItemLoaded:resItem];
+        [self.delegate detailForItemLoaded:resItem];
     }
 }
 
@@ -220,9 +240,11 @@ typedef enum _downloadOperation downloadOperation;
     
     for (int i = 0; i<parsedObject.count; i++) {
         
-         MZKPageObject *page = [MZKPageObject new];
+        MZKPageObject *page = [MZKPageObject new];
         page.pid = [[parsedObject objectAtIndex:i] objectForKey:@"pid"];
         page.model = [[parsedObject objectAtIndex:i] objectForKey:@"model"];
+        page.author = [[parsedObject objectAtIndex:i] objectForKey:@"author"];
+        NSLog(@"Model:%@", page.model);
         page.rootPid =  [[parsedObject objectAtIndex:i] objectForKey:@"root_pid"];
         page.rootTitle =  [[parsedObject objectAtIndex:i] objectForKey:@"root_title"];
         page.policy =  [[parsedObject objectAtIndex:i] objectForKey:@"public"];
@@ -230,7 +252,7 @@ typedef enum _downloadOperation downloadOperation;
         page.type = [[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"type"];
         page.title = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
         page.datanode= [[[parsedObject objectAtIndex:i] objectForKey:@"datanode"] boolValue];
-
+        
 #warning !!!Hack - different return types!!!
         if ([page.model isEqualToString:@"soundunit"] || [page.model isEqualToString:@"track"] || [page.model isEqualToString:@"page"] || [page.model isEqualToString:@"periodicalvolume"] || [page.model isEqualToString:@"periodicalitem"]) {
             
@@ -238,9 +260,9 @@ typedef enum _downloadOperation downloadOperation;
         }
         else
         {
-             page.titleStringValue =[NSNumber numberWithInt:[[[[parsedObject objectAtIndex:i] objectForKey:@"title"] objectAtIndex:0] intValue]];
+            page.titleStringValue =[NSNumber numberWithInt:[[[[parsedObject objectAtIndex:i] objectForKey:@"title"] objectAtIndex:0] intValue]];
         }
-
+        
         [pages addObject:page];
         
     }
@@ -252,11 +274,11 @@ typedef enum _downloadOperation downloadOperation;
     {
         [self.delegate childrenForItemLoaded:pages];
     }
-   
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
     
-   
+    
     return pages;
 }
 
@@ -279,7 +301,7 @@ typedef enum _downloadOperation downloadOperation;
         cItem.nameENG = [[[parsedObject objectAtIndex:i] objectForKey:@"descs"] objectForKey:@"en"];
         cItem.nameCZ = [[[parsedObject objectAtIndex:i] objectForKey:@"descs"] objectForKey:@"cs"];
         cItem.label =[[parsedObject objectAtIndex:i] objectForKey:@"label"];
-       
+        
         
         [results addObject:cItem];
         
@@ -290,7 +312,7 @@ typedef enum _downloadOperation downloadOperation;
         NSLog(@"Collections count:%lu", (unsigned long)results.count);
     }
     
- 
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     return results;
 }
@@ -339,6 +361,40 @@ typedef enum _downloadOperation downloadOperation;
     return results;
 }
 
+-(NSArray *)parseJSONdataForSearch:(NSData *)data error:(NSError *)error
+{
+    NSError *localError = nil;
+    NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
+    
+    if (localError != nil) {
+        error = localError;
+        return nil;
+    }
+    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
+    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
+    
+    NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+    
+    
+    for (int i = 0; i<parsedObject.count; i++) {
+        
+        MZKItemResource *cItem = [MZKItemResource new];
+        NSDictionary *itemDict =[parsedObject objectAtIndex:i];
+
+        cItem.pid = [itemDict objectForKey:@"PID"];
+        cItem.datumStr = [itemDict objectForKey:@"datum_str"];
+        cItem.title = [itemDict objectForKey:@"dc.title"];
+        cItem.rootPid = [itemDict objectForKey:@"root_pid"];
+        cItem.rootTitle =[itemDict objectForKey:@"root_title"];
+        cItem.model = [itemDict objectForKey:@"fedora.model"];
+        
+        [results addObject:cItem];
+    }
+    
+    return [NSArray new];
+}
+
 
 -(MZKItemResource *)parseObjectFromDictionary:(NSDictionary *)rawData
 {
@@ -346,21 +402,22 @@ typedef enum _downloadOperation downloadOperation;
     
     newItem.pid = [rawData objectForKey:@"pid"];
     newItem.model = [rawData objectForKey:@"model"];
+    NSLog(@"Model:%@", newItem.model);
     newItem.issn = [rawData objectForKey:@"issn"];
     newItem.datumStr = [rawData objectForKey:@"datumStr"];
     
     newItem.rootPid = [rawData objectForKey:@"root_pid"];
     
     if ([[rawData objectForKey:@"title"] isKindOfClass:[NSString class]]) {
-         newItem.title = [rawData objectForKey:@"title"];
+        newItem.title = [rawData objectForKey:@"title"];
     }
     
-      newItem.rootTitle = [rawData objectForKey:@"root_title"];
-      newItem.policy = [rawData objectForKey:@"public"];
+    newItem.rootTitle = [rawData objectForKey:@"root_title"];
+    newItem.policy = [rawData objectForKey:@"public"];
     
-     newItem.datanode= [[rawData objectForKey:@"datanode"] boolValue];
+    newItem.datanode= [[rawData objectForKey:@"datanode"] boolValue];
     
-    
+    newItem.author = [rawData objectForKey:@"author"];
     
     [rawData objectForKey:@""];
     
@@ -391,7 +448,7 @@ typedef enum _downloadOperation downloadOperation;
     NSDictionary *list = [dict objectForKey:@"IMAGE_PROPERTIES"];
     NSInteger width = [[list objectForKey:@"WIDTH"] integerValue];
     NSInteger height = [[list objectForKey:@"HEIGHT"] integerValue];
-
+    
 }
 
 
@@ -400,12 +457,12 @@ typedef enum _downloadOperation downloadOperation;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
     
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
-    
-    if (operation ==downloadCollectionItems) {
-         [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+ 
+    if (operation ==downloadCollectionItems || operation == search) {
+        [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];
         NSLog(@"%@", req.allHTTPHeaderFields);;
     }
-   
+    
     
     NSLog(@"Request: %@, with operation:%u", [req description], operation);
     
@@ -416,18 +473,18 @@ typedef enum _downloadOperation downloadOperation;
             [self downloadFailed];
         } else {
             NSLog(@"Download sucessful with operation:%lu", (unsigned long)operation);
-
+            
             switch (operation) {
                 case downloadMostRecent:
-                     [self parseJSONData:data error:error withOperation:operation];
-                    break;
-                    
-                    case downloadRecommended:
                     [self parseJSONData:data error:error withOperation:operation];
                     break;
                     
-                    case downloadItem:
-                     [self parseJSONDataForDetail:data error:error];
+                case downloadRecommended:
+                    [self parseJSONData:data error:error withOperation:operation];
+                    break;
+                    
+                case downloadItem:
+                    [self parseJSONDataForDetail:data error:error];
                     break;
                 case downloadChildren:
                     [self parseJSONDataForChildren:data error:error];
@@ -439,20 +496,25 @@ typedef enum _downloadOperation downloadOperation;
                     
                 case downloadCollectionInfo:
                     [self parseJSONDataForCollections:data error:error];
-                
+                    
                     break;
                 case downloadCollectionItems:
                     [self parseJSONDataForCollectionItems:data error:error];
+                    break;
                 
-                default:
+                case search:
                     
+                    [self parseJSONdataForSearch:data error:error];
                     
                     break;
+                    
+                default:
+                    break;
             }
-           
+            
         }
     }];
-
+    
 }
 
 

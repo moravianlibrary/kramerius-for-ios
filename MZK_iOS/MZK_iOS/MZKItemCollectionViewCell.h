@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MZKItemResource.h"
+#import "MZKPageObject.h"
 
 @interface MZKItemCollectionViewCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UILabel *itemName;
@@ -16,5 +17,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *itemTypeIcon;
 @property (weak, nonatomic) IBOutlet UILabel *itemType;
 @property (nonatomic, strong) MZKItemResource *item;
+@property (nonatomic, strong) MZKPageObject *pObject;
+
+-(void)setItem:(MZKItemResource *)item;
+-(void)setPObject:(MZKPageObject *)pObject;
 
 @end

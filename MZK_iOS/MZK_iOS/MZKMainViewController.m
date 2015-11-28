@@ -16,8 +16,9 @@
 #import "MZKMusicViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "MZKGeneralColletionViewController.h"
+#import "MZKSearchBarCollectionReusableView.h"
 
-@interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate>
 {
     MZKDatasource *datasource;
     NSArray *_recent;
@@ -28,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContentView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControll;
+@property (weak, nonatomic) IBOutlet UIView *dimmingView;
 
 @end
 
@@ -43,14 +45,15 @@
    // [self.collectionView registerClass:[MZKItemCollectionViewCell class] forCellWithReuseIdentifier:@"MZKItemCollectionViewCell"];
     
     [self refreshAllValues];
+    [self hideDimmingView];
 }
 
 -(void)refreshAllValues
 {
     [datasource getRecommended];
     [datasource getMostRecent];
-    self.activityIndicatorContentView.hidden = self.activityIndicator.hidden = NO;
-    [self.activityIndicator startAnimating];
+    [self showLoadingIndicator];
+    
 }
 
 -(void)reloadValues
@@ -77,8 +80,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [wealf.collectionView reloadData];
-        [wealf.activityIndicator stopAnimating];
-        wealf.activityIndicatorContentView.hidden = self.activityIndicator.hidden = YES;
+        [wealf hideLoadingIndicator];
         
     });
     
@@ -87,6 +89,18 @@
         NSLog(@"Not main thread ======");
     }
 
+}
+
+-(void)searchResultsLoaded:(NSArray *)results
+{
+    [self hideDimmingView];
+    NSLog(@"Loaded");
+    
+}
+
+-(void)downloadFailedWithRequest:(NSString *)request
+{
+    [self showErrorWithTitle:@"Title" subtitle:@"subtitle"];
 }
 
 #pragma mark - Collection View Datasource
@@ -117,7 +131,7 @@
     MZKItemResource *item = [self itemAtIndexPath:indexPath];
     if (item) {
         cell.itemName.text = item.title;
-        cell.itemAuthors.text = item.authors;
+        cell.itemAuthors.text = item.getAuthorsStringRepresentation;
         cell.item = item;
         cell.itemType.text = item.model;
         
@@ -134,6 +148,20 @@
 
     
     return cell;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionReusableView *reusableview = nil;
+    
+    if (kind == UICollectionElementKindSectionHeader) {
+        MZKSearchBarCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SearchHeader" forIndexPath:indexPath];
+
+        headerView.searchBar.layer.borderWidth = 1.0;
+        headerView.searchBar.layer.borderColor = [[UIColor clearColor] CGColor];
+        reusableview = headerView;
+    }
+    return reusableview;
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -254,6 +282,7 @@
         default:
             break;
     }
+    [self hideDimmingView];
 }
 
 
@@ -261,6 +290,66 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+#pragma mark - SearchBar Delegate
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    if (searchText.length >3) {
+        if (!datasource) {
+            datasource = [MZKDatasource new];
+            datasource.delegate = self;
+        }
+        
+        [datasource getSearchResults:searchText];
+    }
+    else
+    {
+        [self showDimmingView];
+    }
+}
+
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    [self showDimmingView];
+}
+
+-(void)showDimmingView
+{
+    [UIView animateWithDuration:0.4 animations:^{
+        _dimmingView.alpha = 0.4;
+    }];
+}
+
+-(void)hideDimmingView
+{
+    [UIView animateWithDuration:0.4 animations:^{
+        _dimmingView.alpha = 0.0;
+    }];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    searchBar.text = @"";
+    [self hideDimmingView];
+}
+
+-(void)showLoadingIndicator
+{
+    self.activityIndicatorContentView.hidden = self.activityIndicator.hidden = NO;
+    [self.view bringSubviewToFront:self.activityIndicatorContentView];
+    [self.activityIndicator startAnimating];
+    
+}
+
+-(void)hideLoadingIndicator
+{
+    [self.activityIndicator stopAnimating];
+    self.activityIndicatorContentView.hidden = self.activityIndicator.hidden = YES;
+}
+
+
+
 
 
 @end

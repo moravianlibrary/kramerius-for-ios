@@ -21,4 +21,26 @@ NSString *const kDatasourceItemChanged = @"kDatasourceItemChanged";
 NSString *const kRecent = @"recent";
 NSString *const kRecommended = @"recommended";
 
+
+#pragma mark - types keys
+
+NSString *const kTrack = @"track";
+ NSString *const kSoundRecording = @"soundrecording";
+ NSString *const kVirtualCollection= @"virtualcollection";
+ NSString *const kMonograph= @"monograph";
+ NSString *const kPeriodical= @"periodical";
+ NSString *const kGraphic= @"graphic";
+ NSString *const kManuscript= @"manuscript";
+ NSString *const kSheetmusic= @"sheetmusic";
+ NSString *const kMap= @"map";
+ NSString *const kPage= @"page";
+ NSString *const kPhoto= @"photo";
+ NSString *const kArchive= @"archive";
+ NSString *const kBook= @"book";
+ NSString *const kGroup= @"group";
+ NSString *const kLabel= @"label";
+ NSString *const kLock= @"lock";
+ NSString *const kMusic= @"music";
+ NSString *const kVinil= @"vinil";
+
 @end

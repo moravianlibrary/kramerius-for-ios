@@ -31,9 +31,15 @@ extern NSString *const kGraphic;
 extern NSString *const kManuscript;
 extern NSString *const kSheetmusic;
 extern NSString *const kMap;
-
-
-
+extern NSString *const kPage;
+extern NSString *const kPhoto;
+extern NSString *const kArchive;
+extern NSString *const kBook;
+extern NSString *const kGroup;
+extern NSString *const kLabel;
+extern NSString *const kLock;
+extern NSString *const kMusic;
+extern NSString *const kVinil;
 
 #pragma mark - datasource keys
 

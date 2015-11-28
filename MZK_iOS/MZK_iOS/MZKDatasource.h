@@ -19,6 +19,8 @@
 -(void)collectionListLoaded:(NSArray *)collections;
 -(void)collectionItemsLoaded:(NSArray *)collectionItems;
 -(void)childrenForItemLoaded:(NSArray *)items;
+-(void)searchResultsLoaded:(NSArray *)results;
+-(void)downloadFailedWithRequest:(NSString *)request;
 
 @end
 
@@ -40,5 +42,8 @@
 
 -(void)getInfoAboutCollections;
 -(void)getCollectionItems:(NSString *)collectionPID;
+-(void)getSearchResults:(NSString *)searchQuery;
+
+
 
 @end

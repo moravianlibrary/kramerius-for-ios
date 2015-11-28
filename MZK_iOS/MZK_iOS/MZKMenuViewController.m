@@ -129,7 +129,6 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
 //    [_paneViewControllerIdentifiers setObject:kMZKMusicViewController forKey:kMZKMusicViewController];
 //    [_paneViewControllersIcons setObject:@"ic_search_grey" forKey:kMZKMusicViewController];
     self.musicController = [MZKMusicViewController sharedInstance];
-    NSLog(@"Music controller:%@", [self.musicController description]);
 }
 
 - (MSPaneViewControllerType)paneViewControllerTypeForIndexPath:(NSIndexPath *)indexPath
@@ -155,7 +154,8 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
 
     
     paneViewController.navigationItem.title = self.paneViewControllerTitles[@(paneViewControllerType)];
-    
+   
+
     
     self.paneRevealLeftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_back"] style:UIBarButtonItemStylePlain target:self action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
    
