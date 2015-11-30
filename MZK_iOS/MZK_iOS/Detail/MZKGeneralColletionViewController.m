@@ -219,7 +219,7 @@
     if (kind == UICollectionElementKindSectionHeader) {
         MZKSearchBarCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SearchHeader" forIndexPath:indexPath];
         headerView.searchBar.layer.borderWidth = 1.0;
-        headerView.searchBar.layer.borderColor = [[UIColor clearColor] CGColor];
+        headerView.searchBar.layer.borderColor = [[UIColor groupTableViewBackgroundColor] CGColor];
         reusableview = headerView;
          _searchBarView = headerView;
         

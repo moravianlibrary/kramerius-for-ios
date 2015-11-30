@@ -11,6 +11,8 @@
 #import "MZKPageObject.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
+#import <UIImageView+WebCache.h>
+#import "AppDelegate.h"
 
 static MZKMusicViewController *sharedInstance;
 @interface MZKMusicViewController ()<DataLoadedDelegate, AVAudioPlayerDelegate>
@@ -28,6 +30,7 @@ static MZKMusicViewController *sharedInstance;
     __weak IBOutlet UIButton *_rw;
     __weak IBOutlet UISlider *_timeSlider;
     
+    __weak IBOutlet UIVisualEffectView *visualBlurEffectView;
     MZKDatasource *_datasource;
     NSString *_currentItemPID;
     MZKItemResource *_currentItem;
@@ -72,8 +75,11 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSLog(@"Music controller:%@", [self description]);
     _timeSlider.value = 0;
+    if (_currentItemPID) {
+        [self loadFullImageForItem:_currentItemPID];
+        [self loadThumbnailImageForItem:_currentItemPID];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,6 +95,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
     }
     _currentItemPID = itemPid;
     [_datasource getItem:itemPid];
+
 }
 
 -(void)loadDetailForItem:(NSString *)itemPID
@@ -273,6 +280,38 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
 - (IBAction)onClose:(id)sender {
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)loadFullImageForItem:(NSString *)itemPID
+{
+    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    
+    NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
+    NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/full",url, itemPID ];
+    
+    [_blurryImage sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
+    [self addBlurEffect];
+    
+}
+
+-(void)loadThumbnailImageForItem:(NSString *)itemPID
+{
+    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    
+    NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
+    NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/full",url, itemPID ];
+    
+    [_artWork sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
+}
+-(void)viewDidLayoutSubviews
+{
+    [self addBlurEffect];
+}
+
+
+-(void)addBlurEffect
+{
+    visualBlurEffectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
 }
 
 -(void)updateViews
