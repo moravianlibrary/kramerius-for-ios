@@ -823,7 +823,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="GbJ-tM-fVX">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="GbJ-tM-fVX">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -860,6 +860,12 @@
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="GbJ-tM-fVX" secondAttribute="trailing" id="M7R-o2-zIL"/>
+                            <constraint firstItem="GbJ-tM-fVX" firstAttribute="leading" secondItem="xhi-DH-nj8" secondAttribute="leading" id="geW-iy-hmG"/>
+                            <constraint firstItem="UVS-Z4-vpK" firstAttribute="top" secondItem="GbJ-tM-fVX" secondAttribute="bottom" id="i6M-wy-aPg"/>
+                            <constraint firstItem="GbJ-tM-fVX" firstAttribute="top" secondItem="xhi-DH-nj8" secondAttribute="top" id="s8e-a6-iqF"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
