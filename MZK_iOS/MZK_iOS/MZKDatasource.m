@@ -189,9 +189,14 @@ typedef enum _downloadOperation downloadOperation;
         
         NSDictionary *tmpDataObject = [tmpObjects objectAtIndex:i];
         if (![[tmpDataObject allKeys] containsObject:@"exception"]) {
-            [results addObject:[self parseObjectFromDictionary:tmpDataObject]];
+            NSString *policy = [tmpDataObject objectForKey:@"policy"];
+            if ([policy caseInsensitiveCompare:@"public"] == NSOrderedSame) {
+                [results addObject:[self parseObjectFromDictionary:tmpDataObject]];
+            }
+            else{
+                NSLog(@"Policy not public");
+            }
         }
-        
     }
     
     switch (operation) {
@@ -240,30 +245,36 @@ typedef enum _downloadOperation downloadOperation;
     
     for (int i = 0; i<parsedObject.count; i++) {
         
-        MZKPageObject *page = [MZKPageObject new];
-        page.pid = [[parsedObject objectAtIndex:i] objectForKey:@"pid"];
-        page.model = [[parsedObject objectAtIndex:i] objectForKey:@"model"];
-        page.author = [[parsedObject objectAtIndex:i] objectForKey:@"author"];
-        NSLog(@"Model:%@", page.model);
-        page.rootPid =  [[parsedObject objectAtIndex:i] objectForKey:@"root_pid"];
-        page.rootTitle =  [[parsedObject objectAtIndex:i] objectForKey:@"root_title"];
-        page.policy =  [[parsedObject objectAtIndex:i] objectForKey:@"public"];
-        page.page =  [[[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"pagenumber"] integerValue];
-        page.type = [[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"type"];
-        page.title = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
-        page.datanode= [[[parsedObject objectAtIndex:i] objectForKey:@"datanode"] boolValue];
-        
-#warning !!!Hack - different return types!!!
-        if ([page.model isEqualToString:@"soundunit"] || [page.model isEqualToString:@"track"] || [page.model isEqualToString:@"page"] || [page.model isEqualToString:@"periodicalvolume"] || [page.model isEqualToString:@"periodicalitem"]) {
+        NSString *policy = [[parsedObject objectAtIndex:i] objectForKey:@"policy"];
+        if ([policy caseInsensitiveCompare:@"public"] == NSOrderedSame) {
             
-            page.stringTitleHack = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
+            MZKPageObject *page = [MZKPageObject new];
+            page.pid = [[parsedObject objectAtIndex:i] objectForKey:@"pid"];
+            page.model = [[parsedObject objectAtIndex:i] objectForKey:@"model"];
+            page.author = [[parsedObject objectAtIndex:i] objectForKey:@"author"];
+            page.rootPid =  [[parsedObject objectAtIndex:i] objectForKey:@"root_pid"];
+            page.rootTitle =  [[parsedObject objectAtIndex:i] objectForKey:@"root_title"];
+            
+            page.page =  [[[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"pagenumber"] integerValue];
+            page.type = [[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"type"];
+            page.title = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
+            page.datanode= [[[parsedObject objectAtIndex:i] objectForKey:@"datanode"] boolValue];
+            
+#warning !!!Hack - different return types!!!
+            if ([page.model isEqualToString:@"soundunit"] || [page.model isEqualToString:@"track"] || [page.model isEqualToString:@"page"] || [page.model isEqualToString:@"periodicalvolume"] || [page.model isEqualToString:@"periodicalitem"]) {
+                
+                page.stringTitleHack = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
+            }
+            else
+            {
+                page.titleStringValue =[NSNumber numberWithInt:[[[[parsedObject objectAtIndex:i] objectForKey:@"title"] objectAtIndex:0] intValue]];
+            }
+            
+            [pages addObject:page];
         }
-        else
-        {
-            page.titleStringValue =[NSNumber numberWithInt:[[[[parsedObject objectAtIndex:i] objectForKey:@"title"] objectAtIndex:0] intValue]];
+        else{
+            NSLog(@"Policy not public");
         }
-        
-        [pages addObject:page];
         
     }
     
@@ -381,7 +392,7 @@ typedef enum _downloadOperation downloadOperation;
         
         MZKItemResource *cItem = [MZKItemResource new];
         NSDictionary *itemDict =[parsedObject objectAtIndex:i];
-
+        
         cItem.pid = [itemDict objectForKey:@"PID"];
         cItem.datumStr = [itemDict objectForKey:@"datum_str"];
         cItem.title = [itemDict objectForKey:@"dc.title"];
@@ -457,7 +468,7 @@ typedef enum _downloadOperation downloadOperation;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
     
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
- 
+    
     if (operation ==downloadCollectionItems || operation == search) {
         [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];
         NSLog(@"%@", req.allHTTPHeaderFields);;
@@ -501,7 +512,7 @@ typedef enum _downloadOperation downloadOperation;
                 case downloadCollectionItems:
                     [self parseJSONDataForCollectionItems:data error:error];
                     break;
-                
+                    
                 case search:
                     
                     [self parseJSONdataForSearch:data error:error];
