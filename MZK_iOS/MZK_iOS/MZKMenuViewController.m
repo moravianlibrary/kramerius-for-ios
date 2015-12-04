@@ -198,7 +198,7 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6; //array count
+    return _paneViewControllerTitles.count; //array count
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
