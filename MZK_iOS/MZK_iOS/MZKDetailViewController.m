@@ -82,7 +82,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     self.tapGestureRecognizer = singleTap;
     [self.webView addGestureRecognizer:singleTap];
     
-    [self.webView setBackgroundColor:[UIColor greenColor]];
+    [self.webView setBackgroundColor:[UIColor blackColor]];
     [self.webView.scrollView setBackgroundColor:[UIColor grayColor]];
     
     barsHidden = hidingBars = NO;
