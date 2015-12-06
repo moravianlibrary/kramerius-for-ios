@@ -72,6 +72,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     self.pageSlider.continuous = NO;
     self.pageCount.text = @"-/-";
+    self.pageSlider.minimumValue = 1;
     
     
     //setup gesture recognizers
@@ -195,13 +196,22 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         });
         return;
     }
-
-    self.pageCount.text = [NSString stringWithFormat:@"%lu/%lu", (unsigned long)currentIndex,(unsigned long)loadedPages.count];
     
-    self.pageSlider.minimumValue =0;
-    self.pageSlider.maximumValue = loadedPages.count-1;
-    self.pageSlider.value = currentIndex;
-    if (loadedItem.title) {
+    if (loadedPages.count > 1) {
+        self.pageSlider.enabled = YES;
+        NSUInteger num = currentIndex+1;
+        self.pageCount.text = [NSString stringWithFormat:@"%lu/%lu", (unsigned long)num,(unsigned long)loadedPages.count];
+        
+        self.pageSlider.minimumValue =1;
+        self.pageSlider.maximumValue = loadedPages.count;
+        self.pageSlider.value = num;
+
+    }
+    else{
+        self.pageSlider.enabled = NO;
+    }
+
+       if (loadedItem.title) {
          self.titleLabel.text = loadedItem.title;
     }
    
@@ -301,7 +311,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     
     [self.pageSlider setValue:myInt animated:YES];
-    currentIndex = myInt;
+    currentIndex = myInt-1;
     [self switchPage];
     
     
@@ -328,6 +338,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 -(void)switchPage
 {
+    NSLog(@"Switch page with current index:%lu", (unsigned long)currentIndex);
     MZKPageObject *obj = [loadedPages objectAtIndex:currentIndex];
     
     [self loadImagePropertiesForItem:obj.pid];
