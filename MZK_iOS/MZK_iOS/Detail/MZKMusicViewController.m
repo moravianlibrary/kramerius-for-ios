@@ -211,7 +211,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
 //    [_musicPlayer addObserver:self forKeyPath:@"status" options:0 context:nil];
 //    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
 //    
-//    [self updateViews];
+   
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -323,25 +323,25 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
             titleLabel.text = _currentItem.title;
         }
         
-        float videoDurationSeconds = CMTimeGetSeconds( [self playerItemDuration]);
+        float videoDurationSeconds = CMTimeGetSeconds( [wealf playerItemDuration]);
         if (videoDurationSeconds >0 ) {
             _timeSlider.minimumValue = 0;
             _timeSlider.maximumValue =videoDurationSeconds;
             
-            NSDate* d = [[NSDate alloc] initWithTimeIntervalSinceNow:videoDurationSeconds];
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"HH:mm:ss"];
-            NSString* result = [dateFormatter stringFromDate:d];
-            _remainningTime.text = [NSString stringWithFormat:@"-%@", result];
+            _remainningTime.text = [self getTimeStringFromSeconds:videoDurationSeconds];
+            _elapsedTime.text = [self getTimeStringFromSeconds:_timeSlider.value];
         }
-
     });
-    
-   
-    
 }
 
-
+-(NSString *)getTimeStringFromSeconds:(int)seconds
+{
+    NSDateComponentsFormatter *dcFormatter = [[NSDateComponentsFormatter alloc] init];
+    dcFormatter.zeroFormattingBehavior = NSDateComponentsFormatterZeroFormattingBehaviorPad;
+    dcFormatter.allowedUnits = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+    dcFormatter.unitsStyle = NSDateComponentsFormatterUnitsStylePositional;
+    return [dcFormatter stringFromTimeInterval:seconds];
+}
 
 - (CMTime)playerItemDuration
 {
@@ -378,6 +378,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
                                                           usingBlock:^(CMTime time)
                      {
                          [weakSelf syncScrubber];
+                         [weakSelf updateViews];
                      }];
 }
 
@@ -657,6 +658,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
                 
                 [self initScrubberTimer];
                 
+                [self updateViews];
                 //[self enableScrubber];
                // [self enablePlayerButtons];
             }
