@@ -17,17 +17,19 @@
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
 
-@interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate, UISearchBarDelegate>
+@interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     MZKDatasource *_datasource;
     MZKItemResource *parentItemResource;
     MZKSearchBarCollectionReusableView *_searchBarView;
+    NSArray *_searchResults;
 }
 @property (weak, nonatomic) IBOutlet UICollectionView *_collectionView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 @property (weak, nonatomic) IBOutlet UIView *dimmingView;
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContainerView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UITableView *searchResultsTableView;
 
 @end
 
@@ -45,6 +47,7 @@
     [self hideDimmingView];
     // Do any additional setup after loading the view.
     [self initGoogleAnalytics];
+    _searchResults = [NSArray new];
 }
 
 -(void)initGoogleAnalytics
@@ -271,11 +274,6 @@
 
 }
 
--(void)searchResultsLoaded:(NSArray *)results
-{
-    [self hideDimmingView];
-}
-
 #pragma mark - Search bar delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
@@ -284,12 +282,14 @@
             _datasource = [MZKDatasource new];
             _datasource.delegate = self;
         }
-        
-        [_datasource getSearchResults:searchText];
+        [self showLoadingIndicator];
+        [_datasource getSearchResultsAsHints:searchText];
     }
     else
     {
         [self showDimmingView];
+        _searchResults = [NSArray new];
+        [_searchResultsTableView reloadData];
     }
 }
 
@@ -307,6 +307,7 @@
 
 -(void)hideDimmingView
 {
+    _searchResultsTableView.hidden = YES;
     [UIView animateWithDuration:0.4 animations:^{
         _dimmingView.alpha = 0.0;
     }];
@@ -332,6 +333,49 @@
     [self.activityIndicator stopAnimating];
     self.activityIndicatorContainerView.hidden = self.activityIndicator.hidden = YES;
 }
+
+-(void)searchHintsLoaded:(NSDictionary *)results
+{
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf searchHintsLoaded:results];
+        });
+        return;
+    }
+    
+    
+    [self hideLoadingIndicator];
+    _searchResults = results;
+    _searchResultsTableView.hidden = NO;
+    [_searchResultsTableView reloadData];
+}
+
+#pragma mark - search table view delegate and datasource
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return  _searchResults.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchHintCell"];
+    
+    cell.textLabel.text = [_searchResults objectAtIndex:indexPath.row];
+    return cell;
+    
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"Selected");
+}
+
 
 
 @end

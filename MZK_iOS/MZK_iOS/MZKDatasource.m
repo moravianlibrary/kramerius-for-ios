@@ -26,6 +26,8 @@ enum _downloadOperation{
     downloadCollectionInfo,
     downloadCollectionItems,
     search,
+    searchHints,
+    searchFullResults,
 };
 typedef enum _downloadOperation downloadOperation;
 
@@ -144,6 +146,36 @@ typedef enum _downloadOperation downloadOperation;
     
 }
 
+-(void)getSearchResultsAsHints:(NSString *)searchString
+{
+    
+    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=PID,dc.title&q=dc.title:%@*+AND+(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", searchString];
+    
+    http://kramerius.mzk.cz
+   
+    [self checkAndSetBaseUrl];
+    
+    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq];
+    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    
+    [self downloadDataFromURL:url withOperation:searchHints];
+}
+
+-(void)getFullSearchResults:(NSString *)searchString
+{
+    
+    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?q=dc.title:%@*+AND+(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", searchString];
+    
+    [self checkAndSetBaseUrl];
+    
+    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq];
+    finalString = [finalString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    
+    [self downloadDataFromURL:url withOperation:searchFullResults];
+}
+
+
 
 -(void)getSearchResults:(NSString *)searchQuery
 {
@@ -168,7 +200,6 @@ typedef enum _downloadOperation downloadOperation;
         NSLog(@"Default URL not set!");
     }
     self.baseStringURL = [NSString stringWithFormat:@"%@://%@", item.protocol, item.stringURL];
-    
 }
 
 
@@ -385,6 +416,37 @@ typedef enum _downloadOperation downloadOperation;
     return results;
 }
 
+-(NSDictionary *)parseJSONdataForSearchHints:(NSData *)data error:(NSError *)error
+{
+    NSError *localError = nil;
+    NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
+    
+    if (localError != nil) {
+        error = localError;
+        return nil;
+    }
+    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
+    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
+    
+    NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
+    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
+    
+     for (int i = 0; i<parsedObject.count; i++) {
+         NSDictionary *itemDict =[parsedObject objectAtIndex:i];
+         NSString *s = [itemDict objectForKey:@"dc.title"];
+         NSString *sPid = [itemDict objectForKey:@"PID"];
+         
+         [results setObject:sPid forKey:s];
+     }
+    
+    
+    if ([self.delegate respondsToSelector:@selector(searchHintsLoaded:)]) {
+        [self.delegate searchHintsLoaded:[results copy]];
+    }
+    
+    return results;
+}
+
 -(NSArray *)parseJSONdataForSearch:(NSData *)data error:(NSError *)error
 {
     NSError *localError = nil;
@@ -415,7 +477,7 @@ typedef enum _downloadOperation downloadOperation;
         
         [results addObject:cItem];
     }
-    
+
     return [NSArray new];
 }
 
@@ -521,6 +583,15 @@ typedef enum _downloadOperation downloadOperation;
                     
                     [self parseJSONdataForSearch:data error:error];
                     
+                    break;
+                    
+                case searchHints:
+                    
+                    [self parseJSONdataForSearchHints:data error:error];
+                    break;
+                    
+                case searchFullResults:
+                    [self parseJSONdataForSearch:data error:error];
                     break;
                     
                 default:

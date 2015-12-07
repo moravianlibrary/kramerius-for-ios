@@ -311,6 +311,11 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+-(void)searchHintsLoaded:(NSDictionary *)results
+{
+    NSLog(@"search hints: %@", [results description]);
+}
+
 #pragma mark - SearchBar Delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
@@ -320,7 +325,7 @@
             datasource.delegate = self;
         }
         
-        [datasource getSearchResults:searchText];
+        [datasource getSearchResultsAsHints:searchText];
     }
     else
     {

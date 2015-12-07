@@ -21,6 +21,7 @@
 -(void)childrenForItemLoaded:(NSArray *)items;
 -(void)searchResultsLoaded:(NSArray *)results;
 -(void)downloadFailedWithRequest:(NSString *)request;
+-(void)searchHintsLoaded:(NSDictionary *)results;
 
 @end
 
@@ -43,6 +44,8 @@
 -(void)getInfoAboutCollections;
 -(void)getCollectionItems:(NSString *)collectionPID;
 -(void)getSearchResults:(NSString *)searchQuery;
+-(void)getSearchResultsAsHints:(NSString *)searchString;
+-(void)getFullSearchResults:(NSString *)searchString;
 
 
 
