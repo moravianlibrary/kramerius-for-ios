@@ -17,6 +17,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "MZKGeneralColletionViewController.h"
 #import "MZKSearchBarCollectionReusableView.h"
+#import <Google/Analytics.h>
 
 @interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate>
 {
@@ -46,11 +47,23 @@
     
     [self refreshAllValues];
     [self hideDimmingView];
+    [self initGoogleAnalytics];
+   
+}
+
+-(void)initGoogleAnalytics
+{
+    NSString *name = [NSString stringWithFormat:@"Pattern~%@", self.title];
     
-//    KTCenterFlowLayout *layout = [KTCenterFlowLayout new];
-//    layout.minimumInteritemSpacing = 10.f;
-//    layout.minimumLineSpacing = 10.f;
-//    _collectionView.collectionViewLayout = layout;
+    // The UA-XXXXX-Y tracker ID is loaded automatically from the
+    // GoogleService-Info.plist by the `GGLContext` in the AppDelegate.
+    // If you're copying this to an app just using Analytics, you'll
+    // need to configure your tracking ID here.
+    // [START screen_view_hit_objc]
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:name];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    // [END screen_view_hit_objc]
 }
 
 -(void)refreshAllValues

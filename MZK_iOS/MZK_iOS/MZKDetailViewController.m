@@ -12,6 +12,7 @@
 #import "MZKPageDetailCollectionViewCell.h"
 #import "AppDelegate.h"
 #import <UIImageView+WebCache.h>
+#import <Google/Analytics.h>
 
 NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
@@ -87,6 +88,23 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     [self.webView.scrollView setBackgroundColor:[UIColor grayColor]];
     
     barsHidden = hidingBars = NO;
+    
+    [self initGoogleAnalytics];
+}
+
+-(void)initGoogleAnalytics
+{
+    NSString *name = [NSString stringWithFormat:@"Pattern~%@", self.title];
+    
+    // The UA-XXXXX-Y tracker ID is loaded automatically from the
+    // GoogleService-Info.plist by the `GGLContext` in the AppDelegate.
+    // If you're copying this to an app just using Analytics, you'll
+    // need to configure your tracking ID here.
+    // [START screen_view_hit_objc]
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:name];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    // [END screen_view_hit_objc]
 }
 
 -(void)displayItem:(MZKPageObject*)page withURL:(NSString *)url withWith:(double) width andHeight:(double)height

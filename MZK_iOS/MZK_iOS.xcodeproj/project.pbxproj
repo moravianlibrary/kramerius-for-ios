@@ -42,6 +42,7 @@
 		2DA030521C0A002800B7759B /* MZKBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA030511C0A002800B7759B /* MZKBaseViewController.m */; };
 		2DAA60721BA758AB0004A718 /* MZKCollectionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA60711BA758AB0004A718 /* MZKCollectionDetailViewController.m */; };
 		2DAA60751BA7590B0004A718 /* MZKDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA60741BA7590B0004A718 /* MZKDetailCollectionViewCell.m */; };
+		2DB88C1B1C15B0E900AC7070 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DB88C1A1C15B0E900AC7070 /* GoogleService-Info.plist */; };
 		2DB8A7971ACD073400A1BB2E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8A7961ACD073400A1BB2E /* main.m */; };
 		2DB8A79A1ACD073400A1BB2E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8A7991ACD073400A1BB2E /* AppDelegate.m */; };
 		2DB8A7A31ACD073400A1BB2E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DB8A7A11ACD073400A1BB2E /* Main.storyboard */; };
@@ -116,6 +117,7 @@
 		2DAA60711BA758AB0004A718 /* MZKCollectionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionDetailViewController.m; sourceTree = "<group>"; };
 		2DAA60731BA7590B0004A718 /* MZKDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDetailCollectionViewCell.h; sourceTree = "<group>"; };
 		2DAA60741BA7590B0004A718 /* MZKDetailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDetailCollectionViewCell.m; sourceTree = "<group>"; };
+		2DB88C1A1C15B0E900AC7070 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2DB8A7911ACD073400A1BB2E /* MZK_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MZK_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DB8A7951ACD073400A1BB2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DB8A7961ACD073400A1BB2E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				2D8BB7C81BCE3FEF008E53A1 /* Menu */,
 				2DB8A7981ACD073400A1BB2E /* AppDelegate.h */,
 				2DB8A7991ACD073400A1BB2E /* AppDelegate.m */,
+				2DB88C1A1C15B0E900AC7070 /* GoogleService-Info.plist */,
 				2DA030501C0A002800B7759B /* MZKBaseViewController.h */,
 				2DA030511C0A002800B7759B /* MZKBaseViewController.m */,
 				2D24F06B1B7378740073FC83 /* MZKSearchViewController.h */,
@@ -409,6 +412,7 @@
 				2D2763D71B6B641900CC7E4F /* index.html in Resources */,
 				2D5A065A1BB19503009FD19C /* MZKClickableFooter.xib in Resources */,
 				2DB8A7A51ACD073400A1BB2E /* Images.xcassets in Resources */,
+				2DB88C1B1C15B0E900AC7070 /* GoogleService-Info.plist in Resources */,
 				2D1A8DE11AFD039200494743 /* MZKMenuClickableHeader.xib in Resources */,
 				2D2763D81B6B641900CC7E4F /* ol.js in Resources */,
 			);

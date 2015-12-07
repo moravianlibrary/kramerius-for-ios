@@ -11,6 +11,7 @@
 #import  "MZKConstants.h"
 #import <MSDynamicsDrawerViewController.h>
 #import "MZKConstants.h"
+#import <Google/Analytics.h>
 
 @interface AppDelegate ()<MSDynamicsDrawerViewControllerDelegate>
 
@@ -37,11 +38,15 @@
     // Transition to the first view controller
     [menuViewController transitionToViewController:MZKMainViewController];
     
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    self.window.rootViewController = self.dynamicsDrawerViewController;
-//    [self.window makeKeyAndVisible];
-//    [self.window addSubview:self.windowBackground];
-//    [self.window sendSubviewToBack:self.windowBackground];
+    // Configure tracker from GoogleService-Info.plist.
+    NSError *configureError;
+    [[GGLContext sharedInstance] configureWithError:&configureError];
+    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+    
+    // Optional: configure GAI options.
+    GAI *gai = [GAI sharedInstance];
+    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+    gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
 
     
     
