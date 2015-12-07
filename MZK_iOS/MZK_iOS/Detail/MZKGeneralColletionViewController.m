@@ -49,7 +49,7 @@
 
 -(void)initGoogleAnalytics
 {
-    NSString *name = [NSString stringWithFormat:@"Pattern~%@", self.title];
+    NSString *name = [NSString stringWithFormat:@"Pattern~%@", @"MZKGeneralCollectionViewController"];
     
     // The UA-XXXXX-Y tracker ID is loaded automatically from the
     // GoogleService-Info.plist by the `GGLContext` in the AppDelegate.
