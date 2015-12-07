@@ -40,7 +40,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
-  - Google/Analytics (~> 1.0.0)
+  - Google/Analytics
   - MSDynamicsDrawerViewController (~> 1.5)
   - SDWebImage (~> 3.7)
 
@@ -54,4 +54,4 @@ SPEC CHECKSUMS:
   MSDynamicsDrawerViewController: 2874df90f5e9453dc7d4e32f8038b50615d4baa7
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0

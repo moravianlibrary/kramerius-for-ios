@@ -32,6 +32,12 @@ typedef enum _downloadOperation downloadOperation;
 
 
 @implementation MZKDatasource
+{
+    NSURLRequest *_lastRequest;
+    NSURL *_lastURL;
+    downloadOperation lastOperation;
+    
+}
 
 -(id)init
 {
@@ -41,6 +47,13 @@ typedef enum _downloadOperation downloadOperation;
     }
     
     return self;
+}
+
+-(void)resendLastRequest
+{
+    if (_lastURL && lastOperation) {
+        [self downloadDataFromURL:_lastURL withOperation:lastOperation];
+    }
 }
 
 
@@ -450,19 +463,6 @@ typedef enum _downloadOperation downloadOperation;
     
 }
 
--(void)parseCollectionData:(NSData *)data error:(NSError *)error
-{
-    NSDictionary *dict = [XMLReader dictionaryForXMLData:data
-                                                 options:XMLReaderOptionsProcessNamespaces
-                                                   error:&error];
-    
-    NSDictionary *list = [dict objectForKey:@"IMAGE_PROPERTIES"];
-    NSInteger width = [[list objectForKey:@"WIDTH"] integerValue];
-    NSInteger height = [[list objectForKey:@"HEIGHT"] integerValue];
-    
-}
-
-
 -(void)downloadDataFromURL:(NSURL *)strURL withOperation:(downloadOperation)operation
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
@@ -474,6 +474,10 @@ typedef enum _downloadOperation downloadOperation;
         NSLog(@"%@", req.allHTTPHeaderFields);;
     }
     
+    //save operation and URL for re-send
+    
+    _lastURL = strURL;
+    lastOperation = operation;
     
     NSLog(@"Request: %@, with operation:%u", [req description], operation);
     

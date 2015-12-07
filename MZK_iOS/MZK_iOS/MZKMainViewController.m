@@ -46,6 +46,11 @@
     
     [self refreshAllValues];
     [self hideDimmingView];
+    
+//    KTCenterFlowLayout *layout = [KTCenterFlowLayout new];
+//    layout.minimumInteritemSpacing = 10.f;
+//    layout.minimumLineSpacing = 10.f;
+//    _collectionView.collectionViewLayout = layout;
 }
 
 -(void)refreshAllValues
@@ -187,6 +192,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     // TODO: Deselect item
 }
+
 
 
 -(MZKItemResource *)itemAtIndexPath:(NSIndexPath *)path

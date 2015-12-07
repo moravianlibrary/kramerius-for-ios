@@ -552,10 +552,10 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nqH-AD-f3s" userLabel="NextPageSideButton">
-                                <rect key="frame" x="550" y="50" width="46" height="500"/>
+                                <rect key="frame" x="499" y="50" width="100" height="500"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="M9X-2F-TzT"/>
+                                    <constraint firstAttribute="width" constant="100" id="M9X-2F-TzT"/>
                                 </constraints>
                                 <connections>
                                     <action selector="onNextPage:" destination="l9D-rH-xq3" eventType="touchUpInside" id="wLG-Hk-5b1"/>
@@ -567,15 +567,16 @@
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tqu-5X-dGj">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="499"/>
                                         <animations/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jRY-Ma-UeU">
+                                        <inset key="scrollIndicatorInsets" minX="30" minY="0.0" maxX="30" maxY="0.0"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="20" id="jRY-Ma-UeU">
                                             <size key="itemSize" width="100" height="120"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                            <inset key="sectionInset" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
+                                            <inset key="sectionInset" minX="30" minY="0.0" maxX="30" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MZKPageDetailCollectionViewCell" id="4TN-cd-ggY" customClass="MZKPageDetailCollectionViewCell">
-                                                <rect key="frame" x="5" y="0.0" width="110" height="130"/>
+                                                <rect key="frame" x="30" y="0.0" width="110" height="130"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                     <rect key="frame" x="0.0" y="0.0" width="110" height="130"/>
@@ -649,10 +650,10 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TVn-vm-vKf" userLabel="PreviousPageSideButton">
-                                <rect key="frame" x="0.0" y="50" width="46" height="500"/>
+                                <rect key="frame" x="0.0" y="50" width="100" height="500"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="6yj-Es-s2L"/>
+                                    <constraint firstAttribute="width" constant="100" id="6yj-Es-s2L"/>
                                 </constraints>
                                 <connections>
                                     <action selector="onPreviousPage:" destination="l9D-rH-xq3" eventType="touchUpInside" id="DyN-Dl-S88"/>
@@ -742,7 +743,7 @@
                             <constraint firstItem="nN4-kv-hMH" firstAttribute="top" secondItem="nqH-AD-f3s" secondAttribute="bottom" id="a6t-8V-G2y"/>
                             <constraint firstAttribute="centerY" secondItem="iA2-Oy-Bhv" secondAttribute="centerY" id="aXD-Mt-Zu6"/>
                             <constraint firstItem="fZe-bH-K01" firstAttribute="top" secondItem="iA2-Oy-Bhv" secondAttribute="top" id="kbO-bA-2am"/>
-                            <constraint firstAttribute="trailing" secondItem="nqH-AD-f3s" secondAttribute="trailing" constant="4" id="nHz-Ao-ops"/>
+                            <constraint firstAttribute="trailing" secondItem="nqH-AD-f3s" secondAttribute="trailing" constant="1" id="nHz-Ao-ops"/>
                             <constraint firstAttribute="centerX" secondItem="iA2-Oy-Bhv" secondAttribute="centerX" id="pcs-SH-IeH"/>
                             <constraint firstItem="yMx-HL-3FU" firstAttribute="leading" secondItem="27N-b8-mKv" secondAttribute="leading" id="tEq-so-g3h"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fZe-bH-K01" secondAttribute="trailing" constant="-20" id="uuG-Rl-GII"/>
@@ -832,7 +833,7 @@
                                         <rect key="frame" x="0.0" y="22" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JbJ-RJ-Ern" id="efa-X0-qXr">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Q0-vA-0j7">
@@ -1107,8 +1108,8 @@
                                             <action selector="onBack:" destination="6df-qc-DMZ" eventType="touchUpInside" id="bhG-MY-njo"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Výběr zdroje" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1yA-oh-su2">
-                                        <rect key="frame" x="252" y="16" width="98" height="37"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Výběr zdroje" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1yA-oh-su2">
+                                        <rect key="frame" x="251" y="16" width="98" height="37"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1121,6 +1122,7 @@
                                     <constraint firstItem="ZhW-ZU-8eM" firstAttribute="leading" secondItem="WVl-ai-7cG" secondAttribute="leading" constant="8" id="1Vp-Dp-s3n"/>
                                     <constraint firstItem="1yA-oh-su2" firstAttribute="top" secondItem="WVl-ai-7cG" secondAttribute="top" constant="16" id="Fwh-Iw-Bbw"/>
                                     <constraint firstAttribute="centerY" secondItem="1yA-oh-su2" secondAttribute="centerY" id="Ju9-eN-peZ"/>
+                                    <constraint firstAttribute="height" constant="69" id="XbP-7W-XTA"/>
                                     <constraint firstAttribute="bottom" secondItem="1yA-oh-su2" secondAttribute="bottom" constant="16" id="av3-cT-D0x"/>
                                     <constraint firstAttribute="bottom" secondItem="ZhW-ZU-8eM" secondAttribute="bottom" constant="20" id="cHI-kn-D41"/>
                                     <constraint firstItem="ZhW-ZU-8eM" firstAttribute="top" secondItem="WVl-ai-7cG" secondAttribute="top" constant="20" id="cip-AP-ukw"/>
@@ -1128,7 +1130,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="90" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="6UR-4k-IaJ">
-                                <rect key="frame" x="0.0" y="70" width="600" height="531"/>
+                                <rect key="frame" x="0.0" y="70" width="600" height="529"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
@@ -1136,7 +1138,7 @@
                                         <rect key="frame" x="0.0" y="1" width="600" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T4C-RZ-C4B" id="BEL-bq-b42">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="89.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QuW-D5-Zpg" userLabel="libraryIcon">
@@ -1224,13 +1226,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="6UR-4k-IaJ" secondAttribute="trailing" id="Bwl-BO-OhR"/>
+                            <constraint firstAttribute="bottom" secondItem="6UR-4k-IaJ" secondAttribute="bottom" constant="1" id="IbE-4Y-AEh"/>
                             <constraint firstAttribute="trailing" secondItem="WVl-ai-7cG" secondAttribute="trailing" id="M8e-Nb-W9i"/>
                             <constraint firstItem="6UR-4k-IaJ" firstAttribute="top" secondItem="ssx-dm-Smy" secondAttribute="top" constant="70" id="RV1-fV-jqD"/>
                             <constraint firstItem="6UR-4k-IaJ" firstAttribute="leading" secondItem="ssx-dm-Smy" secondAttribute="leading" id="SB8-dJ-4lh"/>
-                            <constraint firstItem="6UR-4k-IaJ" firstAttribute="top" secondItem="WVl-ai-7cG" secondAttribute="bottom" constant="1" id="SgC-FC-QfR"/>
                             <constraint firstItem="WVl-ai-7cG" firstAttribute="top" secondItem="fAK-RB-FMh" secondAttribute="bottom" id="dB3-kB-O9h"/>
                             <constraint firstItem="WVl-ai-7cG" firstAttribute="leading" secondItem="ssx-dm-Smy" secondAttribute="leading" id="pyc-Y8-Ovb"/>
-                            <constraint firstItem="S11-Fb-LR7" firstAttribute="top" secondItem="6UR-4k-IaJ" secondAttribute="bottom" constant="-1" id="xbd-v3-STX"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -1293,11 +1294,12 @@
                                 <rect key="frame" x="0.0" y="42" width="600" height="558"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ewx-4A-sBW">
+                                <inset key="scrollIndicatorInsets" minX="30" minY="0.0" maxX="30" maxY="0.0"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="20" id="ewx-4A-sBW">
                                     <size key="itemSize" width="304" height="140"/>
                                     <size key="headerReferenceSize" width="50" height="44"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="30" minY="5" maxX="30" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MZKItemCollectionViewCell" id="RUS-et-aMG" customClass="MZKItemCollectionViewCell">
@@ -1497,11 +1499,12 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="scrollIndicatorInsets" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="cCe-NJ-EAb">
                                     <size key="itemSize" width="304" height="140"/>
                                     <size key="headerReferenceSize" width="50" height="44"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="30" minY="5" maxX="30" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MZKItemCollectionViewCell" id="Y8O-zU-p2j" customClass="MZKItemCollectionViewCell">
@@ -1739,7 +1742,7 @@
         <image name="pages" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vUe-Rc-ptJ"/>
-        <segue reference="Gmw-Rc-QWP"/>
+        <segue reference="ZCR-f1-b8E"/>
+        <segue reference="1wt-1f-SHW"/>
     </inferredMetricsTieBreakers>
 </document>

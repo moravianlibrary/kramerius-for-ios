@@ -35,17 +35,24 @@
  }
  */
 
+-(void)showErrorWithTitle:(NSString *)title subtitle:(NSString *)subtitle confirmAction:(void (^)())actionBlock
+{
+    
+}
+
 -(void)showErrorWithTitle:(NSString *)title subtitle:(NSString *)subtitle
 {
+    NSString *t = title ? title : @"Nastala chyba";
+    NSString *st = subtitle ? subtitle : @"Nastal problem pri stahovani dat, chcete akci opakovat?";
     
     
     UIAlertController * alert=   [UIAlertController
-                                  alertControllerWithTitle:@"Info"
-                                  message:@"You are using UIAlertController"
+                                  alertControllerWithTitle:t
+                                  message:st
                                   preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction* ok = [UIAlertAction
-                         actionWithTitle:@"OK"
+                         actionWithTitle:@"Ano"
                          style:UIAlertActionStyleDefault
                          handler:^(UIAlertAction * action)
                          {
@@ -53,7 +60,7 @@
                              
                          }];
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancel"
+                             actionWithTitle:@"Zrušit"
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {

@@ -348,6 +348,7 @@
 				2DB8A78E1ACD073400A1BB2E /* Frameworks */,
 				2DB8A78F1ACD073400A1BB2E /* Resources */,
 				22F74CB48A0EB132E01D44E0 /* Copy Pods Resources */,
+				060BEE09EFE34ECB5FA92CC7 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -416,6 +417,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		060BEE09EFE34ECB5FA92CC7 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		22F74CB48A0EB132E01D44E0 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
