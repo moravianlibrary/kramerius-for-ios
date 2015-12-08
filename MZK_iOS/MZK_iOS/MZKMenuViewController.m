@@ -157,7 +157,15 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
    
 
     
-    self.paneRevealLeftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_back"] style:UIBarButtonItemStylePlain target:self action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
+    self.paneRevealLeftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
+    
+   // self.paneRevealLeftBarButtonItem
+    
+   // UIButton *menuButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.paneRevealLeftBarButtonItem.width, self.paneRevealLeftBarButtonItem.width)];
+    
+  //  [menuButton setBackgroundImage:[UIImage imageNamed:@"icon_back"] forState:UIControlStateNormal];
+    
+   
    
     paneViewController.navigationItem.leftBarButtonItem = self.paneRevealLeftBarButtonItem;
     

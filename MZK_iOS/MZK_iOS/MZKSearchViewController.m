@@ -87,7 +87,7 @@
 #pragma mark - Search bar delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if (searchText.length >3) {
+    if (searchText.length >=3) {
         if (!_datasource) {
             _datasource = [MZKDatasource new];
             _datasource.delegate = self;
@@ -200,6 +200,9 @@
     
     if ([_item.model caseInsensitiveCompare:@"manuscript"] ==NSOrderedSame) {
          [self performSegueWithIdentifier:@"OpenDetail" sender:_item];
+    }else if ([_item.model caseInsensitiveCompare:@"soundunit"] ==NSOrderedSame)
+    {
+        [self performSegueWithIdentifier:@"OpenSoundDetail" sender:_item];
     }
 }
 
@@ -212,6 +215,9 @@
 
 #pragma mark segues for general view controller
 
-
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+}
 
 @end
