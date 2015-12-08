@@ -6,6 +6,6 @@ pod 'MSDynamicsDrawerViewController', '~> 1.5'
 pod 'SDWebImage', '~>3.7'
 pod 'AFNetworking', '~> 2.0'
 pod 'Google/Analytics'
-
+pod 'CocoaLumberjack'
 end
 

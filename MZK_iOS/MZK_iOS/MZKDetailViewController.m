@@ -65,8 +65,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     currentIndex = 0;
 
     if (self.item) {
-         [self loadImageStreamsForItem:_item.pid];
-        [detailDatasource getChildrenForItem:_item.pid];
+       // [detailDatasource getChildrenForItem:_item.pid];
         self.titleLabel.text = _item.title;
         
     }
@@ -84,8 +83,8 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     self.tapGestureRecognizer = singleTap;
     [self.webView addGestureRecognizer:singleTap];
     
-    [self.webView setBackgroundColor:[UIColor blackColor]];
-    [self.webView.scrollView setBackgroundColor:[UIColor grayColor]];
+    [_webView setBackgroundColor:[UIColor blackColor]];
+    [_webView.scrollView setBackgroundColor:[UIColor grayColor]];
     
     barsHidden = hidingBars = NO;
     
@@ -140,6 +139,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     if (!_webView) {
         NSLog(@"NO WeB View");
     }
+    [_webView setBackgroundColor:[UIColor blackColor]];
     [_webView setContentMode:UIViewContentModeScaleToFill];
     [_webView.scrollView setContentSize:CGSizeMake(_webView.frame.size.width, _webView.frame.size.height)];
 
@@ -171,6 +171,16 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 -(void)loadDataForItem:(MZKItemResource *)item
 {
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf loadDataForItem:item];
+        });
+        return;
+    }
+    
+    
     if (!detailDatasource) {
         detailDatasource = [MZKDatasource new];
         detailDatasource.delegate = self;
@@ -197,7 +207,14 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 -(void)pageLoadedForItem:(MZKPageObject *)pageObject
 {
-    NSLog(@"Page Resolution LOADED");
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf pageLoadedForItem:pageObject];
+        });
+        return;
+    }
     
     if (pageObject.pid == [[loadedPages objectAtIndex:currentIndex] pid]) {
         [self displayItem:pageObject withURL:pageObject.pid withWith:pageObject.width andHeight:pageObject.height];
@@ -284,6 +301,15 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 -(void)pagesLoadedForItem:(NSArray *)pages
 {
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf pagesLoadedForItem:pages];
+        });
+        return;
+    }
+    
     loadedPages = pages;
     [self updateUserInterfaceAfterPageChange];
     
@@ -293,6 +319,16 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 -(void)detailForItemLoaded:(MZKItemResource *)item
 {
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf detailForItemLoaded:item];
+        });
+        return;
+    }
+    
+    
     loadedItem = item;
     self.titleLabel.text = item.title;
     
@@ -345,18 +381,14 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 -(IBAction)onTap:(id)sender
 {
-    NSLog(@"Tap detected!");
-    
     if (!hidingBars) {
         
         barsHidden?[self showBars:YES]:[self hideBars:YES];
     }
-    
 }
 
 -(void)switchPage
 {
-    NSLog(@"Switch page with current index:%lu", (unsigned long)currentIndex);
     MZKPageObject *obj = [loadedPages objectAtIndex:currentIndex];
     
     [self loadImagePropertiesForItem:obj.pid];
@@ -369,7 +401,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
        
         [self switchPage];
     }
-
 }
 
 - (IBAction)onPreviousPage:(id)sender {
@@ -474,6 +505,9 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/thumb",url, page.pid ];
         
         cell.pageNumber.text = [NSString stringWithFormat:@"%i", page.titleStringValue.intValue] ;
+        
+        NSLog(@"Page number: %f", [page.titleStringValue doubleValue]);
+        
         [cell.pageThumbnail sd_setImageWithURL:[NSURL URLWithString:path]
                           placeholderImage:nil];
         cell.page = page;

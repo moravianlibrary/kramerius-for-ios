@@ -151,8 +151,8 @@ typedef enum _downloadOperation downloadOperation;
     
     NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=PID,dc.title&q=dc.title:%@*+AND+(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", searchString];
     
-    http://kramerius.mzk.cz
-   
+http://kramerius.mzk.cz
+    
     [self checkAndSetBaseUrl];
     
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq];
@@ -290,7 +290,8 @@ typedef enum _downloadOperation downloadOperation;
     for (int i = 0; i<parsedObject.count; i++) {
         
         NSString *policy = [[parsedObject objectAtIndex:i] objectForKey:@"policy"];
-        if ([policy caseInsensitiveCompare:@"public"] == NSOrderedSame) {
+        NSString *model = [[parsedObject objectAtIndex:i] objectForKey:@"model"];
+        if ([policy caseInsensitiveCompare:@"public"] == NSOrderedSame && ![model isEqualToString:@"internalpart"]) {
             
             MZKPageObject *page = [MZKPageObject new];
             page.pid = [[parsedObject objectAtIndex:i] objectForKey:@"pid"];
@@ -300,7 +301,9 @@ typedef enum _downloadOperation downloadOperation;
             page.rootTitle =  [[parsedObject objectAtIndex:i] objectForKey:@"root_title"];
             
             page.page =  [[[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"pagenumber"] integerValue];
-            page.type = [[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"type"];
+            if([[parsedObject objectAtIndex:i] objectForKey:@"details"]){
+                page.type = [[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"type"];
+            }
             page.title = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
             page.datanode= [[[parsedObject objectAtIndex:i] objectForKey:@"datanode"] boolValue];
             
@@ -322,12 +325,15 @@ typedef enum _downloadOperation downloadOperation;
         
     }
     
-    if ([self.delegate respondsToSelector:@selector(pagesLoadedForItem:)]) {
-        [self.delegate pagesLoadedForItem:pages];
-    }
-    else if ([self.delegate respondsToSelector:@selector(childrenForItemLoaded:)])
+    if(pages.count >0)
     {
-        [self.delegate childrenForItemLoaded:pages];
+        if ([self.delegate respondsToSelector:@selector(pagesLoadedForItem:)]) {
+            [self.delegate pagesLoadedForItem:pages];
+        }
+        else if ([self.delegate respondsToSelector:@selector(childrenForItemLoaded:)])
+        {
+            [self.delegate childrenForItemLoaded:pages];
+        }
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
@@ -431,13 +437,13 @@ typedef enum _downloadOperation downloadOperation;
     NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
     NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
     
-     for (int i = 0; i<parsedObject.count; i++) {
-         NSDictionary *itemDict =[parsedObject objectAtIndex:i];
-         NSString *s = [itemDict objectForKey:@"dc.title"];
-         NSString *sPid = [itemDict objectForKey:@"PID"];
-         
-         [results setObject:sPid forKey:s];
-     }
+    for (int i = 0; i<parsedObject.count; i++) {
+        NSDictionary *itemDict =[parsedObject objectAtIndex:i];
+        NSString *s = [itemDict objectForKey:@"dc.title"];
+        NSString *sPid = [itemDict objectForKey:@"PID"];
+        
+        [results setObject:sPid forKey:s];
+    }
     
     
     if ([self.delegate respondsToSelector:@selector(searchHintsLoaded:)]) {
@@ -477,7 +483,7 @@ typedef enum _downloadOperation downloadOperation;
         
         [results addObject:cItem];
     }
-
+    
     return [NSArray new];
 }
 

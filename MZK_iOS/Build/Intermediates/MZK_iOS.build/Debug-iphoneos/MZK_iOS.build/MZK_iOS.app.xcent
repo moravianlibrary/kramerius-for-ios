@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>application-identifier</key>
-	<string>873S4GA3KJ.cz.mzk.ios.MZK-iOS</string>
+	<string>873S4GA3KJ.cz.mzk.ios.KRAMERIUS</string>
 	<key>com.apple.developer.team-identifier</key>
 	<string>873S4GA3KJ</string>
 	<key>get-task-allow</key>
 	<true/>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>873S4GA3KJ.cz.mzk.ios.MZK-iOS</string>
+		<string>873S4GA3KJ.cz.mzk.ios.KRAMERIUS</string>
 	</array>
 </dict>
 </plist>

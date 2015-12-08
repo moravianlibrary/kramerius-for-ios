@@ -22,7 +22,7 @@
     MZKDatasource *_datasource;
     MZKItemResource *parentItemResource;
     MZKSearchBarCollectionReusableView *_searchBarView;
-    NSArray *_searchResults;
+    NSDictionary *_searchResults;
 }
 @property (weak, nonatomic) IBOutlet UICollectionView *_collectionView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
@@ -47,7 +47,8 @@
     [self hideDimmingView];
     // Do any additional setup after loading the view.
     [self initGoogleAnalytics];
-    _searchResults = [NSArray new];
+    _searchResults = [NSDictionary new];
+    
 }
 
 -(void)initGoogleAnalytics
@@ -123,20 +124,20 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 #pragma mark - CollectionView Delegate and Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
     
-   return _items.count;
+    return _items.count;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
@@ -177,21 +178,21 @@
     NSLog(@"Model:%@",  cell.item.model);
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     MZKPageObject *po =[_items objectAtIndex:indexPath.row];
-   // [_datasource getItem:po.pid];
+    // [_datasource getItem:po.pid];
     
     if ([po.model isEqualToString:@"soundunit"]) {
         NSLog(@"Soundunit");
         [[MZKMusicViewController sharedInstance] setItemPID:po.pid];
         [self presentViewController:[MZKMusicViewController sharedInstance] animated:YES completion:nil];
         
-
+        
     }
     else if (po.datanode) {
         //should dive deeper
         NSLog(@"Datanode");
         
         
-      //  MZKGeneralColletionViewController *nextViewController = [[MZKGeneralColletionViewController alloc] init];
+        //  MZKGeneralColletionViewController *nextViewController = [[MZKGeneralColletionViewController alloc] init];
         MZKGeneralColletionViewController *nextViewController = [storyboard instantiateViewControllerWithIdentifier:@"MZKGeneralColletionViewController"];
         [nextViewController setParentPID:po.pid];
         nextViewController.isFirst = NO;
@@ -210,9 +211,9 @@
         [vc setItemPID:po.pid];
         
         [self presentViewController:vc animated:YES completion:^{
-        
+            
         }];
-
+        
     }
     
     if ([po.model isEqualToString:@"periodicalvolume"])
@@ -235,15 +236,15 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionReusableView *reusableview = nil;
-    
     if (kind == UICollectionElementKindSectionHeader) {
         MZKSearchBarCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SearchHeader" forIndexPath:indexPath];
         headerView.searchBar.layer.borderWidth = 1.0;
         headerView.searchBar.layer.borderColor = [[UIColor groupTableViewBackgroundColor] CGColor];
         reusableview = headerView;
-         _searchBarView = headerView;
+        _searchBarView = headerView;
         
     }
+    
     return reusableview;
 }
 
@@ -261,19 +262,6 @@
     });
 }
 
--(void)detailForItemLoaded:(MZKItemResource *)item
-{
-    parentItemResource = item;
-    __weak typeof(self) wealf = self;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [wealf refreshTitle];
-         [_datasource getChildrenForItem:item.pid];
-        [wealf hideLoadingIndicator];
-    });
-
-}
-
 #pragma mark - Search bar delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
@@ -288,7 +276,7 @@
     else
     {
         [self showDimmingView];
-        _searchResults = [NSArray new];
+        _searchResults = [NSDictionary new];
         [_searchResultsTableView reloadData];
     }
 }
@@ -345,8 +333,9 @@
         return;
     }
     
-    
+    [self hideDimmingView];
     [self hideLoadingIndicator];
+    
     _searchResults = results;
     _searchResultsTableView.hidden = NO;
     [_searchResultsTableView reloadData];
@@ -359,22 +348,60 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return  _searchResults.count;
+    return  _searchResults.allKeys.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchHintCell"];
     
-    cell.textLabel.text = [_searchResults objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = [_searchResults.allKeys objectAtIndex:indexPath.row];
     return cell;
     
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Selected");
+    NSString *key = [_searchResults.allKeys objectAtIndex:indexPath.row];
+    NSString *targetPid = [_searchResults objectForKey:key];
+    
+    [_datasource getItem:targetPid];
+    
+    [_searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [self resetSearch];
 }
+
+-(void) detailForItemLoaded:(MZKItemResource *)item
+{
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf detailForItemLoaded:item];
+        });
+        return;
+    }
+    
+    parentItemResource = item;
+    __weak typeof(self) wealf = self;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [wealf refreshTitle];
+        [_datasource getChildrenForItem:item.pid];
+        [wealf hideLoadingIndicator];
+    });
+}
+
+-(void)resetSearch
+{
+    [self hideDimmingView];
+    [self hideLoadingIndicator];
+    _searchResultsTableView.hidden = YES;
+    _searchBarView.searchBar.text = @"";
+}
+
 
 
 

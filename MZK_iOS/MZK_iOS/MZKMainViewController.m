@@ -25,12 +25,14 @@
     NSArray *_recent;
     NSArray *_recommended;
     UIRefreshControl *refreshControl;
+    NSDictionary *_searchResults;
 }
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContentView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControll;
 @property (weak, nonatomic) IBOutlet UIView *dimmingView;
+@property (weak, nonatomic) IBOutlet UITableView *searchResultsTableView;
 
 @end
 
@@ -109,13 +111,6 @@
 
 }
 
--(void)searchResultsLoaded:(NSArray *)results
-{
-    [self hideDimmingView];
-    NSLog(@"Loaded");
-    
-}
-
 -(void)downloadFailedWithRequest:(NSString *)request
 {
     [self showErrorWithTitle:@"Title" subtitle:@"subtitle"];
@@ -190,23 +185,21 @@
     
     NSLog(@"Model:%@",  cell.item.model);
     
-    if ([cell.item.model isEqualToString:@"soundrecording"] || [cell.item.model isEqualToString:@"periodical"]) {
-        [self performSegueWithIdentifier:@"OpenGeneralList" sender:cell.item];
-    }else
-        
-    {
-        [self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
-    }
+    [self prepareDataForSegue:cell.item];
     
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
     
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO: Deselect item
+-(void)prepareDataForSegue:(MZKItemResource *)item
+{
+    if ([item.model isEqualToString:@"soundrecording"] || [item.model isEqualToString:@"periodical"] || [item.model isEqualToString:@"sheetmusic"]) {
+        [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];
+    }else if([item.model isEqualToString:@"manuscript"] || [item.model isEqualToString:@"monograph"] ||[item.model isEqualToString:@"map"] ||[item.model isEqualToString:@"graphic"])
+    {
+        [self performSegueWithIdentifier:@"OpenDetail" sender:item];
+    }
 }
-
-
 
 -(MZKItemResource *)itemAtIndexPath:(NSIndexPath *)path
 {
@@ -311,25 +304,22 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)searchHintsLoaded:(NSDictionary *)results
-{
-    NSLog(@"search hints: %@", [results description]);
-}
-
 #pragma mark - SearchBar Delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if (searchText.length >3) {
+    if (searchText.length >=3) {
         if (!datasource) {
             datasource = [MZKDatasource new];
             datasource.delegate = self;
         }
-        
+        [self showLoadingIndicator];
         [datasource getSearchResultsAsHints:searchText];
     }
     else
     {
         [self showDimmingView];
+        _searchResults = [NSDictionary new];
+        [_searchResultsTableView reloadData];
     }
 }
 
@@ -347,11 +337,11 @@
 
 -(void)hideDimmingView
 {
+    _searchResultsTableView.hidden = YES;
     [UIView animateWithDuration:0.4 animations:^{
         _dimmingView.alpha = 0.0;
     }];
 }
-
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
@@ -373,8 +363,68 @@
     self.activityIndicatorContentView.hidden = self.activityIndicator.hidden = YES;
 }
 
+-(void)searchHintsLoaded:(NSDictionary *)results
+{
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf searchHintsLoaded:results];
+        });
+        return;
+    }
+    
+    [self hideDimmingView];
+    [self hideLoadingIndicator];
+    
+    _searchResults = results;
+    _searchResultsTableView.hidden = NO;
+    [_searchResultsTableView reloadData];
+}
 
+#pragma mark - search table view delegate and datasource
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return  _searchResults.allKeys.count;
+}
 
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchHintCell"];
+    
+    
+    cell.textLabel.text = [_searchResults.allKeys objectAtIndex:indexPath.row];
+    return cell;
+    
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *key = [_searchResults.allKeys objectAtIndex:indexPath.row];
+    NSString *targetPid = [_searchResults objectForKey:key];
+    
+    [datasource getItem:targetPid];
+    
+    [_searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+-(void) detailForItemLoaded:(MZKItemResource *)item
+{
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf detailForItemLoaded:item];
+        });
+        return;
+    }
+    
+    [self prepareDataForSegue:item];
+}
 
 
 @end

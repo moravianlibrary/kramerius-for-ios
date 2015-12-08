@@ -10,6 +10,9 @@
 #import "MZKDatasource.h"
 #import <Google/Analytics.h>
 #import "MZKItemResource.h"
+#import "MZKDetailViewController.h"
+#import "MZKMusicViewController.h"
+#import "MZKGeneralColletionViewController.h"
 
 @interface MZKSearchViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DataLoadedDelegate>
 {
@@ -36,6 +39,9 @@
     // Do any additional setup after loading the view.
     [self initGoogleAnalytics];
     _searchResults = [NSDictionary new];
+    
+   _searchBar.layer.borderWidth = 1.0;
+   _searchBar.layer.borderColor =  [[UIColor groupTableViewBackgroundColor] CGColor];
 }
 
 -(void)initGoogleAnalytics
@@ -196,6 +202,14 @@
 #pragma mark - datasource delegate
 -(void)detailForItemLoaded:(MZKItemResource *)item
 {
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf detailForItemLoaded:item];
+        });
+        return;
+    }
     _item = item;
     
     if ([_item.model caseInsensitiveCompare:@"manuscript"] ==NSOrderedSame) {
@@ -215,9 +229,31 @@
 
 #pragma mark segues for general view controller
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    
+    // Make sure your segue name in storyboard is the same as this line
+    if ([[segue identifier] isEqualToString:@"OpenDetail"])
+    {
+        // Get reference to the destination view controller
+        MZKDetailViewController *vc = [segue destinationViewController];
+        
+        // Pass any objects to the view controller here, like...
+        [vc setItem:sender];
+    }
+    else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
+    {
+        MZKMusicViewController *vc = [segue destinationViewController];
+        [vc setItem:sender];
+        //set item
+    }
+    else if ([[segue identifier] isEqualToString:@"OpenGeneralList"])
+    {
+        UINavigationController *navVC =[segue destinationViewController];
+        MZKGeneralColletionViewController *vc =(MZKGeneralColletionViewController *)navVC.topViewController;
+        [vc setParentPID:((MZKItemResource *)sender).pid];
+        vc.isFirst = YES;
+        vc.shouldShowSearchBar = NO;
+    }
 }
 
 @end
