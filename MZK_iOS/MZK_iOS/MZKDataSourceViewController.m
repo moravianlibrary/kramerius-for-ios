@@ -81,13 +81,13 @@
     MZKResourceItem *item3 = [MZKResourceItem new];
     item3.name = @"Jihočeská vědecká knihovna v Českých Budějovicích";
     item3.protocol = @"http";
-    item3.stringURL = @"kramerius.kr-olomoucky.cz";
+    item3.stringURL = @"kramerius.cbvk.cz";
     item3.imageName = @"logo_cbvk";
     
     MZKResourceItem *item4 = [MZKResourceItem new];
     item4.name = @"Vědecká knihovna v Olomouci";
     item4.protocol = @"http";
-    item4.stringURL = @"kramerius.mzk.cz";
+    item4.stringURL = @"kramerius.kr-olomoucky.cz";
     item4.imageName = @"logo_vkol";
     
     MZKResourceItem *item5 = [MZKResourceItem new];
