@@ -240,21 +240,21 @@
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
     
 }
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionReusableView *reusableview = nil;
-    if (kind == UICollectionElementKindSectionHeader) {
-        MZKSearchBarCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SearchHeader" forIndexPath:indexPath];
-        headerView.searchBar.layer.borderWidth = 1.0;
-        headerView.searchBar.layer.borderColor = [[UIColor groupTableViewBackgroundColor] CGColor];
-        reusableview = headerView;
-        _searchBarView = headerView;
-        
-    }
-    
-    return reusableview;
-}
+//
+//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+//{
+//    UICollectionReusableView *reusableview = nil;
+//    if (kind == UICollectionElementKindSectionHeader) {
+//        MZKSearchBarCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SearchHeader" forIndexPath:indexPath];
+//        headerView.searchBar.layer.borderWidth = 1.0;
+//        headerView.searchBar.layer.borderColor = [[UIColor groupTableViewBackgroundColor] CGColor];
+//        reusableview = headerView;
+//        _searchBarView = headerView;
+//        
+//    }
+//    
+//    return reusableview;
+//}
 
 #pragma mark - Data Loaded delegate and Datasource methods
 -(void)childrenForItemLoaded:(NSArray *)items
