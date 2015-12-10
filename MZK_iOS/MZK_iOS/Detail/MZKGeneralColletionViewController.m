@@ -119,8 +119,16 @@
 
 -(void)downloadFailedWithRequest:(NSString *)request
 {
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf downloadFailedWithRequest:request];
+        });
+        return;
+    }
     [self hideLoadingIndicator];
-    [self showErrorWithTitle:@"" subtitle:@""];
+    [self showErrorWithTitle:@"Problem při stahování" subtitle:@"Opakovat akci?"];
 }
 
 /*
@@ -140,7 +148,7 @@
     return _items.count;
 }
 
-- (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
 
@@ -150,7 +158,7 @@
     
     MZKPageObject *item = [_items objectAtIndex:indexPath.row];
     if (item) {
-        cell.itemName.text = item.stringTitleHack;
+        cell.itemName.text = item.title;
         cell.itemAuthors.text = item.getAuthorsStringRepresentation;
         cell.pObject = item;
         cell.itemType.text = item.model;

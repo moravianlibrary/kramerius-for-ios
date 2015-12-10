@@ -27,8 +27,8 @@
 @property (nonatomic, strong) NSString *rootPid;
 @property (nonatomic, strong) NSString *policy;
 @property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSArray *title;
-@property (nonatomic, strong) NSNumber *titleStringValue;
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *titleDetailsPageNumber;
 @property (atomic, readwrite) NSInteger width;
 @property (atomic, readwrite) NSInteger height;
 @property (nonatomic, strong) NSString *stringTitleHack;

@@ -261,7 +261,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     currentIndex = targetIndex;
     self.pageSlider.value = currentIndex;
     [self updateUserInterfaceAfterPageChange];
-    
 }
 
 -(void)loadImageStreamsForItem:(NSString *)pid
@@ -296,7 +295,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     NSLog(@"Failed to load with error :%@",[error debugDescription]);
-    
 }
 
 -(void)pagesLoadedForItem:(NSArray *)pages
@@ -339,8 +337,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
           wealf.titleLabel.text = _item.title;
         
     });
-  
-
 }
 /*
 #pragma mark - Navigation
@@ -363,12 +359,9 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     double value = self.pageSlider.value;
     int myInt = (int)(value + (value>0 ? 0.5 : -0.5));
     
-    
     [self.pageSlider setValue:myInt animated:YES];
     currentIndex = myInt-1;
     [self switchPage];
-    
-    
 }
 
 - (IBAction)onShowGrid:(id)sender {
@@ -455,7 +448,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         _bottomBarSpaceConstraint.constant = _bottomBar.frame.size.height;
         
     }
-    
 }
 
 -(void)hideBars:(BOOL)animated
@@ -479,8 +471,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         _bottomBarSpaceConstraint.constant = 0;
 
     }
-  
-
 }
 #pragma mark - collection view delegate and datasource
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
@@ -504,9 +494,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
         NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/thumb",url, page.pid ];
         
-        cell.pageNumber.text = [NSString stringWithFormat:@"%i", page.titleStringValue.intValue] ;
-        
-        NSLog(@"Page number: %f", [page.titleStringValue doubleValue]);
+        cell.pageNumber.text = page.title;
         
         [cell.pageThumbnail sd_setImageWithURL:[NSURL URLWithString:path]
                           placeholderImage:nil];
@@ -524,8 +512,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     [self onShowGrid:nil];
 }
 
-
-
 #pragma mark - JS and HTML parameters
 
 -(float)calculateInitialScaleForResource:(MZKPageObject *)pageObject
@@ -533,9 +519,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     float aspectRatio =(float)pageObject.width / (float)pageObject.height;
     float height = aspectRatio *_webView.frame.size.width;
     float finalRatio = _webView.frame.size.width/height;
-    
-    NSLog(@"Final ratio:%f", finalRatio);
-    
+
     return finalRatio;
 }
 

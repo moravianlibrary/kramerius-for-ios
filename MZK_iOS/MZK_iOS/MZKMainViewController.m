@@ -45,12 +45,12 @@
     datasource.delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
-   // [self.collectionView registerClass:[MZKItemCollectionViewCell class] forCellWithReuseIdentifier:@"MZKItemCollectionViewCell"];
+    // [self.collectionView registerClass:[MZKItemCollectionViewCell class] forCellWithReuseIdentifier:@"MZKItemCollectionViewCell"];
     
     [self refreshAllValues];
     [self hideDimmingView];
     [self initGoogleAnalytics];
-   
+    
 }
 
 -(void)initGoogleAnalytics
@@ -108,23 +108,33 @@
         [self performSelectorOnMainThread:@selector(reloadData) withObject:self.collectionView waitUntilDone:NO];
         NSLog(@"Not main thread ======");
     }
-
+    
 }
 
 -(void)downloadFailedWithRequest:(NSString *)request
 {
-    [self showErrorWithTitle:@"Title" subtitle:@"subtitle"];
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf downloadFailedWithRequest:request];
+        });
+        return;
+    }
+    [self hideLoadingIndicator];
+    [self showErrorWithTitle:@"Problem při stahování" subtitle:@"Opakovat akci?"];
 }
+
 
 #pragma mark - Collection View Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-   
+    
     switch (_segmentControll.selectedSegmentIndex) {
         case 0:
             return  _recent.count;
             break;
-            case 1:
+        case 1:
             return _recommended.count;
             
         default:
@@ -158,7 +168,7 @@
         [cell.itemImage sd_setImageWithURL:[NSURL URLWithString:path]
                           placeholderImage:nil];
     }
-
+    
     
     return cell;
 }
@@ -169,7 +179,7 @@
     
     if (kind == UICollectionElementKindSectionHeader) {
         MZKSearchBarCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SearchHeader" forIndexPath:indexPath];
-
+        
         headerView.searchBar.layer.borderWidth = 1.0;
         headerView.searchBar.layer.borderColor =  [[UIColor groupTableViewBackgroundColor] CGColor];
         
@@ -207,7 +217,7 @@
         case 0:
             return [_recent objectAtIndex:path.row];
             break;
-            case 1:
+        case 1:
             return [_recommended objectAtIndex:path.row];
             break;
             
@@ -245,9 +255,9 @@
         [vc setParentPID:((MZKItemResource *)sender).pid];
         vc.isFirst = YES;
         NSLog(@"%@", [navVC description]);
-       // MZKGeneralColletionViewController *rootViewController = [self.navigationController.viewControllers firstObject];
-       // [rootViewController setParentObject:sender];
-                
+        // MZKGeneralColletionViewController *rootViewController = [self.navigationController.viewControllers firstObject];
+        // [rootViewController setParentObject:sender];
+        
         //set item
     }
 }

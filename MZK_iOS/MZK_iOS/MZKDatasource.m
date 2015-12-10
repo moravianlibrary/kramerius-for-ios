@@ -288,34 +288,40 @@ http://kramerius.mzk.cz
     NSMutableArray *pages = [NSMutableArray new];
     
     for (int i = 0; i<parsedObject.count; i++) {
+        NSDictionary *currentObject =[parsedObject objectAtIndex:i];
         
-        NSString *policy = [[parsedObject objectAtIndex:i] objectForKey:@"policy"];
-        NSString *model = [[parsedObject objectAtIndex:i] objectForKey:@"model"];
+        NSString *policy = [currentObject objectForKey:@"policy"];
+        NSString *model = [currentObject objectForKey:@"model"];
         if ([policy caseInsensitiveCompare:@"public"] == NSOrderedSame && ![model isEqualToString:@"internalpart"]) {
             
             MZKPageObject *page = [MZKPageObject new];
-            page.pid = [[parsedObject objectAtIndex:i] objectForKey:@"pid"];
-            page.model = [[parsedObject objectAtIndex:i] objectForKey:@"model"];
-            page.author = [[parsedObject objectAtIndex:i] objectForKey:@"author"];
-            page.rootPid =  [[parsedObject objectAtIndex:i] objectForKey:@"root_pid"];
-            page.rootTitle =  [[parsedObject objectAtIndex:i] objectForKey:@"root_title"];
+            page.pid = [currentObject objectForKey:@"pid"];
+            page.model = [currentObject objectForKey:@"model"];
+            page.author = [currentObject objectForKey:@"author"];
+            page.rootPid =  [currentObject objectForKey:@"root_pid"];
+            page.rootTitle =  [currentObject objectForKey:@"root_title"];
             
-            page.page =  [[[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"pagenumber"] integerValue];
-            if([[parsedObject objectAtIndex:i] objectForKey:@"details"]){
-                page.type = [[[parsedObject objectAtIndex:i] objectForKey:@"details"] objectForKey:@"type"];
-            }
-            page.title = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
-            page.datanode= [[[parsedObject objectAtIndex:i] objectForKey:@"datanode"] boolValue];
-            
-#warning !!!Hack - different return types!!!
-            if ([page.model isEqualToString:@"soundunit"] || [page.model isEqualToString:@"track"] || [page.model isEqualToString:@"page"] || [page.model isEqualToString:@"periodicalvolume"] || [page.model isEqualToString:@"periodicalitem"]) {
+            NSString *pageTitle = nil;
+            if ([[currentObject objectForKey:@"title"] isKindOfClass:[NSArray class]]) {
+                NSArray *objArray = [currentObject objectForKey:@"title"];
                 
-                page.stringTitleHack = [[parsedObject objectAtIndex:i] objectForKey:@"title"];
+                NSNumber *number = [objArray objectAtIndex:0];
+                
+                pageTitle = [number stringValue];
             }
-            else
+            else if ([[currentObject objectForKey:@"title"] isKindOfClass:[NSString class]])
             {
-                page.titleStringValue =[NSNumber numberWithInt:[[[[parsedObject objectAtIndex:i] objectForKey:@"title"] objectAtIndex:0] intValue]];
+                pageTitle = [currentObject objectForKey:@"title"];
             }
+            
+            page.title = pageTitle;
+                        
+            if([currentObject objectForKey:@"details"]){
+                page.type = [[currentObject objectForKey:@"details"] objectForKey:@"type"];
+            }
+            
+            page.datanode= [[currentObject objectForKey:@"datanode"] boolValue];
+            
             
             [pages addObject:page];
         }
