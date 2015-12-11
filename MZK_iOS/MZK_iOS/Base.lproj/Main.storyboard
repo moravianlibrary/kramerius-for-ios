@@ -94,7 +94,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_settings_grey" translatesAutoresizingMaskIntoConstraints="NO" id="dQN-sr-v3F">
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_settings_grey" translatesAutoresizingMaskIntoConstraints="NO" id="dQN-sr-v3F">
                                 <rect key="frame" x="9" y="509" width="43" height="43"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="43" id="5d1-Sc-aAv"/>
@@ -1770,8 +1770,8 @@
         <image name="pages" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="wpv-e5-UGR"/>
-        <segue reference="1wt-1f-SHW"/>
-        <segue reference="ZCR-f1-b8E"/>
+        <segue reference="H21-Ix-YLX"/>
+        <segue reference="kYp-Gh-Qsw"/>
+        <segue reference="Xg4-1V-Rhd"/>
     </inferredMetricsTieBreakers>
 </document>
