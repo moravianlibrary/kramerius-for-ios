@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>TRACKING_ID</key>
-	<string>UA-71106286-1</string>
+	<string>UA-107343-23</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>cz.mzk.ios.MZK-iOS</string>
+	<string>cz.mzk.ios.KRAMERIUS</string>
 	<key>IS_ADS_ENABLED</key>
 	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -19,6 +19,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<false/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1053574447372:ios:0fc9776c748d6030</string>
+	<string>1:408567849619:ios:355152e94c5c85e0</string>
 </dict>
 </plist>

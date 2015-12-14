@@ -106,7 +106,7 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
     [_paneViewControllerTitles addEntriesFromDictionary:@{
                                       @(MZKMainViewController) : @"Hlavní strana",
                                       @(MZKCollectionsViewController) : @"Kolekce",
-                                      @(MZKSearchViewController) : @"Hledání",
+                                      //@(MZKSearchViewController) : @"Hledání",
                                       @(MZKMusicVC) : @"Přehrávač"
                                       }];
     
@@ -114,7 +114,7 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
     [_paneViewControllerIdentifiers addEntriesFromDictionary:@{
                                            @(MZKMainViewController) : @"MainViewController",
                                            @(MZKCollectionsViewController) : @"Collections",
-                                           @(MZKSearchViewController) : @"MZKSearchViewController",
+                                          // @(MZKSearchViewController) : @"MZKSearchViewController",
                                            @(MZKMusicVC) : @"MZKMusicViewController"
                                            }];
     
@@ -122,7 +122,7 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
     [_paneViewControllersIcons addEntriesFromDictionary:@{
                                       @(MZKMainViewController) : @"ic_home_grey",
                                       @(MZKCollectionsViewController) : @"ic_group_grey",
-                                      @(MZKSearchViewController) : @"ic_search_grey",
+                                     // @(MZKSearchViewController) : @"ic_search_grey",
                                       @(MZKMusicVC): @"audioPlay"
                                       }];
 //    [_paneViewControllerTitles setObject:@"Hudebni prehravac" forKey:kMZKMusicViewController];
@@ -154,21 +154,10 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
 
     
     paneViewController.navigationItem.title = self.paneViewControllerTitles[@(paneViewControllerType)];
-   
-
     
     self.paneRevealLeftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
     
-   // self.paneRevealLeftBarButtonItem
-    
-   // UIButton *menuButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.paneRevealLeftBarButtonItem.width, self.paneRevealLeftBarButtonItem.width)];
-    
-  //  [menuButton setBackgroundImage:[UIImage imageNamed:@"icon_back"] forState:UIControlStateNormal];
-    
-   
-   
     paneViewController.navigationItem.leftBarButtonItem = self.paneRevealLeftBarButtonItem;
-    
     
     UINavigationController *paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
     [self.dynamicsDrawerViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
@@ -179,7 +168,6 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
 
 -(void)onMenuHeader
 {
-    NSLog(@"Menu header touched");
     MZKDataSourceViewController *dsVc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MZKDataSourceViewController"];
     
     __weak typeof(self) wealf;

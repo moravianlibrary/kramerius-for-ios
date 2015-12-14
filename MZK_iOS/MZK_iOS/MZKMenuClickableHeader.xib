@@ -44,21 +44,31 @@
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J9h-IY-anN">
+                    <rect key="frame" x="0.0" y="150" width="600" height="1"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="fTj-g9-X1F"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="J9h-IY-anN" secondAttribute="trailing" id="5UH-ba-E4t"/>
                 <constraint firstItem="j82-15-gIu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="8ff-LX-ZLR"/>
                 <constraint firstItem="z2Y-0e-eeS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="CLJ-Ey-NgG"/>
                 <constraint firstAttribute="trailing" secondItem="j82-15-gIu" secondAttribute="trailing" id="EW2-vE-dVm"/>
                 <constraint firstItem="j82-15-gIu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-5" id="L30-jM-m6R"/>
                 <constraint firstAttribute="trailing" secondItem="mBk-UC-vtg" secondAttribute="trailing" constant="120" id="LQ2-Zm-5rh"/>
                 <constraint firstItem="mj0-3h-V9V" firstAttribute="top" secondItem="mBk-UC-vtg" secondAttribute="bottom" constant="8" id="NvU-nf-C7N"/>
+                <constraint firstAttribute="bottom" secondItem="J9h-IY-anN" secondAttribute="bottom" constant="-1" id="Rlm-jn-pFl"/>
                 <constraint firstItem="mBk-UC-vtg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="topMargin" id="Upi-hA-VPm"/>
                 <constraint firstItem="mBk-UC-vtg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="115" id="YQV-xb-vN2"/>
                 <constraint firstAttribute="bottom" secondItem="j82-15-gIu" secondAttribute="bottom" id="YS5-sV-chO"/>
                 <constraint firstAttribute="centerY" secondItem="z2Y-0e-eeS" secondAttribute="centerY" constant="2.5" id="nUJ-8Q-Leg"/>
                 <constraint firstAttribute="trailing" secondItem="mj0-3h-V9V" secondAttribute="trailing" constant="13" id="q7q-F9-vPt"/>
                 <constraint firstItem="mj0-3h-V9V" firstAttribute="leading" secondItem="z2Y-0e-eeS" secondAttribute="trailing" constant="20" id="zOH-94-pUE"/>
+                <constraint firstItem="J9h-IY-anN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="zwX-BU-KD2"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
