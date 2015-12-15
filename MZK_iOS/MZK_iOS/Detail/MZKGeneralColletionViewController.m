@@ -9,7 +9,7 @@
 #import "MZKGeneralColletionViewController.h"
 #import "MZKItemCollectionViewCell.h"
 #import "AppDelegate.h"
-#import <UIImageView+WebCache.h>
+#import "UIImageView+WebCache.h"
 #import "MZKDatasource.h"
 #import "MZKPageObject.h"
 #import "MZKMusicViewController.h"
@@ -183,7 +183,7 @@
 {
     MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     
-    NSLog(@"Model:%@",  cell.item.model);
+   // NSLog(@"Model:%@",  cell.item.model);
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     MZKPageObject *po =[_items objectAtIndex:indexPath.row];
     // [_datasource getItem:po.pid];

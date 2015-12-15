@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "MZKMenuViewController.h"
 #import  "MZKConstants.h"
-#import <MSDynamicsDrawerViewController.h>
+#import "MSDynamicsDrawerViewController.h"
 #import "MZKConstants.h"
 #import <Google/Analytics.h>
 
@@ -127,6 +127,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:item.stringURL forKey:kDefaultDatasourceStringURL];
     [[NSUserDefaults standardUserDefaults] setObject:item.imageName forKey:kDefaultImageName];
     [[NSUserDefaults standardUserDefaults] setObject:item.protocol forKey:kDefaultDatasourceProtocol];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     [self setDefaultDatasource];
 }
@@ -139,5 +140,21 @@
     
     return self.defaultDatasourceItem;
 }
+
+-(void)saveLastPlayedMusic:(NSString *)pid
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:pid forKey:kRecentMusicPlayed];
+    [defaults synchronize];
+}
+
+-(NSString *)loadLastPlayerMusic
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *recent = [defaults objectForKey:kRecentMusicPlayed];
+    return recent;
+}
+
+
 
 @end

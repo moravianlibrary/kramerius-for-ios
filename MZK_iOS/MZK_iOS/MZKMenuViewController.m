@@ -11,6 +11,7 @@
 #import "MZKDataSourceViewController.h"
 #import "MZKConstants.h"
 #import "AppDelegate.h"
+#import "MZKAboutViewController.h"
 
 NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
 NSString *const kMZKMusicViewController = @"MZKMusicViewController";
@@ -268,6 +269,17 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
     headerView.libraryName.text = item.name;
     headerView.libraryIcon.image = [UIImage imageNamed:item.imageName];
     headerView.libraryInfo.text = item.stringURL;
+}
+- (IBAction)onFeedback:(id)sender {
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+
+    MZKAboutViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKAboutViewController"];
+    
+    [self presentViewController:vc animated:YES completion:^{
+        
+    }];
+
 }
 
 

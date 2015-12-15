@@ -2,10 +2,12 @@
 # platform :ios, '6.0'
 
 target 'MZK_iOS' do
+use_frameworks!
 pod 'MSDynamicsDrawerViewController', '~> 1.5'
 pod 'SDWebImage', '~>3.7'
 pod 'AFNetworking', '~> 2.0'
 pod 'Google/Analytics'
 pod 'CocoaLumberjack'
+pod 'TTTAttributedLabel'
 end
 

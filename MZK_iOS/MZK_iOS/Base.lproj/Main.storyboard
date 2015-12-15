@@ -93,6 +93,9 @@
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="onFeedback:" destination="zAN-zU-vXu" eventType="touchUpInside" id="HRf-Zp-ZzZ"/>
+                                </connections>
                             </button>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_settings_grey" translatesAutoresizingMaskIntoConstraints="NO" id="dQN-sr-v3F">
                                 <rect key="frame" x="9" y="509" width="43" height="43"/>
@@ -1759,6 +1762,153 @@
             </objects>
             <point key="canvasLocation" x="33" y="1701"/>
         </scene>
+        <!--Delegate-->
+        <scene sceneID="PyG-hy-8PG">
+            <objects>
+                <viewController storyboardIdentifier="MZKAboutViewController" id="dXH-YW-FYV" customClass="MZKAboutViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jO0-oB-v7P"/>
+                        <viewControllerLayoutGuide type="bottom" id="p9s-Sr-58f"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8k8-rb-dSd">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HEb-qG-Kdg">
+                                <rect key="frame" x="0.0" y="6" width="600" height="69"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHM-pu-ZaR">
+                                        <rect key="frame" x="8" y="10" width="118" height="39"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="118" id="11e-Rf-nGx"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                        <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Zpět ">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onBack:" destination="dXH-YW-FYV" eventType="touchUpInside" id="3XV-HM-Sl3"/>
+                                            <action selector="onBack:" destination="6df-qc-DMZ" eventType="touchUpInside" id="OCi-6W-BXP"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="O Aplikaci" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6rm-RT-zaM">
+                                        <rect key="frame" x="260" y="16" width="80" height="37"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="6rm-RT-zaM" secondAttribute="centerX" id="9t1-WC-WWy"/>
+                                    <constraint firstAttribute="bottom" secondItem="fHM-pu-ZaR" secondAttribute="bottom" constant="20" id="B1W-hX-e84"/>
+                                    <constraint firstItem="fHM-pu-ZaR" firstAttribute="leading" secondItem="HEb-qG-Kdg" secondAttribute="leading" constant="8" id="F10-SD-fTJ"/>
+                                    <constraint firstAttribute="height" constant="69" id="PYb-z7-rSB"/>
+                                    <constraint firstAttribute="bottom" secondItem="6rm-RT-zaM" secondAttribute="bottom" constant="16" id="R3N-1T-hVE"/>
+                                    <constraint firstItem="fHM-pu-ZaR" firstAttribute="top" secondItem="HEb-qG-Kdg" secondAttribute="top" constant="10" id="f3j-2a-kfn"/>
+                                    <constraint firstAttribute="centerY" secondItem="6rm-RT-zaM" secondAttribute="centerY" id="hSD-09-bci"/>
+                                    <constraint firstItem="6rm-RT-zaM" firstAttribute="top" secondItem="HEb-qG-Kdg" secondAttribute="top" constant="16" id="vgi-Or-afj"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gdr-Vh-MGW">
+                                <rect key="frame" x="0.0" y="75" width="600" height="526"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kramerius" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpQ-XQ-3Mf">
+                                        <rect key="frame" x="225" y="8" width="151" height="37"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="151" id="rxO-xg-6s1"/>
+                                            <constraint firstAttribute="height" constant="37" id="wXp-CM-IEx"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="23"/>
+                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Digitální knihovna" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dX4-RU-JMZ">
+                                        <rect key="frame" x="229" y="48" width="143" height="22"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="87F-mt-Lv9">
+                                        <rect key="frame" x="291" y="76" width="20" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMd-Q7-w16">
+                                        <rect key="frame" x="8" y="102" width="584" height="125"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="125" id="xYg-To-9oV"/>
+                                        </constraints>
+                                        <string key="text">Aplikace zpřístupňuje digitální fondy českých knihoven.
+Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii, staré noviny a časopisy, archiválie, rukopisy, kolekce map, gramodesky a další.</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nhr-hI-Qkh" customClass="TTTAttributedLabel">
+                                        <rect key="frame" x="8" y="242" width="584" height="32"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Máte-li jakékoliv připomínky, otázky nebo nápady, kontaktujte nás prosím na developer@mzk.cz.">
+                                                <attributes>
+                                                    <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNb-gZ-lI7" customClass="TTTAttributedLabel">
+                                        <rect key="frame" x="8" y="313" width="584" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="dXH-YW-FYV" id="L1x-9E-1Ix"/>
+                                        </connections>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Nhr-hI-Qkh" firstAttribute="top" secondItem="aMd-Q7-w16" secondAttribute="bottom" constant="15" id="07Q-53-Yr3"/>
+                                    <constraint firstAttribute="trailing" secondItem="aMd-Q7-w16" secondAttribute="trailing" constant="8" id="8Ct-UE-TZ6"/>
+                                    <constraint firstItem="87F-mt-Lv9" firstAttribute="centerX" secondItem="gdr-Vh-MGW" secondAttribute="centerX" constant="1" id="8Fw-vA-Lfc"/>
+                                    <constraint firstItem="aMd-Q7-w16" firstAttribute="leading" secondItem="gdr-Vh-MGW" secondAttribute="leading" constant="8" id="AxB-ii-kPF"/>
+                                    <constraint firstItem="wpQ-XQ-3Mf" firstAttribute="centerX" secondItem="gdr-Vh-MGW" secondAttribute="centerX" id="N9W-Aa-Epw"/>
+                                    <constraint firstAttribute="trailing" secondItem="Nhr-hI-Qkh" secondAttribute="trailing" constant="8" id="cQQ-oZ-pnQ"/>
+                                    <constraint firstItem="hNb-gZ-lI7" firstAttribute="top" secondItem="Nhr-hI-Qkh" secondAttribute="bottom" constant="39" id="drc-nI-QYC"/>
+                                    <constraint firstItem="dX4-RU-JMZ" firstAttribute="centerX" secondItem="gdr-Vh-MGW" secondAttribute="centerX" id="eTZ-9e-2jW"/>
+                                    <constraint firstItem="wpQ-XQ-3Mf" firstAttribute="top" secondItem="gdr-Vh-MGW" secondAttribute="top" constant="8" id="jaX-UI-I7h"/>
+                                    <constraint firstItem="dX4-RU-JMZ" firstAttribute="top" secondItem="wpQ-XQ-3Mf" secondAttribute="bottom" constant="3" id="kn2-yL-OG4"/>
+                                    <constraint firstItem="Nhr-hI-Qkh" firstAttribute="leading" secondItem="gdr-Vh-MGW" secondAttribute="leading" constant="8" id="mtG-LI-5Lg"/>
+                                    <constraint firstItem="hNb-gZ-lI7" firstAttribute="leading" secondItem="gdr-Vh-MGW" secondAttribute="leading" constant="8" id="nQb-lH-Mo7"/>
+                                    <constraint firstItem="87F-mt-Lv9" firstAttribute="top" secondItem="dX4-RU-JMZ" secondAttribute="bottom" constant="7" id="nof-fh-HTz"/>
+                                    <constraint firstItem="aMd-Q7-w16" firstAttribute="top" secondItem="87F-mt-Lv9" secondAttribute="bottom" constant="8" id="t7O-ks-hRM"/>
+                                    <constraint firstAttribute="trailing" secondItem="hNb-gZ-lI7" secondAttribute="trailing" constant="8" id="ynL-Zp-CRg"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="gdr-Vh-MGW" firstAttribute="top" secondItem="jO0-oB-v7P" secondAttribute="bottom" constant="55" id="4OQ-65-5ds"/>
+                            <constraint firstItem="HEb-qG-Kdg" firstAttribute="leading" secondItem="8k8-rb-dSd" secondAttribute="leadingMargin" constant="-20" id="6O2-Pn-vfg"/>
+                            <constraint firstItem="gdr-Vh-MGW" firstAttribute="top" secondItem="HEb-qG-Kdg" secondAttribute="bottom" id="LCO-x6-SMh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="HEb-qG-Kdg" secondAttribute="trailing" constant="-20" id="Lkj-Wy-4Sh"/>
+                            <constraint firstItem="p9s-Sr-58f" firstAttribute="top" secondItem="gdr-Vh-MGW" secondAttribute="bottom" constant="-1" id="WEY-E5-FkV"/>
+                            <constraint firstItem="gdr-Vh-MGW" firstAttribute="leading" secondItem="8k8-rb-dSd" secondAttribute="leadingMargin" constant="-20" id="dqT-Gv-xY6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gdr-Vh-MGW" secondAttribute="trailing" constant="-20" id="kuk-nQ-F6b"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="link" destination="hNb-gZ-lI7" id="3gE-mf-4nj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nrz-2Q-Nme" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-581" y="2453"/>
+        </scene>
     </scenes>
     <resources>
         <image name="audioFF" width="60" height="60"/>
@@ -1770,8 +1920,8 @@
         <image name="pages" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ZCR-f1-b8E"/>
         <segue reference="wpv-e5-UGR"/>
-        <segue reference="Gmw-Rc-QWP"/>
-        <segue reference="rs0-rK-WcW"/>
+        <segue reference="1wt-1f-SHW"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MZKMenuTableViewCell.h"
-#import <MSDynamicsDrawerViewController.h>
+#import "MSDynamicsDrawerViewController.h"
 #import "MZKMusicViewController.h"
 
 typedef NS_ENUM(NSUInteger, MSPaneViewControllerType) {

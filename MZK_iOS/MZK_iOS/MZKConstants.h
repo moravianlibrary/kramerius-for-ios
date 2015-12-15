@@ -19,6 +19,7 @@ FOUNDATION_EXPORT NSString *const kDatasourceItemChanged;
 
 FOUNDATION_EXPORT NSString *const kRecent;
 FOUNDATION_EXPORT NSString *const kRecommended;
+FOUNDATION_EXPORT NSString *const kRecentMusicPlayed;
 
 #pragma mark - types keys
 
@@ -42,7 +43,11 @@ extern NSString *const kMusic;
 extern NSString *const kVinil;
 
 #pragma mark - datasource keys
-
+extern NSString *const kKrameriusDescription;
+extern NSString *const kKrameriusDescriptionContact;
+extern NSString *const kKrameriusDescriptionBegin;
+extern NSString *const kKrameriusDescriptionLink;
+extern NSString *const kKramerisuDescriptionContactMail;
 
 
 @end

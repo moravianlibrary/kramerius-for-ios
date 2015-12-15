@@ -11,7 +11,7 @@
 #import "MZKPageObject.h"
 #import "MZKPageDetailCollectionViewCell.h"
 #import "AppDelegate.h"
-#import <UIImageView+WebCache.h>
+#import "UIImageView+WebCache.h"
 #import <Google/Analytics.h>
 
 NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";

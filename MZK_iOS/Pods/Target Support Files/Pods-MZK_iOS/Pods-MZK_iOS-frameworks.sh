@@ -82,3 +82,18 @@ strip_invalid_archs() {
   fi
 }
 
+
+if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-MZK_iOS/AFNetworking.framework"
+  install_framework "Pods-MZK_iOS/CocoaLumberjack.framework"
+  install_framework "Pods-MZK_iOS/MSDynamicsDrawerViewController.framework"
+  install_framework "Pods-MZK_iOS/SDWebImage.framework"
+  install_framework "Pods-MZK_iOS/TTTAttributedLabel.framework"
+fi
+if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-MZK_iOS/AFNetworking.framework"
+  install_framework "Pods-MZK_iOS/CocoaLumberjack.framework"
+  install_framework "Pods-MZK_iOS/MSDynamicsDrawerViewController.framework"
+  install_framework "Pods-MZK_iOS/SDWebImage.framework"
+  install_framework "Pods-MZK_iOS/TTTAttributedLabel.framework"
+fi

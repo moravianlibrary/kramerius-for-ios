@@ -20,6 +20,7 @@ NSString *const kDefaultImageName = @"kDefaultDatasourceImageName";
 NSString *const kDatasourceItemChanged = @"kDatasourceItemChanged";
 NSString *const kRecent = @"recent";
 NSString *const kRecommended = @"recommended";
+NSString *const kRecentMusicPlayed = @"recentMusic";
 
 
 #pragma mark - types keys
@@ -42,5 +43,13 @@ NSString *const kTrack = @"track";
  NSString *const kLock= @"lock";
  NSString *const kMusic= @"music";
  NSString *const kVinil= @"vinil";
+
+
+#pragma mark - 
+NSString *const kKrameriusDescription = @"Aplikace zpřístupňuje digitální fondy českých knihoven. Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii, staré noviny a časopisy, archiválie, rukopisy, kolekce map, gramodesky a další.";
+ NSString *const kKrameriusDescriptionContact=@"Máte-li jakékoliv připomínky, otázky nebo nápady, kontaktujte nás prosím na ";
+NSString *const kKramerisuDescriptionContactMail =@"developer@mzk.cz.";
+ NSString *const kKrameriusDescriptionBegin=@"Aplikaci vyvíjí";
+ NSString *const kKrameriusDescriptionLink=@"http://www.mzk.cz/";
 
 @end

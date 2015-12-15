@@ -11,7 +11,7 @@
 #import "MZKPageObject.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
-#import <UIImageView+WebCache.h>
+#import "UIImageView+WebCache.h"
 #import "AppDelegate.h"
 #import <Google/Analytics.h>
 
@@ -216,20 +216,22 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
                         ^{
                             /* IMPORTANT: Must dispatch to main queue in order to operate on the AVPlayer and AVPlayerItem. */
                             [self prepareToPlayAsset:asset withKeys:requestedKeys];
+                            [self saveLastPlayedMusic];
                         });
      }];
+}
 
+-(void)saveLastPlayedMusic
+{
+    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     
-//    AVPlayer *player = [[AVPlayer alloc]initWithURL:[NSURL URLWithString:strURL]];
-//    _musicPlayer = player;
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(playerItemDidReachEnd:)
-//                                                 name:AVPlayerItemDidPlayToEndTimeNotification
-//                                               object:[_musicPlayer currentItem]];
-//    [_musicPlayer addObserver:self forKeyPath:@"status" options:0 context:nil];
-//    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
-//    
-   
+    [delegate saveLastPlayedMusic:self.item.pid];
+    
+}
+
+-(void)loadLastPlayerMusic
+{
+    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

@@ -20,6 +20,8 @@
 -(void)saveToUserDefaults:(MZKResourceItem *)item;
 -(MZKResourceItem *)getDatasourceItem;
 
+-(void)saveLastPlayedMusic:(NSString *)pid;
+-(NSString *)loadLastPlayerMusic;
 
 @end
 
