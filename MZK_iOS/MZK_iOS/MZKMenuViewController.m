@@ -59,6 +59,8 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
    // [self.tableView registerClass:[MZKMenuTableViewCell class] forCellReuseIdentifier:MZKMenuCellIdentifier];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
     [self initializeMenuHeader];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackStarted:) name:@"playbackStarted" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,6 +77,32 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
     // Pass the selected object to the new view controller.
 }
 */
+#pragma mark - playback started notification
+-(void)playbackStarted:(NSNotification *)notf
+{
+    if (![self playerVisibleInMenu]) {
+        [self addPlayerToMenu];
+    }
+}
+
+-(BOOL)playerVisibleInMenu
+{
+    if ([[_paneViewControllerIdentifiers allKeys] containsObject:@(MZKMusicVC)]) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+-(void)addPlayerToMenu
+{
+    [_paneViewControllerTitles addEntriesFromDictionary:@{ @(MZKMusicVC) : @"Přehrávač"}];
+    [_paneViewControllerIdentifiers addEntriesFromDictionary:@{@(MZKMusicVC) : @"MZKMusicViewController"}];
+    [_paneViewControllersIcons addEntriesFromDictionary:@{@(MZKMusicVC): @"audioPlay"}];
+    
+    [self.tableView reloadData];
+}
+
 #pragma mark - menu view controller methods
 
 -(void)initializeMenuHeader
@@ -105,29 +133,18 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
     self.paneViewControllerTitles = [NSMutableDictionary new];
     [_paneViewControllerTitles addEntriesFromDictionary:@{
                                       @(MZKMainViewController) : @"Hlavní strana",
-                                      @(MZKCollectionsViewController) : @"Kolekce",
-                                      //@(MZKSearchViewController) : @"Hledání",
-                                      @(MZKMusicVC) : @"Přehrávač"
-                                      }];
+                                      @(MZKCollectionsViewController) : @"Kolekce" }];
     
     self.paneViewControllerIdentifiers =[NSMutableDictionary new];
     [_paneViewControllerIdentifiers addEntriesFromDictionary:@{
                                            @(MZKMainViewController) : @"MainViewController",
-                                           @(MZKCollectionsViewController) : @"Collections",
-                                          // @(MZKSearchViewController) : @"MZKSearchViewController",
-                                           @(MZKMusicVC) : @"MZKMusicViewController"
-                                           }];
+                                           @(MZKCollectionsViewController) : @"Collections" }];
     
     self.paneViewControllersIcons = [NSMutableDictionary new];
     [_paneViewControllersIcons addEntriesFromDictionary:@{
                                       @(MZKMainViewController) : @"ic_home_grey",
-                                      @(MZKCollectionsViewController) : @"ic_group_grey",
-                                     // @(MZKSearchViewController) : @"ic_search_grey",
-                                      @(MZKMusicVC): @"audioPlay"
-                                      }];
-//    [_paneViewControllerTitles setObject:@"Hudebni prehravac" forKey:kMZKMusicViewController];
-//    [_paneViewControllerIdentifiers setObject:kMZKMusicViewController forKey:kMZKMusicViewController];
-//    [_paneViewControllersIcons setObject:@"ic_search_grey" forKey:kMZKMusicViewController];
+                                      @(MZKCollectionsViewController) : @"ic_group_grey" }];
+
     self.musicController = [MZKMusicViewController sharedInstance];
 }
 
@@ -174,9 +191,7 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
     [self presentViewController:dsVc animated:YES completion:^{
         [wealf.dynamicsDrawerViewController setPaneState:MSDynamicsDrawerPaneStateClosed];
     }];
-    
 }
-
 
 #pragma mark - orientation changes
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
@@ -246,8 +261,7 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
 -(void)defaultDatasourceChangedNotification:(NSNotification *)notf
 {
     //change heade of table view...
-    
-    //
+
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MZKResourceItem *item = appDelegate.getDatasourceItem;
     

@@ -82,6 +82,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
         [self loadThumbnailImageForItem:_currentItemPID];
     }
     [self initGoogleAnalytics];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"playbackStarted" object:nil];
 }
 
 -(void)initGoogleAnalytics
