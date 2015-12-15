@@ -115,7 +115,7 @@
     
     
     if (item.protocol && item.stringURL && item.imageName &&item.name) {
-        NSLog(@"ItemLoaded");
+        //NSLog(@"ItemLoaded");
         return item;
     }else return nil;
 }

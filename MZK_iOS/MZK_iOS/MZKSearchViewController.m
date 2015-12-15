@@ -223,8 +223,6 @@
 -(void)searchResultsLoaded:(NSArray *)results
 {
     [self hideDimmingView];
-    NSLog(@"Loaded");
-    
 }
 
 #pragma mark segues for general view controller

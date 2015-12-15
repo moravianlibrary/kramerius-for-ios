@@ -106,7 +106,7 @@
     
     if (![NSThread mainThread]) {
         [self performSelectorOnMainThread:@selector(reloadData) withObject:self.collectionView waitUntilDone:NO];
-        NSLog(@"Not main thread ======");
+    
     }
     
 }
@@ -191,8 +191,6 @@
 {
     MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     
-    NSLog(@"Model:%@",  cell.item.model);
-    
     [self prepareDataForSegue:cell.item];
     
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
@@ -252,7 +250,6 @@
         MZKGeneralColletionViewController *vc =(MZKGeneralColletionViewController *)navVC.topViewController;
         [vc setParentPID:((MZKItemResource *)sender).pid];
         vc.isFirst = YES;
-        NSLog(@"%@", [navVC description]);
         // MZKGeneralColletionViewController *rootViewController = [self.navigationController.viewControllers firstObject];
         // [rootViewController setParentObject:sender];
         
@@ -275,7 +272,6 @@
 #pragma mark - notification handling
 -(void)defaultDatasourceChangedNotification:(NSNotification *)notf
 {
-    NSLog(@"Notification received:%@", [notf description]);
     if ( ![[NSThread currentThread] isEqual:[NSThread mainThread]] )
     {
         [self performSelectorOnMainThread:@selector(refreshAllValues) withObject:self waitUntilDone:NO];
@@ -291,12 +287,10 @@
 {
     switch (_segmentControll.selectedSegmentIndex) {
         case 0:
-            NSLog(@"0 segmet");
             [_collectionView reloadData];
             break;
             
         case 1:
-            NSLog(@"1 segmet");
             [_collectionView reloadData];
             break;
             

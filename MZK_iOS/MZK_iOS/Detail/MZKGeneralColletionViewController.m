@@ -189,7 +189,6 @@
     // [_datasource getItem:po.pid];
     
     if ([po.model isEqualToString:@"soundunit"]) {
-        NSLog(@"Soundunit");
         [[MZKMusicViewController sharedInstance] setItemPID:po.pid];
         [self presentViewController:[MZKMusicViewController sharedInstance] animated:YES completion:nil];
         
@@ -197,9 +196,6 @@
     }
     else if (po.datanode) {
         //should dive deeper
-        NSLog(@"Datanode");
-        
-        
         //  MZKGeneralColletionViewController *nextViewController = [[MZKGeneralColletionViewController alloc] init];
         MZKGeneralColletionViewController *nextViewController = [storyboard instantiateViewControllerWithIdentifier:@"MZKGeneralColletionViewController"];
         [nextViewController setParentPID:po.pid];

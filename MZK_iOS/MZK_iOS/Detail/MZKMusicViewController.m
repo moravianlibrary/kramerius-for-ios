@@ -145,7 +145,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
 
 -(void)detailForItemLoaded:(MZKItemResource *)item
 {
-    NSLog(@"Detail");
+
     _currentItem = item;
     
     [self updateViews];
@@ -155,14 +155,11 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
 
 -(void)dataLoaded:(NSArray *)data withKey:(NSString *)key
 {
-    NSLog(@"Key %@", key);
     
 }
 
 -(void)childrenForItemLoaded:(NSArray *)items
 {
-    NSLog(@"items: %@", [items description]);
-    
     _availableTracks = items;
     
     if (_availableTracks.count ==1) {

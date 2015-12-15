@@ -197,7 +197,7 @@ http://kramerius.mzk.cz
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MZKResourceItem *item = appDelegate.getDatasourceItem;
     if (!item) {
-        NSLog(@"Default URL not set!");
+       // NSLog(@"Default URL not set!");
     }
     self.baseStringURL = [NSString stringWithFormat:@"%@://%@", item.protocol, item.stringURL];
 }
@@ -500,7 +500,6 @@ http://kramerius.mzk.cz
     
     newItem.pid = [rawData objectForKey:@"pid"];
     newItem.model = [rawData objectForKey:@"model"];
-    NSLog(@"Model:%@", newItem.model);
     newItem.issn = [rawData objectForKey:@"issn"];
     newItem.datumStr = [rawData objectForKey:@"datumStr"];
     
@@ -545,7 +544,7 @@ http://kramerius.mzk.cz
     
     if (operation ==downloadCollectionItems || operation == search) {
         [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        NSLog(@"%@", req.allHTTPHeaderFields);;
+       // NSLog(@"%@", req.allHTTPHeaderFields);;
     }
     
     //save operation and URL for re-send
@@ -553,15 +552,15 @@ http://kramerius.mzk.cz
     _lastURL = strURL;
     lastOperation = operation;
     
-    NSLog(@"Request: %@, with operation:%u", [req description], operation);
+   // NSLog(@"Request: %@, with operation:%u", [req description], operation);
     
     [NSURLConnection sendAsynchronousRequest:[req copy] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
         
         if (error) {
-            NSLog(@"Download failed with error:%@", [error debugDescription]);
+           // NSLog(@"Download failed with error:%@", [error debugDescription]);
             [self downloadFailed];
         } else {
-            NSLog(@"Download sucessful with operation:%lu", (unsigned long)operation);
+            //NSLog(@"Download sucessful with operation:%lu", (unsigned long)operation);
             
             switch (operation) {
                 case downloadMostRecent:

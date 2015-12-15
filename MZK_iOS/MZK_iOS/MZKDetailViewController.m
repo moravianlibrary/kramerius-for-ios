@@ -117,7 +117,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     NSMutableString *indexString = [[NSString stringWithContentsOfURL:targetURL encoding:NSUTF8StringEncoding error:&error] mutableCopy];
     float scale = [self calculateInitialScaleForResource:page];
-    NSLog(@"%.2f", scale);
+    
     
     NSString *theAbsoluteURLString = [targetURL absoluteString];
     if (width ==0 ) {
@@ -134,7 +134,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     NSURLRequest *request = [NSURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:(NSTimeInterval)10.0 ];
     
-    NSLog(@"Request:%@", [request description]);
+   // NSLog(@"Request:%@", [request description]);
     
     if (!_webView) {
         NSLog(@"NO WeB View");
@@ -145,7 +145,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
     [_webView loadRequest:request];
     
-    NSLog(@"Width:%f  Height:%f", width, height);
+    //NSLog(@"Width:%f  Height:%f", width, height);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -284,12 +284,12 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-    NSLog(@"did Start loading");
+   // NSLog(@"did Start loading");
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    NSLog(@"did finish loading");
+  //  NSLog(@"did finish loading");
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
