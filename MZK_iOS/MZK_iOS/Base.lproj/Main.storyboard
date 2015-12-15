@@ -1248,7 +1248,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="e9e-bE-9mg">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="e9e-bE-9mg">
                                 <rect key="frame" x="211" y="8" width="177" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="Pdx-pT-pX4"/>
@@ -1256,7 +1256,7 @@
                                 </constraints>
                                 <segments>
                                     <segment title="Nejnovější"/>
-                                    <segment title="Doporučené"/>
+                                    <segment title="Zajímavé"/>
                                 </segments>
                                 <connections>
                                     <action selector="segmentControllValueChanged:" destination="bom-dO-L7h" eventType="valueChanged" id="RXE-qW-F0E"/>
@@ -1770,8 +1770,8 @@
         <image name="pages" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="H21-Ix-YLX"/>
-        <segue reference="kYp-Gh-Qsw"/>
-        <segue reference="Xg4-1V-Rhd"/>
+        <segue reference="wpv-e5-UGR"/>
+        <segue reference="Gmw-Rc-QWP"/>
+        <segue reference="rs0-rK-WcW"/>
     </inferredMetricsTieBreakers>
 </document>
