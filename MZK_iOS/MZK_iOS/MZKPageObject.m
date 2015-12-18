@@ -34,6 +34,14 @@
             
             self.height = height;
             self.width = width;
+            
+            if (!self.width) {
+                NSLog(@"Page Resolution not laoded");
+                self.width = 400;
+            }
+            if (!self.height) {
+                self.height = 640;
+            }
             if ([self.delegate respondsToSelector:@selector(pageLoadedForItem:)]) {
                 __weak typeof(self) welf = self;
                 
