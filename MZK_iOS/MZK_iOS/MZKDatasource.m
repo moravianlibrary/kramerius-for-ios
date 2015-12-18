@@ -305,9 +305,16 @@ http://kramerius.mzk.cz
             if ([[currentObject objectForKey:@"title"] isKindOfClass:[NSArray class]]) {
                 NSArray *objArray = [currentObject objectForKey:@"title"];
                 
-                NSNumber *number = [objArray objectAtIndex:0];
+                if ([[objArray objectAtIndex:0] isKindOfClass:[NSString class]]) {
+                    pageTitle = [objArray objectAtIndex:0];
+                }
+                else if ([[objArray objectAtIndex:0] isKindOfClass:[NSNumber class]])
+                {
+                    NSNumber *number = [objArray objectAtIndex:0];
+                    
+                    pageTitle = [number stringValue];
+                }
                 
-                pageTitle = [number stringValue];
             }
             else if ([[currentObject objectForKey:@"title"] isKindOfClass:[NSString class]])
             {
@@ -548,7 +555,7 @@ http://kramerius.mzk.cz
     _lastURL = strURL;
     lastOperation = operation;
     
-   // NSLog(@"Request: %@, with operation:%u", [req description], operation);
+    NSLog(@"Request: %@, with operation:%u", [req description], operation);
     
     [NSURLConnection sendAsynchronousRequest:[req copy] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
         
