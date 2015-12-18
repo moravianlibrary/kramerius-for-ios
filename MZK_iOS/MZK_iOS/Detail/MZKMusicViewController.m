@@ -381,7 +381,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     
     NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
-    NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/full",url, itemPID ];
+    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",url, itemPID ];
     
     [_blurryImage sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
     [self addBlurEffect];
@@ -393,7 +393,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     
     NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
-    NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/full",url, itemPID ];
+    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",url, itemPID ];
     
     [_artWork sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
 }

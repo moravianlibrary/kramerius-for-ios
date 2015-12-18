@@ -492,7 +492,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
         
         NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
-        NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/thumb",url, page.pid ];
+        NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",url, page.pid ];
         
         cell.pageNumber.text = page.title;
         

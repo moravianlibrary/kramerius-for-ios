@@ -97,7 +97,7 @@
     //newCell.itemTypeIcon
     
     NSString*url = @"http://kramerius.mzk.cz";
-    NSString*path = [NSString stringWithFormat:@"%@//search/api/v5.0/item/%@/thumb",url, item.pid ];
+    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",url, item.pid ];
     
     
     [newCell.itemImage sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
