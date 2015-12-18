@@ -343,9 +343,7 @@ http://kramerius.mzk.cz
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
-    
-    
-    
+
     return pages;
 }
 
@@ -368,8 +366,7 @@ http://kramerius.mzk.cz
         cItem.nameENG = [[[parsedObject objectAtIndex:i] objectForKey:@"descs"] objectForKey:@"en"];
         cItem.nameCZ = [[[parsedObject objectAtIndex:i] objectForKey:@"descs"] objectForKey:@"cs"];
         cItem.label =[[parsedObject objectAtIndex:i] objectForKey:@"label"];
-        
-        
+
         [results addObject:cItem];
         
     }
@@ -378,7 +375,6 @@ http://kramerius.mzk.cz
         [self.delegate collectionListLoaded:[results copy]];
         NSLog(@"Collections count:%lu", (unsigned long)results.count);
     }
-    
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     return results;

@@ -296,7 +296,13 @@
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="m65-Ns-m2B">
                                                 <rect key="frame" x="6" y="37" width="308" height="31"/>
                                                 <connections>
+                                                    <action selector="beginScrubbing:" destination="s6h-by-1vs" eventType="touchDown" id="qeR-kj-zEV"/>
+                                                    <action selector="endScrubbing:" destination="s6h-by-1vs" eventType="touchUpInside" id="5Dq-By-BwI"/>
+                                                    <action selector="endScrubbing:" destination="s6h-by-1vs" eventType="touchCancel" id="OI9-kO-xk1"/>
+                                                    <action selector="endScrubbing:" destination="s6h-by-1vs" eventType="touchUpOutside" id="PIw-WN-Fww"/>
                                                     <action selector="onSliderValueChanged:" destination="s6h-by-1vs" eventType="valueChanged" id="dGb-vX-Xid"/>
+                                                    <action selector="scrub:" destination="s6h-by-1vs" eventType="touchDragInside" id="BRC-Mh-qNm"/>
+                                                    <action selector="scrub:" destination="s6h-by-1vs" eventType="valueChanged" id="x8o-z8-ry1"/>
                                                 </connections>
                                             </slider>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zBK-1W-g8Q" userLabel="ff">
@@ -548,7 +554,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gCO-BG-cAe">
                                                             <rect key="frame" x="0.0" y="0.0" width="110" height="130"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WLT-Tt-BUG">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WLT-Tt-BUG">
                                                                     <rect key="frame" x="5" y="5" width="100" height="120"/>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z3A-DL-amx">

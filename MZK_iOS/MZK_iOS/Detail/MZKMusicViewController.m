@@ -83,6 +83,12 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
     }
     [self initGoogleAnalytics];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"playbackStarted" object:nil];
+    
+    // NOTIFICATIONS
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(routeChange:)
+                                                 name:AVAudioSessionRouteChangeNotification
+                                               object:nil];
 }
 
 -(void)initGoogleAnalytics
@@ -166,32 +172,96 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
         [self playItemWithPID:((MZKPageObject *)_availableTracks.firstObject).pid];
     }
 }
+#pragma mark - audio route changed
+- (void)routeChange:(NSNotification*)notification {
+    
+    NSDictionary *interuptionDict = notification.userInfo;
+    
+    NSInteger routeChangeReason = [[interuptionDict valueForKey:AVAudioSessionRouteChangeReasonKey] integerValue];
+    
+    switch (routeChangeReason) {
+        case AVAudioSessionRouteChangeReasonUnknown:
+            NSLog(@"routeChangeReason : AVAudioSessionRouteChangeReasonUnknown");
+            break;
+            
+        case AVAudioSessionRouteChangeReasonNewDeviceAvailable:
+            // a headset was added or removed
+            NSLog(@"routeChangeReason : AVAudioSessionRouteChangeReasonNewDeviceAvailable");
+            break;
+            
+        case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:
+            // a headset was added or removed
+            NSLog(@"routeChangeReason : AVAudioSessionRouteChangeReasonOldDeviceUnavailable");
+            break;
+            
+        case AVAudioSessionRouteChangeReasonCategoryChange:
+            // called at start - also when other audio wants to play
+            NSLog(@"routeChangeReason : AVAudioSessionRouteChangeReasonCategoryChange");
+            //AVAudioSessionRouteChangeReasonCategoryChange
+            break;
+            
+        case AVAudioSessionRouteChangeReasonOverride:
+            NSLog(@"routeChangeReason : AVAudioSessionRouteChangeReasonOverride");
+            break;
+            
+        case AVAudioSessionRouteChangeReasonWakeFromSleep:
+            NSLog(@"routeChangeReason : AVAudioSessionRouteChangeReasonWakeFromSleep");
+            break;
+            
+        case AVAudioSessionRouteChangeReasonNoSuitableRouteForCategory:
+            NSLog(@"routeChangeReason : AVAudioSessionRouteChangeReasonNoSuitableRouteForCategory");
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void) remoteControlReceivedWithEvent: (UIEvent *) receivedEvent {
+    NSLog(@"received event!");
+    if (receivedEvent.type == UIEventTypeRemoteControl) {
+        switch (receivedEvent.subtype) {
+            case UIEventSubtypeRemoteControlTogglePlayPause: {
+                if (_musicPlayer.rate > 0.0) {
+                    [_musicPlayer pause];
+                } else {
+                    [_musicPlayer play];
+                }
+                
+                break;
+            }
+            case UIEventSubtypeRemoteControlPlay: {
+                [_musicPlayer play];
+                break;
+            }
+            case UIEventSubtypeRemoteControlPause: {
+                [_musicPlayer pause];
+                break;
+            }
+            default:
+                break;
+        }
+    }
+}
+
+
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [self becomeFirstResponder];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    [self resignFirstResponder]; [super viewWillDisappear:animated];
+}
+
+- (BOOL) canBecomeFirstResponder {
+    return YES;
+}
+
 
 #pragma mark - Playback handling
-
-//-(void)playItemWithPID:(NSString *)itemPID
-//{
-//
-//    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:strURL, itemPID]];
-//    
-//    
-//    
-//    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:url options:nil];
-//    
-//    NSArray *requestedKeys = @[@"playable"];
-//    
-//    /* Tells the asset to load the values of any of the specified keys that are not already loaded. */
-//    [asset loadValuesAsynchronouslyForKeys:requestedKeys completionHandler:
-//     ^{
-//         dispatch_async( dispatch_get_main_queue(),
-//                        ^{
-//                            /* IMPORTANT: Must dispatch to main queue in order to operate on the AVPlayer and AVPlayerItem. */
-//                           // [self prepareToPlayAsset:asset withKeys:requestedKeys];
-//                        });
-//     }];
-//}
-
-
 -(void)playItemWithPID:(NSString *)itemPID
 {
     NSString *strURL = [NSString stringWithFormat:@"http://kramerius.mzk.cz/search/api/v5.0/item/%@/streams/MP3", itemPID];
@@ -276,10 +346,17 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
     //use as a list of tracks?
 }
 - (IBAction)onSliderValueChanged:(id)sender {
+    
+    
 }
 - (IBAction)onPlayPause:(id)sender {
     
     if (_musicPlayer.rate == 0) {
+        
+        [[AVAudioSession sharedInstance] setActive:NO error:nil];
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:nil];
+        [[AVAudioSession sharedInstance] setActive: YES error: nil];
+        
         [_musicPlayer play];
         [_play setImage:[UIImage imageNamed:@"audioPause"] forState:UIControlStateNormal];
     }
@@ -419,6 +496,97 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
         [_timeSlider setValue:(maxValue - minValue) * time / duration + minValue];
     }
 }
+
+/* The user is dragging the movie controller thumb to scrub through the movie. */
+- (IBAction)beginScrubbing:(id)sender
+{
+    mRestoreAfterScrubbingRate = [_musicPlayer rate];
+    [_musicPlayer setRate:0.f];
+    
+    /* Remove previous timer. */
+    [self removePlayerTimeObserver];
+}
+
+/* Set the player current time to match the scrubber position. */
+- (IBAction)scrub:(id)sender
+{
+    if ([sender isKindOfClass:[UISlider class]] && !isSeeking)
+    {
+        isSeeking = YES;
+        UISlider* slider = sender;
+        
+        CMTime playerDuration = [self playerItemDuration];
+        if (CMTIME_IS_INVALID(playerDuration)) {
+            return;
+        }
+        
+        double duration = CMTimeGetSeconds(playerDuration);
+        if (isfinite(duration))
+        {
+            float minValue = [slider minimumValue];
+            float maxValue = [slider maximumValue];
+            float value = [slider value];
+            
+            double time = duration * (value - minValue) / (maxValue - minValue);
+            
+            [_musicPlayer seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) completionHandler:^(BOOL finished) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    isSeeking = NO;
+                });
+            }];
+        }
+    }
+}
+
+/* The user has released the movie thumb control to stop scrubbing through the movie. */
+- (IBAction)endScrubbing:(id)sender
+{
+    if (!mTimeObserver)
+    {
+        CMTime playerDuration = [self playerItemDuration];
+        if (CMTIME_IS_INVALID(playerDuration))
+        {
+            return;
+        }
+        
+        double duration = CMTimeGetSeconds(playerDuration);
+        if (isfinite(duration))
+        {
+            CGFloat width = CGRectGetWidth([_timeSlider bounds]);
+            double tolerance = 0.5f * duration / width;
+            
+            __weak MZKMusicViewController *weakSelf = self;
+            mTimeObserver = [_musicPlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(tolerance, NSEC_PER_SEC) queue:NULL usingBlock:
+                             ^(CMTime time)
+                             {
+                                 [weakSelf syncScrubber];
+                             }];
+        }
+    }
+    
+    if (mRestoreAfterScrubbingRate)
+    {
+        [_musicPlayer setRate:mRestoreAfterScrubbingRate];
+        mRestoreAfterScrubbingRate = 0.f;
+    }
+}
+
+- (BOOL)isScrubbing
+{
+    return mRestoreAfterScrubbingRate != 0.f;
+}
+
+-(void)enableScrubber
+{
+    _timeSlider.enabled = YES;
+}
+
+-(void)disableScrubber
+{
+    _timeSlider.enabled = NO;
+}
+
+
 
 /* If the media is playing, show the stop button; otherwise, show the play button. */
 - (void)syncPlayPauseButtons
