@@ -18,6 +18,7 @@
 #import "MZKGeneralColletionViewController.h"
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
+#import "MZKResourceItem.h"
 
 @interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate>
 {
@@ -50,7 +51,19 @@
     [self refreshAllValues];
     [self hideDimmingView];
     [self initGoogleAnalytics];
+    [self refreshTitle];
     
+    
+}
+
+-(void)refreshTitle
+{
+    //get name of selected library
+    AppDelegate *del = [[UIApplication sharedApplication] delegate];
+    NSString *libName = [[del getDatasourceItem] name];
+    
+    self.title = libName;
+
 }
 
 -(void)initGoogleAnalytics
@@ -279,6 +292,7 @@
     else
     {
         [self refreshAllValues];
+        [self refreshTitle];
     }
 }
 
