@@ -31,6 +31,6 @@
 @property (nonatomic, strong) NSString *datumStr;
 
 -(NSString *)getAuthorsStringRepresentation;
-
+-(NSString *)getLocalizedItemType;
 
 @end

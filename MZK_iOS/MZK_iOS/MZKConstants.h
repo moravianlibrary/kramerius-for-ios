@@ -42,12 +42,34 @@ extern NSString *const kLock;
 extern NSString *const kMusic;
 extern NSString *const kVinil;
 
+extern NSString *const kPeriodicalVolume;
+extern NSString *const kPeriodicalItem;
+extern NSString *const kSoundUnit;
+
+
 #pragma mark - datasource keys
 extern NSString *const kKrameriusDescription;
 extern NSString *const kKrameriusDescriptionContact;
 extern NSString *const kKrameriusDescriptionBegin;
 extern NSString *const kKrameriusDescriptionLink;
 extern NSString *const kKramerisuDescriptionContactMail;
+
+
+#pragma mark - czech translations
+extern NSString *const kDocumentPeriodical ;
+extern NSString *const kDocumentPeriodicalVolume;
+extern NSString *const kDocumentPeriodicalItem;
+extern NSString *const kDocumentPage;
+extern NSString *const kDocumentManuscript;
+extern NSString *const kDocumentMonograph;
+extern NSString *const kDocumentSoundRecording;
+extern NSString *const kDocumentSoundUnit;
+extern NSString *const kDocumentTrack ;
+extern NSString *const kDocumentMap ;
+extern NSString *const kDocumentGraphic ;
+extern NSString *const kDocumentSheetmusic;
+extern NSString *const kDocumentArchive;
+extern NSString *const kDocumentUnknown ;
 
 
 @end

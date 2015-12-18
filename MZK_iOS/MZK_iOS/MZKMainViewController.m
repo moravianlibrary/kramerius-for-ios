@@ -169,7 +169,7 @@
         cell.itemName.text = item.title;
         cell.itemAuthors.text = item.getAuthorsStringRepresentation;
         cell.item = item;
-        cell.itemType.text = item.model;
+        cell.itemType.text = [item getLocalizedItemType];
         
         
         AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
@@ -441,6 +441,4 @@
     
     [self prepareDataForSegue:item];
 }
-
-
 @end

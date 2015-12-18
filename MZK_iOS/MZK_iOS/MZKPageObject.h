@@ -35,5 +35,6 @@
 
 -(void)loadPageResolution;
 -(NSString *)getAuthorsStringRepresentation;
+-(NSString *)getLocalizedItemType;
 
 @end
