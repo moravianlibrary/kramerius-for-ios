@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "UIImageView+WebCache.h"
 #import <Google/Analytics.h>
+#import "MZKDetailInformationViewController.h"
 
 NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
@@ -523,5 +524,19 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     return finalRatio;
 }
 
+#pragma mark - segues
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Make sure your segue name in storyboard is the same as this line
+    if ([[segue identifier] isEqualToString:@"OpenInfoDetail"])
+    {
+        // Get reference to the destination view controller
+        MZKDetailInformationViewController *vc = [segue destinationViewController];
+        
+        // Pass any objects to the view controller here, like...
+        [vc setItem:sender];
+    }
+}
 
 @end
