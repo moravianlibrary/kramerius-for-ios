@@ -28,10 +28,10 @@
 @property (nonatomic, strong) NSString *policy;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *titleDetailsPageNumber;
 @property (atomic, readwrite) NSInteger width;
 @property (atomic, readwrite) NSInteger height;
-@property (nonatomic, strong) NSString *stringTitleHack;
+@property (nonatomic, strong) NSString *year;
+@property (nonatomic, strong) NSString *volumeNumber; // rocnik
 
 -(void)loadPageResolution;
 -(NSString *)getAuthorsStringRepresentation;

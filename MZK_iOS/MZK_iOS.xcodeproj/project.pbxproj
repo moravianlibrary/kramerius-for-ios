@@ -30,6 +30,7 @@
 		2D2DA5201BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA51F1BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m */; };
 		2D2DA5281BF1E03A00423447 /* MZKMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA5271BF1E03A00423447 /* MZKMusicViewController.m */; };
 		2D2DA52E1BF2356900423447 /* MZKGeneralColletionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA52D1BF2356900423447 /* MZKGeneralColletionViewController.m */; };
+		2D33C3571C2819E9002BA7D1 /* MZKSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */; };
 		2D409B781B8B460E00B49EAD /* MZKDataSourceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D409B771B8B460E00B49EAD /* MZKDataSourceTableViewCell.m */; };
 		2D409B7B1B8B4C8B00B49EAD /* MZKResourceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D409B7A1B8B4C8B00B49EAD /* MZKResourceItem.m */; };
 		2D58E8F61BA57BAC000D444C /* MZKCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */; };
@@ -97,6 +98,8 @@
 		2D2DA5271BF1E03A00423447 /* MZKMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKMusicViewController.m; sourceTree = "<group>"; };
 		2D2DA52C1BF2356900423447 /* MZKGeneralColletionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKGeneralColletionViewController.h; sourceTree = "<group>"; };
 		2D2DA52D1BF2356900423447 /* MZKGeneralColletionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKGeneralColletionViewController.m; sourceTree = "<group>"; };
+		2D33C3551C2819E9002BA7D1 /* MZKSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSettingsViewController.h; sourceTree = "<group>"; };
+		2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSettingsViewController.m; sourceTree = "<group>"; };
 		2D3A0B441C204734008E4B47 /* MZK_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MZK_iOS.entitlements; sourceTree = "<group>"; };
 		2D409B761B8B460E00B49EAD /* MZKDataSourceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDataSourceTableViewCell.h; sourceTree = "<group>"; };
 		2D409B771B8B460E00B49EAD /* MZKDataSourceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDataSourceTableViewCell.m; sourceTree = "<group>"; };
@@ -286,6 +289,8 @@
 				2D8BB7C51BCE3FC4008E53A1 /* MZKItemCollectionViewCell.h */,
 				2D8BB7C61BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m */,
 				2DB8A7941ACD073400A1BB2E /* Supporting Files */,
+				2D33C3551C2819E9002BA7D1 /* MZKSettingsViewController.h */,
+				2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */,
 			);
 			path = MZK_iOS;
 			sourceTree = "<group>";
@@ -511,6 +516,7 @@
 				2DD583A01B6FA0BA001ED3B3 /* XMLReader.m in Sources */,
 				2D24F0701B7387E40073FC83 /* MZKDataSourceViewController.m in Sources */,
 				2D1A8DDF1AFD036E00494743 /* MZKMenuClickableHeader.m in Sources */,
+				2D33C3571C2819E9002BA7D1 /* MZKSettingsViewController.m in Sources */,
 				2D2A64771AF74A6300D82E04 /* MZKMenuViewController.m in Sources */,
 				2DB8A7971ACD073400A1BB2E /* main.m in Sources */,
 				2D2505C71AFE08C30079F70E /* MZKItemTableViewCell.m in Sources */,

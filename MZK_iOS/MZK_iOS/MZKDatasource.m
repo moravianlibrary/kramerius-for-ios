@@ -151,7 +151,7 @@ typedef enum _downloadOperation downloadOperation;
     
     NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=PID,dc.title&q=dc.title:%@*+AND+(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", searchString];
     
-http://kramerius.mzk.cz
+//http://kramerius.mzk.cz
     
     [self checkAndSetBaseUrl];
     
@@ -325,6 +325,14 @@ http://kramerius.mzk.cz
                         
             if([currentObject objectForKey:@"details"]){
                 page.type = [[currentObject objectForKey:@"details"] objectForKey:@"type"];
+                
+                if ([[[currentObject objectForKey:@"details"] objectForKey:@"year"] isKindOfClass:[NSString class]]) {
+                    page.year =[[currentObject objectForKey:@"details"] objectForKey:@"year"];
+                }
+                
+                if ([[[currentObject objectForKey:@"details"] objectForKey:@"volumeNumber"] isKindOfClass:[NSString class]]) {
+                    page.volumeNumber =[[currentObject objectForKey:@"details"] objectForKey:@"volumeNumber"];
+                }
             }
             
             page.datanode= [[currentObject objectForKey:@"datanode"] boolValue];

@@ -9,6 +9,7 @@
 #import "MZKSettingsViewController.h"
 
 @interface MZKSettingsViewController ()
+@property (weak, nonatomic) IBOutlet UISwitch *publicDocuments;
 
 @end
 
@@ -22,6 +23,9 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (IBAction)publicDocumentsUIsliderValueChanged:(id)sender {
+    
 }
 
 /*
