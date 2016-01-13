@@ -22,6 +22,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.dbManager = [[MZKDatabaseManager alloc] initWithDatabaseFilename:@"values.sql"];
     
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     
@@ -56,6 +57,13 @@
     if (!self.defaultDatasourceItem) {
         [self setDefaultDatasource];
     }
+    
+    // init DB manager
+    
+    self.dbManager = [[MZKDatabaseManager alloc] initWithDatabaseFilename:@"values.sql"];
+    [self loadDataForInstitutions];
+    [self loadDataForLanguages];
+    [self loadDataForRelations];
     
 
     self.window.rootViewController = self.dynamicsDrawerViewController;
@@ -153,6 +161,87 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *recent = [defaults objectForKey:kRecentMusicPlayed];
     return recent;
+}
+
+-(void)loadDataForInstitutions
+{
+    // Form the query.
+     NSString *query = @"select * from institution";
+     _dbInstitutionsInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+    if (_dbInstitutionsInfo.count ==0) {
+        // insert values
+        [self insertValuesToInstitution];
+    }
+    NSLog(@"Vaues count: %lu", (unsigned long)_dbInstitutionsInfo.count);
+    
+}
+
+-(void)loadDataForRelations
+{
+    // Form the query.
+    NSString *query = @"select * from relator";
+    _dbInstitutionsInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+    if (_dbInstitutionsInfo.count ==0) {
+        // insert values
+        [self insertValuesToRelator];
+    }
+    NSLog(@"Vaues count: %lu", (unsigned long)_dbInstitutionsInfo.count);
+    
+}
+
+-(void)loadDataForLanguages
+{
+    // Form the query.
+    NSString *query = @"select * from language";
+    _dbInstitutionsInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+    if (_dbInstitutionsInfo.count ==0) {
+        // insert values
+        [self insertValuesToLanguage];
+    }
+    NSLog(@"Vaues count: %lu", (unsigned long)_dbInstitutionsInfo.count);
+    
+}
+
+-(void)insertValuesToInstitution
+{
+    NSString *fileContent = [self getFileWithName:@"inst"];
+    [self splitAndExecute:fileContent];
+    
+}
+
+-(void)insertValuesToRelator
+{
+     NSString *fileContent = [self getFileWithName:@"relators"];
+    [self splitAndExecute:fileContent];
+    
+}
+
+-(void)insertValuesToLanguage
+{
+     NSString *fileContent = [self getFileWithName:@"languages"];
+    [self splitAndExecute:fileContent];
+}
+
+-(NSString *)getFileWithName:(NSString *)name
+{
+    NSError *error;
+    NSString *strFileContent = [NSString stringWithContentsOfFile:[[NSBundle mainBundle]
+                                                                   pathForResource:name ofType: @"sql"] encoding:NSUTF8StringEncoding error:&error];
+    if(error) {  //Handle error
+        NSLog(@"Error while loading a file");
+    }
+    
+    return strFileContent;
+
+}
+
+-(void)splitAndExecute:(NSString *)fileContent
+{
+    NSArray* allLinedStrings = [fileContent componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    
+    for (NSString *s in allLinedStrings) {
+        [self.dbManager executeQuery:s];
+    }
 }
 
 

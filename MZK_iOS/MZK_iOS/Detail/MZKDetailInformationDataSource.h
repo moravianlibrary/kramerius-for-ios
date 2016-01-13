@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MZKDetailInformationModel.h"
 
 @protocol DetailInformationDelegate <NSObject>
 
 @required
--(void)detailInformationLoaded;
+-(void)detailInformationLoaded:(MZKDetailInformationModel *)info;
 -(void)downloadFailed;
 
 @end

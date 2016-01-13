@@ -65,8 +65,9 @@
 
 #pragma mark - Detail info delegate
 
--(void)detailInformationLoaded
+-(void)detailInformationLoaded:(MZKDetailInformationModel *)info
 {
+    // information loaded
     
 }
 

@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		2D009CD51BAAE52E0042021D /* MZKCollectionItemResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D009CD41BAAE52E0042021D /* MZKCollectionItemResource.m */; };
 		2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D02A4611B0624C100D51B0C /* MZKPageObject.m */; };
+		2D13D54A1C3E66BD00DB4190 /* inst.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D5471C3E66BD00DB4190 /* inst.sql */; };
+		2D13D54B1C3E66BD00DB4190 /* languages.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D5481C3E66BD00DB4190 /* languages.sql */; };
+		2D13D54C1C3E66BD00DB4190 /* relators.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D5491C3E66BD00DB4190 /* relators.sql */; };
+		2D13D54E1C3E8B8C00DB4190 /* values.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D54D1C3E8B8C00DB4190 /* values.sql */; };
+		2D13D5671C3FC6AD00DB4190 /* MZKDetailInformationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */; };
 		2D1A8DDF1AFD036E00494743 /* MZKMenuClickableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1A8DDE1AFD036E00494743 /* MZKMenuClickableHeader.m */; };
 		2D1A8DE11AFD039200494743 /* MZKMenuClickableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D1A8DE01AFD039200494743 /* MZKMenuClickableHeader.xib */; };
 		2D24F06D1B7378740073FC83 /* MZKSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */; };
@@ -35,6 +40,8 @@
 		2D409B7B1B8B4C8B00B49EAD /* MZKResourceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D409B7A1B8B4C8B00B49EAD /* MZKResourceItem.m */; };
 		2D41FEF81C3B03460087F22E /* MZKDetailInformationDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D41FEF71C3B03460087F22E /* MZKDetailInformationDataSource.m */; };
 		2D41FEFB1C3B036D0087F22E /* MZKDetailInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D41FEFA1C3B036D0087F22E /* MZKDetailInformationViewController.m */; };
+		2D41FF011C3BBF970087F22E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D41FF001C3BBF970087F22E /* libsqlite3.tbd */; };
+		2D41FF051C3BBFE50087F22E /* MZKDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D41FF041C3BBFE50087F22E /* MZKDatabaseManager.m */; };
 		2D58E8F61BA57BAC000D444C /* MZKCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */; };
 		2D5A06581BB194E2009FD19C /* MZKClickableFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5A06571BB194E2009FD19C /* MZKClickableFooter.m */; };
 		2D5A065A1BB19503009FD19C /* MZKClickableFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D5A06591BB19503009FD19C /* MZKClickableFooter.xib */; };
@@ -65,6 +72,12 @@
 		2D009CD41BAAE52E0042021D /* MZKCollectionItemResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionItemResource.m; sourceTree = "<group>"; };
 		2D02A4601B0624C100D51B0C /* MZKPageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKPageObject.h; sourceTree = "<group>"; };
 		2D02A4611B0624C100D51B0C /* MZKPageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKPageObject.m; sourceTree = "<group>"; };
+		2D13D5471C3E66BD00DB4190 /* inst.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = inst.sql; sourceTree = "<group>"; };
+		2D13D5481C3E66BD00DB4190 /* languages.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = languages.sql; sourceTree = "<group>"; };
+		2D13D5491C3E66BD00DB4190 /* relators.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = relators.sql; sourceTree = "<group>"; };
+		2D13D54D1C3E8B8C00DB4190 /* values.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = values.sql; sourceTree = "<group>"; };
+		2D13D5651C3FC6AD00DB4190 /* MZKDetailInformationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDetailInformationModel.h; sourceTree = "<group>"; };
+		2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDetailInformationModel.m; sourceTree = "<group>"; };
 		2D1A8DDD1AFD036E00494743 /* MZKMenuClickableHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKMenuClickableHeader.h; sourceTree = "<group>"; };
 		2D1A8DDE1AFD036E00494743 /* MZKMenuClickableHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKMenuClickableHeader.m; sourceTree = "<group>"; };
 		2D1A8DE01AFD039200494743 /* MZKMenuClickableHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MZKMenuClickableHeader.xib; sourceTree = "<group>"; };
@@ -111,6 +124,9 @@
 		2D41FEF71C3B03460087F22E /* MZKDetailInformationDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDetailInformationDataSource.m; sourceTree = "<group>"; };
 		2D41FEF91C3B036D0087F22E /* MZKDetailInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDetailInformationViewController.h; sourceTree = "<group>"; };
 		2D41FEFA1C3B036D0087F22E /* MZKDetailInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDetailInformationViewController.m; sourceTree = "<group>"; };
+		2D41FF001C3BBF970087F22E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		2D41FF031C3BBFE50087F22E /* MZKDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDatabaseManager.h; sourceTree = "<group>"; };
+		2D41FF041C3BBFE50087F22E /* MZKDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDatabaseManager.m; sourceTree = "<group>"; };
 		2D58E8F41BA57BAC000D444C /* MZKCollectionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionTableViewCell.h; sourceTree = "<group>"; };
 		2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionTableViewCell.m; sourceTree = "<group>"; };
 		2D5A06561BB194E2009FD19C /* MZKClickableFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKClickableFooter.h; sourceTree = "<group>"; };
@@ -158,6 +174,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D41FF011C3BBF970087F22E /* libsqlite3.tbd in Frameworks */,
 				2D2787C61BF4BB4A0007D00E /* AVFoundation.framework in Frameworks */,
 				2D2787C41BF4B92A0007D00E /* MediaPlayer.framework in Frameworks */,
 				911A6A000D7EB60632C55B7A /* Pods_MZK_iOS.framework in Frameworks */,
@@ -178,12 +195,27 @@
 				2D2DA5271BF1E03A00423447 /* MZKMusicViewController.m */,
 				2D2DA52C1BF2356900423447 /* MZKGeneralColletionViewController.h */,
 				2D2DA52D1BF2356900423447 /* MZKGeneralColletionViewController.m */,
-				2D41FEF61C3B03460087F22E /* MZKDetailInformationDataSource.h */,
-				2D41FEF71C3B03460087F22E /* MZKDetailInformationDataSource.m */,
 				2D41FEF91C3B036D0087F22E /* MZKDetailInformationViewController.h */,
 				2D41FEFA1C3B036D0087F22E /* MZKDetailInformationViewController.m */,
+				2D41FEF61C3B03460087F22E /* MZKDetailInformationDataSource.h */,
+				2D41FEF71C3B03460087F22E /* MZKDetailInformationDataSource.m */,
+				2D13D5651C3FC6AD00DB4190 /* MZKDetailInformationModel.h */,
+				2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */,
 			);
 			path = Detail;
+			sourceTree = "<group>";
+		};
+		2D41FF021C3BBFC90087F22E /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				2D13D54D1C3E8B8C00DB4190 /* values.sql */,
+				2D13D5471C3E66BD00DB4190 /* inst.sql */,
+				2D13D5481C3E66BD00DB4190 /* languages.sql */,
+				2D13D5491C3E66BD00DB4190 /* relators.sql */,
+				2D41FF031C3BBFE50087F22E /* MZKDatabaseManager.h */,
+				2D41FF041C3BBFE50087F22E /* MZKDatabaseManager.m */,
+			);
+			path = Database;
 			sourceTree = "<group>";
 		};
 		2D89DB7A1B5E57DA00E69119 /* OpenLayers */ = {
@@ -255,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				2D3A0B441C204734008E4B47 /* MZK_iOS.entitlements */,
+				2D41FF021C3BBFC90087F22E /* Database */,
 				2D2DA51D1BEF9B3A00423447 /* Detail */,
 				2DAA60761BA759350004A718 /* Collections */,
 				2DD5839D1B6FA0BA001ED3B3 /* XMLParser */,
@@ -353,6 +386,7 @@
 		C4864A5EBA3AC6CFFA83C9E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D41FF001C3BBF970087F22E /* libsqlite3.tbd */,
 				2D2787C51BF4BB4A0007D00E /* AVFoundation.framework */,
 				2D2787C31BF4B92A0007D00E /* MediaPlayer.framework */,
 				17FD2D438425BEFC1B68C2BB /* libPods-MZK_iOSTests.a */,
@@ -430,6 +464,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D13D54A1C3E66BD00DB4190 /* inst.sql in Resources */,
 				2DB8A7A31ACD073400A1BB2E /* Main.storyboard in Resources */,
 				2D2A64821AF8FC9400D82E04 /* Menu-50.png in Resources */,
 				2D2763D91B6B641900CC7E4F /* zoomify.js in Resources */,
@@ -439,7 +474,10 @@
 				2DB8A7A51ACD073400A1BB2E /* Images.xcassets in Resources */,
 				2DB88C1B1C15B0E900AC7070 /* GoogleService-Info.plist in Resources */,
 				2D1A8DE11AFD039200494743 /* MZKMenuClickableHeader.xib in Resources */,
+				2D13D54E1C3E8B8C00DB4190 /* values.sql in Resources */,
 				2D2763D81B6B641900CC7E4F /* ol.js in Resources */,
+				2D13D54C1C3E66BD00DB4190 /* relators.sql in Resources */,
+				2D13D54B1C3E66BD00DB4190 /* languages.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +549,7 @@
 				2D2DA52E1BF2356900423447 /* MZKGeneralColletionViewController.m in Sources */,
 				2D5A06581BB194E2009FD19C /* MZKClickableFooter.m in Sources */,
 				2D2DA5201BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m in Sources */,
+				2D41FF051C3BBFE50087F22E /* MZKDatabaseManager.m in Sources */,
 				2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */,
 				2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */,
 				2D409B7B1B8B4C8B00B49EAD /* MZKResourceItem.m in Sources */,
@@ -527,6 +566,7 @@
 				2DD583A01B6FA0BA001ED3B3 /* XMLReader.m in Sources */,
 				2D24F0701B7387E40073FC83 /* MZKDataSourceViewController.m in Sources */,
 				2D1A8DDF1AFD036E00494743 /* MZKMenuClickableHeader.m in Sources */,
+				2D13D5671C3FC6AD00DB4190 /* MZKDetailInformationModel.m in Sources */,
 				2D33C3571C2819E9002BA7D1 /* MZKSettingsViewController.m in Sources */,
 				2D2A64771AF74A6300D82E04 /* MZKMenuViewController.m in Sources */,
 				2DB8A7971ACD073400A1BB2E /* main.m in Sources */,
