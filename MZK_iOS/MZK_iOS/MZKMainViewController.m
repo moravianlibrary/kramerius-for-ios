@@ -210,6 +210,57 @@
     
 }
 
+#pragma mark - Collection View Flow Layout Delegate
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    float desiredWidth = [self calculateCellWidthFromScreenWidth:collectionView.frame.size.width];
+    
+    CGSize sizeOfCell = CGSizeMake(desiredWidth, 140);
+    
+    return sizeOfCell;
+    
+}
+
+-(float)calculateCellWidthFromScreenWidth:(float)width
+{
+    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    int numberOfItemsPerRow = 0;
+    int kMinCellWidth = 304;
+    float collectionViewWidth = width;
+    float collectionViewInsetsL = flowLayout.sectionInset.left;
+    float collectionViewInsetsR = flowLayout.sectionInset.right;
+    int calculatedWidth = 304;
+    
+    float minCellSpacing = flowLayout.minimumInteritemSpacing;
+    
+    numberOfItemsPerRow = collectionViewWidth / kMinCellWidth;
+    float restOfWidth = collectionViewWidth - (numberOfItemsPerRow -1)* minCellSpacing - collectionViewInsetsL - collectionViewInsetsR - numberOfItemsPerRow * kMinCellWidth ;
+    calculatedWidth = restOfWidth / numberOfItemsPerRow ;
+    
+    return calculatedWidth+kMinCellWidth;
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self updateCollectionViewLayoutWithSize:size];
+}
+
+- (void)updateCollectionViewLayoutWithSize:(CGSize)size {
+    
+    UICollectionViewFlowLayout *flowLayout = (id)self.collectionView.collectionViewLayout;
+    float desiredWidth = [self calculateCellWidthFromScreenWidth:size.width];
+    
+    CGSize sizeOfCell = CGSizeMake(desiredWidth, 140);
+    
+    flowLayout.itemSize = sizeOfCell;
+    
+    [flowLayout invalidateLayout];
+    
+}
+
+
+
 -(void)prepareDataForSegue:(MZKItemResource *)item
 {
     if ([item.model isEqualToString:@"soundrecording"] || [item.model isEqualToString:@"periodical"] || [item.model isEqualToString:@"sheetmusic"]) {

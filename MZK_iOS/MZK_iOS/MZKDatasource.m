@@ -149,10 +149,9 @@ typedef enum _downloadOperation downloadOperation;
 -(void)getSearchResultsAsHints:(NSString *)searchString
 {
     
-    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=PID,dc.title&q=dc.title:%@*+AND+(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", searchString];
+    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=PID,dc.title&q=dc.title:%@*+AND+(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString]];
     
-//http://kramerius.mzk.cz
-    
+   
     [self checkAndSetBaseUrl];
     
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq];
@@ -164,7 +163,7 @@ typedef enum _downloadOperation downloadOperation;
 -(void)getFullSearchResults:(NSString *)searchString
 {
     
-    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?q=dc.title:%@*+AND+(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", searchString];
+    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?q=dc.title:%@*+AND+(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString]];
     
     [self checkAndSetBaseUrl];
     
@@ -179,7 +178,7 @@ typedef enum _downloadOperation downloadOperation;
 
 -(void)getSearchResults:(NSString *)searchQuery
 {
-    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search?q=%@", searchQuery];
+    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search?q=%@", [searchQuery lowercaseString]];
     if (!searchQuery) {
         sq = @"/search/api/v5.0/search?q=*:*";
     }
@@ -553,7 +552,7 @@ typedef enum _downloadOperation downloadOperation;
     
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
     
-    if (operation ==downloadCollectionItems || operation == search) {
+    if (operation ==downloadCollectionItems || operation == search || operation == searchHints) {
         [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];
        // NSLog(@"%@", req.allHTTPHeaderFields);;
     }
