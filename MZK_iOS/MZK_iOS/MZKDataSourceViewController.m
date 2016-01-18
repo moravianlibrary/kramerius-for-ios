@@ -71,11 +71,11 @@
     item1.stringURL = @"kramerius.mzk.cz";
     item1.imageName = @"logo_mzk";
     
-    MZKResourceItem *item2 = [MZKResourceItem new];
-    item2.name = @"Národní digitální knihovna";
-    item2.protocol = @"http";
-    item2.stringURL = @"krameriusndktest.mzk.cz";
-    item2.imageName = @"logo_ndk";
+//    MZKResourceItem *item2 = [MZKResourceItem new];
+//    item2.name = @"Národní digitální knihovna";
+//    item2.protocol = @"http";
+//    item2.stringURL = @"krameriusndktest.mzk.cz";
+//    item2.imageName = @"logo_ndk";
     
     
     MZKResourceItem *item3 = [MZKResourceItem new];
@@ -108,7 +108,7 @@
     item7.stringURL = @"kramerius.lib.cas.cz";
     item7.imageName = @"logo_knav";
     
-    return [NSArray arrayWithObjects:item1, item2, item3, item4, item5, item6, item7, nil];
+    return [NSArray arrayWithObjects:item1, item3, item4, item5, item6, item7, nil];
     
    
 //    add(new Domain(false, "Krajská knihovna Karlovy Vary", "http", "k4.kr-karlovarsky.cz", R.drawable.logo_kkkv));
