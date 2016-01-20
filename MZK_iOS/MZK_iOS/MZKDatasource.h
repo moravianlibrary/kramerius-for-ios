@@ -18,6 +18,7 @@
 -(void)pagesLoadedForItem:(NSArray *)pages;
 -(void)collectionListLoaded:(NSArray *)collections;
 -(void)collectionItemsLoaded:(NSArray *)collectionItems;
+-(void)collectionItemsLoaded:(NSArray *)collectionItems withNumberOfItems:(NSInteger)numberOfItems;
 -(void)childrenForItemLoaded:(NSArray *)items;
 -(void)searchResultsLoaded:(NSArray *)results;
 -(void)downloadFailedWithRequest:(NSString *)request;
@@ -43,6 +44,8 @@
 
 -(void)getInfoAboutCollections;
 -(void)getCollectionItems:(NSString *)collectionPID;
+-(void)getCollectionItems:(NSString *)collectionPID withRangeFrom:(NSInteger)from to:(NSInteger)to;
+-(void)getCollectionItems:(NSString *)collectionPID withRangeFrom:(NSInteger)from numberOfItems:(NSInteger)numberOfItems;
 -(void)getSearchResults:(NSString *)searchQuery;
 -(void)getSearchResultsAsHints:(NSString *)searchString;
 -(void)getFullSearchResults:(NSString *)searchString;

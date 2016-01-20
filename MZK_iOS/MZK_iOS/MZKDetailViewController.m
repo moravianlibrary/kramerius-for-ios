@@ -311,6 +311,10 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     loadedPages = pages;
     [self updateUserInterfaceAfterPageChange];
+    if ([[loadedPages objectAtIndex:currentIndex] datanode]) {
+        
+        
+    }
     
     [self loadImagePropertiesForItem: [[loadedPages objectAtIndex:currentIndex] pid]];
     

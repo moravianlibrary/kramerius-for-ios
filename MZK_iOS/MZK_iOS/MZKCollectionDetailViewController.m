@@ -14,13 +14,15 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "MZKItemCollectionViewCell.h"
 #import <Google/Analytics.h>
+#import "AppDelegate.h"
 
 
 @interface MZKCollectionDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, DataLoadedDelegate>
 {
     MZKDatasource *_datasource;
-    NSArray *_loadedItems;
+    NSMutableArray *_loadedItems;
     MZKCollectionItemResource *_selectedItem;
+    NSInteger numberOfItemsForCollection;
 }
 @property (weak, nonatomic) IBOutlet UILabel *collectionName;
 - (IBAction)onBack:(id)sender;
@@ -57,13 +59,15 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)setItems:(NSArray *)items
+-(void)setCollectionPID:(NSString *)collectionPID
 {
-    _items = items;
+    _collectionPID = collectionPID;
     if (!_datasource) {
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
     }
+    
+    [_datasource getCollectionItems:_collectionPID];
 }
 
 /*
@@ -83,33 +87,33 @@
 
 - (NSInteger)collectionView:(UICollectionView*)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return [_items count];
+    return [_loadedItems count];
 }
 
 - (MZKItemCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MZKItemCollectionViewCell* newCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"MZKItemCollectionViewCell"
                                                                                           forIndexPath:indexPath];
-    MZKCollectionItemResource *item = [_items objectAtIndex:indexPath.row];
+    MZKCollectionItemResource *item = [_loadedItems objectAtIndex:indexPath.row];
     
     newCell.itemName.text =item.title;
     newCell.itemAuthors.text = item.authors;
     newCell.itemType.text = item.documentType;
     //newCell.itemTypeIcon
+    AppDelegate *del = [[UIApplication sharedApplication] delegate];
+    MZKResourceItem *resItem = del.getDatasourceItem;
     
-    NSString*url = @"http://kramerius.mzk.cz";
+    NSString*url = [NSString stringWithFormat:@"%@://%@", resItem.protocol, resItem.stringURL];
     NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",url, item.pid ];
     
     
     [newCell.itemImage sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
-    
-    
-    // newCell.cellLabel.text = [NSString stringWithFormat:@"Section:%d, Item:%d", indexPath.section, indexPath.item];
+
     return newCell;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    MZKCollectionItemResource *item = [_items objectAtIndex:indexPath.row];
+    MZKCollectionItemResource *item = [_loadedItems objectAtIndex:indexPath.row];
     _selectedItem = item;
     
     [self performSegueWithIdentifier:@"OpenCollectionDetail" sender:nil];
@@ -170,6 +174,37 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
         
     }];
+}
+
+#pragma mark - Datasource delegate methods
+-(void)collectionItemsLoaded:(NSArray *)collectionItems
+{
+    // open colleciton detail from here
+    
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf collectionItemsLoaded:collectionItems];
+        });
+        return;
+    }
+    if (!_loadedItems) {
+        _loadedItems = [NSMutableArray new];
+    }
+    [_loadedItems addObjectsFromArray:[collectionItems copy]];
+    [self.collectionView reloadData];
+   
+    MZKCollectionItemResource *firstItem = collectionItems.firstObject;
+    if (firstItem.numFound != _loadedItems.count) {
+        NSInteger start = _loadedItems.count;
+        NSInteger count = firstItem.numFound - start;
+        if (count >30) {
+            count =30;
+        }
+        
+        [_datasource getCollectionItems:_collectionPID withRangeFrom:start numberOfItems:count];
+    }
 }
 
 #pragma mark - segues

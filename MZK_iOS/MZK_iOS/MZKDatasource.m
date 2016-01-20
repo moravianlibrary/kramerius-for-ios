@@ -93,12 +93,45 @@ typedef enum _downloadOperation downloadOperation;
     [self downloadDataFromURL:url withOperation:downloadItem];
     
 }
+
+-(void)getCollectionItems:(NSString *)collectionPID withNumberOfResults:(NSInteger)numberOfResults
+{
+    if (numberOfResults != 0) {
+        NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/search?q=collection:\"%@\" AND dostupnost:*public* AND (fedora.model:monograph OR fedora.model:periodical OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:map OR fedora.model:sheetmusic OR fedora.model:soundrecording)&rows=%ld", collectionPID, (long)numberOfResults];
+        
+        [self checkAndSetBaseUrl];
+        NSString *finalStringURL = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
+        NSString *finalString  = [finalStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [[NSURL alloc] initWithString:finalString];
+        
+        [self downloadDataFromURL:url withOperation:downloadCollectionItems];
+    }
+    else
+    {
+        [self getCollectionItems:collectionPID];
+    }
+   
+   
+}
+
 -(void)getCollectionItems:(NSString *)collectionPID
 {
-    NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/search?q=collection:\"%@\" AND dostupnost:*public* AND (fedora.model:monograph OR fedora.model:periodical OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:map OR fedora.model:sheetmusic OR fedora.model:soundrecording)", collectionPID];
+    NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/search?q=collection:\"%@\" AND dostupnost:*public* AND (fedora.model:monograph OR fedora.model:periodical OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:map OR fedora.model:sheetmusic OR fedora.model:soundrecording)&rows=30", collectionPID];
     
     [self checkAndSetBaseUrl];
     
+    NSString *finalStringURL = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
+    NSString *finalString  = [finalStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    
+    [self downloadDataFromURL:url withOperation:downloadCollectionItems];
+}
+
+-(void)getCollectionItems:(NSString *)collectionPID withRangeFrom:(NSInteger)from numberOfItems:(NSInteger)numberOfItems
+{
+    NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/search?q=collection:\"%@\" AND dostupnost:*public* AND (fedora.model:monograph OR fedora.model:periodical OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:map OR fedora.model:sheetmusic OR fedora.model:soundrecording)&start=%ld&rows=%ld", collectionPID, from, numberOfItems];
+    
+    [self checkAndSetBaseUrl];
     NSString *finalStringURL = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
     NSString *finalString  = [finalStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [[NSURL alloc] initWithString:finalString];
@@ -406,6 +439,7 @@ typedef enum _downloadOperation downloadOperation;
     NSMutableArray *results = [[NSMutableArray alloc] init];
     
     NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
+    NSLog(@"Number of Results for Collections: %ld", (long)numberOfResults);
     NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
     
     NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
@@ -428,9 +462,14 @@ typedef enum _downloadOperation downloadOperation;
         
     }
     
+//    if ([self.delegate respondsToSelector:@selector(collectionItemsLoaded:withNumberOfItems:)]) {
+//        [self.delegate collectionItemsLoaded:[results copy] withNumberOfItems:numberOfResults];
+//         NSLog(@"Collections count:%lu", (unsigned long)results.count);
+//    }
+    
     if ([self.delegate respondsToSelector:@selector(collectionItemsLoaded:)]) {
         [self.delegate collectionItemsLoaded:[results copy]];
-        NSLog(@"Collections count:%lu", (unsigned long)results.count);
+       
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
