@@ -127,7 +127,10 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     if (height ==0 ) {
         height = self.view.frame.size.height;
     }
-    NSString *queryString = [NSString stringWithFormat:@"?url=http://kramerius.mzk.cz/search/zoomify/%@/&width=%f&height=%f", url, width, height];
+    
+    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    
+    NSString *queryString = [NSString stringWithFormat:@"?url=%@://%@/search/zoomify/%@/&width=%f&height=%f",delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL, url, width, height];
     
     NSString *absoluteURLwithQueryString = [theAbsoluteURLString stringByAppendingString: queryString];
     
@@ -147,6 +150,24 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     [_webView loadRequest:request];
     
     //NSLog(@"Width:%f  Height:%f", width, height);
+}
+
+-(void)displayItemWithJPGResource:(MZKPageObject *)page
+{
+    NSLog(@"Page resolution Not Loaded");
+    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    
+    
+    NSString *load = [NSString stringWithFormat:@"%@://%@/search/api/v5.0/item/%@/streams/IMG_FULL", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL, page.pid];
+    
+    NSURL *finalURL = [NSURL URLWithString: load];
+     NSURLRequest *request = [NSURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:(NSTimeInterval)50 ];
+    
+    [_webView setBackgroundColor:[UIColor blackColor]];
+    [_webView setContentMode:UIViewContentModeScaleToFill];
+    [_webView.scrollView setContentSize:CGSizeMake(_webView.frame.size.width, _webView.frame.size.height)];
+    [_webView loadRequest:request];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -220,6 +241,23 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     if (pageObject.pid == [[loadedPages objectAtIndex:currentIndex] pid]) {
         [self displayItem:pageObject withURL:pageObject.pid withWith:pageObject.width andHeight:pageObject.height];
     }
+    
+}
+
+-(void)pageNotAvailable
+{
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf pageNotAvailable];
+        });
+        return;
+    }
+    
+     MZKPageObject *page =[loadedPages objectAtIndex:currentIndex];
+    
+    [self displayItemWithJPGResource:page];
     
 }
 
@@ -509,6 +547,8 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     return cell;
 }
+
+
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {

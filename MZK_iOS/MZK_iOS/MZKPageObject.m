@@ -19,6 +19,7 @@
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
     NSURLRequest *req = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
+    NSLog(@"req:%@", req.description);
     [NSURLConnection sendAsynchronousRequest:req queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
         
         if (error) {
@@ -28,6 +29,14 @@
             NSDictionary *dict = [XMLReader dictionaryForXMLData:data
                                                          options:XMLReaderOptionsProcessNamespaces
                                                            error:&error];
+            if(!dict)
+            {
+                if ([self.delegate respondsToSelector:@selector(pageNotAvailable)]) {
+                    [self.delegate pageNotAvailable];
+                    NSLog(@"Resolution Skipped, not present");
+                    return ;
+                }
+            }
             
             NSDictionary *list = [dict objectForKey:@"IMAGE_PROPERTIES"];
             NSInteger width = [[list objectForKey:@"WIDTH"] integerValue];

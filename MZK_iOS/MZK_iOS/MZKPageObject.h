@@ -13,6 +13,7 @@
 
 
 -(void)pageLoadedForItem:(MZKPageObject *)pageObject;
+-(void)pageNotAvailable;
 
 @end
 
