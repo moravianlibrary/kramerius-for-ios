@@ -22,7 +22,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    self.dbManager = [[MZKDatabaseManager alloc] initWithDatabaseFilename:@"values.sql"];
+    
+
+   
     
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     
@@ -60,12 +62,19 @@
     
     // init DB manager
     
-    self.dbManager = [[MZKDatabaseManager alloc] initWithDatabaseFilename:@"values.sql"];
-    [self loadDataForInstitutions];
-    [self loadDataForLanguages];
-    [self loadDataForRelations];
+    __weak typeof(self) wealf = self;
     
-
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        // Do the work associated with the task, preferably in chunks.
+        wealf.dbManager = [[MZKDatabaseManager alloc] initWithDatabaseFilename:@"values.sql"];
+        
+        [wealf loadDataForInstitutions];
+        [wealf loadDataForLanguages];
+        [wealf loadDataForRelations];
+        
+    });
+    
     self.window.rootViewController = self.dynamicsDrawerViewController;
     
     return YES;
