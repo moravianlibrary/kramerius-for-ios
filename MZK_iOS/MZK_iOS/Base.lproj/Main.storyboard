@@ -1098,6 +1098,7 @@
                                                         <constraint firstItem="BEZ-xS-u3s" firstAttribute="top" secondItem="ami-o4-rwZ" secondAttribute="top" constant="8" id="loi-SW-ChZ"/>
                                                         <constraint firstItem="kQY-GD-t8s" firstAttribute="top" secondItem="cn3-Gn-Ipt" secondAttribute="bottom" constant="8" id="mZz-pn-YB8"/>
                                                         <constraint firstItem="E5P-qd-hgi" firstAttribute="leading" secondItem="BEZ-xS-u3s" secondAttribute="trailing" constant="19" id="qIp-vn-kah"/>
+                                                        <constraint firstAttribute="trailing" secondItem="zlo-1M-IFi" secondAttribute="trailing" constant="9" id="sgu-Wm-cVK"/>
                                                         <constraint firstItem="m2S-rt-z4P" firstAttribute="leading" secondItem="E5P-qd-hgi" secondAttribute="trailing" constant="8" id="uOJ-i0-OBf"/>
                                                         <constraint firstAttribute="trailing" secondItem="kQY-GD-t8s" secondAttribute="trailing" constant="8" id="uSn-bG-xWp"/>
                                                         <constraint firstItem="zlo-1M-IFi" firstAttribute="top" secondItem="ami-o4-rwZ" secondAttribute="top" constant="8" id="vvd-Op-XRF"/>
@@ -2030,9 +2031,9 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
         <image name="pages" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rs0-rK-WcW"/>
-        <segue reference="Gmw-Rc-QWP"/>
-        <segue reference="wpv-e5-UGR"/>
+        <segue reference="kYp-Gh-Qsw"/>
+        <segue reference="H21-Ix-YLX"/>
+        <segue reference="vUe-Rc-ptJ"/>
         <segue reference="pB0-yE-dEK"/>
     </inferredMetricsTieBreakers>
 </document>
