@@ -15,6 +15,7 @@
 
 NSString *const MZKMenuCellIdentifier = @"MZKMenuCell";
 NSString *const kMZKMusicViewController = @"MZKMusicViewController";
+NSInteger const MZKMenuWidth = 270;
 @interface MZKMenuViewController ()<MenuClickableHeaderDelegate>
 {
     MZKMenuClickableHeader *headerView;
@@ -117,7 +118,7 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
     headerView = [nibContents lastObject];
     headerView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     headerView.translatesAutoresizingMaskIntoConstraints = YES;
-    headerView.frame = CGRectMake(0, 0, 270, 100);
+    headerView.frame = CGRectMake(0, 0, MZKMenuWidth, 100);
     
     headerView.delegate = self;
     self.tableView.tableHeaderView = headerView;
@@ -129,11 +130,8 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    headerView.frame = CGRectMake(0, 0, 270, 100);
-    self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, 270, self.view.frame.size.height);
-    
-    NSLog(@"Pane view controller %@", [self.dynamicsDrawerViewController.paneView description]);
-    
+    headerView.frame = CGRectMake(0, 0, MZKMenuWidth, 100);
+    self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, MZKMenuWidth, self.view.frame.size.height);
 }
 
 -(void)initializeMenu
