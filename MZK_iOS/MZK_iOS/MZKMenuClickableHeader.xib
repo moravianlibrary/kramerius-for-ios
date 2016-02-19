@@ -12,7 +12,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j82-15-gIu">
-                    <rect key="frame" x="0.0" y="0.0" width="550" height="150"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
                     <inset key="imageEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <state key="normal" image="disclosure">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -28,14 +28,6 @@
                         <constraint firstAttribute="height" constant="75" id="RcK-wP-5fj"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kramerius" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="mBk-UC-vtg">
-                    <rect key="frame" x="91" y="45" width="419" height="60"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="60" id="ITd-0l-OSu"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mj0-3h-V9V">
                     <rect key="frame" x="91" y="101" width="0.0" height="21"/>
                     <constraints>
@@ -51,31 +43,29 @@
                         <constraint firstAttribute="height" constant="1" id="fTj-g9-X1F"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hmn-SC-jXl">
-                    <rect key="frame" x="550" y="0.0" width="50" height="151"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kramerius" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="mBk-UC-vtg">
+                    <rect key="frame" x="91" y="45" width="478" height="60"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="50" id="OJa-w2-1dr"/>
+                        <constraint firstAttribute="height" constant="60" id="ITd-0l-OSu"/>
                     </constraints>
-                </view>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="j82-15-gIu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="0k4-x0-0wc"/>
-                <constraint firstAttribute="bottom" secondItem="hmn-SC-jXl" secondAttribute="bottom" constant="-1" id="4ku-EZ-StH"/>
                 <constraint firstItem="mBk-UC-vtg" firstAttribute="leading" secondItem="z2Y-0e-eeS" secondAttribute="trailing" constant="8" id="5VF-gs-3aQ"/>
+                <constraint firstAttribute="trailing" secondItem="j82-15-gIu" secondAttribute="trailing" id="8o3-eh-UuA"/>
+                <constraint firstAttribute="trailing" secondItem="mBk-UC-vtg" secondAttribute="trailing" constant="31" id="AR1-UV-FZp"/>
                 <constraint firstItem="mj0-3h-V9V" firstAttribute="top" secondItem="mBk-UC-vtg" secondAttribute="bottom" constant="-4" id="FWk-8c-wfM"/>
-                <constraint firstItem="hmn-SC-jXl" firstAttribute="leading" secondItem="j82-15-gIu" secondAttribute="trailing" id="Q2J-Kg-hvN"/>
                 <constraint firstItem="j82-15-gIu" firstAttribute="leading" secondItem="z2Y-0e-eeS" secondAttribute="trailing" constant="-83" id="QS7-iL-HbP"/>
                 <constraint firstItem="J9h-IY-anN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="SIl-p7-dYM"/>
                 <constraint firstItem="mBk-UC-vtg" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="TmS-dl-wOb"/>
                 <constraint firstAttribute="bottom" secondItem="J9h-IY-anN" secondAttribute="bottom" constant="-1" id="c14-Ky-UXz"/>
-                <constraint firstItem="hmn-SC-jXl" firstAttribute="leading" secondItem="mBk-UC-vtg" secondAttribute="trailing" constant="40" id="cvn-vJ-chi"/>
                 <constraint firstAttribute="trailing" secondItem="J9h-IY-anN" secondAttribute="trailing" id="dWW-OS-ggO"/>
                 <constraint firstItem="j82-15-gIu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="fAK-so-pXy"/>
                 <constraint firstItem="z2Y-0e-eeS" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="hqg-aK-hfu"/>
-                <constraint firstItem="hmn-SC-jXl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="nQM-dG-fWD"/>
-                <constraint firstAttribute="trailing" secondItem="hmn-SC-jXl" secondAttribute="trailing" id="qoQ-LX-fbs"/>
                 <constraint firstAttribute="bottom" secondItem="j82-15-gIu" secondAttribute="bottom" id="sUn-HH-BaR"/>
                 <constraint firstItem="mj0-3h-V9V" firstAttribute="leading" secondItem="z2Y-0e-eeS" secondAttribute="trailing" constant="8" id="zmU-95-KvY"/>
             </constraints>
@@ -94,7 +84,7 @@
         </view>
     </objects>
     <resources>
-        <image name="disclosure" width="13" height="14"/>
+        <image name="disclosure" width="26" height="28"/>
         <image name="logo_mzk" width="128" height="128"/>
     </resources>
 </document>

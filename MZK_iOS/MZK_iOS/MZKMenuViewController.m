@@ -13,7 +13,7 @@
 #import "AppDelegate.h"
 #import "MZKAboutViewController.h"
 
-NSString * const MZKMenuCellIdentifier = @"MZKMenuCell";
+NSString *const MZKMenuCellIdentifier = @"MZKMenuCell";
 NSString *const kMZKMusicViewController = @"MZKMusicViewController";
 @interface MZKMenuViewController ()<MenuClickableHeaderDelegate>
 {
@@ -62,6 +62,8 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
     [self initializeMenuHeader];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackStarted:) name:@"playbackStarted" object:nil];
+    
+     self.dynamicsDrawerViewController.shouldAlignStatusBarToPaneView = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -113,10 +115,13 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
     
     // Find the view among nib contents (not too hard assuming there is only one view in it).
     headerView = [nibContents lastObject];
+    headerView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     headerView.translatesAutoresizingMaskIntoConstraints = YES;
-    headerView.frame = CGRectMake(0, 0, self.tableView.bounds.size.width, 100);
+    headerView.frame = CGRectMake(0, 0, 270, 100);
+    
     headerView.delegate = self;
     self.tableView.tableHeaderView = headerView;
+    
     
     [self defaultDatasourceChangedNotification:nil];
 }
@@ -124,7 +129,10 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-     headerView.frame = CGRectMake(0, 0, self.tableView.bounds.size.width, 100);
+    headerView.frame = CGRectMake(0, 0, 270, 100);
+    self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, 270, self.view.frame.size.height);
+    
+    NSLog(@"Pane view controller %@", [self.dynamicsDrawerViewController.paneView description]);
     
 }
 
@@ -147,6 +155,8 @@ NSString *const kMZKMusicViewController = @"MZKMusicViewController";
                                       @(MZKCollectionsViewController) : @"ic_group_grey" }];
 
     self.musicController = [MZKMusicViewController sharedInstance];
+    
+   
 }
 
 - (MSPaneViewControllerType)paneViewControllerTypeForIndexPath:(NSIndexPath *)indexPath
