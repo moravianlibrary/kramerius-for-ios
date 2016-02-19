@@ -141,7 +141,10 @@
 #pragma mark - notification handling
 -(void)defaultDatasourceChangedNotification:(NSNotification *)notf
 {
-    [self.tableView reloadData];
+    _datasource = [[MZKDatasource alloc] init];
+    [_datasource setDelegate:self];
+    [_datasource getInfoAboutCollections];
+    _selectedCollectionName = nil;
 }
 
 

@@ -247,7 +247,7 @@ NSInteger const MZKMenuWidth = 270;
     }
     else
     {
-    [self transitionToViewController:paneViewControllerType];
+        [self transitionToViewController:paneViewControllerType];
     }
     
     // Prevent visual display bug with cell dividers
@@ -287,9 +287,7 @@ NSInteger const MZKMenuWidth = 270;
     [self presentViewController:vc animated:YES completion:^{
         
     }];
-
 }
-
 
 -(void)dealloc
 {
