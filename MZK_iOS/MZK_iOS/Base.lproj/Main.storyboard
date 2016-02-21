@@ -1712,7 +1712,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <searchBar contentMode="redraw" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oGg-rn-VPl">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="25" y="0.0" width="550" height="44"/>
                                             <color key="barTintColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <textInputTraits key="textInputTraits"/>
                                             <scopeButtonTitles>
@@ -1727,9 +1727,9 @@
                                     <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="oGg-rn-VPl" secondAttribute="bottom" id="Dhi-kN-Iu6"/>
-                                        <constraint firstItem="oGg-rn-VPl" firstAttribute="leading" secondItem="9Kl-6y-Yp0" secondAttribute="leading" id="cSc-w2-ru9"/>
+                                        <constraint firstItem="oGg-rn-VPl" firstAttribute="leading" secondItem="9Kl-6y-Yp0" secondAttribute="leading" constant="25" id="cSc-w2-ru9"/>
                                         <constraint firstItem="oGg-rn-VPl" firstAttribute="top" secondItem="9Kl-6y-Yp0" secondAttribute="top" id="ceC-Ck-PGe"/>
-                                        <constraint firstAttribute="trailing" secondItem="oGg-rn-VPl" secondAttribute="trailing" id="z8w-1c-sJC"/>
+                                        <constraint firstAttribute="trailing" secondItem="oGg-rn-VPl" secondAttribute="trailing" constant="25" id="z8w-1c-sJC"/>
                                     </constraints>
                                     <connections>
                                         <outlet property="searchBar" destination="oGg-rn-VPl" id="VQS-9h-ALf"/>
@@ -2028,8 +2028,8 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="pB0-yE-dEK"/>
-        <segue reference="rs0-rK-WcW"/>
+        <segue reference="1wt-1f-SHW"/>
         <segue reference="wpv-e5-UGR"/>
-        <segue reference="Gmw-Rc-QWP"/>
+        <segue reference="ZCR-f1-b8E"/>
     </inferredMetricsTieBreakers>
 </document>
