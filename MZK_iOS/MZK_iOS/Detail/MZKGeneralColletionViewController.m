@@ -16,6 +16,7 @@
 #import "MZKDetailViewController.h"
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
+#import "MZKConstants.h"
 
 @interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 {
@@ -163,7 +164,25 @@
         cell.pObject = item;
         cell.itemType.text = [item getLocalizedItemType];
         
+        if ([item.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
+            
+
+            if (item.year) {
+                 cell.itemName.text = item.year;
+            }
+            
+            if (item.volumeNumber) {
+                cell.itemAuthors.text = item.volumeNumber;
+            }
+        }
         
+        
+        if ([item.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
+            
+            cell.itemName.text = item.date;
+            cell.itemAuthors.text = item.issueNumber;
+        }
+       
         AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
         
         NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
@@ -236,21 +255,6 @@
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
     
 }
-//
-//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-//{
-//    UICollectionReusableView *reusableview = nil;
-//    if (kind == UICollectionElementKindSectionHeader) {
-//        MZKSearchBarCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SearchHeader" forIndexPath:indexPath];
-//        headerView.searchBar.layer.borderWidth = 1.0;
-//        headerView.searchBar.layer.borderColor = [[UIColor groupTableViewBackgroundColor] CGColor];
-//        reusableview = headerView;
-//        _searchBarView = headerView;
-//        
-//    }
-//    
-//    return reusableview;
-//}
 
 #pragma mark - Collection View Flow Layout Delegate
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

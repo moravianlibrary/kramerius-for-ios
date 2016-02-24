@@ -46,14 +46,11 @@
     datasource.delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
-    // [self.collectionView registerClass:[MZKItemCollectionViewCell class] forCellWithReuseIdentifier:@"MZKItemCollectionViewCell"];
-    
+  
     [self refreshAllValues];
     [self hideDimmingView];
     [self initGoogleAnalytics];
     [self refreshTitle];
-    
-    
 }
 
 -(void)refreshTitle
@@ -63,7 +60,6 @@
     NSString *libName = [[del getDatasourceItem] name];
     
     self.title = libName;
-
 }
 
 -(void)initGoogleAnalytics

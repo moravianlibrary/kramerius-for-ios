@@ -362,9 +362,24 @@ typedef enum _downloadOperation downloadOperation;
                     page.year =[[currentObject objectForKey:@"details"] objectForKey:@"year"];
                 }
                 
+                if ([[[currentObject objectForKey:@"details"] objectForKey:@"date"] isKindOfClass:[NSString class]]) {
+                    page.date =[[currentObject objectForKey:@"details"] objectForKey:@"date"];
+                }
+                
                 if ([[[currentObject objectForKey:@"details"] objectForKey:@"volumeNumber"] isKindOfClass:[NSString class]]) {
                     page.volumeNumber =[[currentObject objectForKey:@"details"] objectForKey:@"volumeNumber"];
                 }
+                
+                if ([[[currentObject objectForKey:@"details"] objectForKey:@"issueNumber"] isKindOfClass:[NSString class]]) {
+                    page.issueNumber =[[currentObject objectForKey:@"details"] objectForKey:@"issueNumber"];
+                    if ([page.issueNumber isEqualToString:@""]) {
+                        if ([[[currentObject objectForKey:@"details"] objectForKey:@"partNumber"] isKindOfClass:[NSString class]]) {
+                            page.issueNumber =[[currentObject objectForKey:@"details"] objectForKey:@"partNumber"];
+                        }
+                    }
+                }
+                
+                
             }
             
             page.datanode= [[currentObject objectForKey:@"datanode"] boolValue];

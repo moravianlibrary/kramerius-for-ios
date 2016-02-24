@@ -33,6 +33,9 @@
 @property (atomic, readwrite) NSInteger height;
 @property (nonatomic, strong) NSString *year;
 @property (nonatomic, strong) NSString *volumeNumber; // rocnik
+@property (nonatomic, strong) NSString *partNumber; //
+@property (nonatomic, strong) NSString *date; //
+@property (nonatomic, strong) NSString *issueNumber; //
 
 -(void)loadPageResolution;
 -(NSString *)getAuthorsStringRepresentation;
