@@ -23,7 +23,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *recent = [defaults objectForKey:kSettingsShowOnlyPublicDocuments];
+    if (!recent) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:kSettingsShowOnlyPublicDocuments];
+    }
    
     
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;

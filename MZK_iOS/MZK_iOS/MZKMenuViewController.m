@@ -278,6 +278,7 @@ NSInteger const MZKMenuWidth = 270;
     headerView.libraryIcon.image = [UIImage imageNamed:item.imageName];
     headerView.libraryInfo.text = item.stringURL;
 }
+
 - (IBAction)onFeedback:(id)sender {
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
@@ -288,6 +289,20 @@ NSInteger const MZKMenuWidth = 270;
         
     }];
 }
+
+- (IBAction)onSettings:(id)sender {
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    
+    MZKAboutViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKSettingsViewController"];
+    
+    [self presentViewController:vc animated:YES completion:^{
+        
+    }];
+
+}
+
+
 
 -(void)dealloc
 {

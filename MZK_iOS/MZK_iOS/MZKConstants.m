@@ -11,19 +11,15 @@
 @implementation MZKConstants
 
 NSString *const MyFirstConstant = @"FirstConstant";
-
 NSString *const kDefaultDatasourceName = @"kDefaultDatasourceName";
 NSString *const kDefaultDatasourceProtocol = @"kDefaultDatasourceProtocol";
 NSString *const kDefaultDatasourceStringURL = @"kDefaultDatasourceStringURL";
 NSString *const kDefaultImageName = @"kDefaultDatasourceImageName";
-
 NSString *const kDatasourceItemChanged = @"kDatasourceItemChanged";
 NSString *const kRecent = @"recent";
 NSString *const kRecommended = @"recommended";
 NSString *const kRecentMusicPlayed = @"recentMusic";
-
 NSString *const kSettingsShowOnlyPublicDocuments = @"showOnlyPublicDocuments";
-
 
 #pragma mark - types keys
 
