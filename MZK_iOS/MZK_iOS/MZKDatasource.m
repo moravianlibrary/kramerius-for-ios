@@ -621,7 +621,7 @@ typedef enum _downloadOperation downloadOperation;
     [NSURLConnection sendAsynchronousRequest:[req copy] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
         
         if (error) {
-           // NSLog(@"Download failed with error:%@", [error debugDescription]);
+            NSLog(@"Download failed with error:%@", [error debugDescription]);
             [self downloadFailed];
         } else {
             //NSLog(@"Download sucessful with operation:%lu", (unsigned long)operation);

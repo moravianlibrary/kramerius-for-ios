@@ -69,6 +69,27 @@
 
 -(void)refreshTitle
 {
+    // title has to be different based on type of parent resource!!!
+    
+    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
+        
+        
+//        if (parentItemResource.year) {
+//            cell.itemName.text = item.year;
+//        }
+//        
+//        if (parentItemResource.volumeNumber) {
+//            cell.itemAuthors.text = item.volumeNumber;
+//        }
+    }
+    
+    
+    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
+        
+//        cell.itemName.text = item.date;
+//        cell.itemAuthors.text = item.issueNumber;
+    }
+
     self.navigationItem.title = parentItemResource.title;
 }
 
@@ -461,7 +482,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [wealf refreshTitle];
-        [_datasource getChildrenForItem:item.pid];
+        [_datasource getChildrenForItem:parentItemResource.pid];
         [wealf hideLoadingIndicator];
     });
 }
