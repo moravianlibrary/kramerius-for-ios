@@ -62,6 +62,12 @@
 -(void)setCollectionPID:(NSString *)collectionPID
 {
     _collectionPID = collectionPID;
+    [self loadDataForController];
+    
+}
+
+-(void)loadDataForController
+{
     if (!_datasource) {
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
@@ -79,6 +85,26 @@
  // Pass the selected object to the new view controller.
  }
  */
+
+#pragma mark - Datasource Delegate
+-(void)downloadFailedWithRequest:(NSString *)request
+{
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf downloadFailedWithRequest:request];
+        });
+        return;
+    }
+    //[self hideLoadingIndicator];
+    
+    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?" confirmAction:^{
+        [welf loadDataForController];
+    }];
+}
+
+
 #pragma mark - Collection View Delegate and Datasource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView*)collectionView {
     // just one section

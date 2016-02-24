@@ -73,7 +73,21 @@
 
 -(void)downloadFailed
 {
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf downloadFailed];
+        });
+        return;
+    }
     
+    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?" confirmAction:^{
+        if (_item) {
+            [welf loadDataForItem:_item];
+        }
+        
+    }];
 }
 
 @end

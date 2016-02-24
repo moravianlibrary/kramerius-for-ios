@@ -122,16 +122,20 @@
 
 -(void)downloadFailedWithRequest:(NSString *)request
 {
+    __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
-        __weak typeof(self) welf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             [welf downloadFailedWithRequest:request];
         });
         return;
     }
     [self hideLoadingIndicator];
-    [self showErrorWithTitle:@"Problem při stahování" subtitle:@"Opakovat akci?"];
+    //[self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?"
+    
+    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?" confirmAction:^{
+        [welf refreshAllValues];
+    }];
 }
 
 

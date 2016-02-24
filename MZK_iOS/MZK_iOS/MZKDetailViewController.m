@@ -52,8 +52,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 - (IBAction)onPreviousPage:(id)sender;
 - (IBAction)onShowPages:(id)sender;
 
-
-
 @end
 
 @implementation MZKDetailViewController
@@ -148,8 +146,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     [_webView.scrollView setContentSize:CGSizeMake(_webView.frame.size.width, _webView.frame.size.height)];
 
     [_webView loadRequest:request];
-    
-    //NSLog(@"Width:%f  Height:%f", width, height);
 }
 
 -(void)displayItemWithJPGResource:(MZKPageObject *)page
@@ -189,6 +185,25 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 {
     _item = item;
     [self loadDataForItem:_item];
+}
+
+-(void)downloadFailedWithRequest:(NSString *)request
+{
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf downloadFailedWithRequest:request];
+        });
+        return;
+    }
+    
+    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?" confirmAction:^{
+        if (_item) {
+            [welf loadDataForItem:_item];
+        }
+        
+    }];
 }
 
 -(void)loadDataForItem:(MZKItemResource *)item

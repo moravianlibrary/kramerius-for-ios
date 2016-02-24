@@ -122,6 +122,30 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
 
 }
 
+-(void)loadDataForController
+{
+    [_datasource getItem:_currentItemPID];
+}
+
+-(void)downloadFailedWithRequest:(NSString *)request
+{
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf downloadFailedWithRequest:request];
+        });
+        return;
+    }
+    
+   // [self hideLoadingIndicator];
+    
+    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?" confirmAction:^{
+        [welf loadDataForController];
+        
+    }];
+}
+
 -(void)loadDetailForItem:(NSString *)itemPID
 {
     if (!_datasource) {

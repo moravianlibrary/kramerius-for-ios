@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "MZKItemResource.h"
+#import "MZKBaseViewController.h"
 
 
-@interface MZKMusicViewController : UIViewController
+@interface MZKMusicViewController : MZKBaseViewController
 
 @property (nonatomic, strong) MZKItemResource *item;
 +(instancetype)sharedInstance;

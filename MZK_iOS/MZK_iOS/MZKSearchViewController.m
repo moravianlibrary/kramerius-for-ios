@@ -80,6 +80,20 @@
 
 }
 
+-(void)downloadFailedWithRequest:(NSString *)request
+{
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf downloadFailedWithRequest:request];
+        });
+        return;
+    }
+    
+    [self showErrorWithCancelActionAndTitle:@"Problém při stahování" subtitle:@"Opakujte zadání"];
+}
+
 /*
 #pragma mark - Navigation
 
@@ -93,7 +107,7 @@
 #pragma mark - Search bar delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if (searchText.length >=3) {
+    if (searchText.length >=2) {
         if (!_datasource) {
             _datasource = [MZKDatasource new];
             _datasource.delegate = self;

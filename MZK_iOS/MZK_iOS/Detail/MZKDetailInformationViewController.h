@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MZKBaseViewController.h"
 
-@interface MZKDetailInformationViewController : UIViewController
+@interface MZKDetailInformationViewController : MZKBaseViewController
 @property (nonatomic, strong) NSString *item;
 
 -(void)setItem:(NSString *)item;

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MZKBaseViewController.h"
 
-@interface MZKCollectionsViewController : UIViewController
+@interface MZKCollectionsViewController : MZKBaseViewController
 
 @end

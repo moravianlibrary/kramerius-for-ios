@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "MZKItemResource.h"
+#import "MZKBaseViewController.h"
 
-@interface MZKDetailViewController : UIViewController
+@interface MZKDetailViewController : MZKBaseViewController
 
 @property (nonatomic, strong) MZKItemResource *item;
 

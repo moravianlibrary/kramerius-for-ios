@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MZKBaseViewController.h"
 
-@interface MZKSearchViewController : UIViewController
+@interface MZKSearchViewController : MZKBaseViewController
 
 
 @end

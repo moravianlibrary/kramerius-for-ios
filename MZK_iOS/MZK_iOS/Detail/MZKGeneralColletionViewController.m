@@ -99,6 +99,12 @@
 {
     [self showLoadingIndicator];
     _parentObject = parentObject;
+    [self loadDataForController];
+    
+}
+
+-(void)loadDataForController
+{
     if (!_datasource) {
         _datasource  = [MZKDatasource new];
         _datasource.delegate = self;
@@ -106,6 +112,7 @@
     
     [_datasource getChildrenForItem:_parentObject.pid];
 }
+
 
 -(void)setParentPID:(NSString *)parentPID
 {
@@ -120,16 +127,22 @@
 
 -(void)downloadFailedWithRequest:(NSString *)request
 {
+    __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
-        __weak typeof(self) welf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             [welf downloadFailedWithRequest:request];
         });
         return;
     }
+    
     [self hideLoadingIndicator];
-    [self showErrorWithTitle:@"Problem při stahování" subtitle:@"Opakovat akci?"];
+    
+    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?" confirmAction:^{
+         [welf showLoadingIndicator];
+         [welf loadDataForController];
+        
+    }];
 }
 
 /*

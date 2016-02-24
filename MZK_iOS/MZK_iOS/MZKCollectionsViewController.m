@@ -31,13 +31,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self loadDataForController];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
+    [self initGoogleAnalytics];
+}
+
+-(void)loadDataForController
+{
     _datasource = [[MZKDatasource alloc] init];
     [_datasource setDelegate:self];
     [_datasource getInfoAboutCollections];
     _selectedCollectionName = nil;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
-    [self initGoogleAnalytics];
+
 }
 
 -(void)initGoogleAnalytics
@@ -83,6 +89,23 @@
 
     _collections = collections;
     [self.tableView reloadData];
+}
+
+-(void)downloadFailedWithRequest:(NSString *)request
+{
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf downloadFailedWithRequest:request];
+        });
+        return;
+    }
+    
+    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?" confirmAction:^{
+        [welf loadDataForController];
+    }];
+
 }
 
 #pragma mark - UITableView Delegate and Datasource

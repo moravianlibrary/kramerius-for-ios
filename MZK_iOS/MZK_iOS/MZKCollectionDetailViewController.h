@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MZKBaseViewController.h"
 
-@interface MZKCollectionDetailViewController : UIViewController
+@interface MZKCollectionDetailViewController : MZKBaseViewController
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) NSString *selectedCollectionName;
 @property (nonatomic, strong) NSString *collectionPID;
