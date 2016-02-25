@@ -19,6 +19,7 @@ extern NSString *const kRecent;
 extern NSString *const kRecommended;
 extern NSString *const kRecentMusicPlayed;
 extern NSString *const kSettingsShowOnlyPublicDocuments;
+extern NSString *const kRecentlyOpenedDocuments;
 
 #pragma mark - types keys
 extern NSString *const kTrack;
