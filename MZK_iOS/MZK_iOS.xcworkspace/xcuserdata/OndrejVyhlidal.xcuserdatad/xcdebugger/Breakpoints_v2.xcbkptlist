@@ -170,12 +170,60 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/AppDelegate.m"
-            timestampString = "478165331.628482"
+            timestampString = "478197013.562159"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "295"
-            endingLineNumber = "295"
-            landmarkName = "-addRecentlyOpenedDocument:"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
+            landmarkName = "-wasDocumentRecentlyOpened:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AppDelegate wasDocumentRecentlyOpened:]"
+                  moduleName = "MZK_iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/AppDelegate.m"
+                  timestampString = "478197786.124232"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "319"
+                  endingLineNumber = "319"
+                  offsetFromSymbolStart = "86">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AppDelegate wasDocumentRecentlyOpened:]"
+                  moduleName = "MZK_iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/AppDelegate.m"
+                  timestampString = "478197786.124368"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "319"
+                  endingLineNumber = "319"
+                  offsetFromSymbolStart = "101">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MZK_iOS/AppDelegate.m"
+            timestampString = "478197009.82142"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
+            landmarkName = "-wasDocumentRecentlyOpened:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -185,13 +233,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/MZKMenuViewController.m"
-            timestampString = "478165684.187708"
+            filePath = "MZK_iOS/MZKMainViewController.m"
+            timestampString = "478197093.136619"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
-            landmarkName = "-initializeMenu"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "-downloadFailedWithRequest:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -201,13 +249,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/MZKMenuViewController.m"
-            timestampString = "478165686.828776"
+            filePath = "MZK_iOS/MZKDetailViewController.m"
+            timestampString = "478197324.733409"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
-            landmarkName = "-initializeMenu"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
+            landmarkName = "-setItem:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -217,45 +265,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/MZKMenuViewController.m"
-            timestampString = "478165838.145761"
+            filePath = "MZK_iOS/MZKDetailViewController.m"
+            timestampString = "478197328.48051"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
-            landmarkName = "-paneViewControllerTypeForIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/MZKMenuViewController.m"
-            timestampString = "478165885.194182"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "-tableView:numberOfRowsInSection:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/MZKMenuViewController.m"
-            timestampString = "478165890.610421"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "-setItemPID:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

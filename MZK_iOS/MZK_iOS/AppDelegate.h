@@ -31,7 +31,7 @@
 
 -(void)saveRecentlyOpened;
 -(NSMutableArray *)loadRecentlyOpened;
--(void)addRecentlyOpenedDocument:(MZKItemResource *)document;
+-(void)addRecentlyOpenedDocument:(MZKItemResource *)item;
 
 @end
 

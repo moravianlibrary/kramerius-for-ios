@@ -290,16 +290,48 @@
     return _recentlyOpenedDocuments;
 }
 
--(void)addRecentlyOpenedDocument:(MZKItemResource *)document
+-(void)addRecentlyOpenedDocument:(MZKItemResource *)item
 {
-    if (!_recentlyOpenedDocuments) {
-        _recentlyOpenedDocuments = [self loadRecentlyOpened];
+
+    _recentlyOpenedDocuments = [self loadRecentlyOpened];
+    
+    if (_recentlyOpenedDocuments.count>0) {
+        if (![self wasDocumentRecentlyOpened:item.pid]) {
+            [_recentlyOpenedDocuments addObject:item];
+        }
+        else
+        {
+            [self updateRecentlyOpenedDocument:item withDate:item.lastOpened];
+        }
+
+    }
+    else
+    {
+        [_recentlyOpenedDocuments addObject:item];
     }
     
-    [_recentlyOpenedDocuments addObject:document];
+    
     [self saveRecentlyOpened];
 }
 
+-(BOOL)wasDocumentRecentlyOpened:(NSString *)uuid
+{
+    for (MZKItemResource* rItem in _recentlyOpenedDocuments) {
+        if ([rItem.pid caseInsensitiveCompare:uuid] == NSOrderedSame ) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+-(void)updateRecentlyOpenedDocument:(MZKItemResource *)item withDate:(NSString *)strDate
+{
+    for (MZKItemResource *rItem in _recentlyOpenedDocuments) {
+        if (rItem.pid == item.pid) {
+            rItem.lastOpened = strDate;
+        }
+    }
+}
 
 
 @end

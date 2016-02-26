@@ -414,7 +414,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 */
 
 - (IBAction)onClose:(id)sender {
-    [self saveDocumentToRecentlyOpened:loadedItem];
+    [self saveDocumentToRecentlyOpened:_item];
 
     [self dismissViewControllerAnimated:YES completion:^{
         
