@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MZKResourceItem.h"
 #import "MZKDatabaseManager.h"
+#import "MZKItemResource.h"
 
 @class MSDynamicsDrawerViewController;
 
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) MZKDatabaseManager *dbManager;
 @property (nonatomic, strong) NSArray *dbResultsInfo;
 @property (nonatomic, strong) NSArray *dbInstitutionsInfo;
+@property (nonatomic, strong) NSMutableArray *recentlyOpenedDocuments;
 
 
 -(void)saveToUserDefaults:(MZKResourceItem *)item;
@@ -27,7 +29,9 @@
 -(void)saveLastPlayedMusic:(NSString *)pid;
 -(NSString *)loadLastPlayerMusic;
 
-
+-(void)saveRecentlyOpened;
+-(NSMutableArray *)loadRecentlyOpened;
+-(void)addRecentlyOpenedDocument:(MZKItemResource *)document;
 
 @end
 

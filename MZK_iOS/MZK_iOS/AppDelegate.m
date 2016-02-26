@@ -28,13 +28,13 @@
     if (!recent) {
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:kSettingsShowOnlyPublicDocuments];
     }
-   
+    
     
     self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     
     //setup menu and dynamic drawer
     self.dynamicsDrawerViewController.delegate = self;
-     [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerParallaxStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
+    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerParallaxStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
     
     
     MZKMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"MZKMenuViewController"];
@@ -57,7 +57,7 @@
     
     // track uncaught exceptions!
     [[GAI sharedInstance] setTrackUncaughtExceptions:YES];
-
+    
     
     
     if (!self.defaultDatasourceItem) {
@@ -81,12 +81,16 @@
     
     self.window.rootViewController = self.dynamicsDrawerViewController;
     
+    [self loadRecentlyOpened];
+    
     return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    
+    [self saveRecentlyOpened];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -179,8 +183,8 @@
 -(void)loadDataForInstitutions
 {
     // Form the query.
-     NSString *query = @"select * from institution";
-     _dbInstitutionsInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+    NSString *query = @"select * from institution";
+    _dbInstitutionsInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
     if (_dbInstitutionsInfo.count ==0) {
         // insert values
         [self insertValuesToInstitution];
@@ -224,14 +228,14 @@
 
 -(void)insertValuesToRelator
 {
-     NSString *fileContent = [self getFileWithName:@"relators"];
+    NSString *fileContent = [self getFileWithName:@"relators"];
     [self splitAndExecute:fileContent];
     
 }
 
 -(void)insertValuesToLanguage
 {
-     NSString *fileContent = [self getFileWithName:@"languages"];
+    NSString *fileContent = [self getFileWithName:@"languages"];
     [self splitAndExecute:fileContent];
 }
 
@@ -240,12 +244,11 @@
     NSError *error;
     NSString *strFileContent = [NSString stringWithContentsOfFile:[[NSBundle mainBundle]
                                                                    pathForResource:name ofType: @"sql"] encoding:NSUTF8StringEncoding error:&error];
-    if(error) {  //Handle error
+    if(error) { 
         NSLog(@"Error while loading a file");
     }
     
     return strFileContent;
-
 }
 
 -(void)splitAndExecute:(NSString *)fileContent
@@ -255,6 +258,46 @@
     for (NSString *s in allLinedStrings) {
         [self.dbManager executeQuery:s];
     }
+}
+
+#pragma mark - recently opened documents handling
+
+-(void)saveRecentlyOpened
+{
+    if (_recentlyOpenedDocuments) {
+
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_recentlyOpenedDocuments] forKey:kRecentlyOpenedDocuments];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+-(NSMutableArray *)loadRecentlyOpened
+{
+    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *dataRepresentingSavedArray = [currentDefaults objectForKey:kRecentlyOpenedDocuments];
+    if (dataRepresentingSavedArray)
+    {
+        NSArray *oldSavedArray = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
+        if (oldSavedArray )
+            _recentlyOpenedDocuments = [[NSMutableArray alloc] initWithArray:oldSavedArray];
+        
+    }
+
+    if (!_recentlyOpenedDocuments) {
+        _recentlyOpenedDocuments = [NSMutableArray new];
+    }
+    
+    return _recentlyOpenedDocuments;
+}
+
+-(void)addRecentlyOpenedDocument:(MZKItemResource *)document
+{
+    if (!_recentlyOpenedDocuments) {
+        _recentlyOpenedDocuments = [self loadRecentlyOpened];
+    }
+    
+    [_recentlyOpenedDocuments addObject:document];
+    [self saveRecentlyOpened];
 }
 
 

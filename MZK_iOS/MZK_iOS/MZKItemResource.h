@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MZKItemResource : NSObject
+@interface MZKItemResource : NSObject<NSCoding>
 
 @property (nonatomic, strong) NSString *pid;
 @property (nonatomic, strong) NSString *model;
@@ -29,8 +29,13 @@
 @property (nonatomic, strong) NSString *issn;
 @property (nonatomic, strong) NSString *policy;
 @property (nonatomic, strong) NSString *datumStr;
+@property (nonatomic, strong) NSString *lastOpened;
+
+@property (nonatomic, strong) NSNumber *indexLastOpenedPage;
 
 -(NSString *)getAuthorsStringRepresentation;
 -(NSString *)getLocalizedItemType;
 
+-(void)encodeWithCoder:(NSCoder *)aCoder;
+- (id)initWithCoder:(NSCoder *)coder;
 @end

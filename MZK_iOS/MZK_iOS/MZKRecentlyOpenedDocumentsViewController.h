@@ -7,7 +7,11 @@
 //
 
 #import "MZKBaseViewController.h"
+#import "MZKGeneralColletionViewController.h"
 
-@interface MZKRecentlyOpenedDocumentsViewController : MZKBaseViewController
+@interface MZKRecentlyOpenedDocumentsViewController : MZKGeneralColletionViewController<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@property (nonatomic, strong) NSMutableArray *recentlyOpened;
+
+-(void)setRecentlyOpened:(NSMutableArray *)recentlyOpened;
 
 @end

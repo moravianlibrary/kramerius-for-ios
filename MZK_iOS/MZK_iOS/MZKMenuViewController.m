@@ -140,17 +140,20 @@ NSInteger const MZKMenuWidth = 270;
     self.paneViewControllerTitles = [NSMutableDictionary new];
     [_paneViewControllerTitles addEntriesFromDictionary:@{
                                       @(MZKMainViewController) : @"Hlavní strana",
-                                      @(MZKCollectionsViewController) : @"Kolekce" }];
+                                      @(MZKCollectionsViewController) : @"Kolekce",
+                                      @(MZKRecentlyOpenedDocumentsViewController):@"Naposled otevřené"}];
     
     self.paneViewControllerIdentifiers =[NSMutableDictionary new];
     [_paneViewControllerIdentifiers addEntriesFromDictionary:@{
                                            @(MZKMainViewController) : @"MainViewController",
-                                           @(MZKCollectionsViewController) : @"Collections" }];
+                                           @(MZKCollectionsViewController) : @"Collections" ,
+                                           @(MZKRecentlyOpenedDocumentsViewController):@"MZKRecentlyOpenedDocumentsViewController"}];
     
     self.paneViewControllersIcons = [NSMutableDictionary new];
     [_paneViewControllersIcons addEntriesFromDictionary:@{
                                       @(MZKMainViewController) : @"ic_home_grey",
-                                      @(MZKCollectionsViewController) : @"ic_group_grey" }];
+                                      @(MZKCollectionsViewController) : @"ic_group_grey" ,
+                                      @(MZKRecentlyOpenedDocumentsViewController) : @"ic_recent_grey"}];
 
     self.musicController = [MZKMusicViewController sharedInstance];
     

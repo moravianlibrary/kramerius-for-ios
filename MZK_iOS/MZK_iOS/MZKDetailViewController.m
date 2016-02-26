@@ -177,6 +177,11 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         detailDatasource = [MZKDatasource new];
         detailDatasource.delegate = self;
     }
+    
+    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+
+    [delegate addRecentlyOpenedDocument:pid];
+    
     [detailDatasource getItem:pid];
 
 }
@@ -388,6 +393,8 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     loadedItem = item;
     self.titleLabel.text = item.title;
     
+    
+    
     [detailDatasource getChildrenForItem:loadedItem.pid];
     __weak typeof(self) wealf = self;
     
@@ -407,6 +414,8 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 */
 
 - (IBAction)onClose:(id)sender {
+    [self saveDocumentToRecentlyOpened:loadedItem];
+
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
@@ -546,7 +555,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     MZKPageObject *page = [loadedPages objectAtIndex:indexPath.row];
     if (page) {
         
-    
         AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
         
         NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
@@ -570,6 +578,20 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     MZKPageObject *p = [loadedPages objectAtIndex:indexPath.row];
     [self displayPage:p];
     [self onShowGrid:nil];
+}
+#pragma mark - recently opened documents
+
+-(void)saveDocumentToRecentlyOpened:(MZKItemResource *)item
+{
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    NSDateFormatter *dateformat = [[NSDateFormatter alloc] init];
+    [dateformat setDateFormat:@"dd.MM.yyyy"];
+    item.lastOpened = [dateformat stringFromDate:[NSDate date]];
+    item.indexLastOpenedPage = [NSNumber numberWithInteger:currentIndex];
+    
+    [appDelegate addRecentlyOpenedDocument:item];
+    
 }
 
 #pragma mark - JS and HTML parameters

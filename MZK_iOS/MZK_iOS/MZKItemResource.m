@@ -101,4 +101,51 @@
     return localizedItemType;
 }
 
+
+#pragma mark - NSCoding
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    [coder encodeObject:_pid forKey:@"pid"];
+    [coder encodeObject:_model forKey:@"model"];
+    [coder encodeObject:_title forKey:@"title"];
+    [coder encodeObject:[self getAuthorsStringRepresentation] forKey:@"authors"];
+    [coder encodeObject:_rootPid forKey:@"rootPid"];
+    [coder encodeObject:_rootTitle forKey:@"rootTitle"];
+    [coder encodeObject:_context forKey:@"context"];
+    [coder encodeObject:_collections forKey:@"collections"];
+    [coder encodeObject:_zoom forKey:@"zoom"];
+    [coder encodeObject:_issn forKey:@"issn"];
+    [coder encodeBool:_datanode forKey:@"datanode"];
+    [coder encodeObject:_policy forKey:@"policy"];
+    [coder encodeObject:_datumStr forKey:@"datumStr"];
+    [coder encodeObject:_lastOpened forKey:@"lastOpened"];
+    [coder encodeObject:_indexLastOpenedPage forKey:@"indexLastOpenedPage"];
+
+}
+
+- (id)initWithCoder:(NSCoder *)coder
+{
+    self = [super init];
+    if (self != nil)
+    {
+        _pid = [coder decodeObjectForKey:@"pid"];
+        _model = [coder decodeObjectForKey:@"model"];
+        _title = [coder decodeObjectForKey:@"title"];
+        _authors = [coder decodeObjectForKey:@"authors"];
+        _rootTitle = [coder decodeObjectForKey:@"rootTitle"];
+        _rootPid = [coder decodeObjectForKey:@"rootPid"];
+        _context = [coder decodeObjectForKey:@"context"];
+        _collections = [coder decodeObjectForKey:@"collections"];
+        _zoom = [coder decodeObjectForKey:@"zoom"];
+        _issn = [coder decodeObjectForKey:@"issn"];
+        _datanode = [coder decodeBoolForKey:@"datanode"];
+        _policy = [coder decodeObjectForKey:@"policy"];
+        _datumStr = [coder decodeObjectForKey:@"datumStr"];
+        _lastOpened = [coder decodeObjectForKey:@"lastOpened"];
+        _indexLastOpenedPage = [coder decodeObjectForKey:@"indexLastOpenedPage"];
+       
+    }
+    return self;
+}
+
 @end

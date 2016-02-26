@@ -14,9 +14,9 @@
 typedef NS_ENUM(NSUInteger, MSPaneViewControllerType) {
     MZKMainViewController,
     MZKCollectionsViewController,
-    MZKMusicVC,
+    MZKRecentlyOpenedDocumentsViewController,
     MZKSearchViewController,
-    MSPaneViewControllerTypeBounce,
+    MZKMusicVC,
     MSPaneViewControllerTypeGestures,
     MSPaneViewControllerTypeControls,
     MSPaneViewControllerTypeMap,
