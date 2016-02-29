@@ -35,6 +35,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControll;
 @property (weak, nonatomic) IBOutlet UIView *dimmingView;
 @property (weak, nonatomic) IBOutlet UITableView *searchResultsTableView;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
@@ -368,6 +369,8 @@
         default:
             break;
     }
+    [self.searchBar resignFirstResponder];
+    self.searchBar.text = @"";
     [self hideDimmingView];
 }
 

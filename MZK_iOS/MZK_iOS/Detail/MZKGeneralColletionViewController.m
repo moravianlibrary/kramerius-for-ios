@@ -70,25 +70,26 @@
 -(void)refreshTitle
 {
     // title has to be different based on type of parent resource!!!
+    NSString *title;
     
-    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
-        
-        
-//        if (parentItemResource.year) {
-//            cell.itemName.text = item.year;
-//        }
+//    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
 //        
-//        if (parentItemResource.volumeNumber) {
-//            cell.itemAuthors.text = item.volumeNumber;
-//        }
-    }
-    
-    
-    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
-        
-//        cell.itemName.text = item.date;
-//        cell.itemAuthors.text = item.issueNumber;
-    }
+//        
+////        if (parentItemResource.year) {
+////            cell.itemName.text = item.year;
+////        }
+////        
+////        if (parentItemResource.volumeNumber) {
+////            cell.itemAuthors.text = item.volumeNumber;
+////        }
+//    }
+//    
+//    
+//    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
+//        
+////        cell.itemName.text = item.date;
+////        cell.itemAuthors.text = item.issueNumber;
+//    }
 
     self.navigationItem.title = parentItemResource.title;
 }
@@ -226,8 +227,7 @@
         [cell.itemImage sd_setImageWithURL:[NSURL URLWithString:path]
                           placeholderImage:nil];
     }
-    
-   // NSLog(@"Collection View Cell W: %f, H: %f", cell.frame.size.width, cell.frame.size.height);
+
     return cell;
 }
 
@@ -491,8 +491,4 @@
     _searchResultsTableView.hidden = YES;
     _searchBarView.searchBar.text = @"";
 }
-
-
-
-
 @end
