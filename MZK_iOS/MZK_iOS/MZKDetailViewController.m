@@ -14,6 +14,7 @@
 #import "UIImageView+WebCache.h"
 #import <Google/Analytics.h>
 #import "MZKDetailInformationViewController.h"
+#import "MyURLProtocol.h"
 
 NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
@@ -152,12 +153,13 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 {
     NSLog(@"Page resolution Not Loaded");
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-    
-    
+   // /search/api/v5.0/item/uuid:a2b0851b-aa48-11e1-b7f6-0050569d679d/streams/IMG_FULL
+    // tady schazi dodelat test na url response...
     NSString *load = [NSString stringWithFormat:@"%@://%@/search/api/v5.0/item/%@/streams/IMG_FULL", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL, page.pid];
     
-    NSURL *finalURL = [NSURL URLWithString: load];
+    NSURL *finalURL = [NSURL URLWithString:load];
      NSURLRequest *request = [NSURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:(NSTimeInterval)50 ];
+    
     
     [_webView setBackgroundColor:[UIColor blackColor]];
     [_webView setContentMode:UIViewContentModeScaleToFill];
@@ -178,10 +180,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         detailDatasource.delegate = self;
     }
     
-    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-
-    [delegate addRecentlyOpenedDocument:pid];
-    
     [detailDatasource getItem:pid];
 
 }
@@ -192,13 +190,13 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     [self loadDataForItem:_item];
 }
 
--(void)downloadFailedWithRequest:(NSString *)request
+-(void)downloadFailedWithError:(NSError *)error
 {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [welf downloadFailedWithRequest:request];
+            [welf downloadFailedWithError:error];
         });
         return;
     }
@@ -264,13 +262,13 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
 }
 
--(void)pageNotAvailable
+-(void)displayPageAsJPG
 {
     if(![[NSThread currentThread] isMainThread])
     {
         __weak typeof(self) welf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [welf pageNotAvailable];
+            [welf displayPageAsJPG];
         });
         return;
     }
@@ -279,6 +277,40 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     [self displayItemWithJPGResource:page];
     
+}
+
+-(void)pageResolutionDownloadFailed
+{
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf pageResolutionDownloadFailed];
+        });
+        return;
+    }
+    
+    [self showErrorWithTitle:@"Nepodarilo" subtitle:@"informace o strance nejsou dostupne" confirmAction:^{
+        
+    }];
+}
+
+//called when getImageProperties returns err 404 or 500 etc
+
+-(void)pageResolutionDownloadFailedWithError:(NSError *)error
+{
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf pageResolutionDownloadFailedWithError:error];
+        });
+        return;
+    }
+    
+    [self displayPageAsJPG];
 }
 
 -(void)updateUserInterfaceAfterPageChange
@@ -346,9 +378,17 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
    // NSLog(@"did Start loading");
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-  //  NSLog(@"did finish loading");
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    NSCachedURLResponse *urlResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:webView.request];
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) urlResponse.response;
+    NSInteger statusCode = httpResponse.statusCode;
+    if (statusCode > 399) {
+        NSError *error = [NSError errorWithDomain:@"HTTP Error" code:httpResponse.statusCode userInfo:@{@"response":httpResponse}];
+        // Forward the error to webView:didFailLoadWithError: or other
+    }
+    else {
+        // No HTTP error
+    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -414,7 +454,15 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 */
 
 - (IBAction)onClose:(id)sender {
-    [self saveDocumentToRecentlyOpened:_item];
+    
+    if (_item) {
+         [self saveDocumentToRecentlyOpened:_item];
+    }
+    else if (loadedItem)
+    {
+         [self saveDocumentToRecentlyOpened:loadedItem];
+    }
+   
 
     [self dismissViewControllerAnimated:YES completion:^{
         

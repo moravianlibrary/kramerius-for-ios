@@ -27,6 +27,7 @@
     NSArray *_recommended;
     UIRefreshControl *refreshControl;
     NSDictionary *_searchResults;
+    BOOL dialogVisible;
 }
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContentView;
@@ -42,6 +43,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    dialogVisible = NO;
     datasource = [MZKDatasource new];
     datasource.delegate = self;
     
@@ -79,6 +81,11 @@
 
 -(void)refreshAllValues
 {
+    if (!datasource) {
+        datasource = [MZKDatasource new];
+        datasource.delegate = self;
+    }
+    
     [datasource getRecommended];
     [datasource getMostRecent];
     [self showLoadingIndicator];
@@ -120,22 +127,37 @@
     
 }
 
--(void)downloadFailedWithRequest:(NSString *)request
+-(void)downloadFailedWithError:(NSError *)error
 {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [welf downloadFailedWithRequest:request];
+            [welf downloadFailedWithError:error];
         });
         return;
     }
     [self hideLoadingIndicator];
     //[self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?"
-    
-    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?" confirmAction:^{
-        [welf refreshAllValues];
-    }];
+    if (!dialogVisible) {
+        dialogVisible = YES;
+        
+        if (error.code==-1009) {
+            NSLog(@"Network disconected!!!!!");
+            [self showErrorWithTitle:@"Nelze pokračovat" subtitle:@"Zkontrolujte svoje připojení." confirmAction:^{
+                [welf refreshAllValues];
+                dialogVisible = NO;
+            }];
+        }
+        else{
+
+        [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?" confirmAction:^{
+            [welf refreshAllValues];
+            dialogVisible = NO;
+        }];
+           }
+    }
+   
 }
 
 

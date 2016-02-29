@@ -21,7 +21,7 @@
 -(void)collectionItemsLoaded:(NSArray *)collectionItems withNumberOfItems:(NSInteger)numberOfItems;
 -(void)childrenForItemLoaded:(NSArray *)items;
 -(void)searchResultsLoaded:(NSArray *)results;
--(void)downloadFailedWithRequest:(NSString *)request;
+-(void)downloadFailedWithError:(NSError *)error;
 -(void)searchHintsLoaded:(NSDictionary *)results;
 
 @end

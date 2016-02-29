@@ -10,12 +10,15 @@
 #import "XMLReader.h"
 #import <CoreGraphics/CoreGraphics.h>
 #import "MZKConstants.h"
+#import "AppDelegate.h"
 
 @implementation MZKPageObject
 
 -(void)loadPageResolution
 {
-    NSString *finalString = [NSString stringWithFormat:@"http://kramerius.mzk.cz/search/zoomify/%@/ImageProperties.xml", _pid];
+    [self checkAndSetBaseUrl];
+    
+    NSString *finalString = [NSString stringWithFormat:@"%@/search/zoomify/%@/ImageProperties.xml",baseURL, _pid];
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
     NSURLRequest *req = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
@@ -24,42 +27,56 @@
         
         if (error) {
             NSLog(@"Download failed with error:%@", [error debugDescription]);
+            if ([self.delegate respondsToSelector:@selector(pageResolutionDownloadFailed)]) {
+                [self.delegate pageResolutionDownloadFailed];
+            }
             
         } else {
-            NSDictionary *dict = [XMLReader dictionaryForXMLData:data
-                                                         options:XMLReaderOptionsProcessNamespaces
-                                                           error:&error];
-            if(!dict)
-            {
-                if ([self.delegate respondsToSelector:@selector(pageNotAvailable)]) {
-                    [self.delegate pageNotAvailable];
-                    NSLog(@"Resolution Skipped, not present");
-                    return ;
+            
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+            NSLog(@"response status code: %ld", (long)[httpResponse statusCode]);
+            if ([httpResponse statusCode] > 399) {
+                NSError *error = [NSError errorWithDomain:@"HTTP Error" code:httpResponse.statusCode userInfo:@{@"response":httpResponse}];
+                // Forward the error to webView:didFailLoadWithError: or other
+                if ([self.delegate respondsToSelector:@selector(pageResolutionDownloadFailedWithError:)]) {
+                    [self.delegate pageResolutionDownloadFailedWithError:error];
+                    //error returned for ImageProperties.
                 }
             }
-            
-            NSDictionary *list = [dict objectForKey:@"IMAGE_PROPERTIES"];
-            NSInteger width = [[list objectForKey:@"WIDTH"] integerValue];
-            NSInteger height = [[list objectForKey:@"HEIGHT"] integerValue];
-            
-            self.height = height;
-            self.width = width;
-            
-            if (!self.width) {
-                NSLog(@"Page Resolution not laoded");
-                self.width = 400;
-            }
-            if (!self.height) {
-                self.height = 640;
-            }
-            if ([self.delegate respondsToSelector:@selector(pageLoadedForItem:)]) {
-                __weak typeof(self) welf = self;
+            else{
                 
-                [self.delegate pageLoadedForItem:welf];
+                NSDictionary *dict = [XMLReader dictionaryForXMLData:data
+                                                             options:XMLReaderOptionsProcessNamespaces
+                                                               error:&error];
+                if(dict)
+                {
+                    
+                    NSDictionary *list = [dict objectForKey:@"IMAGE_PROPERTIES"];
+                    NSInteger width = [[list objectForKey:@"WIDTH"] integerValue];
+                    NSInteger height = [[list objectForKey:@"HEIGHT"] integerValue];
+                    
+                    self.height = height;
+                    self.width = width;
+                    
+                    if (!self.width) {
+                        NSLog(@"Page Resolution not laoded");
+                        self.width = 400;
+                    }
+                    if (!self.height) {
+                        self.height = 640;
+                    }
+                    if ([self.delegate respondsToSelector:@selector(pageLoadedForItem:)]) {
+                        __weak typeof(self) welf = self;
+                        
+                        [self.delegate pageLoadedForItem:welf];
+                    }
+                }
+                
             }
         }
+        
     }];
-
+    
     
 }
 
@@ -152,6 +169,16 @@
     }
     
     return localizedItemType;
+}
+
+-(void)checkAndSetBaseUrl
+{
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    MZKResourceItem *item = appDelegate.getDatasourceItem;
+    if (!item) {
+        // NSLog(@"Default URL not set!");
+    }
+    baseURL = [NSString stringWithFormat:@"%@://%@", item.protocol, item.stringURL];
 }
 
 

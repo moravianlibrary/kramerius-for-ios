@@ -10,14 +10,20 @@
 
 @class MZKPageObject;
 @protocol PageResolutionLoadedDelegate <NSObject>
-
-
 -(void)pageLoadedForItem:(MZKPageObject *)pageObject;
 -(void)pageNotAvailable;
+-(void)pageResolutionDownloadFailed;
+
+@optional
+-(void)pageResolutionDownloadFailedWithError:(NSError *)error;
 
 @end
 
 @interface MZKPageObject : NSObject
+{
+    NSString *baseURL;
+}
+
 @property (nonatomic, weak) __weak id<PageResolutionLoadedDelegate> delegate;
 @property (readwrite) BOOL datanode;
 @property (readwrite) NSInteger page;

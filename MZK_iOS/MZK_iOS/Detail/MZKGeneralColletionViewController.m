@@ -146,13 +146,13 @@
     [_datasource getItem:_parentPID];
 }
 
--(void)downloadFailedWithRequest:(NSString *)request
+-(void)downloadFailedWithError:(NSError *)error
 {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [welf downloadFailedWithRequest:request];
+            [welf downloadFailedWithError:error];
         });
         return;
     }
@@ -206,7 +206,7 @@
             }
             
             if (item.volumeNumber) {
-                cell.itemAuthors.text = item.volumeNumber;
+                cell.itemAuthors.text = [NSString stringWithFormat:@"Ročník %@", item.volumeNumber];
             }
         }
         
@@ -214,7 +214,7 @@
         if ([item.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
             
             cell.itemName.text = item.date;
-            cell.itemAuthors.text = item.issueNumber;
+            cell.itemAuthors.text = [NSString stringWithFormat:@"Číslo %@", item.issueNumber];
         }
        
         AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
@@ -234,9 +234,6 @@
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
-    
-   // NSLog(@"Model:%@",  cell.item.model);
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     MZKPageObject *po =[_items objectAtIndex:indexPath.row];
     // [_datasource getItem:po.pid];

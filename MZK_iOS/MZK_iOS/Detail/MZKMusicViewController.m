@@ -127,13 +127,13 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
     [_datasource getItem:_currentItemPID];
 }
 
--(void)downloadFailedWithRequest:(NSString *)request
+-(void)downloadFailedWithError:(NSError *)error
 {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [welf downloadFailedWithRequest:request];
+            [welf downloadFailedWithError:error];
         });
         return;
     }

@@ -236,13 +236,13 @@ typedef enum _downloadOperation downloadOperation;
 
 
 
--(void)downloadFailed
+-(void)downloadFailedWithError:(NSError *)error
 {
-    NSLog(@"Download Failed");
+    NSLog(@"Download Failed with error");
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
-    if ([self.delegate respondsToSelector:@selector(downloadFailedWithRequest:)]) {
-        [self.delegate downloadFailedWithRequest:@""];
+    if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
+        [self.delegate downloadFailedWithError:error];
     }
     
 }
@@ -622,7 +622,9 @@ typedef enum _downloadOperation downloadOperation;
         
         if (error) {
             NSLog(@"Download failed with error:%@", [error debugDescription]);
-            [self downloadFailed];
+            NSDictionary *d = error.userInfo;
+            NSString *key = [d objectForKey:@"_kCFStreamErrorDomainKey"];
+            [self downloadFailedWithError:error];
         } else {
             //NSLog(@"Download sucessful with operation:%lu", (unsigned long)operation);
             

@@ -49,6 +49,7 @@
 		2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */; };
 		2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D78B2961C200DC0004341DA /* MZKAboutViewController.m */; };
 		2D8BB7C71BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D8BB7C61BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m */; };
+		2D9150F21C82F4C200AD380F /* MyURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9150F11C82F4C200AD380F /* MyURLProtocol.m */; };
 		2DA030521C0A002800B7759B /* MZKBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA030511C0A002800B7759B /* MZKBaseViewController.m */; };
 		2DAA60721BA758AB0004A718 /* MZKCollectionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA60711BA758AB0004A718 /* MZKCollectionDetailViewController.m */; };
 		2DAA60751BA7590B0004A718 /* MZKDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA60741BA7590B0004A718 /* MZKDetailCollectionViewCell.m */; };
@@ -141,6 +142,8 @@
 		2D78B2961C200DC0004341DA /* MZKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKAboutViewController.m; sourceTree = "<group>"; };
 		2D8BB7C51BCE3FC4008E53A1 /* MZKItemCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKItemCollectionViewCell.h; sourceTree = "<group>"; };
 		2D8BB7C61BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKItemCollectionViewCell.m; sourceTree = "<group>"; };
+		2D9150F01C82F4C200AD380F /* MyURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyURLProtocol.h; sourceTree = "<group>"; };
+		2D9150F11C82F4C200AD380F /* MyURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyURLProtocol.m; sourceTree = "<group>"; };
 		2DA030501C0A002800B7759B /* MZKBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKBaseViewController.h; sourceTree = "<group>"; };
 		2DA030511C0A002800B7759B /* MZKBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKBaseViewController.m; sourceTree = "<group>"; };
 		2DAA60701BA758AB0004A718 /* MZKCollectionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionDetailViewController.h; sourceTree = "<group>"; };
@@ -250,6 +253,22 @@
 			name = Menu;
 			sourceTree = "<group>";
 		};
+		2D9150EF1C82F4C200AD380F /* NSURLRequest */ = {
+			isa = PBXGroup;
+			children = (
+				2D9150F01C82F4C200AD380F /* MyURLProtocol.h */,
+				2D9150F11C82F4C200AD380F /* MyURLProtocol.m */,
+			);
+			path = NSURLRequest;
+			sourceTree = "<group>";
+		};
+		2D9150F41C849E7F00AD380F /* ZoomifyReader */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ZoomifyReader;
+			sourceTree = "<group>";
+		};
 		2DAA60761BA759350004A718 /* Collections */ = {
 			isa = PBXGroup;
 			children = (
@@ -291,6 +310,8 @@
 		2DB8A7931ACD073400A1BB2E /* MZK_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2D9150F41C849E7F00AD380F /* ZoomifyReader */,
+				2D9150EF1C82F4C200AD380F /* NSURLRequest */,
 				2D3A0B441C204734008E4B47 /* MZK_iOS.entitlements */,
 				2D41FF021C3BBFC90087F22E /* Database */,
 				2D2DA51D1BEF9B3A00423447 /* Detail */,
@@ -546,6 +567,7 @@
 				2DE387631AE526AB00A2004E /* MZKDatasource.m in Sources */,
 				2D2A64801AF8EF3800D82E04 /* MZKMainViewController.m in Sources */,
 				2D409B781B8B460E00B49EAD /* MZKDataSourceTableViewCell.m in Sources */,
+				2D9150F21C82F4C200AD380F /* MyURLProtocol.m in Sources */,
 				2DAA60751BA7590B0004A718 /* MZKDetailCollectionViewCell.m in Sources */,
 				2D665DBD1B02927500B11765 /* MZKDetailViewController.m in Sources */,
 				2DE387601AE523B400A2004E /* MZKItemResource.m in Sources */,

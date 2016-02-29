@@ -68,9 +68,9 @@
                          style:UIAlertActionStyleDefault
                          handler:^(UIAlertAction * action)
                          {
-                             [alert dismissViewControllerAnimated:YES completion:^{
-                                 actionBlock();
-                             }];
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                             actionBlock();
+                             NSLog(@"Action Block");
                              
                          }];
     UIAlertAction* cancel = [UIAlertAction
