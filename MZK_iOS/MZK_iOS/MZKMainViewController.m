@@ -28,6 +28,7 @@
     UIRefreshControl *refreshControl;
     NSDictionary *_searchResults;
     BOOL dialogVisible;
+    BOOL _isRemovingTextWithBackspace;
 }
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContentView;
@@ -369,8 +370,7 @@
         default:
             break;
     }
-    [self.searchBar resignFirstResponder];
-    self.searchBar.text = @"";
+   
     [self hideDimmingView];
 }
 
@@ -381,15 +381,33 @@
 }
 
 #pragma mark - SearchBar Delegate
+
+- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    _isRemovingTextWithBackspace = ([searchBar.text stringByReplacingCharactersInRange:range withString:text].length == 0);
+    
+    return YES;
+}
+
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    // Do the search...
+    if (searchBar.text.length >3) {
+        [self performSearchWithText:searchBar.text];
+    }
+}
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if (searchText.length >=3) {
-        if (!datasource) {
-            datasource = [MZKDatasource new];
-            datasource.delegate = self;
-        }
-        [self showLoadingIndicator];
-        [datasource getSearchResultsAsHints:searchText];
+    self.searchBar = searchBar;
+    
+    if (searchText.length == 0 && !_isRemovingTextWithBackspace)
+    {
+        NSLog(@"Has clicked on clear !");
+        [self searchBarCancelButtonClicked:searchBar];
+
+    }else if (searchText.length >=3) {
+        [self performSearchWithText:searchText];
     }
     else
     {
@@ -397,6 +415,16 @@
         _searchResults = [NSDictionary new];
         [_searchResultsTableView reloadData];
     }
+}
+
+-(void)performSearchWithText:(NSString *)searchText
+{
+    if (!datasource) {
+        datasource = [MZKDatasource new];
+        datasource.delegate = self;
+    }
+    [self showLoadingIndicator];
+    [datasource getSearchResultsAsHints:searchText];
 }
 
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
@@ -420,6 +448,7 @@
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
+    [self.view endEditing:YES];
     [searchBar resignFirstResponder];
     searchBar.text = @"";
     [self hideDimmingView];

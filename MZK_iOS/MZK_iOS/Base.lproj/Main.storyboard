@@ -1501,7 +1501,7 @@
                                         <constraint firstItem="x5a-QZ-Ppc" firstAttribute="top" secondItem="wv6-Aw-igd" secondAttribute="top" id="v30-hK-HhX"/>
                                     </constraints>
                                     <connections>
-                                        <outlet property="searchBar" destination="x5a-QZ-Ppc" id="Mtb-Aj-10Q"/>
+                                        <outlet property="searchBar" destination="x5a-QZ-Ppc" id="irs-Ho-X3L"/>
                                     </connections>
                                 </collectionReusableView>
                                 <connections>
@@ -1562,7 +1562,6 @@
                         <outlet property="activityIndicatorContentView" destination="uJj-x8-Lkl" id="SGy-x1-FoM"/>
                         <outlet property="collectionView" destination="fjP-d0-Em0" id="iJH-Ug-B9D"/>
                         <outlet property="dimmingView" destination="XHC-Mt-3HX" id="yXc-tc-UNe"/>
-                        <outlet property="searchBar" destination="x5a-QZ-Ppc" id="Vk2-5D-cTw"/>
                         <outlet property="searchResultsTableView" destination="TAj-tL-m0w" id="Zvx-RC-mbq"/>
                         <outlet property="segmentControll" destination="e9e-bE-9mg" id="h94-Jx-Pct"/>
                         <segue destination="l9D-rH-xq3" kind="presentation" identifier="OpenDetail" id="rs0-rK-WcW"/>
