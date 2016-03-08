@@ -13,6 +13,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "UIImageView+WebCache.h"
 #import "AppDelegate.h"
+#import "MZKDetailInformationViewController.h"
 #import <Google/Analytics.h>
 
 static MZKMusicViewController *sharedInstance;
@@ -624,6 +625,28 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
        // [self showPlayButton];
     }
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Make sure your segue name in storyboard is the same as this line
+    if ([[segue identifier] isEqualToString:@"OpenInfoDetail"])
+    {
+        // Get reference to the destination view controller
+        MZKDetailInformationViewController *vc = [segue destinationViewController];
+        
+        NSString *targetPid;
+        
+        if (_currentItem.rootPid) {
+            targetPid = _currentItem.rootPid;
+            [vc setType:[_item getAuthorsStringRepresentation]];
+        }
+        
+        // Pass any objects to the view controller here, like...
+        [vc setItem:targetPid];
+        
+    }
+}
+
 
 
 @end

@@ -9,12 +9,18 @@
 #import "MZKDetailInformationViewController.h"
 #import "MZKConstants.h"
 #import "MZKDetailInformationDataSource.h"
+#import "MZKDetailInformationTableViewCell.h"
+#import "MZKDetailInformationStringModel.h"
 
-@interface MZKDetailInformationViewController ()<DetailInformationDelegate>
+@interface MZKDetailInformationViewController ()<DetailInformationDelegate, UITableViewDataSource, UITableViewDelegate>
 {
-    MZKDetailInformationDataSource *datasource;
+    MZKDetailInformationDataSource *_datasource;
+    MZKDetailInformationModel *_loadedInfo;
+    NSArray *_detailInformation;
     
 }
+@property (weak, nonatomic) IBOutlet UILabel *itemTitle;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -22,10 +28,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _detailInformation = [NSMutableArray new];
     // Do any additional setup after loading the view.
     if (_item) {
         [self loadDataForItem:_item];
     }
+    
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,24 +60,104 @@
 {
     [self setupDatasource];
     
-    [datasource getDetailInformationAboutDocument:pid];
+    [_datasource getDetailInformationAboutDocument:pid];
     
 }
 
 -(void)setupDatasource
 {
-    if (!datasource) {
-        datasource = [MZKDetailInformationDataSource new];
-        datasource.delegate = self;
+    if (!_datasource) {
+        _datasource = [MZKDetailInformationDataSource new];
+        _datasource.delegate = self;
     }
 }
+
+#pragma mark - UITableViewDatasource and Delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+- (MZKDetailInformationTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MZKDetailInformationTableViewCell *cell = (MZKDetailInformationTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"MZKDetailInformationTableViewCell"];
+    
+    MZKDetailInformationStringModel *modelInfo =[_detailInformation objectAtIndex:indexPath.row];
+    
+    if (modelInfo.title && modelInfo.info) {
+        [self setupCell:cell withTitle:modelInfo.title andInfo:modelInfo.info];
+    }else if (modelInfo.title && !modelInfo.info)
+    {
+        [self setupCell:cell withTitle:modelInfo.title];
+    }else if (!modelInfo.title && modelInfo.info)
+    {
+        [self setupCell:cell withInfo:modelInfo.info];
+    }
+    return cell;
+}
+
+-(void)setupCell:(MZKDetailInformationTableViewCell *)cell withTitle:(NSString *)title
+{
+    NSLog(@"Title");
+    cell.titleInfoLabel.textColor = [UIColor blackColor];
+    cell.titleInfoLabel.text = title;
+    cell.contentInfoLabel.text = @"";
+    
+}
+
+-(void)setupCell:(MZKDetailInformationTableViewCell *)cell withInfo:(NSString *)info
+{
+    NSLog(@"Info");
+    cell.contentInfoLabel.text = info;
+    cell.contentInfoLabel.textColor = [UIColor lightGrayColor];
+    cell.titleInfoLabel.text = @"";
+}
+
+-(void)setupCell:(MZKDetailInformationTableViewCell *)cell withTitle:(NSString *)title andInfo:(NSString *)info
+{
+    NSLog(@"Title and Info");
+    cell.contentInfoLabel.textColor = [UIColor lightGrayColor];
+    cell.titleInfoLabel.textColor = [UIColor lightGrayColor];
+    cell.titleInfoLabel.text = title;
+    cell.contentInfoLabel.text = info;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _detailInformation.count;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
 
 #pragma mark - Detail info delegate
 
 -(void)detailInformationLoaded:(MZKDetailInformationModel *)info
 {
-    // information loaded
     
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf detailInformationLoaded:info];
+        });
+        return;
+    }
+    
+    
+    // information loaded
+    _loadedInfo = info;
+    
+    _detailInformation = [self getStringRepresentationOfAvailableInformation:_loadedInfo];
+    
+    self.itemTitle.text = _loadedInfo.title;
+    
+    [_tableView reloadData];
+
 }
 
 -(void)downloadFailed
@@ -89,5 +178,51 @@
         
     }];
 }
+
+
+- (IBAction)onClose:(id)sender {
+    
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
+-(NSArray *)getStringRepresentationOfAvailableInformation:(MZKDetailInformationModel *)info
+{
+    NSMutableArray *infoArray = [NSMutableArray new];
+    
+   // [MZKDetailInformationStringModel new] setTitle:@"Autoři"];
+    //Authors
+    
+    [[MZKDetailInformationStringModel new] setTitle:@"Autoři"] ;
+    if (info.authorsInfo.namesOfAllAuthors) {
+        
+        if (info.authorsInfo.namesOfAllAuthors.count > 1) {
+            MZKDetailInformationStringModel *model = [MZKDetailInformationStringModel new];
+            [model setTitle:@"Autoři"];
+            [infoArray addObject:model];
+        }else{
+            MZKDetailInformationStringModel *model = [MZKDetailInformationStringModel new];
+            [model setTitle:@"Autor"];
+            [infoArray addObject:model];
+             }
+        
+        for (NSString *name in info.authorsInfo.namesOfAllAuthors) {
+            
+            MZKDetailInformationStringModel *model = [MZKDetailInformationStringModel new];
+            [model setInfo:name];
+            
+            [infoArray addObject:model];
+        }
+    }
+    
+    //
+    
+    return [infoArray copy];
+    
+}
+
+
+
 
 @end

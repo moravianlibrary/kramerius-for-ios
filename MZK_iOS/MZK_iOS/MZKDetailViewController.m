@@ -663,8 +663,20 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         // Get reference to the destination view controller
         MZKDetailInformationViewController *vc = [segue destinationViewController];
         
+        NSString *targetPid;
+        
+        if (_item) {
+            targetPid = _item.pid;
+            [vc setType:[_item getAuthorsStringRepresentation]];
+        }
+        else if (loadedItem)
+        {
+            targetPid = loadedItem.pid;
+        }
+        
         // Pass any objects to the view controller here, like...
-        [vc setItem:loadedItem.pid];
+        [vc setItem:targetPid];
+        
     }
 }
 

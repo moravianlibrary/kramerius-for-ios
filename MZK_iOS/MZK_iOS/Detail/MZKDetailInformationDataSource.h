@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MZKDetailInformationModel.h"
 
+
 @protocol DetailInformationDelegate <NSObject>
 
 @required
@@ -17,6 +18,8 @@
 
 @end
 
+
+@class MZKDetailAuthorsInfo;
 @interface MZKDetailInformationDataSource : NSObject
 {
     NSString *baseStringURL;

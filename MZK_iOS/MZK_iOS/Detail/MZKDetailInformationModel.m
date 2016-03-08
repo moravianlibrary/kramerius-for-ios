@@ -23,7 +23,25 @@
 
 @end
 
+@implementation MZKDetailInfoLineModel
+
+@end
+
+@implementation MZKDetailAuthorsInfo
+-(NSString *)getRolesStringRepresentation
+{
+    return [NSString new];
+}
+@end
+
 
 @implementation MZKDetailInformationModel
+
+-(NSArray *)transformModelIntoArray
+{
+    _arrayToBeDisplayed = [NSMutableArray new];
+    
+    return _arrayToBeDisplayed;
+}
 
 @end

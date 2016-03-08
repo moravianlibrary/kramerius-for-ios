@@ -11,7 +11,17 @@
 
 @interface MZKDetailInformationViewController : MZKBaseViewController
 @property (nonatomic, strong) NSString *item;
+@property (nonatomic, strong) NSString *type;
+@property (weak, nonatomic) IBOutlet UILabel *model;
+@property (weak, nonatomic) IBOutlet UILabel *mainTitle;
+@property (weak, nonatomic) IBOutlet UILabel *language;
+@property (weak, nonatomic) IBOutlet UILabel *author;
 
+@property (weak, nonatomic) IBOutlet UILabel *publisherName;
+@property (weak, nonatomic) IBOutlet UILabel *yearOfPublishing;
+@property (weak, nonatomic) IBOutlet UILabel *placeOfPublishing;
+@property (weak, nonatomic) IBOutlet UILabel *placeOfStorage;
+@property (weak, nonatomic) IBOutlet UILabel *numberOfShelf;
 -(void)setItem:(NSString *)item;
 
 @end

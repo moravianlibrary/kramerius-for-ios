@@ -7,6 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+@interface MZKDetailInfoLineModel : NSObject
+
+@property (nonatomic, strong) NSString *titleInfo;
+@property (nonatomic, strong) NSString *contentText;
+@end
 
 @interface MZKDetailIdentifierInfo : NSObject
 @property (nonatomic, strong) NSString *issn;
@@ -43,8 +48,11 @@
 @interface MZKDetailAuthorsInfo : NSObject
 @property (nonatomic, strong) NSString *firstName;
 @property (nonatomic, strong) NSString *sureName;
+@property (nonatomic, strong) NSString *dateStr;
+@property (nonatomic, strong) NSMutableString *completeName;
 
 @property (nonatomic, strong) NSArray *rolesInfo;
+@property (nonatomic, strong) NSMutableArray *namesOfAllAuthors;
 -(NSString *)getRolesStringRepresentation;
 
 
@@ -59,7 +67,7 @@
 @interface MZKDetailOriginInfo : NSObject
 @property (nonatomic, strong) NSString *publisher;
 @property (nonatomic, strong) NSString *place;
-@property (nonatomic, strong) NSString *dateIssued;
+@property (nonatomic, strong) NSMutableArray *dateIssued;
 @property (nonatomic, strong) NSArray *places;
 @end
 
@@ -76,6 +84,7 @@
 @end
 
 @interface MZKDetailInformationModel : NSObject
+
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *subTitle;
 @property (nonatomic, strong) NSString *author;
@@ -98,5 +107,11 @@
 @property (nonatomic, strong) NSArray *publishersInfo;
 @property (nonatomic, strong) NSArray *recordChangeDates;
 @property (nonatomic, strong) NSArray *recordCreationDates;
+
+@property (nonatomic, strong) MZKDetailAuthorsInfo *authorsInfo;
+
+@property (nonatomic, strong) NSMutableArray *arrayToBeDisplayed;
+
+-(NSArray *)transformModelIntoArray;
 
 @end
