@@ -40,10 +40,13 @@
     
     //lang
     NSDictionary *lang = [mods objectForKey:@"language"];
+    NSDictionary *lanTerm = [lang objectForKey:@"languageTerm"];
     
-    detailModel.languageAuthority =[lang objectForKey:@"authority"]? [lang objectForKey:@"authority"] :nil;
-    detailModel.languageID =[lang objectForKey:@"text"]? [lang objectForKey:@"text"] :nil;
-    detailModel.languageNme = [lang objectForKey:@"type"]? [lang objectForKey:@"type"] :nil;
+    detailModel.languageAuthority =[lanTerm objectForKey:@"authority"]? [lanTerm objectForKey:@"authority"] :nil;
+    detailModel.languageID =[lanTerm objectForKey:@"text"]? [lanTerm objectForKey:@"text"] :nil;
+    detailModel.languageNme = [lanTerm objectForKey:@"type"]? [lanTerm objectForKey:@"type"] :nil;
+    
+    NSArray *languageArray = [((AppDelegate *)[[UIApplication sharedApplication] delegate]) getLanguageFromCode:detailModel.languageID];
     
     //location
     NSDictionary *location = [mods objectForKey:@"location"];
@@ -132,24 +135,6 @@
                 }
                 
             }
-            //            else
-            //            {
-            //                if (![[name objectForKey:@"namePart"] objectForKey:@"type"]) {
-            //                    nameStr = [name objectForKey:@"namePart"];
-            //                }
-            //                else
-            //                {
-            //                    NSLog(@"Unsuported FORMAT!");
-            //                }
-            //
-            //
-            //            }
-            //
-            //            if (nameStr) {
-            //                [authorsInfo.namesOfAllAuthors addObject:nameStr];
-            //            }
-            //
-            //
         }
             }
     }

@@ -197,12 +197,12 @@
 {
     // Form the query.
     NSString *query = @"select * from relator";
-    _dbInstitutionsInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
-    if (_dbInstitutionsInfo.count ==0) {
+    _dbResultsInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+    if (_dbResultsInfo.count ==0) {
         // insert values
         [self insertValuesToRelator];
     }
-    NSLog(@"Vaues count: %lu", (unsigned long)_dbInstitutionsInfo.count);
+    NSLog(@"Vaues count: %lu", (unsigned long)_dbResultsInfo.count);
     
 }
 
@@ -210,12 +210,12 @@
 {
     // Form the query.
     NSString *query = @"select * from language";
-    _dbInstitutionsInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
-    if (_dbInstitutionsInfo.count ==0) {
+    _dbLangInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+    if (_dbLangInfo.count ==0) {
         // insert values
         [self insertValuesToLanguage];
     }
-    NSLog(@"Vaues count: %lu", (unsigned long)_dbInstitutionsInfo.count);
+    NSLog(@"Vaues count: %lu", (unsigned long)_dbLangInfo.count);
     
 }
 
@@ -331,6 +331,25 @@
             rItem.lastOpened = strDate;
         }
     }
+}
+
+
+-(NSArray *)getLanguageFromCode:(NSString *)languageCode
+{
+   // for
+    for (NSArray *array in _dbLangInfo) {
+        
+        for (NSString *s in array) {
+            if ([s caseInsensitiveCompare:languageCode] ==NSOrderedSame) {
+                return array;
+                break;
+            }
+        }
+        
+        
+    }
+    
+    return nil;
 }
 
 

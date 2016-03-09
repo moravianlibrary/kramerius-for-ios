@@ -21,6 +21,7 @@
 @property (nonatomic, strong) MZKDatabaseManager *dbManager;
 @property (nonatomic, strong) NSArray *dbResultsInfo;
 @property (nonatomic, strong) NSArray *dbInstitutionsInfo;
+@property (nonatomic, strong) NSArray *dbLangInfo;
 @property (nonatomic, strong) NSMutableArray *recentlyOpenedDocuments;
 
 
@@ -32,6 +33,10 @@
 -(void)saveRecentlyOpened;
 -(NSMutableArray *)loadRecentlyOpened;
 -(void)addRecentlyOpenedDocument:(MZKItemResource *)item;
+
+// get information from local db
+-(NSArray *)getLanguageFromCode:(NSString *)languageCode;
+
 
 @end
 
