@@ -476,12 +476,7 @@ typedef enum _downloadOperation downloadOperation;
         [results addObject:cItem];
         
     }
-    
-//    if ([self.delegate respondsToSelector:@selector(collectionItemsLoaded:withNumberOfItems:)]) {
-//        [self.delegate collectionItemsLoaded:[results copy] withNumberOfItems:numberOfResults];
-//         NSLog(@"Collections count:%lu", (unsigned long)results.count);
-//    }
-    
+        
     if ([self.delegate respondsToSelector:@selector(collectionItemsLoaded:)]) {
         [self.delegate collectionItemsLoaded:[results copy]];
        

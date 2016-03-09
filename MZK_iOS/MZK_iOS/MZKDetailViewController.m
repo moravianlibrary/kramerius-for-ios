@@ -63,9 +63,9 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     self.webView.delegate = self;
     currentIndex = 0;
-
+    
     if (self.item) {
-       // [detailDatasource getChildrenForItem:_item.pid];
+        // [detailDatasource getChildrenForItem:_item.pid];
         self.titleLabel.text = _item.title;
         
     }
@@ -137,7 +137,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     NSURLRequest *request = [NSURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:(NSTimeInterval)10.0 ];
     
-   // NSLog(@"Request:%@", [request description]);
+    // NSLog(@"Request:%@", [request description]);
     
     if (!_webView) {
         NSLog(@"NO WeB View");
@@ -145,7 +145,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     [_webView setBackgroundColor:[UIColor blackColor]];
     [_webView setContentMode:UIViewContentModeScaleToFill];
     [_webView.scrollView setContentSize:CGSizeMake(_webView.frame.size.width, _webView.frame.size.height)];
-
+    
     [_webView loadRequest:request];
 }
 
@@ -153,12 +153,12 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 {
     NSLog(@"Page resolution Not Loaded");
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-   // /search/api/v5.0/item/uuid:a2b0851b-aa48-11e1-b7f6-0050569d679d/streams/IMG_FULL
+    // /search/api/v5.0/item/uuid:a2b0851b-aa48-11e1-b7f6-0050569d679d/streams/IMG_FULL
     // tady schazi dodelat test na url response...
     NSString *load = [NSString stringWithFormat:@"%@://%@/search/api/v5.0/item/%@/streams/IMG_FULL", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL, page.pid];
     
     NSURL *finalURL = [NSURL URLWithString:load];
-     NSURLRequest *request = [NSURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:(NSTimeInterval)50 ];
+    NSURLRequest *request = [NSURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:(NSTimeInterval)50 ];
     
     
     [_webView setBackgroundColor:[UIColor blackColor]];
@@ -181,7 +181,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     }
     
     [detailDatasource getItem:pid];
-
+    
 }
 
 -(void)setItem:(MZKItemResource *)item
@@ -245,6 +245,16 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
 }
 
+-(void)loadImagePropertiesForPageItem:(NSString *)page
+{
+    MZKPageObject *tmpPageObject = [MZKPageObject new];
+    tmpPageObject.pid = page;
+    loadedPages = [NSArray arrayWithObject:tmpPageObject];
+    
+    [tmpPageObject setDelegate:self];
+    [tmpPageObject loadPageResolution];
+}
+
 -(void)pageLoadedForItem:(MZKPageObject *)pageObject
 {
     if(![[NSThread currentThread] isMainThread])
@@ -273,7 +283,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         return;
     }
     
-     MZKPageObject *page =[loadedPages objectAtIndex:currentIndex];
+    MZKPageObject *page =[loadedPages objectAtIndex:currentIndex];
     
     [self displayItemWithJPGResource:page];
     
@@ -331,17 +341,17 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         self.pageSlider.minimumValue =1;
         self.pageSlider.maximumValue = loadedPages.count;
         self.pageSlider.value = num;
-
+        
     }
     else{
         self.pageSlider.enabled = NO;
     }
-
-       if (loadedItem.title) {
-         self.titleLabel.text = loadedItem.title;
+    
+    if (loadedItem.title) {
+        self.titleLabel.text = loadedItem.title;
     }
-   
-
+    
+    
 }
 
 -(void)displayPage:(MZKPageObject *)pageObject
@@ -356,26 +366,26 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 -(void)loadImageStreamsForItem:(NSString *)pid
 {
-//    NSString*item = @"http://kramerius.mzk.cz";
-//    NSString*finalURL = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full", item, pid ];
-//    
-//    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:finalURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:130];
-//    [req setHTTPMethod: @"GET"];
-//    
-//    NSString *webString = [NSString stringWithFormat:@"<img  src=\"%@\" alt=\"strom\">", finalURL];
-//    //[self.webView loadRequest:req];
-//    
-//  //  [self.webView loadHTMLString:webString baseURL:nil];
-//    
-//    CGSize contentSize = self.webView.scrollView.contentSize;
-//    CGFloat d = contentSize.height/2 - self.webView.center.y;
-//   // [self.webView.scrollView setContentOffset:CGPointMake(0, d) animated:NO];
-//    
+    //    NSString*item = @"http://kramerius.mzk.cz";
+    //    NSString*finalURL = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full", item, pid ];
+    //
+    //    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:finalURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:130];
+    //    [req setHTTPMethod: @"GET"];
+    //
+    //    NSString *webString = [NSString stringWithFormat:@"<img  src=\"%@\" alt=\"strom\">", finalURL];
+    //    //[self.webView loadRequest:req];
+    //
+    //  //  [self.webView loadHTMLString:webString baseURL:nil];
+    //
+    //    CGSize contentSize = self.webView.scrollView.contentSize;
+    //    CGFloat d = contentSize.height/2 - self.webView.center.y;
+    //   // [self.webView.scrollView setContentOffset:CGPointMake(0, d) animated:NO];
+    //
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-   // NSLog(@"did Start loading");
+    // NSLog(@"did Start loading");
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -409,10 +419,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     loadedPages = pages;
     [self updateUserInterfaceAfterPageChange];
-    if ([[loadedPages objectAtIndex:currentIndex] datanode]) {
-        
-        
-    }
     
     [self loadImagePropertiesForItem: [[loadedPages objectAtIndex:currentIndex] pid]];
     
@@ -434,36 +440,37 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     self.titleLabel.text = item.title;
     
     
-    
-    [detailDatasource getChildrenForItem:loadedItem.pid];
-    __weak typeof(self) wealf = self;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-          wealf.titleLabel.text = _item.title;
+    if ([loadedItem.model isEqualToString:@"page"]) {
+        [self loadImagePropertiesForPageItem: loadedItem.pid];
+    }
+    else{
         
-    });
+        [detailDatasource getChildrenForItem:loadedItem.pid];
+        
+    }
+    
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 - (IBAction)onClose:(id)sender {
     
     if (_item) {
-         [self saveDocumentToRecentlyOpened:_item];
+        [self saveDocumentToRecentlyOpened:_item];
     }
     else if (loadedItem)
     {
-         [self saveDocumentToRecentlyOpened:loadedItem];
+        [self saveDocumentToRecentlyOpened:loadedItem];
     }
-   
-
+    
+    
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
@@ -500,13 +507,13 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     MZKPageObject *obj = [loadedPages objectAtIndex:currentIndex];
     
     [self loadImagePropertiesForItem:obj.pid];
-
+    
     [self updateUserInterfaceAfterPageChange];
 }
 
 - (IBAction)onNextPage:(id)sender {
     if (++currentIndex <=loadedPages.count-1) {
-       
+        
         [self switchPage];
     }
 }
@@ -516,7 +523,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     tmpi--;
     if (tmpi >=0) {
         currentIndex--;
-       [self switchPage];
+        [self switchPage];
     }
 }
 
@@ -548,7 +555,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         hidingBars = YES;
         _bottomBarSpaceConstraint.constant = _bottomBar.frame.size.height;
         [UIView animateWithDuration:.5 animations:^{
-           self.topBar.alpha = self.bottomBar.alpha = 1.0;
+            self.topBar.alpha = self.bottomBar.alpha = 1.0;
             [self.view layoutIfNeeded];
             
         } completion:^(BOOL finished) {
@@ -572,24 +579,24 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         _bottomBarSpaceConstraint.constant = 0;
         [UIView animateWithDuration:.5 animations:^{
             self.topBar.alpha = self.bottomBar.alpha = 0.0;
-             [self.view layoutIfNeeded];
+            [self.view layoutIfNeeded];
             
         } completion:^(BOOL finished) {
             barsHidden = YES;
-              hidingBars = NO;
+            hidingBars = NO;
         }];
     }
     else
     {
-         self.topBar.alpha = self.bottomBar.alpha = 0.0;
-         barsHidden = YES;
+        self.topBar.alpha = self.bottomBar.alpha = 0.0;
+        barsHidden = YES;
         _bottomBarSpaceConstraint.constant = 0;
-
+        
     }
 }
 #pragma mark - collection view delegate and datasource
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-
+    
     return loadedPages.count;
 }
 
@@ -611,9 +618,9 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         cell.pageNumber.text = page.title;
         
         [cell.pageThumbnail sd_setImageWithURL:[NSURL URLWithString:path]
-                          placeholderImage:nil];
+                              placeholderImage:nil];
         cell.page = page;
-    
+        
     }
     
     return cell;
@@ -649,7 +656,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     float aspectRatio =(float)pageObject.width / (float)pageObject.height;
     float height = aspectRatio *_webView.frame.size.width;
     float finalRatio = _webView.frame.size.width/height;
-
+    
     return finalRatio;
 }
 
