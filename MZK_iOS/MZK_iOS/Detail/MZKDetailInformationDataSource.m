@@ -46,7 +46,15 @@
     detailModel.languageID =[lanTerm objectForKey:@"text"]? [lanTerm objectForKey:@"text"] :nil;
     detailModel.languageNme = [lanTerm objectForKey:@"type"]? [lanTerm objectForKey:@"type"] :nil;
     
-    NSArray *languageArray = [((AppDelegate *)[[UIApplication sharedApplication] delegate]) getLanguageFromCode:detailModel.languageID];
+    
+    if (detailModel.languageID) {
+        NSArray *languageArray = [((AppDelegate *)[[UIApplication sharedApplication] delegate]) getLanguageFromCode:detailModel.languageID];
+        if (languageArray) {
+            detailModel.languageNme = languageArray[1];
+        }
+    }
+    
+   
     
     //location
     NSDictionary *location = [mods objectForKey:@"location"];

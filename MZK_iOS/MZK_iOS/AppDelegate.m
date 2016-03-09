@@ -339,13 +339,9 @@
    // for
     for (NSArray *array in _dbLangInfo) {
         
-        for (NSString *s in array) {
-            if ([s caseInsensitiveCompare:languageCode] ==NSOrderedSame) {
-                return array;
-                break;
-            }
+        if ([array[0] caseInsensitiveCompare:languageCode] ==NSOrderedSame && ([array[2] caseInsensitiveCompare:@"cs"] ==NSOrderedSame)) {
+            return array;
         }
-        
         
     }
     
