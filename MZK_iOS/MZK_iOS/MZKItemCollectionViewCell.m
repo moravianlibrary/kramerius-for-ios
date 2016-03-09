@@ -71,6 +71,10 @@
     {
         itemTypeIconImg = @"ic_music_green";
     }
+    else if ([model isEqualToString:kPage])
+    {
+        itemTypeIconImg = @"ic_page_green";
+    }
     
     [_itemTypeIcon setImage:[UIImage imageNamed:itemTypeIconImg]];
 
