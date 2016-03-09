@@ -192,11 +192,8 @@
 -(NSArray *)getStringRepresentationOfAvailableInformation:(MZKDetailInformationModel *)info
 {
     NSMutableArray *infoArray = [NSMutableArray new];
-    
-   // [MZKDetailInformationStringModel new] setTitle:@"Autoři"];
+
     //Authors
-    
-    [[MZKDetailInformationStringModel new] setTitle:@"Autoři"] ;
     if (info.authorsInfo.namesOfAllAuthors) {
         
         if (info.authorsInfo.namesOfAllAuthors.count > 1) {
@@ -218,7 +215,38 @@
         }
     }
     
-    //
+    //information about location
+    
+    if (info.physicalLocation) {
+        
+        MZKDetailInformationStringModel *model = [MZKDetailInformationStringModel new];
+        [model setTitle:@"Místo uložení"];
+        [infoArray addObject:model];
+        
+        MZKDetailInformationStringModel *strModel = [MZKDetailInformationStringModel new];
+        strModel.title = @"Místo uložení:";
+        [strModel setInfo:info.physicalLocation];
+        
+        [infoArray addObject:strModel];
+        
+        if (info.shelfLocation) {
+             MZKDetailInformationStringModel *model = [MZKDetailInformationStringModel new];
+            model.title = @"Signatura:";
+            model.info = info.shelfLocation;
+            [infoArray addObject:model];
+        }
+        
+    }
+    
+    // language info
+    
+    if (info.languageNme) {
+        MZKDetailInformationStringModel *model = [MZKDetailInformationStringModel new];
+        model.title = @"Jazyk:";
+        model.info = info.languageNme;
+        [infoArray addObject:model];
+
+    }
     
     return [infoArray copy];
     
