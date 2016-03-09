@@ -63,7 +63,10 @@
         NSDictionary *shelfLoc = [location objectForKey:@"shelfLocator"];
         if (physicalLoc) {
             detailModel.physicalLocation = [physicalLoc objectForKey:@"text"];
+            
+            detailModel.physicalLocation = [((AppDelegate *)[[UIApplication sharedApplication] delegate]) getLocationFromCode:detailModel.physicalLocation];
         }
+        
         if (shelfLoc) {
             detailModel.shelfLocation = [physicalLoc objectForKey:@"text"];
         }

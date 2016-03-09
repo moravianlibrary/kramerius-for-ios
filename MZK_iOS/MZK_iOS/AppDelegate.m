@@ -348,5 +348,17 @@
     return nil;
 }
 
+-(NSString *)getLocationFromCode:(NSString *)locationCode
+{
+    for (NSArray *array in _dbInstitutionsInfo) {
+        
+        if ([array[0] caseInsensitiveCompare:locationCode] ==NSOrderedSame) {
+            return array[1];
+        }
+        
+    }
+    return nil;
+}
+
 
 @end

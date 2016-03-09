@@ -34,6 +34,7 @@
         [self loadDataForItem:_item];
     }
     
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
@@ -84,6 +85,7 @@
     MZKDetailInformationTableViewCell *cell = (MZKDetailInformationTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"MZKDetailInformationTableViewCell"];
     
     MZKDetailInformationStringModel *modelInfo =[_detailInformation objectAtIndex:indexPath.row];
+    cell.layoutMargins = UIEdgeInsetsZero;
     
     if (modelInfo.title && modelInfo.info) {
         [self setupCell:cell withTitle:modelInfo.title andInfo:modelInfo.info];

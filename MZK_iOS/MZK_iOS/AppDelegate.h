@@ -36,6 +36,7 @@
 
 // get information from local db
 -(NSArray *)getLanguageFromCode:(NSString *)languageCode;
+-(NSString *)getLocationFromCode:(NSString *)locationCode;
 
 
 @end
