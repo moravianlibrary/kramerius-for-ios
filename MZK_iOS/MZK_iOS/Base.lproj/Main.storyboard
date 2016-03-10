@@ -776,14 +776,24 @@
                                             <action selector="onClose:" destination="l9D-rH-xq3" eventType="touchUpInside" id="iI3-DZ-InL"/>
                                         </connections>
                                     </button>
+                                    <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ulk-Nz-7Gu">
+                                        <rect key="frame" x="0.0" y="49" width="600" height="1"/>
+                                        <color key="backgroundColor" red="0.51372549020000002" green="0.51372549020000002" blue="0.51372549020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="BTO-kh-fZp"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="2gg-j0-sfZ"/>
                                     <constraint firstAttribute="bottom" secondItem="HVq-tc-9ie" secondAttribute="bottom" constant="4" id="AeQ-ZK-NLB"/>
+                                    <constraint firstAttribute="trailing" secondItem="ulk-Nz-7Gu" secondAttribute="trailing" id="Eth-Uy-agd"/>
                                     <constraint firstAttribute="bottom" secondItem="dRz-On-Kjl" secondAttribute="bottom" constant="8" id="Inf-oW-CP3"/>
+                                    <constraint firstAttribute="bottom" secondItem="ulk-Nz-7Gu" secondAttribute="bottom" id="PGY-pJ-u4c"/>
                                     <constraint firstItem="HVq-tc-9ie" firstAttribute="leading" secondItem="OoP-HE-MkD" secondAttribute="leading" id="PeJ-lp-pn9"/>
                                     <constraint firstItem="dRz-On-Kjl" firstAttribute="leading" secondItem="HVq-tc-9ie" secondAttribute="trailing" id="V5f-Bg-7tn"/>
+                                    <constraint firstItem="ulk-Nz-7Gu" firstAttribute="leading" secondItem="OoP-HE-MkD" secondAttribute="leading" id="XTn-yi-m2w"/>
                                     <constraint firstAttribute="centerY" secondItem="dRz-On-Kjl" secondAttribute="centerY" id="YYf-4u-uZO"/>
                                     <constraint firstItem="HVq-tc-9ie" firstAttribute="top" secondItem="OoP-HE-MkD" secondAttribute="top" constant="4" id="dHz-UV-n30"/>
                                     <constraint firstItem="dRz-On-Kjl" firstAttribute="top" secondItem="OoP-HE-MkD" secondAttribute="top" constant="8" id="qrW-Kf-fGi"/>
@@ -791,10 +801,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2ah-Ol-ewK">
-                                <rect key="frame" x="0.0" y="58" width="600" height="542"/>
+                                <rect key="frame" x="0.0" y="52" width="600" height="548"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="v0H-8s-yan">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="542"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="548"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MZKDetailInformationTableViewCell" id="zgZ-6Z-xuo" customClass="MZKDetailInformationTableViewCell">
@@ -847,12 +857,12 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="U1f-vF-oEG" firstAttribute="top" secondItem="2ah-Ol-ewK" secondAttribute="bottom" id="2GR-ix-8xF"/>
                             <constraint firstItem="OoP-HE-MkD" firstAttribute="top" secondItem="APp-NR-o1y" secondAttribute="bottom" id="5wi-Ub-Ue7"/>
                             <constraint firstItem="OoP-HE-MkD" firstAttribute="leading" secondItem="33L-al-6jB" secondAttribute="leadingMargin" constant="-20" id="EmE-uD-cgQ"/>
-                            <constraint firstItem="2ah-Ol-ewK" firstAttribute="top" secondItem="OoP-HE-MkD" secondAttribute="bottom" constant="8" id="Rqz-Z7-goJ"/>
+                            <constraint firstItem="2ah-Ol-ewK" firstAttribute="top" secondItem="OoP-HE-MkD" secondAttribute="bottom" constant="2" id="Rqz-Z7-goJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="OoP-HE-MkD" secondAttribute="trailing" constant="-20" id="TIS-fa-bN9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="2ah-Ol-ewK" secondAttribute="trailing" constant="-20" id="bdI-Yh-kh9"/>
                             <constraint firstItem="2ah-Ol-ewK" firstAttribute="top" secondItem="OoP-HE-MkD" secondAttribute="top" id="sWs-nv-Jwy"/>
@@ -864,6 +874,8 @@
                             </mask>
                         </variation>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="itemTitle" destination="dRz-On-Kjl" id="k60-1k-CWe"/>
                         <outlet property="tableView" destination="v0H-8s-yan" id="nR2-Wx-UaD"/>
@@ -2306,9 +2318,9 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
         <image name="pages" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="pB0-yE-dEK"/>
         <segue reference="rs0-rK-WcW"/>
         <segue reference="wpv-e5-UGR"/>
         <segue reference="Gmw-Rc-QWP"/>
-        <segue reference="zEy-1m-U9d"/>
     </inferredMetricsTieBreakers>
 </document>
