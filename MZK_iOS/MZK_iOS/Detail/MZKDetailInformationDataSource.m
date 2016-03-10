@@ -205,20 +205,29 @@
             NSDictionary *tmpNameDictionary = [mods objectForKey:@"name"];
             if ([[tmpNameDictionary objectForKey:@"type"] isEqualToString:@"personal"]) {
                 // standard situation
-                NSArray *tmpNameParts = [tmpNameDictionary objectForKey:@"namePart"];
-                
-                for (NSDictionary *nameDictionary in tmpNameParts) {
+                if([[tmpNameDictionary objectForKey:@"namePart"] isKindOfClass:[NSArray class]])
+                {
+                    NSArray *tmpNameParts = [tmpNameDictionary objectForKey:@"namePart"];
                     
-                    if (![nameDictionary objectForKey:@"type"]) {
-                        // there is no type so just take text
-                        nameStr = [nameDictionary objectForKey:@"text"];
-                        [authorsInfo.namesOfAllAuthors addObject:nameStr];
-                        nameStr = nil;
-                    }
-                    else if ([nameDictionary objectForKey:@"type"])
-                    {
+                    for (NSDictionary *nameDictionary in tmpNameParts) {
                         
+                        if (![nameDictionary objectForKey:@"type"]) {
+                            // there is no type so just take text
+                            nameStr = [nameDictionary objectForKey:@"text"];
+                            [authorsInfo.namesOfAllAuthors addObject:nameStr];
+                            nameStr = nil;
+                        }
+                        else if ([nameDictionary objectForKey:@"type"])
+                        {
+                            
+                        }
                     }
+                }
+                else if([[tmpNameDictionary objectForKey:@"namePart"] isKindOfClass:[NSDictionary class]] )
+                {
+                    NSDictionary *tmpDict = [tmpNameDictionary objectForKey:@"namePart"];
+                     nameStr = [tmpDict objectForKey:@"text"];
+                     [authorsInfo.namesOfAllAuthors addObject:nameStr];
                 }
                 
             }
