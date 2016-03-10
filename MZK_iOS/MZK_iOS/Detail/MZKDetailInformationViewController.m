@@ -173,12 +173,8 @@
         return;
     }
     
-    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?" confirmAction:^{
-        if (_item) {
-            [welf loadDataForItem:_item];
-        }
-        
-    }];
+    [self showErrorWithCancelActionAndTitle:@"Problém v aplikaci" subtitle:@"Akci se nepodařilo dokončit."];
+    
 }
 
 

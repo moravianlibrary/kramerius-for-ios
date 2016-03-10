@@ -58,6 +58,9 @@
     }
     
     //title info - title and subtitle
+    @try {
+        
+    
     
     if ([mods objectForKey:@"titleInfo"]) {
         
@@ -269,6 +272,13 @@
     
     if ([self.delegate respondsToSelector:@selector(detailInformationLoaded:)]) {
         [self.delegate detailInformationLoaded: detailModel];
+    }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"EXCEPTION: %@", exception.description);
+    }
+    @finally {
+        [self.delegate downloadFailed];
     }
     
     
