@@ -192,6 +192,26 @@
 -(NSArray *)getStringRepresentationOfAvailableInformation:(MZKDetailInformationModel *)info
 {
     NSMutableArray *infoArray = [NSMutableArray new];
+    
+    // title info
+    
+    if (info.title) {
+        MZKDetailInformationStringModel *model = [MZKDetailInformationStringModel new];
+        [model setTitle:@"Kniha"];
+        [infoArray addObject:model];
+        
+        MZKDetailInformationStringModel *modelTitle = [MZKDetailInformationStringModel new];
+        [modelTitle setTitle:@"Hlavní název:"];
+        [modelTitle setInfo: info.title];
+        [infoArray addObject:modelTitle];
+        
+        if (info.subTitle) {
+            MZKDetailInformationStringModel *modelTitle = [MZKDetailInformationStringModel new];
+            [modelTitle setTitle:@"Podnázev:"];
+            [modelTitle setInfo: info.subTitle];
+            [infoArray addObject:modelTitle];
+        }
+    }
 
     //Authors
     if (info.authorsInfo.namesOfAllAuthors) {

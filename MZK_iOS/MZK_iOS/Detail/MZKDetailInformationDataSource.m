@@ -40,21 +40,47 @@
     
     //lang
     NSDictionary *lang = [mods objectForKey:@"language"];
-    NSDictionary *lanTerm = [lang objectForKey:@"languageTerm"];
-    
-    detailModel.languageAuthority =[lanTerm objectForKey:@"authority"]? [lanTerm objectForKey:@"authority"] :nil;
-    detailModel.languageID =[lanTerm objectForKey:@"text"]? [lanTerm objectForKey:@"text"] :nil;
-    detailModel.languageNme = [lanTerm objectForKey:@"type"]? [lanTerm objectForKey:@"type"] :nil;
-    
-    
-    if (detailModel.languageID) {
-        NSArray *languageArray = [((AppDelegate *)[[UIApplication sharedApplication] delegate]) getLanguageFromCode:detailModel.languageID];
-        if (languageArray) {
-            detailModel.languageNme = languageArray[1];
+    if(lang)
+    {
+        NSDictionary *lanTerm = [lang objectForKey:@"languageTerm"];
+        
+        detailModel.languageAuthority =[lanTerm objectForKey:@"authority"]? [lanTerm objectForKey:@"authority"] :nil;
+        detailModel.languageID =[lanTerm objectForKey:@"text"]? [lanTerm objectForKey:@"text"] :nil;
+        detailModel.languageNme = [lanTerm objectForKey:@"type"]? [lanTerm objectForKey:@"type"] :nil;
+        
+        
+        if (detailModel.languageID) {
+            NSArray *languageArray = [((AppDelegate *)[[UIApplication sharedApplication] delegate]) getLanguageFromCode:detailModel.languageID];
+            if (languageArray) {
+                detailModel.languageNme = languageArray[1];
+            }
         }
     }
     
-   
+    //title info - title and subtitle
+    
+    if ([mods objectForKey:@"titleInfo"]) {
+    
+        NSDictionary *titleInfo = [mods objectForKey:@"titleInfo"];
+        NSDictionary *title = [titleInfo objectForKey:@"title"];
+        NSDictionary *subTitle = [titleInfo objectForKey:@"subTitle"];
+        
+        if (title) {
+           
+                detailModel.title =[title objectForKey:@"text"];
+            
+            
+        }
+        
+        if (subTitle) {
+           
+                detailModel.subTitle =[subTitle objectForKey:@"text"];
+            
+            
+        }
+    }
+    
+    
     
     //location
     NSDictionary *location = [mods objectForKey:@"location"];
@@ -78,139 +104,142 @@
     MZKDetailAuthorsInfo *authorsInfo = [MZKDetailAuthorsInfo new];
     authorsInfo.namesOfAllAuthors= [NSMutableArray new];
     NSString *nameStr, *date,*givenName, *familyName;
-    NSArray *nameObjects =[mods objectForKey:@"name"];
-    if ([[mods objectForKey:@"name"] isKindOfClass:[NSArray class]]) {
-        NSLog(@"Array");
+    
+    if ([mods objectForKey:@"name"]) {
         
-        for (NSDictionary *name in nameObjects) {
-            if ([[name objectForKey:@"type"] isEqualToString:@"personal"]) {
-                
-            
-            
-            if ([name objectForKey:@"namePart"] ) { //name part je array dictionaries...
-                
-                
-                if ([[name objectForKey:@"namePart"] isKindOfClass:[NSArray class]]) {
-                   
-                    for (NSDictionary *tmpDict in [name objectForKey:@"namePart"]) {
-                        
-                        if ([[tmpDict objectForKey:@"type"] isEqualToString:@"personal"]) {
-                            // lets take just personal names
-                            // NSArray *tmpNameParts = [tmpDict objectForKey:@"namePart"];
-                            // this gave us just another NSDictionary
-                            
-                        }
-                        if ([[tmpDict allKeys] count] ==1 && [tmpDict objectForKey:@"text"]) {
-                            nameStr = [tmpDict objectForKey:@"text"];
-                            [authorsInfo.namesOfAllAuthors addObject:nameStr];
-                            nameStr = nil;
-                        }
-                        
-                        if (![tmpDict objectForKey:@"type"]) {
-                            // there is no type so just take text
-                            
-                        }
-                        else if ([tmpDict objectForKey:@"type"])
-                        {
-                            
-                        }
-                        
-                    }
+        if ([[mods objectForKey:@"name"] isKindOfClass:[NSArray class]]) {
 
-                }else if ([[name objectForKey:@"namePart"] isKindOfClass:[NSDictionary class]])
-                {
-                    NSLog(@"name dictionary");
-                    NSDictionary *tmpDict = [name objectForKey:@"namePart"];
-                    if ([[tmpDict objectForKey:@"type"] isEqualToString:@"personal"]) {
-                        // lets take just personal names
-                        // NSArray *tmpNameParts = [tmpDict objectForKey:@"namePart"];
-                        // this gave us just another NSDictionary
+            NSArray *nameObjects =[mods objectForKey:@"name"];
+            
+            for (NSDictionary *name in nameObjects) {
+                if ([[name objectForKey:@"type"] isEqualToString:@"personal"]) {
+                    
+                    
+                    
+                    if ([name objectForKey:@"namePart"] ) { //name part je array dictionaries...
+                        
+                        
+                        if ([[name objectForKey:@"namePart"] isKindOfClass:[NSArray class]]) {
+                            
+                            for (NSDictionary *tmpDict in [name objectForKey:@"namePart"]) {
+                                
+                                if ([[tmpDict objectForKey:@"type"] isEqualToString:@"personal"]) {
+                                    // lets take just personal names
+                                    // NSArray *tmpNameParts = [tmpDict objectForKey:@"namePart"];
+                                    // this gave us just another NSDictionary
+                                    
+                                }
+                                if ([[tmpDict allKeys] count] ==1 && [tmpDict objectForKey:@"text"]) {
+                                    nameStr = [tmpDict objectForKey:@"text"];
+                                    [authorsInfo.namesOfAllAuthors addObject:nameStr];
+                                    nameStr = nil;
+                                }
+                                
+                                if (![tmpDict objectForKey:@"type"]) {
+                                    // there is no type so just take text
+                                    
+                                }
+                                else if ([tmpDict objectForKey:@"type"])
+                                {
+                                    
+                                }
+                                
+                            }
+                            
+                        }else if ([[name objectForKey:@"namePart"] isKindOfClass:[NSDictionary class]])
+                        {
+                            NSLog(@"name dictionary");
+                            NSDictionary *tmpDict = [name objectForKey:@"namePart"];
+                            if ([[tmpDict objectForKey:@"type"] isEqualToString:@"personal"]) {
+                                // lets take just personal names
+                                // NSArray *tmpNameParts = [tmpDict objectForKey:@"namePart"];
+                                // this gave us just another NSDictionary
+                                
+                            }
+                            if ([[tmpDict allKeys] count] ==1 && [tmpDict objectForKey:@"text"]) {
+                                nameStr = [tmpDict objectForKey:@"text"];
+                                [authorsInfo.namesOfAllAuthors addObject:nameStr];
+                                nameStr = nil;
+                            }
+                            
+                            if (![tmpDict objectForKey:@"type"]) {
+                                // there is no type so just take text
+                                
+                            }
+                            else if ([tmpDict objectForKey:@"type"])
+                            {
+                                
+                            }
+                            
+                            
+                        }
                         
                     }
-                    if ([[tmpDict allKeys] count] ==1 && [tmpDict objectForKey:@"text"]) {
-                        nameStr = [tmpDict objectForKey:@"text"];
+                }
+            }
+        }
+        else if ([[mods objectForKey:@"name"] isKindOfClass:[NSDictionary class]])
+        {
+            NSDictionary *tmpNameDictionary = [mods objectForKey:@"name"];
+            if ([[tmpNameDictionary objectForKey:@"type"] isEqualToString:@"personal"]) {
+                // standard situation
+                NSArray *tmpNameParts = [tmpNameDictionary objectForKey:@"namePart"];
+                
+                for (NSDictionary *nameDictionary in tmpNameParts) {
+                    
+                    if (![nameDictionary objectForKey:@"type"]) {
+                        // there is no type so just take text
+                        nameStr = [nameDictionary objectForKey:@"text"];
                         [authorsInfo.namesOfAllAuthors addObject:nameStr];
                         nameStr = nil;
                     }
-                    
-                    if (![tmpDict objectForKey:@"type"]) {
-                        // there is no type so just take text
-                        
-                    }
-                    else if ([tmpDict objectForKey:@"type"])
+                    else if ([nameDictionary objectForKey:@"type"])
                     {
                         
                     }
-
-                    
                 }
                 
             }
         }
-            }
+        
+        detailModel.authorsInfo = authorsInfo;
     }
-    else if ([[mods objectForKey:@"name"] isKindOfClass:[NSDictionary class]])
-    {
-        NSDictionary *tmpNameDictionary = [mods objectForKey:@"name"];
-        if ([[tmpNameDictionary objectForKey:@"type"] isEqualToString:@"personal"]) {
-            // standard situation
-            NSArray *tmpNameParts = [tmpNameDictionary objectForKey:@"namePart"];
-            
-            for (NSDictionary *nameDictionary in tmpNameParts) {
-                
-                if (![nameDictionary objectForKey:@"type"]) {
-                    // there is no type so just take text
-                    nameStr = [nameDictionary objectForKey:@"text"];
-                    [authorsInfo.namesOfAllAuthors addObject:nameStr];
-                    nameStr = nil;
-                }
-                else if ([nameDictionary objectForKey:@"type"])
-                {
-                    
-                }
-            }
-            
-        }
-    }
-    
-    detailModel.authorsInfo = authorsInfo;
-    
     
     //origin info
     
-//    detailModel.placeInfo = [self parseOriginInfoFrom:[mods objectForKey:@"originInfo"]];
-//    
-//    // physical description
-//    if ([mods objectForKey:@"physicalDescription"]) {
-//        detailModel.physicalDescription = [[[mods objectForKey:@"physicalDescription"] objectForKey:@"extent"] objectForKey:@"text"];
-//    }
-//    
-//    // lang info
-//    
-//    NSDictionary *languageOfCataloging = [[[mods objectForKey:@"recordInfo"] objectForKey:@"languageOfCataloging"] objectForKey:@"languageTerm"];
-//    
-//    detailModel.languageAuthority = [languageOfCataloging objectForKey:@"authority"]? [languageOfCataloging objectForKey:@"authority"] :nil;
-//    detailModel.languageNme = [languageOfCataloging objectForKey:@"text"]? [languageOfCataloging objectForKey:@"text"] :nil;
-//    detailModel.languageID = [languageOfCataloging objectForKey:@"text"]? [languageOfCataloging objectForKey:@"text"] :nil;
-//    
-//    // record change dates info
-//    detailModel.recordChangeDates = [self parseRecordChangedDatesFrom:[[mods objectForKey:@"recordInfo"] objectForKey:@"recordChangeDate"]];
-//    
-//    detailModel.recordContentSourceCode = [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordContentSource"] objectForKey:@"text"];
-//    
-//    detailModel.recordCreationDates = [self parseRecordChangedDatesFrom:[[mods objectForKey:@"recordInfo"] objectForKey:@"recordCreationDate"]];
-//    
-//    // record indentifier
-//    
-//    detailModel.recordSourceIdentifier = [[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] ? [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] objectForKey:@"source"] : nil;
-//    
-//    detailModel.recordSourceTextIdentifier = [[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] ? [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] objectForKey:@"text"] : nil;
-//    
-//    // title info
-//    
-//    detailModel.subTitle = [[mods objectForKey:@"titleInfo"] objectForKey:@"subTitle"] ?[[[mods objectForKey:@"titleInfo"] objectForKey:@"subTitle"] objectForKey:@"text"] : nil;
-//    
-//    detailModel.title = [[mods objectForKey:@"titleInfo"] objectForKey:@"title"] ?[[[mods objectForKey:@"titleInfo"] objectForKey:@"title"] objectForKey:@"text"] : nil;
+    //    detailModel.placeInfo = [self parseOriginInfoFrom:[mods objectForKey:@"originInfo"]];
+    //
+    //    // physical description
+    //    if ([mods objectForKey:@"physicalDescription"]) {
+    //        detailModel.physicalDescription = [[[mods objectForKey:@"physicalDescription"] objectForKey:@"extent"] objectForKey:@"text"];
+    //    }
+    //
+    //    // lang info
+    //
+    //    NSDictionary *languageOfCataloging = [[[mods objectForKey:@"recordInfo"] objectForKey:@"languageOfCataloging"] objectForKey:@"languageTerm"];
+    //
+    //    detailModel.languageAuthority = [languageOfCataloging objectForKey:@"authority"]? [languageOfCataloging objectForKey:@"authority"] :nil;
+    //    detailModel.languageNme = [languageOfCataloging objectForKey:@"text"]? [languageOfCataloging objectForKey:@"text"] :nil;
+    //    detailModel.languageID = [languageOfCataloging objectForKey:@"text"]? [languageOfCataloging objectForKey:@"text"] :nil;
+    //
+    //    // record change dates info
+    //    detailModel.recordChangeDates = [self parseRecordChangedDatesFrom:[[mods objectForKey:@"recordInfo"] objectForKey:@"recordChangeDate"]];
+    //
+    //    detailModel.recordContentSourceCode = [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordContentSource"] objectForKey:@"text"];
+    //
+    //    detailModel.recordCreationDates = [self parseRecordChangedDatesFrom:[[mods objectForKey:@"recordInfo"] objectForKey:@"recordCreationDate"]];
+    //
+    //    // record indentifier
+    //
+    //    detailModel.recordSourceIdentifier = [[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] ? [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] objectForKey:@"source"] : nil;
+    //
+    //    detailModel.recordSourceTextIdentifier = [[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] ? [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] objectForKey:@"text"] : nil;
+    //
+    //    // title info
+    //
+    //    detailModel.subTitle = [[mods objectForKey:@"titleInfo"] objectForKey:@"subTitle"] ?[[[mods objectForKey:@"titleInfo"] objectForKey:@"subTitle"] objectForKey:@"text"] : nil;
+    //
+    //    detailModel.title = [[mods objectForKey:@"titleInfo"] objectForKey:@"title"] ?[[[mods objectForKey:@"titleInfo"] objectForKey:@"title"] objectForKey:@"text"] : nil;
     
     if ([self.delegate respondsToSelector:@selector(detailInformationLoaded:)]) {
         [self.delegate detailInformationLoaded: detailModel];
@@ -260,7 +289,7 @@
         detailInfo.publisher = [[originDict objectForKey:@"publisher"] objectForKey:@"text"];
     }
     
-
+    
     NSArray *places = [originDict objectForKey:@"place"];
     NSMutableArray *parsedPlaces = [NSMutableArray new];
     
