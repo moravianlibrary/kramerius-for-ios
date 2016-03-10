@@ -60,22 +60,44 @@
     //title info - title and subtitle
     
     if ([mods objectForKey:@"titleInfo"]) {
-    
-        NSDictionary *titleInfo = [mods objectForKey:@"titleInfo"];
-        NSDictionary *title = [titleInfo objectForKey:@"title"];
-        NSDictionary *subTitle = [titleInfo objectForKey:@"subTitle"];
         
-        if (title) {
-           
-                detailModel.title =[title objectForKey:@"text"];
+        if ([[mods objectForKey:@"titleInfo"] isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *titleInfo = [mods objectForKey:@"titleInfo"];
+            NSDictionary *title = [titleInfo objectForKey:@"title"];
+            NSDictionary *subTitle = [titleInfo objectForKey:@"subTitle"];
             
+            if (title) {
+                
+                detailModel.title =[title objectForKey:@"text"];
+                
+                
+            }
+            
+            if (subTitle) {
+                
+                detailModel.subTitle =[subTitle objectForKey:@"text"];
+                
+                
+            }
             
         }
-        
-        if (subTitle) {
-           
-                detailModel.subTitle =[subTitle objectForKey:@"text"];
+        else if ([[mods objectForKey:@"titleInfo"] isKindOfClass:[NSArray class]])
+        {
+            NSArray *titleInfo = [mods objectForKey:@"titleInfo"];
             
+            for (NSDictionary *tmpDict in titleInfo) {
+                
+                if ([tmpDict objectForKey:@"subTitle"]) {
+                    NSDictionary *subTitle = [tmpDict objectForKey:@"subTitle"];
+                    detailModel.subTitle =[subTitle objectForKey:@"text"];
+                }
+                
+                if ([tmpDict objectForKey:@"title"]) {
+                    NSDictionary *title = [tmpDict objectForKey:@"title"];
+                    detailModel.title =[title objectForKey:@"text"];
+                }
+                
+            }
             
         }
     }
@@ -108,7 +130,7 @@
     if ([mods objectForKey:@"name"]) {
         
         if ([[mods objectForKey:@"name"] isKindOfClass:[NSArray class]]) {
-
+            
             NSArray *nameObjects =[mods objectForKey:@"name"];
             
             for (NSDictionary *name in nameObjects) {
@@ -234,12 +256,7 @@
     //    detailModel.recordSourceIdentifier = [[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] ? [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] objectForKey:@"source"] : nil;
     //
     //    detailModel.recordSourceTextIdentifier = [[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] ? [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] objectForKey:@"text"] : nil;
-    //
-    //    // title info
-    //
-    //    detailModel.subTitle = [[mods objectForKey:@"titleInfo"] objectForKey:@"subTitle"] ?[[[mods objectForKey:@"titleInfo"] objectForKey:@"subTitle"] objectForKey:@"text"] : nil;
-    //
-    //    detailModel.title = [[mods objectForKey:@"titleInfo"] objectForKey:@"title"] ?[[[mods objectForKey:@"titleInfo"] objectForKey:@"title"] objectForKey:@"text"] : nil;
+    
     
     if ([self.delegate respondsToSelector:@selector(detailInformationLoaded:)]) {
         [self.delegate detailInformationLoaded: detailModel];

@@ -151,11 +151,17 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 -(void)displayItemWithJPGResource:(MZKPageObject *)page
 {
+#warning remove hardcoded value for page height!
+    // image server let
+    
+   // http://kramerius.mzk.cz/search/img?pid=uuid:1c0e5c47-435f-11dd-b505-00145e5790ea&stream=IMG_FULL&action=SCALE&scaledHeight=1000
+    
+    
     NSLog(@"Page resolution Not Loaded");
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     // /search/api/v5.0/item/uuid:a2b0851b-aa48-11e1-b7f6-0050569d679d/streams/IMG_FULL
     // tady schazi dodelat test na url response...
-    NSString *load = [NSString stringWithFormat:@"%@://%@/search/api/v5.0/item/%@/streams/IMG_FULL", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL, page.pid];
+    NSString *load = [NSString stringWithFormat:@"%@://%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL, page.pid, [NSString stringWithFormat:@"%d", 1000]];
     
     NSURL *finalURL = [NSURL URLWithString:load];
     NSURLRequest *request = [NSURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:(NSTimeInterval)50 ];
@@ -362,25 +368,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     currentIndex = targetIndex;
     self.pageSlider.value = currentIndex;
     [self updateUserInterfaceAfterPageChange];
-}
-
--(void)loadImageStreamsForItem:(NSString *)pid
-{
-    //    NSString*item = @"http://kramerius.mzk.cz";
-    //    NSString*finalURL = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full", item, pid ];
-    //
-    //    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:finalURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:130];
-    //    [req setHTTPMethod: @"GET"];
-    //
-    //    NSString *webString = [NSString stringWithFormat:@"<img  src=\"%@\" alt=\"strom\">", finalURL];
-    //    //[self.webView loadRequest:req];
-    //
-    //  //  [self.webView loadHTMLString:webString baseURL:nil];
-    //
-    //    CGSize contentSize = self.webView.scrollView.contentSize;
-    //    CGFloat d = contentSize.height/2 - self.webView.center.y;
-    //   // [self.webView.scrollView setContentOffset:CGPointMake(0, d) animated:NO];
-    //
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView

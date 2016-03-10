@@ -80,8 +80,8 @@
 		2D13D5481C3E66BD00DB4190 /* languages.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = languages.sql; sourceTree = "<group>"; };
 		2D13D5491C3E66BD00DB4190 /* relators.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = relators.sql; sourceTree = "<group>"; };
 		2D13D54D1C3E8B8C00DB4190 /* values.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = values.sql; sourceTree = "<group>"; };
-		2D13D5651C3FC6AD00DB4190 /* MZKDetailInformationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDetailInformationModel.h; sourceTree = "<group>"; };
-		2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDetailInformationModel.m; sourceTree = "<group>"; };
+		2D13D5651C3FC6AD00DB4190 /* MZKDetailInformationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKDetailInformationModel.h; path = ../MZKDetailInformationModel.h; sourceTree = "<group>"; };
+		2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKDetailInformationModel.m; path = ../MZKDetailInformationModel.m; sourceTree = "<group>"; };
 		2D1A8DDD1AFD036E00494743 /* MZKMenuClickableHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKMenuClickableHeader.h; sourceTree = "<group>"; };
 		2D1A8DDE1AFD036E00494743 /* MZKMenuClickableHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKMenuClickableHeader.m; sourceTree = "<group>"; };
 		2D1A8DE01AFD039200494743 /* MZKMenuClickableHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MZKMenuClickableHeader.xib; sourceTree = "<group>"; };
@@ -214,8 +214,6 @@
 				2D41FEFA1C3B036D0087F22E /* MZKDetailInformationViewController.m */,
 				2D41FEF61C3B03460087F22E /* MZKDetailInformationDataSource.h */,
 				2D41FEF71C3B03460087F22E /* MZKDetailInformationDataSource.m */,
-				2D13D5651C3FC6AD00DB4190 /* MZKDetailInformationModel.h */,
-				2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */,
 				2D91512A1C873D2C00AD380F /* MZKDetailInformationTableViewCell.h */,
 				2D91512B1C873D2C00AD380F /* MZKDetailInformationTableViewCell.m */,
 			);
@@ -281,6 +279,8 @@
 		2D91512D1C876C8600AD380F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2D13D5651C3FC6AD00DB4190 /* MZKDetailInformationModel.h */,
+				2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */,
 				2D3698E21C8ADBF6008FEF3C /* MZKDetailInformationStringModel.h */,
 				2D3698E31C8ADBF6008FEF3C /* MZKDetailInformationStringModel.m */,
 			);
