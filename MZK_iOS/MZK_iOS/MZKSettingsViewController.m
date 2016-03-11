@@ -51,6 +51,7 @@
 - (IBAction)publicDocumentsUIsliderValueChanged:(id)sender {
     
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:self.publicDocuments.on] forKey:kSettingsShowOnlyPublicDocuments];
+     [[NSNotificationCenter defaultCenter] postNotificationName:kDatasourceItemChanged object:nil];
 }
 
 /*
