@@ -155,7 +155,9 @@ typedef enum _downloadOperation downloadOperation;
 -(void)getMostRecent
 {
     
-    NSString *recent = @"/search/api/v5.0/feed/newest";
+    BOOL showOnlyPublic = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettingsShowOnlyPublicDocuments] boolValue];
+    NSString *recent = showOnlyPublic ? @"/search/api/v5.0/feed/newest?policy=public" : @"/search/api/v5.0/feed/newest";
+    
     [self checkAndSetBaseUrl];
     
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, recent];
@@ -169,7 +171,9 @@ typedef enum _downloadOperation downloadOperation;
 
 -(void)getRecommended
 {
-    NSString *desired = @"/search/api/v5.0/feed/custom";
+    BOOL showOnlyPublic = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettingsShowOnlyPublicDocuments] boolValue];
+    NSString *desired = showOnlyPublic ? @"/search/api/v5.0/feed/custom?policy=public" : @"/search/api/v5.0/feed/custom";
+
     [self checkAndSetBaseUrl];
     
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, desired];
@@ -265,13 +269,7 @@ typedef enum _downloadOperation downloadOperation;
         
         NSDictionary *tmpDataObject = [tmpObjects objectAtIndex:i];
         if (![[tmpDataObject allKeys] containsObject:@"exception"]) {
-            NSString *policy = [tmpDataObject objectForKey:@"policy"];
-            if ([policy caseInsensitiveCompare:@"public"] == NSOrderedSame) {
-                [results addObject:[self parseObjectFromDictionary:tmpDataObject]];
-            }
-            else{
-                NSLog(@"Policy not public");
-            }
+            [results addObject:[self parseObjectFromDictionary:tmpDataObject]];
         }
     }
     
@@ -321,10 +319,8 @@ typedef enum _downloadOperation downloadOperation;
     
     for (int i = 0; i<parsedObject.count; i++) {
         NSDictionary *currentObject =[parsedObject objectAtIndex:i];
-        
-        NSString *policy = [currentObject objectForKey:@"policy"];
         NSString *model = [currentObject objectForKey:@"model"];
-        if ([policy caseInsensitiveCompare:@"public"] == NSOrderedSame && ![model isEqualToString:@"internalpart"]) {
+        if (![model isEqualToString:@"internalpart"]) {
             
             MZKPageObject *page = [MZKPageObject new];
             page.pid = [currentObject objectForKey:@"pid"];
@@ -332,6 +328,7 @@ typedef enum _downloadOperation downloadOperation;
             page.author = [currentObject objectForKey:@"author"];
             page.rootPid =  [currentObject objectForKey:@"root_pid"];
             page.rootTitle =  [currentObject objectForKey:@"root_title"];
+            page.policy = [currentObject objectForKey:@"policy"];
             
             NSString *pageTitle = nil;
             if ([[currentObject objectForKey:@"title"] isKindOfClass:[NSArray class]]) {
@@ -387,10 +384,6 @@ typedef enum _downloadOperation downloadOperation;
             
             [pages addObject:page];
         }
-        else{
-            NSLog(@"Policy not public");
-        }
-        
     }
     
     if(pages.count >0)
@@ -545,6 +538,7 @@ typedef enum _downloadOperation downloadOperation;
         cItem.rootPid = [itemDict objectForKey:@"root_pid"];
         cItem.rootTitle =[itemDict objectForKey:@"root_title"];
         cItem.model = [itemDict objectForKey:@"fedora.model"];
+        cItem.policy = [itemDict objectForKey:@"policy"];
         
         [results addObject:cItem];
     }
@@ -569,7 +563,7 @@ typedef enum _downloadOperation downloadOperation;
     }
     
     newItem.rootTitle = [rawData objectForKey:@"root_title"];
-    newItem.policy = [rawData objectForKey:@"public"];
+    newItem.policy = [rawData objectForKey:@"policy"];
     
     newItem.datanode= [[rawData objectForKey:@"datanode"] boolValue];
     

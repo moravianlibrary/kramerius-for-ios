@@ -307,7 +307,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         return;
     }
     
-    [self showErrorWithTitle:@"Nepodarilo" subtitle:@"informace o strance nejsou dostupne" confirmAction:^{
+    [self showErrorWithTitle:@"Chyba" subtitle:@"Nepodařilo se načíst informace o stránce." confirmAction:^{
         
     }];
 }
@@ -493,9 +493,15 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 {
     MZKPageObject *obj = [loadedPages objectAtIndex:currentIndex];
     
-    [self loadImagePropertiesForItem:obj.pid];
-    
-    [self updateUserInterfaceAfterPageChange];
+    if ([obj.policy isEqualToString:@"public"]) {
+        [self loadImagePropertiesForItem:obj.pid];
+        
+        [self updateUserInterfaceAfterPageChange];
+    }
+    else
+    {
+         [self showErrorWithCancelActionAndTitle:@"Pozor" subtitle:@"Tato stránka není veřejně dostupná." withCompletion:nil];
+    }
 }
 
 - (IBAction)onNextPage:(id)sender {
@@ -618,7 +624,15 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     MZKPageObject *p = [loadedPages objectAtIndex:indexPath.row];
-    [self displayPage:p];
+    if ([p.policy isEqualToString:@"public"]) {
+        [self displayPage:p];
+    }
+    else
+    {
+        [self showErrorWithCancelActionAndTitle:@"Pozor" subtitle:@"Tato stránka není veřejně dostupná." withCompletion:nil];
+    }
+    
+    
     [self onShowGrid:nil];
 }
 #pragma mark - recently opened documents

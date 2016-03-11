@@ -72,25 +72,25 @@
     // title has to be different based on type of parent resource!!!
     NSString *title;
     
-//    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
-//        
-//        
-////        if (parentItemResource.year) {
-////            cell.itemName.text = item.year;
-////        }
-////        
-////        if (parentItemResource.volumeNumber) {
-////            cell.itemAuthors.text = item.volumeNumber;
-////        }
-//    }
-//    
-//    
-//    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
-//        
-////        cell.itemName.text = item.date;
-////        cell.itemAuthors.text = item.issueNumber;
-//    }
-
+    //    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
+    //
+    //
+    ////        if (parentItemResource.year) {
+    ////            cell.itemName.text = item.year;
+    ////        }
+    ////
+    ////        if (parentItemResource.volumeNumber) {
+    ////            cell.itemAuthors.text = item.volumeNumber;
+    ////        }
+    //    }
+    //
+    //
+    //    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
+    //
+    ////        cell.itemName.text = item.date;
+    ////        cell.itemAuthors.text = item.issueNumber;
+    //    }
+    
     self.navigationItem.title = parentItemResource.title;
 }
 
@@ -161,8 +161,8 @@
     [self hideLoadingIndicator];
     
     [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?" confirmAction:^{
-         [welf showLoadingIndicator];
-         [welf loadDataForController];
+        [welf showLoadingIndicator];
+        [welf loadDataForController];
         
     }];
 }
@@ -201,9 +201,9 @@
         
         if ([item.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
             
-
+            
             if (item.year) {
-                 cell.itemName.text = item.year;
+                cell.itemName.text = item.year;
             }
             
             if (item.volumeNumber) {
@@ -217,7 +217,7 @@
             cell.itemName.text = item.date;
             cell.itemAuthors.text = [NSString stringWithFormat:@"Číslo %@", item.issueNumber];
         }
-       
+        
         AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
         
         NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
@@ -227,7 +227,7 @@
         [cell.itemImage sd_setImageWithURL:[NSURL URLWithString:path]
                           placeholderImage:nil];
     }
-
+    
     return cell;
 }
 
@@ -255,32 +255,40 @@
     }
     
     
-    if ([po.model isEqualToString:@"periodicalitem"])
-    {
-        //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
+    if ([po.policy isEqualToString:@"public"]) {
         
-        MZKDetailViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKDetailViewController"];
-        
-        // Pass any objects to the view controller here, like...
-        [vc setItemPID:po.pid];
-        
-        [self presentViewController:vc animated:YES completion:^{
+        if ([po.model isEqualToString:@"periodicalitem"])
+        {
+            //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
             
-        }];
+            MZKDetailViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKDetailViewController"];
+            
+            // Pass any objects to the view controller here, like...
+            [vc setItemPID:po.pid];
+            
+            [self presentViewController:vc animated:YES completion:^{
+                
+            }];
+            
+        }
+        
+        if ([po.model isEqualToString:@"periodicalvolume"])
+        {
+            //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
+            
+            MZKGeneralColletionViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKGeneralColletionViewController"];
+            
+            // Pass any objects to the view controller here, like...
+            [vc setParentPID:po.pid];
+            vc.isFirst = NO;
+            
+            [self.navigationController pushViewController:vc animated:YES];
+        }
         
     }
-    
-    if ([po.model isEqualToString:@"periodicalvolume"])
+    else
     {
-        //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
-        
-        MZKGeneralColletionViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKGeneralColletionViewController"];
-        
-        // Pass any objects to the view controller here, like...
-        [vc setParentPID:po.pid];
-        vc.isFirst = NO;
-        
-        [self.navigationController pushViewController:vc animated:YES];
+        [self showErrorWithCancelActionAndTitle:@"Pozor" subtitle:@"Tento dokument není veřejně přístupný." withCompletion:nil];
     }
     
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
@@ -305,7 +313,7 @@
     
     CGSize sizeOfCell = CGSizeMake(desiredWidth, 140);
     
-   return sizeOfCell;
+    return sizeOfCell;
     
 }
 
@@ -334,14 +342,14 @@
 }
 
 - (void)updateCollectionViewLayoutWithSize:(CGSize)size {
-
+    
     UICollectionViewFlowLayout *flowLayout = (id)self._collectionView.collectionViewLayout;
     float desiredWidth = [self calculateCellWidthFromScreenWidth:size.width];
-   
+    
     CGSize sizeOfCell = CGSizeMake(desiredWidth, 140);
     
     flowLayout.itemSize = sizeOfCell;
-
+    
     [flowLayout invalidateLayout];
     
 }

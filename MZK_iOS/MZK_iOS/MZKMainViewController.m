@@ -228,7 +228,22 @@
 {
     MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     
-    [self prepareDataForSegue:cell.item];
+    if (cell.item.policy ) {
+        if ([cell.item.policy isEqualToString:@"public"]) {
+            [self prepareDataForSegue:cell.item];
+        }
+        else
+        {
+            [self showErrorWithCancelActionAndTitle:@"Pozor" subtitle:@"Tento dokument není veřejně dostupný"];
+        }
+    }
+    else
+    {
+        [self prepareDataForSegue:cell.item];
+    }
+    
+    
+    
     
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
     

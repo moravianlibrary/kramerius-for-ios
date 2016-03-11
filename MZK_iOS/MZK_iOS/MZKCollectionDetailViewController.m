@@ -140,9 +140,19 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     MZKCollectionItemResource *item = [_loadedItems objectAtIndex:indexPath.row];
+    
+    if ([item.policy isEqualToString:@"public"]) {
+        
+        [self performSegueWithIdentifier:@"OpenCollectionDetail" sender:nil];
+    }
+    else
+    {
+        [self showErrorWithCancelActionAndTitle:@"Pozor" subtitle:@"Tato sbírka není veřejně dostupná." withCompletion:nil];
+    }
+    
     _selectedItem = item;
     
-    [self performSegueWithIdentifier:@"OpenCollectionDetail" sender:nil];
+    
 }
 
 #pragma mark - Collection View Flow Layout Delegate
