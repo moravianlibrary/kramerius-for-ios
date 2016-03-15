@@ -141,7 +141,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
     
    // [self hideLoadingIndicator];
     
-    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?" confirmAction:^{
+    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
         [welf loadDataForController];
         
     }];
