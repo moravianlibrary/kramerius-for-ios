@@ -38,6 +38,10 @@
        
     NSRange range = [self.link.text rangeOfString:@"Moravská zemská knihovna v Brně."];
     [self.link addLinkToURL:[NSURL URLWithString:kKrameriusDescriptionLink] withRange:range]; // Embedding a custom link in a substring
+    
+    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    
+    _version.text =appVersion;
 }
 
 - (void)didReceiveMemoryWarning {

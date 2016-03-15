@@ -2301,6 +2301,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                     </view>
                     <connections>
                         <outlet property="link" destination="hNb-gZ-lI7" id="3gE-mf-4nj"/>
+                        <outlet property="version" destination="87F-mt-Lv9" id="rVW-D8-hAb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nrz-2Q-Nme" userLabel="First Responder" sceneMemberID="firstResponder"/>
