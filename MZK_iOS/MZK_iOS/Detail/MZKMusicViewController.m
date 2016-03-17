@@ -289,14 +289,20 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
 #pragma mark - Playback handling
 -(void)playItemWithPID:(NSString *)itemPID
 {
-    NSString *strURL = [NSString stringWithFormat:@"http://kramerius.mzk.cz/search/api/v5.0/item/%@/streams/MP3", itemPID];
+    //NSString *strURL = [NSString stringWithFormat:@"http://kramerius.mzk.cz/search/api/v5.0/item/%@/streams/MP3", itemPID];
     
+    
+    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    
+    NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
+    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/streams/MP3",url, itemPID ];
+
 
     /*
      Create an asset for inspection of a resource referenced by a given URL.
      Load the values for the asset key "playable".
      */
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:strURL] options:nil];
+    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url, path]] options:nil];
     _currentAsset = asset;
     
     NSArray *requestedKeys = @[@"playable"];
@@ -393,8 +399,59 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
     
 }
 - (IBAction)onFF:(id)sender {
+    
+    CMTime playerDuration = [self playerItemDuration];
+    if (CMTIME_IS_INVALID(playerDuration))
+    {
+        return;
+    }
+    
+    double duration = CMTimeGetSeconds(playerDuration);
+    double currentTime = CMTimeGetSeconds([_musicPlayer currentTime]);
+    
+    if (isfinite(duration))
+    {
+        if (currentTime+10 <=CMTimeGetSeconds(playerDuration)) {
+            
+            __weak typeof (self) weakSelf = self;
+            [_musicPlayer seekToTime:CMTimeMakeWithSeconds(currentTime+10, NSEC_PER_SEC) completionHandler:^(BOOL finished) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    isSeeking = NO;
+                    [weakSelf syncScrubber];
+                });
+            }];
+
+        }
+        
+    }
 }
 - (IBAction)onRW:(id)sender {
+    
+    CMTime playerDuration = [self playerItemDuration];
+    if (CMTIME_IS_INVALID(playerDuration))
+    {
+        return;
+    }
+    
+    double duration = CMTimeGetSeconds(playerDuration);
+    double currentTime = CMTimeGetSeconds([_musicPlayer currentTime]);
+    
+    if (isfinite(duration))
+    {
+        if (currentTime-10 >=0) {
+            
+            __weak typeof (self) weakSelf = self;
+            [_musicPlayer seekToTime:CMTimeMakeWithSeconds(currentTime-10, NSEC_PER_SEC) completionHandler:^(BOOL finished) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    isSeeking = NO;
+                    [weakSelf syncScrubber];
+                });
+            }];
+            
+        }
+        
+    }
+    
 }
 - (IBAction)onClose:(id)sender {
     
