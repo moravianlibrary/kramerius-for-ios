@@ -74,12 +74,12 @@
                   moduleName = "MZK_iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ondrejvyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/MZKDetailViewController.m"
-                  timestampString = "480411632.646645"
+                  timestampString = "480437543.466626"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "310"
                   endingLineNumber = "310"
-                  offsetFromSymbolStart = "349">
+                  offsetFromSymbolStart = "336">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -89,12 +89,12 @@
                   moduleName = "MZK_iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ondrejvyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/MZKDetailViewController.m"
-                  timestampString = "480411632.647229"
+                  timestampString = "480437543.466734"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "312"
                   endingLineNumber = "312"
-                  offsetFromSymbolStart = "15">
+                  offsetFromSymbolStart = "12">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/Detail/MZKDetailInformationDataSource.m"
-            timestampString = "480411599.733242"
+            timestampString = "480437542.346925"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "413"
-            endingLineNumber = "413"
+            startingLineNumber = "369"
+            endingLineNumber = "369"
             landmarkName = "-downloadInformationWithURL:"
             landmarkType = "5">
          </BreakpointContent>
@@ -228,11 +228,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/Detail/MZKDetailInformationDataSource.m"
-            timestampString = "480411599.733242"
+            timestampString = "480437542.346925"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
             landmarkName = "-parseXMLData:error:"
             landmarkType = "5">
          </BreakpointContent>
