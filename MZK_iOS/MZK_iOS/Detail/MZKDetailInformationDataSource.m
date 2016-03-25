@@ -58,10 +58,7 @@
     }
     
     //title info - title and subtitle
-    
-    
-    
-    
+
     if ([mods objectForKey:@"titleInfo"]) {
         
         NSArray *objectsArray;
@@ -235,7 +232,10 @@
             
             if ([tmpDict objectForKey:@"title"]) {
                 NSDictionary *title = [tmpDict objectForKey:@"title"];
-                model.title =[title objectForKey:@"text"];
+                if ([[title objectForKey:@"text"]caseInsensitiveCompare:@""] !=NSOrderedSame) {
+                     model.title =[title objectForKey:@"text"];
+                }
+               
             }
             
         }
