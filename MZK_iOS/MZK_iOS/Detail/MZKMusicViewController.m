@@ -302,7 +302,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
      Create an asset for inspection of a resource referenced by a given URL.
      Load the values for the asset key "playable".
      */
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url, path]] options:nil];
+    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:path] options:nil];
     _currentAsset = asset;
     
     NSArray *requestedKeys = @[@"playable"];
@@ -775,8 +775,8 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
     //[self disablePlayerButtons];
     
     /* Display the error. */
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[error localizedDescription]
-                                                        message:[error localizedFailureReason]
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Chyba"
+                                                        message:@"Omlouváme se, ale danou skladbu se nepodařilo načíst."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
