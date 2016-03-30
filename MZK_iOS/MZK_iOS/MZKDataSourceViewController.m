@@ -31,6 +31,8 @@
     _libraries = [self createDataForLibraries];
     
     [self initGoogleAnalytics];
+    
+    [self loadJSONFileFromLocal];
 }
 
 -(void)initGoogleAnalytics
@@ -178,6 +180,20 @@
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     [appDelegate saveToUserDefaults:item];
+}
+
+-(void)loadJSONFileFromLocal
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"libraries" ofType:@"json"];
+    NSData* data = [NSData dataWithContentsOfFile:filePath];
+    NSError* error = nil;
+    NSArray *result = [NSJSONSerialization JSONObjectWithData:data
+                                                options:kNilOptions error:&error];
+    if (!error && result) {
+        
+    }
+    
+
 }
 
 

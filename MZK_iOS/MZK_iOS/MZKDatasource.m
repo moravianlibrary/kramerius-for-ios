@@ -457,14 +457,17 @@ typedef enum _downloadOperation downloadOperation;
         
         MZKCollectionItemResource *cItem = [MZKCollectionItemResource new];
         NSDictionary *itemDict =[parsedObject objectAtIndex:i];
+        
+        
         cItem.numFound = numberOfResults;
         cItem.start = start;
         cItem.pid = [itemDict objectForKey:@"PID"];
         cItem.datumStr = [itemDict objectForKey:@"datum_str"];
         cItem.documentCreator = [itemDict objectForKey:@"dc.creator"];
         cItem.title = [itemDict objectForKey:@"dc.title"];
-        cItem.rootPid = [itemDict objectForKey:@"root_pid"];
+        cItem.rootPid = [itemDict objectForKey:@"root_pid"] ;
         cItem.rootTitle =[itemDict objectForKey:@"root_title"];
+        cItem.policy = [itemDict objectForKey:@"dostupnost"];
         
         [results addObject:cItem];
         

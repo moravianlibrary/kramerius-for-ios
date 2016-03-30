@@ -141,6 +141,8 @@
     
     MZKCollectionItemResource *item = [_loadedItems objectAtIndex:indexPath.row];
     
+     _selectedItem = item;
+    
     if ([item.policy isEqualToString:@"public"]) {
         
         [self performSegueWithIdentifier:@"OpenCollectionDetail" sender:nil];
@@ -149,10 +151,6 @@
     {
         [self showErrorWithCancelActionAndTitle:@"Pozor" subtitle:@"Tato sbírka není veřejně dostupná." withCompletion:nil];
     }
-    
-    _selectedItem = item;
-    
-    
 }
 
 #pragma mark - Collection View Flow Layout Delegate
@@ -217,6 +215,7 @@
 {
     // open colleciton detail from here
     
+    
     if(![[NSThread currentThread] isMainThread])
     {
         __weak typeof(self) welf = self;
@@ -225,9 +224,11 @@
         });
         return;
     }
+    
     if (!_loadedItems) {
         _loadedItems = [NSMutableArray new];
     }
+    
     [_loadedItems addObjectsFromArray:[collectionItems copy]];
     [self.collectionView reloadData];
    
@@ -241,6 +242,10 @@
         
         [_datasource getCollectionItems:_collectionPID withRangeFrom:start numberOfItems:count];
     }
+    
+    
+    NSLog(@"Collection items count:%lu", (unsigned long)_loadedItems.count);
+
 }
 
 #pragma mark - segues

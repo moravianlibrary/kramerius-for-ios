@@ -16,6 +16,7 @@
 		2D13D5671C3FC6AD00DB4190 /* MZKDetailInformationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */; };
 		2D1A8DDF1AFD036E00494743 /* MZKMenuClickableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1A8DDE1AFD036E00494743 /* MZKMenuClickableHeader.m */; };
 		2D1A8DE11AFD039200494743 /* MZKMenuClickableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D1A8DE01AFD039200494743 /* MZKMenuClickableHeader.xib */; };
+		2D1FD9201CAC15A700408166 /* libraries.json in Resources */ = {isa = PBXBuildFile; fileRef = 2D1FD91F1CAC15A700408166 /* libraries.json */; };
 		2D24F06D1B7378740073FC83 /* MZKSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */; };
 		2D24F0701B7387E40073FC83 /* MZKDataSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F06F1B7387E40073FC83 /* MZKDataSourceViewController.m */; };
 		2D24F0761B74C0A80073FC83 /* MZKCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F0751B74C0A80073FC83 /* MZKCollectionItem.m */; };
@@ -85,6 +86,7 @@
 		2D1A8DDD1AFD036E00494743 /* MZKMenuClickableHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKMenuClickableHeader.h; sourceTree = "<group>"; };
 		2D1A8DDE1AFD036E00494743 /* MZKMenuClickableHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKMenuClickableHeader.m; sourceTree = "<group>"; };
 		2D1A8DE01AFD039200494743 /* MZKMenuClickableHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MZKMenuClickableHeader.xib; sourceTree = "<group>"; };
+		2D1FD91F1CAC15A700408166 /* libraries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = libraries.json; sourceTree = "<group>"; };
 		2D24F06B1B7378740073FC83 /* MZKSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSearchViewController.h; sourceTree = "<group>"; };
 		2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchViewController.m; sourceTree = "<group>"; };
 		2D24F06E1B7387E40073FC83 /* MZKDataSourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDataSourceViewController.h; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 		2DB8A7941ACD073400A1BB2E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2D1FD91F1CAC15A700408166 /* libraries.json */,
 				2D2A64811AF8FC9400D82E04 /* Menu-50.png */,
 				2DB8A7951ACD073400A1BB2E /* Info.plist */,
 				2DB8A7961ACD073400A1BB2E /* main.m */,
@@ -518,6 +521,7 @@
 				2DB8A7A51ACD073400A1BB2E /* Images.xcassets in Resources */,
 				2DB88C1B1C15B0E900AC7070 /* GoogleService-Info.plist in Resources */,
 				2D1A8DE11AFD039200494743 /* MZKMenuClickableHeader.xib in Resources */,
+				2D1FD9201CAC15A700408166 /* libraries.json in Resources */,
 				2D13D54E1C3E8B8C00DB4190 /* values.sql in Resources */,
 				2D2763D81B6B641900CC7E4F /* ol.js in Resources */,
 				2D13D54C1C3E66BD00DB4190 /* relators.sql in Resources */,
