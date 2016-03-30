@@ -140,7 +140,9 @@
     _selectedCollectionPID= item.pid;
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
+   
+    //[self performSegueWithIdentifier:@"OpenDetail" sender:item];
+
     [self performSegueWithIdentifier:@"OpenCollection" sender:self];
 }
 

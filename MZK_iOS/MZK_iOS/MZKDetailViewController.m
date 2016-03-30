@@ -458,9 +458,10 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     }
     
     
-    [self dismissViewControllerAnimated:YES completion:^{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
         
     }];
+
 }
 
 - (IBAction)onPageChanged:(id)sender {

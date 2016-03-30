@@ -261,6 +261,7 @@
         
         // Pass any objects to the view controller here, like...
         [vc setItem:_selectedItem];
+        _selectedItem = nil;
     }
     
 }

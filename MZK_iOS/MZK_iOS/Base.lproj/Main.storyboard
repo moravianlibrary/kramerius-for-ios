@@ -145,7 +145,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cBd-qA-9im" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-420" y="-1450"/>
+            <point key="canvasLocation" x="-1235" y="-1502"/>
         </scene>
         <!--Music View Controller-->
         <scene sceneID="6ru-TK-rIp">
@@ -1083,7 +1083,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tMb-Xe-YGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="68" y="-108"/>
+            <point key="canvasLocation" x="128" y="-233"/>
         </scene>
         <!--Collections View Controller-->
         <scene sceneID="WLA-Ih-Zyf">
@@ -1118,7 +1118,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="collectionTitleLabel" destination="9Q0-vA-0j7" id="6gn-Ec-ZZn"/>
-                                            <segue destination="8gK-WS-OFf" kind="showDetail" identifier="OpenCollection" trigger="accessoryAction" id="GgP-hD-2Lj"/>
+                                            <segue destination="8gK-WS-OFf" kind="presentation" identifier="OpenCollection" trigger="accessoryAction" id="GgP-hD-2Lj"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1143,7 +1143,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sje-4G-3uO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="472" y="-1450"/>
+            <point key="canvasLocation" x="120" y="-1278"/>
         </scene>
         <!--Collection Detail View Controller-->
         <scene sceneID="XsS-Cw-F65">
@@ -1710,7 +1710,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O5f-h5-pAJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-467" y="826"/>
+            <point key="canvasLocation" x="120" y="522"/>
         </scene>
         <!--General Colletion View Controller-->
         <scene sceneID="4pq-7Q-SkS">
@@ -2331,9 +2331,9 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
         <image name="pages" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qb8-KB-KCP"/>
-        <segue reference="XQT-17-INL"/>
-        <segue reference="Odm-xX-m6u"/>
         <segue reference="pB0-yE-dEK"/>
+        <segue reference="Xg4-1V-Rhd"/>
+        <segue reference="H21-Ix-YLX"/>
+        <segue reference="kYp-Gh-Qsw"/>
     </inferredMetricsTieBreakers>
 </document>
