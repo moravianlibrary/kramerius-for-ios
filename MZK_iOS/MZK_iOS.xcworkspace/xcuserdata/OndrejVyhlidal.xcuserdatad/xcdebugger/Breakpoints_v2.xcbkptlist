@@ -73,13 +73,13 @@
                   symbolName = "-[MZKDetailViewController pageResolutionDownloadFailed]"
                   moduleName = "MZK_iOS"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ondrejvyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/MZKDetailViewController.m"
-                  timestampString = "480578384.173243"
+                  urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/MZKDetailViewController.m"
+                  timestampString = "481038177.844624"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "310"
                   endingLineNumber = "310"
-                  offsetFromSymbolStart = "340">
+                  offsetFromSymbolStart = "336">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -88,8 +88,8 @@
                   symbolName = "__55-[MZKDetailViewController pageResolutionDownloadFailed]_block_invoke.203"
                   moduleName = "MZK_iOS"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ondrejvyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/MZKDetailViewController.m"
-                  timestampString = "480578384.173398"
+                  urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/MZKDetailViewController.m"
+                  timestampString = "481038177.844758"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "312"

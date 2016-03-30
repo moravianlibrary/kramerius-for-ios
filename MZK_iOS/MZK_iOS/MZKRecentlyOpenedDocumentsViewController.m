@@ -24,6 +24,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+   
+    [self.view setNeedsLayout];
     // Do any additional setup after loading the view.
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     
