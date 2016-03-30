@@ -2103,12 +2103,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="IFo-AV-RUT" firstAttribute="leading" secondItem="igH-t1-f3y" secondAttribute="leadingMargin" constant="-20" id="2nu-JR-ATQ"/>
-                            <constraint firstItem="3KY-lX-9Q0" firstAttribute="top" secondItem="IFo-AV-RUT" secondAttribute="bottom" id="H0f-fL-yMc"/>
-                            <constraint firstItem="IFo-AV-RUT" firstAttribute="centerX" secondItem="igH-t1-f3y" secondAttribute="centerX" id="MmM-ZB-TNG"/>
+                            <constraint firstItem="IFo-AV-RUT" firstAttribute="leading" secondItem="igH-t1-f3y" secondAttribute="leading" id="2nu-JR-ATQ"/>
                             <constraint firstItem="IFo-AV-RUT" firstAttribute="top" secondItem="zVH-XE-ryS" secondAttribute="bottom" constant="-20" id="ObT-ZR-HOA"/>
-                            <constraint firstItem="IFo-AV-RUT" firstAttribute="centerY" secondItem="igH-t1-f3y" secondAttribute="centerY" id="Pum-aa-QzC"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="IFo-AV-RUT" secondAttribute="trailing" constant="-20" id="fRf-Qi-R5Y"/>
+                            <constraint firstAttribute="trailing" secondItem="IFo-AV-RUT" secondAttribute="trailing" id="fRf-Qi-R5Y"/>
+                            <constraint firstItem="3KY-lX-9Q0" firstAttribute="top" secondItem="IFo-AV-RUT" secondAttribute="bottom" id="rmF-HV-uVf"/>
                         </constraints>
                     </view>
                     <connections>
@@ -2333,9 +2331,9 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
         <image name="pages" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="qb8-KB-KCP"/>
+        <segue reference="XQT-17-INL"/>
+        <segue reference="Odm-xX-m6u"/>
         <segue reference="pB0-yE-dEK"/>
-        <segue reference="rs0-rK-WcW"/>
-        <segue reference="wpv-e5-UGR"/>
-        <segue reference="Gmw-Rc-QWP"/>
     </inferredMetricsTieBreakers>
 </document>
