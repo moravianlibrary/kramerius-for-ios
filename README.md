@@ -2,7 +2,7 @@
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
-### What is this repository for? ###
+### This is repository for MZK Kramerius iOS client ###
 
 * Quick summary
 * Version
@@ -10,12 +10,9 @@ This README would normally document whatever steps are necessary to get your app
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* pull master branch
+* run cocoapods 
+* ready to go
 
 ### Contribution guidelines ###
 
@@ -25,5 +22,5 @@ This README would normally document whatever steps are necessary to get your app
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
+* MZK
 * Other community or team contact
