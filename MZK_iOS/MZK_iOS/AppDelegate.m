@@ -11,7 +11,7 @@
 #import "MZKConstants.h"
 #import <Google/Analytics.h>
 
-@interface AppDelegate ()<MSDynamicsDrawerViewControllerDelegate>
+@interface AppDelegate ()
 
 @end
 
