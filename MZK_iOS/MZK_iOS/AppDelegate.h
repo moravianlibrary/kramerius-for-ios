@@ -16,7 +16,6 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
 @property (nonatomic, strong) MZKResourceItem *defaultDatasourceItem;
 @property (nonatomic, strong) MZKDatabaseManager *dbManager;
 @property (nonatomic, strong) NSArray *dbResultsInfo;

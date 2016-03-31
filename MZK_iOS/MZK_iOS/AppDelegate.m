@@ -7,9 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "MZKMenuViewController.h"
-#import  "MZKConstants.h"
-#import "MSDynamicsDrawerViewController.h"
+#import "MZKConstants.h"
 #import "MZKConstants.h"
 #import <Google/Analytics.h>
 
@@ -30,20 +28,6 @@
     }
     
     
-    self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
-    
-    //setup menu and dynamic drawer
-    self.dynamicsDrawerViewController.delegate = self;
-    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerParallaxStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
-    
-    
-    MZKMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"MZKMenuViewController"];
-    menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;
-    [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
-    
-    
-    // Transition to the first view controller
-    [menuViewController transitionToViewController:MZKMainViewController];
     
     // Configure tracker from GoogleService-Info.plist.
     NSError *configureError;
@@ -79,7 +63,7 @@
         
     });
     
-    self.window.rootViewController = self.dynamicsDrawerViewController;
+  //  self.window.rootViewController = self.dynamicsDrawerViewController;
     
     [self loadRecentlyOpened];
     
