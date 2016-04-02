@@ -32,6 +32,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self loadDataForController];
+    self.title = @"Kolekce";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
     [self initGoogleAnalytics];
