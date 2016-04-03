@@ -240,7 +240,9 @@
     
     if ([po.model isEqualToString:@"soundunit"]) {
         [[MZKMusicViewController sharedInstance] setItemPID:po.pid];
-        [self presentViewController:[MZKMusicViewController sharedInstance] animated:YES completion:nil];
+     //   [self presentViewController:[MZKMusicViewController sharedInstance] animated:YES completion:nil];
+        [self.tabBarController setSelectedViewController:[MZKMusicViewController sharedInstance]];
+        [self onClose:nil];
         
         
     }

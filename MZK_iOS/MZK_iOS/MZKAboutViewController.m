@@ -42,6 +42,7 @@
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
     _version.text =appVersion;
+    self.title = @"O aplikaci";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,7 +65,9 @@
 {
     if ([label isEqual:self.link]) {
         
-       // [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.mzk.cz/"]];
+        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"http://www.mzk.cz/"]]) {
+            [[UIApplication sharedApplication] openURL:url];
+        }
     }
 }
 - (IBAction)onBack:(id)sender {

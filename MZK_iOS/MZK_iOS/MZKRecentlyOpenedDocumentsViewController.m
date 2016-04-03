@@ -28,6 +28,7 @@
     [self.view setNeedsLayout];
     // Do any additional setup after loading the view.
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    self.title = @"Naposled otevřené";
     
     _recentlyOpened = delegate.loadRecentlyOpened;
     [_collectionView reloadData];

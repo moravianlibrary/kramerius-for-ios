@@ -41,6 +41,15 @@
 @end
 
 @implementation MZKMainViewController
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    if (self) {
+        self.navigationController.tabBarItem.title = @"Knihovna";
+    }
+    return self;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -62,8 +71,7 @@
     //get name of selected library
     AppDelegate *del = [[UIApplication sharedApplication] delegate];
     NSString *libName = [[del getDatasourceItem] name];
-    
-    self.title = libName;
+    self.navigationItem.title = libName;
 }
 
 -(void)initGoogleAnalytics
@@ -459,6 +467,9 @@
 
 -(void)showDimmingView
 {
+    if (_dimmingView.hidden) {
+        _dimmingView.hidden = NO;
+    }
     [UIView animateWithDuration:0.4 animations:^{
         _dimmingView.alpha = 0.4;
     }];
