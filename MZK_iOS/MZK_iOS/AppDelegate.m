@@ -27,6 +27,7 @@
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:kSettingsShowOnlyPublicDocuments];
     }
     
+    self.menuTabBar = (MZKTabBarMenuViewController*)self.window.rootViewController;
     
     
     // Configure tracker from GoogleService-Info.plist.
@@ -342,6 +343,13 @@
         
     }
     return nil;
+}
+
+#pragma mark - menu tab bar
+
+-(void)transitionToMusicViewController
+{
+    [self.menuTabBar setSelectedIndex:4];
 }
 
 

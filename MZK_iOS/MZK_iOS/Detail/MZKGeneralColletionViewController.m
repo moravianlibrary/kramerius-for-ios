@@ -236,13 +236,23 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     MZKPageObject *po =[_items objectAtIndex:indexPath.row];
-    // [_datasource getItem:po.pid];
     
     if ([po.model isEqualToString:@"soundunit"]) {
-        [[MZKMusicViewController sharedInstance] setItemPID:po.pid];
+        
      //   [self presentViewController:[MZKMusicViewController sharedInstance] animated:YES completion:nil];
-        [self.tabBarController setSelectedViewController:[MZKMusicViewController sharedInstance]];
+        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        
+        [delegate transitionToMusicViewController];
+        
+        [[MZKMusicViewController sharedInstance] setItemPID:po.pid];
+        
+        
         [self onClose:nil];
+        
+        //UIStoryboard* storyboard   = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+       // UITabBarController *tabBar = [storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+       // tabBar.selectedViewController = [tabBar.viewControllers objectAtIndex:4];
+        // [tabBar setSelectedViewController:[MZKMusicViewController sharedInstance]];
         
         
     }
