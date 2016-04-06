@@ -39,7 +39,7 @@
 -(NSArray *)getLanguageFromCode:(NSString *)languageCode;
 -(NSString *)getLocationFromCode:(NSString *)locationCode;
 
--(void)transitionToMusicViewController;
+-(void)transitionToMusicViewControllerWithSelectedMusic:(NSString *)pid;
 
 @end
 

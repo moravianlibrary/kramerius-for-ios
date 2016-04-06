@@ -239,21 +239,10 @@
     
     if ([po.model isEqualToString:@"soundunit"]) {
         
-     //   [self presentViewController:[MZKMusicViewController sharedInstance] animated:YES completion:nil];
+         [self onClose:nil];
         AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
         
-        [delegate transitionToMusicViewController];
-        
-        [[MZKMusicViewController sharedInstance] setItemPID:po.pid];
-        
-        
-        [self onClose:nil];
-        
-        //UIStoryboard* storyboard   = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-       // UITabBarController *tabBar = [storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-       // tabBar.selectedViewController = [tabBar.viewControllers objectAtIndex:4];
-        // [tabBar setSelectedViewController:[MZKMusicViewController sharedInstance]];
-        
+        [delegate transitionToMusicViewControllerWithSelectedMusic:po.pid];
         
     }
     else if (po.datanode) {

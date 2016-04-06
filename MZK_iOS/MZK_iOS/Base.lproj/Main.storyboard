@@ -72,17 +72,17 @@
         <!--Music View Controller-->
         <scene sceneID="6ru-TK-rIp">
             <objects>
-                <viewController storyboardIdentifier="MZKMusicViewController" id="s6h-by-1vs" customClass="MZKMusicViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MZKMusicViewController" extendedLayoutIncludesOpaqueBars="YES" id="s6h-by-1vs" customClass="MZKMusicViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ea3-Md-Nx2"/>
                         <viewControllerLayoutGuide type="bottom" id="ttI-NI-wNS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="mq3-W2-hmN">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uTt-cs-27u" userLabel="topBar">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uTt-cs-27u" userLabel="topBar">
+                                <rect key="frame" x="0.0" y="64" width="600" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vqp-vO-txu">
                                         <rect key="frame" x="546" y="12" width="46" height="30"/>
@@ -107,23 +107,23 @@
                                     <constraint firstAttribute="trailing" secondItem="vqp-vO-txu" secondAttribute="trailing" constant="8" id="vS1-at-fUl"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="udx-A0-zCY">
-                                <rect key="frame" x="0.0" y="50" width="600" height="550"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="udx-A0-zCY">
+                                <rect key="frame" x="0.0" y="114" width="600" height="437"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1sj-gZ-f3M">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="327"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1sj-gZ-f3M">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="214"/>
                                         <subviews>
-                                            <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5a4-le-Pbl">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="327"/>
+                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5a4-le-Pbl">
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="214"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kqy-OQ-TAT">
-                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="327"/>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kqy-OQ-TAT">
+                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="214"/>
                                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     </imageView>
-                                                    <visualEffectView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hgy-x6-yB2">
-                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="327"/>
+                                                    <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgy-x6-yB2">
+                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="214"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="iCB-nC-vZU">
-                                                            <rect key="frame" x="0.0" y="0.0" width="600" height="327"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="600" height="214"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </view>
                                                         <vibrancyEffect>
@@ -162,8 +162,8 @@
                                             <constraint firstItem="nlR-CT-Mw8" firstAttribute="top" secondItem="1sj-gZ-f3M" secondAttribute="top" constant="37" id="sd7-z9-f51"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zyN-ys-g7v">
-                                        <rect key="frame" x="140" y="342" width="320" height="127"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zyN-ys-g7v">
+                                        <rect key="frame" x="140" y="229" width="320" height="127"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IY9-hX-xJ0">
                                                 <rect key="frame" x="8" y="8" width="80" height="21"/>
@@ -278,9 +278,7 @@
                             <constraint firstItem="uTt-cs-27u" firstAttribute="leading" secondItem="mq3-W2-hmN" secondAttribute="leadingMargin" constant="-20" id="uGd-NQ-pNW"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="ZSO-f1-1To"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
@@ -298,7 +296,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mii-Ja-VSa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="518" y="-734"/>
+            <point key="canvasLocation" x="686" y="-1686"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="wqE-f1-peW">
@@ -2119,7 +2117,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fuc-tt-izq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1042" y="-1594"/>
+            <point key="canvasLocation" x="-246" y="-1714"/>
         </scene>
         <!--Naposled otevřené-->
         <scene sceneID="9Lp-KR-pSg">
@@ -2182,8 +2180,8 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
         <image name="settings_outline_g" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rs0-rK-WcW"/>
         <segue reference="wpv-e5-UGR"/>
-        <segue reference="pB0-yE-dEK"/>
+        <segue reference="zEy-1m-U9d"/>
+        <segue reference="rs0-rK-WcW"/>
     </inferredMetricsTieBreakers>
 </document>

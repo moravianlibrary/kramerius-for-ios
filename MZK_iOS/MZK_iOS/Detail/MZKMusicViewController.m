@@ -70,6 +70,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
     dispatch_once(&once, ^{
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         sharedInstance = [storyboard instantiateViewControllerWithIdentifier:@"MZKMusicViewController"];
+        [sharedInstance view];
         
     });
     return sharedInstance;}
@@ -83,7 +84,6 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
         [self loadThumbnailImageForItem:_currentItemPID];
     }
     [self initGoogleAnalytics];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"playbackStarted" object:nil];
     
     // NOTIFICATIONS
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -176,10 +176,19 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
 
 -(void)detailForItemLoaded:(MZKItemResource *)item
 {
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf detailForItemLoaded:item];
+        });
+        return;
+    }
+
 
     _currentItem = item;
     
-    [self updateViews];
+  
     
     [_datasource getChildrenForItem:_currentItem.pid];
 }
@@ -191,7 +200,24 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
 
 -(void)childrenForItemLoaded:(NSArray *)items
 {
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf childrenForItemLoaded:items];
+        });
+        return;
+    }
     _availableTracks = items;
+    
+    _timeSlider.value = 0;
+    if (_currentItemPID) {
+        [self loadFullImageForItem:_currentItemPID];
+        [self loadThumbnailImageForItem:_currentItemPID];
+    }
+    
+      [self updateViews];
+   
     
     if (_availableTracks.count ==1) {
         [self playItemWithPID:((MZKPageObject *)_availableTracks.firstObject).pid];
@@ -816,7 +842,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
                                    localizedDescription, NSLocalizedDescriptionKey,
                                    localizedFailureReason, NSLocalizedFailureReasonErrorKey,
                                    nil];
-        NSError *assetCannotBePlayedError = [NSError errorWithDomain:@"StitchedStreamPlayer" code:0 userInfo:errorDict];
+        NSError *assetCannotBePlayedError = [NSError errorWithDomain:@"PlayerError" code:0 userInfo:errorDict];
         
         /* Display the error to the user. */
         [self assetFailedToPrepareForPlayback:assetCannotBePlayedError];
@@ -859,6 +885,7 @@ static void *AVPlayerViewControllerCurrentItemObservationContext = &AVPlayerView
     /* Create new player, if we don't already have one. */
     if (!_musicPlayer)
     {
+        NSLog(@"Music player initialization");
         /* Get a new AVPlayer initialized to play the specified player item. */
         _musicPlayer = [AVPlayer playerWithPlayerItem:_musicPlayerItem];
         

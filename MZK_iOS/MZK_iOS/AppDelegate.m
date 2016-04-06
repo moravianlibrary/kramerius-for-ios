@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MZKConstants.h"
-#import "MZKConstants.h"
+#import "MZKMusicViewController.h"
 #import <Google/Analytics.h>
 
 @interface AppDelegate ()
@@ -28,6 +28,8 @@
     }
     
     self.menuTabBar = (MZKTabBarMenuViewController*)self.window.rootViewController;
+    __weak typeof(self) wealf = self;
+    self.menuTabBar.delegate = wealf;
     
     
     // Configure tracker from GoogleService-Info.plist.
@@ -50,9 +52,7 @@
     }
     
     // init DB manager
-    
-    __weak typeof(self) wealf = self;
-    
+  
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         // Do the work associated with the task, preferably in chunks.
@@ -64,8 +64,11 @@
         
     });
     
-  //  self.window.rootViewController = self.dynamicsDrawerViewController;
-    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+////   
+////    MZKMusicViewController *nextViewController = [storyboard instantiateViewControllerWithIdentifier:@"MZKMusicViewController"];
+////    nextViewController.view;
+////        
     [self loadRecentlyOpened];
     
     return YES;
@@ -347,9 +350,21 @@
 
 #pragma mark - menu tab bar
 
--(void)transitionToMusicViewController
+-(void)transitionToMusicViewControllerWithSelectedMusic:(NSString *)pid
 {
     [self.menuTabBar setSelectedIndex:4];
+    
+    if ([[self.menuTabBar.viewControllers objectAtIndex:4] isKindOfClass:[UINavigationController class]]) {
+        
+        
+        UINavigationController *tmpNav = [self.menuTabBar.viewControllers objectAtIndex:4];
+        MZKMusicViewController *tmpMusicVC = tmpNav.viewControllers[0];
+        [tmpMusicVC setItemPID:pid];
+        tmpMusicVC.view;
+    }
+
+   // [[MZKMusicViewController sharedInstance] setItemPID:pid];
+    
 }
 
 
