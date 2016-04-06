@@ -1032,8 +1032,8 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="E9e-kf-V8U">
-                                <rect key="frame" x="0.0" y="70" width="600" height="530"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="E9e-kf-V8U">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="J7B-PU-kfk">
                                     <size key="itemSize" width="300" height="140"/>
@@ -1153,7 +1153,7 @@
                             <constraint firstAttribute="centerX" secondItem="E9e-kf-V8U" secondAttribute="centerX" id="YeU-Rx-8QN"/>
                             <constraint firstItem="Wbv-L4-sm5" firstAttribute="top" secondItem="E9e-kf-V8U" secondAttribute="bottom" id="fPJ-ug-jj7"/>
                             <constraint firstItem="E9e-kf-V8U" firstAttribute="leading" secondItem="0Yc-e9-F4L" secondAttribute="leadingMargin" constant="-20" id="xZi-Ak-2qc"/>
-                            <constraint firstAttribute="centerY" secondItem="E9e-kf-V8U" secondAttribute="centerY" constant="-35" id="zlj-ya-yuk"/>
+                            <constraint firstAttribute="centerY" secondItem="E9e-kf-V8U" secondAttribute="centerY" constant="24.5" id="zlj-ya-yuk"/>
                             <constraint firstAttribute="trailingMargin" secondItem="E9e-kf-V8U" secondAttribute="trailing" constant="-20" id="zso-wQ-yXc"/>
                         </constraints>
                     </view>
@@ -2182,6 +2182,6 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
     <inferredMetricsTieBreakers>
         <segue reference="wpv-e5-UGR"/>
         <segue reference="zEy-1m-U9d"/>
-        <segue reference="rs0-rK-WcW"/>
+        <segue reference="vUe-Rc-ptJ"/>
     </inferredMetricsTieBreakers>
 </document>
