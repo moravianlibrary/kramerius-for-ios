@@ -310,16 +310,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EbB-4O-cbx">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="EbB-4O-cbx">
                                 <rect key="frame" x="0.0" y="0.0" width="599" height="600"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hMS-ji-pSk">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hMS-ji-pSk">
                                         <rect key="frame" x="0.0" y="0.0" width="599" height="600"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="hMS-ji-pSk" firstAttribute="centerX" secondItem="EbB-4O-cbx" secondAttribute="centerX" id="8cg-SV-j8D"/>
                                     <constraint firstAttribute="trailing" secondItem="hMS-ji-pSk" secondAttribute="trailing" id="8hd-7W-gAm"/>
                                     <constraint firstItem="hMS-ji-pSk" firstAttribute="leading" secondItem="EbB-4O-cbx" secondAttribute="leading" id="Ozr-c7-fUt"/>
+                                    <constraint firstItem="hMS-ji-pSk" firstAttribute="centerY" secondItem="EbB-4O-cbx" secondAttribute="centerY" id="Zj0-gz-Izo"/>
                                     <constraint firstAttribute="bottom" secondItem="hMS-ji-pSk" secondAttribute="bottom" id="cxa-43-7dR"/>
                                     <constraint firstItem="hMS-ji-pSk" firstAttribute="top" secondItem="EbB-4O-cbx" secondAttribute="top" id="oqO-Da-4fT"/>
                                 </constraints>
@@ -440,7 +442,7 @@
                                     <action selector="onPreviousPage:" destination="l9D-rH-xq3" eventType="touchUpInside" id="DyN-Dl-S88"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="nrp-rR-oxq">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="nrp-rR-oxq">
                                 <rect key="frame" x="30" y="51" width="538" height="449"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -2181,7 +2183,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="wpv-e5-UGR"/>
-        <segue reference="zEy-1m-U9d"/>
         <segue reference="vUe-Rc-ptJ"/>
+        <segue reference="pB0-yE-dEK"/>
     </inferredMetricsTieBreakers>
 </document>
