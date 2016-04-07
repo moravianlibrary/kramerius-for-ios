@@ -36,7 +36,14 @@
     NSLog(@"Mods desc:%@", [mods description]);
     MZKDetailInformationModel *detailModel = [MZKDetailInformationModel new];
     
-    detailModel.identifiersInfo = [self parseIdentifiersFrom:[mods objectForKey:@"identifier"]];
+    NSArray *modsArray;
+    if ([[mods objectForKey:@"identifier"] isKindOfClass:[NSDictionary class]]) {
+        modsArray = [NSArray arrayWithObject:[mods objectForKey:@"identifier"]];
+    }else{
+        modsArray = [mods objectForKey:@"identifier"];
+    }
+
+    detailModel.identifiersInfo = [self parseIdentifiersFrom:modsArray];
     
     //lang
     
@@ -48,6 +55,8 @@
     {
         lang = [mods objectForKey:@"language"];
     }
+    
+    
     if(lang)
     {
         NSDictionary *lanTerm = [lang objectForKey:@"languageTerm"];
@@ -69,23 +78,29 @@
     
     if ([mods objectForKey:@"titleInfo"]) {
         
-        NSArray *objectsArray;
-        if ([[mods objectForKey:@"titleInfo"] isKindOfClass:[NSDictionary class]]) {
+        @try {
+            NSArray *objectsArray;
+            if ([[mods objectForKey:@"titleInfo"] isKindOfClass:[NSDictionary class]]) {
+                
+                objectsArray = [NSArray arrayWithObject:[mods objectForKey:@"titleInfo"]];
+                
+            }
+            else if ([[mods objectForKey:@"titleInfo"] isKindOfClass:[NSArray class]])
+            {
+                objectsArray = [mods objectForKey:@"titleInfo"];
+                
+            }
             
-            objectsArray = [NSArray arrayWithObject:[mods objectForKey:@"titleInfo"]];
+            detailModel = [self parseTitleInfoFromArray:objectsArray toDetailModel:detailModel];
+        } @catch (NSException *exception) {
+            NSLog(@"%@",exception.description);
+        } @finally {
             
         }
-        else if ([[mods objectForKey:@"titleInfo"] isKindOfClass:[NSArray class]])
-        {
-            objectsArray = [mods objectForKey:@"titleInfo"];
-            
-        }
-        
-        detailModel = [self parseTitleInfoFromArray:objectsArray toDetailModel:detailModel];
+       
     }
     
-    
-    
+
     //location
     NSDictionary *location = [mods objectForKey:@"location"];
     if (location) {
@@ -366,30 +381,37 @@
     if (!arr) return nil;
     MZKDetailIdentifierInfo *info = [MZKDetailIdentifierInfo new];
     
-    for (NSDictionary *d in arr) {
-        NSString *type = [d objectForKey:@"type"];
+    @try {
+        for (NSDictionary *d in arr) {
+            NSString *type = [d objectForKey:@"type"];
+            
+            if ([type isEqualToString:@"sysno"]) {
+                info.sysno = [d objectForKey:@"text"];
+                
+            } else if ([type isEqualToString:@"uuid"])
+            {
+                info.uuid = [d objectForKey:@"text"];
+                
+            }else if ([type isEqualToString:@"issn"])
+            {
+                info.issn = [d objectForKey:@"text"];
+            }
+            else if ([type isEqualToString:@"oclc"])
+            {
+                info.oclc = [d objectForKey:@"text"];
+            }
+            else if ([type isEqualToString:@"ccnb"])
+            {
+                info.ccnb = [d objectForKey:@"text"];
+            }
+        }
+
+    } @catch (NSException *exception) {
+        NSLog(@"%@", exception.description);
+    } @finally {
         
-        if ([type isEqualToString:@"sysno"]) {
-            info.sysno = [d objectForKey:@"text"];
-            
-        } else if ([type isEqualToString:@"uuid"])
-        {
-            info.uuid = [d objectForKey:@"text"];
-            
-        }else if ([type isEqualToString:@"issn"])
-        {
-            info.issn = [d objectForKey:@"text"];
-        }
-        else if ([type isEqualToString:@"oclc"])
-        {
-            info.oclc = [d objectForKey:@"text"];
-        }
-        else if ([type isEqualToString:@"ccnb"])
-        {
-            info.ccnb = [d objectForKey:@"text"];
-        }
     }
-    return info;
+       return info;
 }
 
 -(void)getDetailInformationAboutDocument:(NSString *)pid
