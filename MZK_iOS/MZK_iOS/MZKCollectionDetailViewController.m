@@ -34,7 +34,7 @@
 - (void)viewDidLoad {
     // Do any additional setup after loading the view.
     [super viewDidLoad];
-    self.collectionName.text = _selectedCollectionName;
+    self.title = _selectedCollectionName;
     
     [self initGoogleAnalytics];
 }

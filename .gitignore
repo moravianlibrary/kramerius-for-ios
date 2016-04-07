@@ -1,3 +1,15 @@
 MZK_iOS/Build/*
 
 
+MZK_iOS/Pods/Pods.xcodeproj/project.pbxproj
+MZK_iOS/Pods/Pods.xcodeproj/xcuserdata/OndrejVyhlidal.xcuserdatad/xcschemes/AFNetworking.xcscheme
+MZK_iOS/Pods/Pods.xcodeproj/xcuserdata/OndrejVyhlidal.xcuserdatad/xcschemes/CocoaLumberjack.xcscheme
+MZK_iOS/Pods/Pods.xcodeproj/xcuserdata/OndrejVyhlidal.xcuserdatad/xcschemes/Pods-MZK_iOS.xcscheme
+MZK_iOS/Pods/Pods.xcodeproj/xcuserdata/OndrejVyhlidal.xcuserdatad/xcschemes/SDWebImage.xcscheme
+MZK_iOS/Pods/Pods.xcodeproj/xcuserdata/OndrejVyhlidal.xcuserdatad/xcschemes/TTTAttributedLabel.xcscheme
+MZK_iOS/Pods/Pods.xcodeproj/xcuserdata/OndrejVyhlidal.xcuserdatad/xcschemes/xcschememanagement.plist
+MZK_iOS/Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS-acknowledgements.markdown
+MZK_iOS/Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS-acknowledgements.plist
+MZK_iOS/Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS-frameworks.sh
+MZK_iOS/Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.debug.xcconfig
+MZK_iOS/Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.release.xcconfig

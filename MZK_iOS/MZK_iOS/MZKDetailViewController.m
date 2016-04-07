@@ -15,10 +15,13 @@
 #import <Google/Analytics.h>
 #import "MZKDetailInformationViewController.h"
 #import "MyURLProtocol.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "UIImageView+ProgressView.h"
+
 
 NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
-@interface MZKDetailViewController ()<DataLoadedDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, PageResolutionLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface MZKDetailViewController ()<DataLoadedDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, PageResolutionLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 {
     MZKDatasource *detailDatasource;
     MZKItemResource *loadedItem;
@@ -42,6 +45,14 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 @property (weak, nonatomic) IBOutlet UIView *collectionViewContainer;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionPageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomBarSpaceConstraint;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIImageView *imageZoomView;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTrailingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewLeadingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewTopConstraint;
+
 
 - (IBAction)onClose:(id)sender;
 - (IBAction)onPageChanged:(id)sender;
@@ -151,12 +162,14 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 -(void)displayItemWithJPGResource:(MZKPageObject *)page
 {
-#warning remove hardcoded value for page height!
     // image server let
+    // http://kramerius.mzk.cz/search/img?pid=uuid:1c0e5c47-435f-11dd-b505-00145e5790ea&stream=IMG_FULL&action=SCALE&scaledHeight=1000
     
-   // http://kramerius.mzk.cz/search/img?pid=uuid:1c0e5c47-435f-11dd-b505-00145e5790ea&stream=IMG_FULL&action=SCALE&scaledHeight=1000
+    // use scrollview instead of UIWebView, use SDWebImage
     
-    
+    self.webView.hidden = YES;
+    self.scrollView.hidden = NO;
+        
     NSLog(@"Page resolution Not Loaded");
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     // /search/api/v5.0/item/uuid:a2b0851b-aa48-11e1-b7f6-0050569d679d/streams/IMG_FULL
@@ -164,14 +177,15 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     NSString *load = [NSString stringWithFormat:@"%@://%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL, page.pid, [NSString stringWithFormat:@"%d", 1000]];
     
     NSURL *finalURL = [NSURL URLWithString:load];
-    NSURLRequest *request = [NSURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:(NSTimeInterval)50 ];
+   // NSURLRequest *request = [NSURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:(NSTimeInterval)50 ];
     
     
-    [_webView setBackgroundColor:[UIColor blackColor]];
-    [_webView setContentMode:UIViewContentModeScaleToFill];
-    [_webView.scrollView setContentSize:CGSizeMake(_webView.frame.size.width, _webView.frame.size.height)];
-    [_webView loadRequest:request];
-    
+    [_imageZoomView sd_setImageWithURL:finalURL placeholderImage:nil options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)  {
+        
+    } usingProgressView:nil];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -688,5 +702,67 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         
     }
 }
+
+-(void)viewDidLayoutSubviews
+{
+    if (!_scrollView.hidden) {
+        [self updateMinZoomScaleForSize:self.view.bounds.size];
+    }
+    
+}
+
+#pragma mark - UIScrollViewDelegate
+
+-(UIImageView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return _imageZoomView;
+}
+
+-(void)updateMinZoomScaleForSize:(CGSize)size
+{
+    float widthScale = size.width / _imageZoomView.bounds.size.width;
+    float heightScale = size.height / _imageZoomView.bounds.size.height;
+    float minScale = MIN(widthScale, heightScale);
+    
+    _scrollView.minimumZoomScale = minScale;
+    
+    _scrollView.zoomScale = minScale;
+
+}
+
+-(void)updateConstraintsForSize:(CGSize)size
+{
+    float yOffset = MAX(0, (size.height - _imageZoomView.frame.size.height) / 2);
+    _imageViewTopConstraint.constant = yOffset;
+    _imageViewBottomConstraint.constant = yOffset;
+    
+    float xOffset = MAX(0, (size.width - _imageZoomView.frame.size.width) / 2);
+    _imageViewLeadingConstraint.constant = xOffset;
+    _imageViewTrailingConstraint.constant = xOffset;
+    
+    [self.view layoutIfNeeded];
+}
+
+-(void)scrollViewDidZoom:(UIScrollView *)scrollView
+{
+    [self updateConstraintsForSize:self.view.bounds.size];
+}
+
+#pragma mark -
+
+
+
+//private func updateConstraintsForSize(size: CGSize) {
+//    
+//    let yOffset = max(0, (size.height - imageView.frame.height) / 2)
+//    imageViewTopConstraint.constant = yOffset
+//    imageViewBottomConstraint.constant = yOffset
+//    
+//    let xOffset = max(0, (size.width - imageView.frame.width) / 2)
+//    imageViewLeadingConstraint.constant = xOffset
+//    imageViewTrailingConstraint.constant = xOffset
+//    
+//    view.layoutIfNeeded()
+//}
 
 @end

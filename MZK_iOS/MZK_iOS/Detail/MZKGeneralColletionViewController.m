@@ -236,12 +236,13 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     MZKPageObject *po =[_items objectAtIndex:indexPath.row];
-    // [_datasource getItem:po.pid];
     
     if ([po.model isEqualToString:@"soundunit"]) {
-        [[MZKMusicViewController sharedInstance] setItemPID:po.pid];
-        [self presentViewController:[MZKMusicViewController sharedInstance] animated:YES completion:nil];
         
+         [self onClose:nil];
+        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        
+        [delegate transitionToMusicViewControllerWithSelectedMusic:po.pid];
         
     }
     else if (po.datanode) {

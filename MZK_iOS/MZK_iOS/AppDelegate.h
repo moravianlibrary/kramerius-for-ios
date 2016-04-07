@@ -10,19 +10,20 @@
 #import "MZKResourceItem.h"
 #import "MZKDatabaseManager.h"
 #import "MZKItemResource.h"
+#import "MZKTabBarMenuViewController.h"
 
 @class MSDynamicsDrawerViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) MSDynamicsDrawerViewController *dynamicsDrawerViewController;
 @property (nonatomic, strong) MZKResourceItem *defaultDatasourceItem;
 @property (nonatomic, strong) MZKDatabaseManager *dbManager;
 @property (nonatomic, strong) NSArray *dbResultsInfo;
 @property (nonatomic, strong) NSArray *dbInstitutionsInfo;
 @property (nonatomic, strong) NSArray *dbLangInfo;
 @property (nonatomic, strong) NSMutableArray *recentlyOpenedDocuments;
+@property (nonatomic, strong) MZKTabBarMenuViewController *menuTabBar;
 
 
 -(void)saveToUserDefaults:(MZKResourceItem *)item;
@@ -38,6 +39,7 @@
 -(NSArray *)getLanguageFromCode:(NSString *)languageCode;
 -(NSString *)getLocationFromCode:(NSString *)locationCode;
 
+-(void)transitionToMusicViewControllerWithSelectedMusic:(NSString *)pid;
 
 @end
 

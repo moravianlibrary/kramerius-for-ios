@@ -81,17 +81,25 @@
     //location
     NSDictionary *location = [mods objectForKey:@"location"];
     if (location) {
-        NSDictionary *physicalLoc = [location objectForKey:@"physicalLocation"];
-        NSDictionary *shelfLoc = [location objectForKey:@"shelfLocator"];
-        if (physicalLoc) {
-            detailModel.physicalLocation = [physicalLoc objectForKey:@"text"];
+        @try {
+            NSDictionary *physicalLoc = [location objectForKey:@"physicalLocation"];
+            NSDictionary *shelfLoc = [location objectForKey:@"shelfLocator"];
+            if (physicalLoc) {
+                detailModel.physicalLocation = [physicalLoc objectForKey:@"text"];
+                
+                detailModel.physicalLocation = [((AppDelegate *)[[UIApplication sharedApplication] delegate]) getLocationFromCode:detailModel.physicalLocation];
+            }
             
-            detailModel.physicalLocation = [((AppDelegate *)[[UIApplication sharedApplication] delegate]) getLocationFromCode:detailModel.physicalLocation];
-        }
-        
-        if (shelfLoc) {
-            detailModel.shelfLocation = [physicalLoc objectForKey:@"text"];
-        }
+            if (shelfLoc) {
+                detailModel.shelfLocation = [physicalLoc objectForKey:@"text"];
+            }
+
+        } @catch (NSException *exception) {
+            NSLog(@"Location Parsing error!");
+            
+        } @finally {
+            
+                   }
         
     }
     

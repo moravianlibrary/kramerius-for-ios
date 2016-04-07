@@ -7,13 +7,11 @@
 //
 
 #import "AppDelegate.h"
-#import "MZKMenuViewController.h"
-#import  "MZKConstants.h"
-#import "MSDynamicsDrawerViewController.h"
 #import "MZKConstants.h"
+#import "MZKMusicViewController.h"
 #import <Google/Analytics.h>
 
-@interface AppDelegate ()<MSDynamicsDrawerViewControllerDelegate>
+@interface AppDelegate ()
 
 @end
 
@@ -29,21 +27,10 @@
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:kSettingsShowOnlyPublicDocuments];
     }
     
+    self.menuTabBar = (MZKTabBarMenuViewController*)self.window.rootViewController;
+    __weak typeof(self) wealf = self;
+    self.menuTabBar.delegate = wealf;
     
-    self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
-    
-    //setup menu and dynamic drawer
-    self.dynamicsDrawerViewController.delegate = self;
-    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerParallaxStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
-    
-    
-    MZKMenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"MZKMenuViewController"];
-    menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;
-    [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
-    
-    
-    // Transition to the first view controller
-    [menuViewController transitionToViewController:MZKMainViewController];
     
     // Configure tracker from GoogleService-Info.plist.
     NSError *configureError;
@@ -65,9 +52,7 @@
     }
     
     // init DB manager
-    
-    __weak typeof(self) wealf = self;
-    
+  
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         // Do the work associated with the task, preferably in chunks.
@@ -79,8 +64,11 @@
         
     });
     
-    self.window.rootViewController = self.dynamicsDrawerViewController;
-    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+////   
+////    MZKMusicViewController *nextViewController = [storyboard instantiateViewControllerWithIdentifier:@"MZKMusicViewController"];
+////    nextViewController.view;
+////        
     [self loadRecentlyOpened];
     
     return YES;
@@ -358,6 +346,25 @@
         
     }
     return nil;
+}
+
+#pragma mark - menu tab bar
+
+-(void)transitionToMusicViewControllerWithSelectedMusic:(NSString *)pid
+{
+    [self.menuTabBar setSelectedIndex:4];
+    
+    if ([[self.menuTabBar.viewControllers objectAtIndex:4] isKindOfClass:[UINavigationController class]]) {
+        
+        
+        UINavigationController *tmpNav = [self.menuTabBar.viewControllers objectAtIndex:4];
+        MZKMusicViewController *tmpMusicVC = tmpNav.viewControllers[0];
+        [tmpMusicVC setItemPID:pid];
+        tmpMusicVC.view;
+    }
+
+   // [[MZKMusicViewController sharedInstance] setItemPID:pid];
+    
 }
 
 
