@@ -39,7 +39,15 @@
     detailModel.identifiersInfo = [self parseIdentifiersFrom:[mods objectForKey:@"identifier"]];
     
     //lang
-    NSDictionary *lang = [mods objectForKey:@"language"];
+    
+    NSDictionary *lang;
+    if (![[mods objectForKey:@"language"] isKindOfClass:[NSDictionary class]]) {
+        lang = [mods objectForKey:@"language"][0];
+    }
+    else
+    {
+        lang = [mods objectForKey:@"language"];
+    }
     if(lang)
     {
         NSDictionary *lanTerm = [lang objectForKey:@"languageTerm"];
@@ -58,7 +66,7 @@
     }
     
     //title info - title and subtitle
-
+    
     if ([mods objectForKey:@"titleInfo"]) {
         
         NSArray *objectsArray;
@@ -82,24 +90,41 @@
     NSDictionary *location = [mods objectForKey:@"location"];
     if (location) {
         @try {
-            NSDictionary *physicalLoc = [location objectForKey:@"physicalLocation"];
-            NSDictionary *shelfLoc = [location objectForKey:@"shelfLocator"];
-            if (physicalLoc) {
-                detailModel.physicalLocation = [physicalLoc objectForKey:@"text"];
-                
-                detailModel.physicalLocation = [((AppDelegate *)[[UIApplication sharedApplication] delegate]) getLocationFromCode:detailModel.physicalLocation];
+            
+            NSArray *physicalLocationArray;
+            if ([[location objectForKey:@"physicalLocation"] isKindOfClass:[NSDictionary class]]) {
+                physicalLocationArray = [NSArray arrayWithObject:[location objectForKey:@"physicalLocation"]];
+            }
+            else
+            {
+                physicalLocationArray = [location objectForKey:@"physicalLocation"];
             }
             
-            if (shelfLoc) {
-                detailModel.shelfLocation = [physicalLoc objectForKey:@"text"];
+            for (NSDictionary *tmpLocDict in physicalLocationArray) {
+                
+                
+                NSDictionary *physicalLoc = [tmpLocDict objectForKey:@"physicalLocation"];
+                NSDictionary *shelfLoc = [tmpLocDict objectForKey:@"shelfLocator"];
+                if (physicalLoc) {
+                    
+                    detailModel.physicalLocation = [physicalLoc objectForKey:@"text"];
+                    
+                    detailModel.physicalLocation = [((AppDelegate *)[[UIApplication sharedApplication] delegate]) getLocationFromCode:detailModel.physicalLocation];
+                }
+                
+                if (shelfLoc) {
+                    detailModel.shelfLocation = [physicalLoc objectForKey:@"text"];
+                }
+                
+                
             }
-
+            
         } @catch (NSException *exception) {
             NSLog(@"Location Parsing error!");
             
         } @finally {
             
-                   }
+        }
         
     }
     
@@ -238,12 +263,23 @@
                 model.subTitle =[subTitle objectForKey:@"text"];
             }
             
-            if ([tmpDict objectForKey:@"title"]) {
+            if ([tmpDict objectForKey:@"title"] && ![tmpDict objectForKey:@"type"] ) {
                 NSDictionary *title = [tmpDict objectForKey:@"title"];
+                
                 if ([[title objectForKey:@"text"]caseInsensitiveCompare:@""] !=NSOrderedSame) {
-                     model.title =[title objectForKey:@"text"];
+                    model.title =[title objectForKey:@"text"];
                 }
-               
+                
+            }
+            else if ([[tmpDict objectForKey:@"type"] isEqualToString:@"alternative"])
+            {
+                NSDictionary *title = [tmpDict objectForKey:@"title"];
+                
+                if ([[title objectForKey:@"type"] caseInsensitiveCompare:@"altermative"] ==NSOrderedSame) {
+                    NSLog(@"Alternative title");
+                    model.alternativeTitle =[title objectForKey:@"text"];
+                }
+
             }
             
         }

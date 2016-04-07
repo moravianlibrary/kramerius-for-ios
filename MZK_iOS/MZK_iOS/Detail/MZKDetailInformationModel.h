@@ -87,6 +87,7 @@
 
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *subTitle;
+@property (nonatomic, strong) NSString *alternativeTitle;
 @property (nonatomic, strong) NSString *author;
 @property (nonatomic, strong) NSString *languageNme;
 @property (nonatomic, strong) NSString *languageID;
