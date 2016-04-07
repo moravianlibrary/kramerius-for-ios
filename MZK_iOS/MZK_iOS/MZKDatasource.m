@@ -600,15 +600,12 @@ typedef enum _downloadOperation downloadOperation;
     
     if (operation ==downloadCollectionItems || operation == search || operation == searchHints) {
         [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-       // NSLog(@"%@", req.allHTTPHeaderFields);;
     }
-    
-    //save operation and URL for re-send
-    
+
     _lastURL = strURL;
     lastOperation = operation;
     
-    NSLog(@"Request: %@, with operation:%u", [req description], operation);
+   // NSLog(@"Request: %@, with operation:%u", [req description], operation);
     
     [NSURLConnection sendAsynchronousRequest:[req copy] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
         
@@ -618,7 +615,7 @@ typedef enum _downloadOperation downloadOperation;
             NSString *key = [d objectForKey:@"_kCFStreamErrorDomainKey"];
             [self downloadFailedWithError:error];
         } else {
-            //NSLog(@"Download sucessful with operation:%lu", (unsigned long)operation);
+            NSLog(@"Download sucessful with operation:%lu", (unsigned long)operation);
             
             switch (operation) {
                 case downloadMostRecent:
