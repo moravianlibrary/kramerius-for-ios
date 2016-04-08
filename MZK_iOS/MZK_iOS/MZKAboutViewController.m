@@ -34,7 +34,7 @@
     self.link.enabledTextCheckingTypes = NSTextCheckingTypeLink;
     
 
-    [self.link setText:[NSString stringWithFormat:@"%@, Moravská zemská knihovna v Brně. (%@)",kKrameriusDescriptionBegin,kKrameriusDescriptionLink]];
+    [self.link setText:[NSString stringWithFormat:@"%@ Moravská zemská knihovna v Brně. (%@)",kKrameriusDescriptionBegin,kKrameriusDescriptionLink]];
        
     NSRange range = [self.link.text rangeOfString:@"Moravská zemská knihovna v Brně."];
     [self.link addLinkToURL:[NSURL URLWithString:kKrameriusDescriptionLink] withRange:range]; // Embedding a custom link in a substring
