@@ -143,6 +143,8 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [self setDefaultDatasource];
+    
+    [self.menuTabBar setSelectedIndex:0];    
 }
 
 -(MZKResourceItem *)getDatasourceItem

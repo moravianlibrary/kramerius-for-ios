@@ -171,8 +171,6 @@
     
     MZKResourceItem *item = [_libraries objectAtIndex:indexPath.row];
     [self saveToUserDefaults:item];
-    
-    [self onBack:nil];
 }
 
 -(void)saveToUserDefaults:(MZKResourceItem *)item
