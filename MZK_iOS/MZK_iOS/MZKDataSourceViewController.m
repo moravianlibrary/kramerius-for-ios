@@ -30,6 +30,8 @@
     [super viewDidLoad];
     _libraries = [self createDataForLibraries];
     
+    self.title = @"Výběr knihovny";
+    
     [self initGoogleAnalytics];
     
     [self loadJSONFileFromLocal];
@@ -72,13 +74,7 @@
     item1.protocol = @"http";
     item1.stringURL = @"kramerius.mzk.cz";
     item1.imageName = @"logo_mzk";
-    
-//    MZKResourceItem *item2 = [MZKResourceItem new];
-//    item2.name = @"Národní digitální knihovna";
-//    item2.protocol = @"http";
-//    item2.stringURL = @"krameriusndktest.mzk.cz";
-//    item2.imageName = @"logo_ndk";
-    
+   
     
     MZKResourceItem *item3 = [MZKResourceItem new];
     item3.name = @"Jihočeská vědecká knihovna v Českých Budějovicích";

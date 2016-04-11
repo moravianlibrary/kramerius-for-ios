@@ -32,6 +32,9 @@ static MZKMusicViewController *sharedInstance;
     __weak IBOutlet UIButton *_ff;
     __weak IBOutlet UIButton *_rw;
     __weak IBOutlet UISlider *_timeSlider;
+    __weak IBOutlet UIView *loadingContainerVIew;
+    __weak IBOutlet UIActivityIndicatorView *activityIndicator;
+    __weak IBOutlet UILabel *musicTitleLabel;
     
     __weak IBOutlet UIVisualEffectView *visualBlurEffectView;
     MZKDatasource *_datasource;
@@ -90,23 +93,41 @@ static MZKMusicViewController *sharedInstance;
         [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     }
     self.title = @"Hudební přehrávač";
+    
+    [self startAnimating];
 }
 
 
 
 -(void)playbackStateChanged:(NSNotification*)notification
 {
-    NSLog(@"Notification:%@", notification.description);
-    //    switch (<#expression#>) {
-    //        case <#constant#>:
-    //            <#statements#>
-    //            break;
-    //
-    //        default:
-    //            break;
-    //    }
-}
+    NSLog(@"State changed to: %lu\n", (unsigned long)_audioPlayer.loadState);
+    MPMovieLoadState state = [_audioPlayer loadState];
+    
+    if (state & MPMovieLoadStateUnknown) {
+        NSLog(@"Unknown");
+        
+    }
+    
+    if( state & MPMovieLoadStatePlaythroughOK ) {
+        NSLog(@"NodeViewController: Playthrough OK Load State");
+        [self stopAnimating];
+       
+    }
+    
+    if( state & MPMovieLoadStateStalled ) {
+        NSLog(@"NodeViewController: Stalled Load State");
+    }
+    
+    if (state & MPMovieLoadStatePlayable)
+    {
+        NSLog(@"Playable");
+        
+    }
 
+  [self updatePlayerViewsWithCurrentTime];
+    
+}
 -(void)initGoogleAnalytics
 {
     NSString *name = [NSString stringWithFormat:@"Pattern~%@", @"MZKMusicViewController"];
@@ -136,6 +157,8 @@ static MZKMusicViewController *sharedInstance;
     _currentItemPID = itemPid;
     [_datasource getItem:itemPid];
     
+    [self startAnimating];
+    
 }
 
 -(void)loadDataForController
@@ -154,8 +177,6 @@ static MZKMusicViewController *sharedInstance;
         return;
     }
     
-    // [self hideLoadingIndicator];
-    
     [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
         [welf loadDataForController];
         
@@ -171,22 +192,62 @@ static MZKMusicViewController *sharedInstance;
     
 }
 
-
 -(void)setItem:(MZKItemResource *)item
 {
-    _item = item;
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf setItem:item];
+        });
+        return;
+    }
+
+     _item = item;
     [self loadDataForItem:_item];
+}
+
+-(void)startAnimating
+{
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf startAnimating];
+        });
+        return;
+    }
+
+    loadingContainerVIew.hidden =NO;
+    [activityIndicator startAnimating];
+}
+
+-(void)stopAnimating
+{
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf stopAnimating];
+        });
+        return;
+    }
+    
+    loadingContainerVIew.hidden =YES;
+    [activityIndicator stopAnimating];
 }
 
 -(void)loadDataForItem:(MZKItemResource *)item
 {
+    
+    
     if (!_datasource) {
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
     }
     [_datasource getChildrenForItem:item.pid];
     
-    titleLabel.text = item.title;
+   
 }
 
 -(void)detailForItemLoaded:(MZKItemResource *)item
@@ -200,11 +261,9 @@ static MZKMusicViewController *sharedInstance;
         return;
     }
     
-    
     _currentItem = item;
-    
-    
-    
+    musicTitleLabel.text = item.title;
+
     [_datasource getChildrenForItem:_currentItem.pid];
 }
 
@@ -231,11 +290,8 @@ static MZKMusicViewController *sharedInstance;
         [self loadThumbnailImageForItem:_currentItemPID];
     }
     
-    [self updateViews];
-    
-    
     if (_availableTracks.count ==1) {
-        // [self playItemWithPID:((MZKPageObject *)_availableTracks.firstObject).pid];
+
         [self playeWithDifferentPlayer:((MZKPageObject *)_availableTracks.firstObject).pid];
     }
 }
@@ -254,14 +310,13 @@ static MZKMusicViewController *sharedInstance;
     
     _audioPlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:path]];
     
+    [_audioPlayer setMovieSourceType:MPMovieSourceTypeStreaming];
     [_audioPlayer setShouldAutoplay:NO];
     [_audioPlayer setControlStyle: MPMovieControlStyleEmbedded];
     
     _audioPlayer.view.hidden = YES;
     
     [_audioPlayer prepareToPlay];
-    
-    [self scheduleTimer];
     
 }
 
@@ -342,22 +397,27 @@ static MZKMusicViewController *sharedInstance;
                 break;
             }
             case UIEventSubtypeRemoteControlPlay: {
-                // [_musicPlayer play];
                 [_audioPlayer play];
                 break;
             }
             case UIEventSubtypeRemoteControlPause: {
-                // [_musicPlayer pause];
                 [_audioPlayer pause];
                 break;
             }
                 
-            case UIEventSubtypeRemoteControlBeginSeekingForward:
-                [self onFF:nil];
+           // case UIEventSubtypeRemoteControlNextTrack:
+            case UIEventSubtypeRemoteControlNextTrack:  {
+                [self performSelectorOnMainThread:@selector(onFF:) withObject:self waitUntilDone:NO];
+               // [self onFF:nil];
                 break;
-            case UIEventSubtypeRemoteControlBeginSeekingBackward:
+            }
+            //case UIEventSubtypeRemoteControlBeginSeekingBackward:
+            case UIEventSubtypeRemoteControlPreviousTrack:{
+              //  [self performSelectorOnMainThread:@selector(onRW:) withObject:self waitUntilDone:NO];
+
                 [self onRW:nil];
                 break;
+            }
             default:
                 break;
         }
@@ -395,21 +455,6 @@ static MZKMusicViewController *sharedInstance;
     
 }
 
--(void)updateProgress:(NSTimer *)timer
-{
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (_currentItem) {
-            titleLabel.text = _currentItem.title;
-        }
-        
-        _timeSlider.value += 0.1;
-        
-    });
-    
-    
-}
-
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
     
     //  code here to play next sound file
@@ -421,10 +466,12 @@ static MZKMusicViewController *sharedInstance;
 - (IBAction)onMoreInformation:(id)sender {
     //use as a list of tracks?
 }
+
 - (IBAction)onSliderValueChanged:(id)sender {
     
     
 }
+
 - (IBAction)onPlayPause:(id)sender {
      
     Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
@@ -444,7 +491,7 @@ static MZKMusicViewController *sharedInstance;
             
            
             [songInfo setObject:_currentItem.title forKey:MPMediaItemPropertyTitle];
-            [songInfo setObject:_currentItem.authors forKey:MPMediaItemPropertyArtist];
+           // [songInfo setObject:_currentItem.authors forKey:MPMediaItemPropertyArtist];
            // [songInfo setObject:@"Audio Album" forKey:MPMediaItemPropertyAlbumTitle];
             [songInfo setObject:[NSNumber numberWithFloat:_audioPlayer.playableDuration] forKey:MPMediaItemPropertyPlaybackDuration];
             [songInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
@@ -465,7 +512,9 @@ static MZKMusicViewController *sharedInstance;
             [_play setImage:[UIImage imageNamed:@"audioPlay"] forState:UIControlStateNormal];
             [_audioPlayer pause];
             
+            
         }
+        [self scheduleTimer];
         
     }
 }
@@ -481,8 +530,27 @@ static MZKMusicViewController *sharedInstance;
     }
 }
 
+- (IBAction)onRW:(id)sender {
+    
+    long currentTime = _audioPlayer.currentPlaybackTime;
+    if (currentTime -10 >= 0) {
+        _audioPlayer.currentPlaybackTime-=10;
+        [self scheduleTimer];
+        
+    }
+}
+
 -(void)updatePlayerViewsWithCurrentTime
 {
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf updatePlayerViewsWithCurrentTime];
+        });
+        return;
+    }
+    
     NSTimeInterval timeInterval = _audioPlayer.playableDuration;
     long seconds = lroundf(timeInterval); // Since modulo operator (%) below needs int or long
     
@@ -497,19 +565,11 @@ static MZKMusicViewController *sharedInstance;
     int currentSecs = currentTime % 60;
     
     
-    _elapsedTime.text =[NSString stringWithFormat:@"%d:%d:%d", currentHour, currenctMin, currentSecs];
-    _remainningTime.text = [NSString stringWithFormat:@"%d:%d:%d", hour, mins, secs];
+    _elapsedTime.text =[NSString stringWithFormat:@"%02d:%02d:%02d", currentHour, currenctMin, currentSecs];
+    _remainningTime.text = [NSString stringWithFormat:@"%02d:%02d:%02d", hour, mins, secs];
 }
 
-- (IBAction)onRW:(id)sender {
-    
-    long currentTime = _audioPlayer.currentPlaybackTime;
-    if (currentTime -10 <= 0) {
-        _audioPlayer.currentPlaybackTime-=10;
-        [self scheduleTimer];
 
-    }
-}
 
 -(void)scheduleTimer
 {
@@ -550,26 +610,6 @@ static MZKMusicViewController *sharedInstance;
 -(void)addBlurEffect
 {
     visualBlurEffectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-}
-
--(void)updateViews
-{
-    __weak typeof(self) wealf = self;
-    
-    //    dispatch_async(dispatch_get_main_queue(), ^{
-    //        if (_currentItem) {
-    //            titleLabel.text = _currentItem.title;
-    //        }
-    //
-    //        float videoDurationSeconds = CMTimeGetSeconds( [wealf playerItemDuration]);
-    //        if (videoDurationSeconds >0 ) {
-    //            _timeSlider.minimumValue = 0;
-    //            _timeSlider.maximumValue =videoDurationSeconds;
-    //
-    //            _remainningTime.text = [self getTimeStringFromSeconds:videoDurationSeconds];
-    //            _elapsedTime.text = [self getTimeStringFromSeconds:_timeSlider.value];
-    //        }
-    //    });
 }
 
 -(NSString *)getTimeStringFromSeconds:(int)seconds
