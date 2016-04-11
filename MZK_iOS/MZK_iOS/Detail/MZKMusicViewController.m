@@ -292,11 +292,11 @@ static MZKMusicViewController *sharedInstance;
     
     if (_availableTracks.count ==1) {
 
-        [self playeWithDifferentPlayer:((MZKPageObject *)_availableTracks.firstObject).pid];
+        [self playItemWithPID:((MZKPageObject *)_availableTracks.firstObject).pid];
     }
 }
 
--(void)playeWithDifferentPlayer:(NSString *)pid
+-(void)playItemWithPID:(NSString *)pid
 {
     [[AVAudioSession sharedInstance] setDelegate: self];
     
@@ -322,6 +322,8 @@ static MZKMusicViewController *sharedInstance;
 
 -(void)prepareNotificationsForPlayer
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(videoPlayBackDidFinish:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
@@ -332,6 +334,12 @@ static MZKMusicViewController *sharedInstance;
                                                  name:MPMoviePlayerLoadStateDidChangeNotification
                                                object:nil];
     
+}
+
+-(void)prepareSlider
+{
+    _timeSlider.minimumValue = 0;
+    _timeSlider.value = 0;
 }
 
 
@@ -407,8 +415,8 @@ static MZKMusicViewController *sharedInstance;
                 
            // case UIEventSubtypeRemoteControlNextTrack:
             case UIEventSubtypeRemoteControlNextTrack:  {
-                [self performSelectorOnMainThread:@selector(onFF:) withObject:self waitUntilDone:NO];
-               // [self onFF:nil];
+               // [self performSelectorOnMainThread:@selector(onFF:) withObject:self waitUntilDone:NO];
+                [self onFF:nil];
                 break;
             }
             //case UIEventSubtypeRemoteControlBeginSeekingBackward:
@@ -472,6 +480,26 @@ static MZKMusicViewController *sharedInstance;
     
 }
 
+- (IBAction)beginScrubbing:(id)sender
+{
+    NSLog(@"Begin scrubbing");
+    isSeeking = YES;
+}
+
+- (IBAction)endScrubbing:(id)sender
+{
+    isSeeking = NO;
+    NSLog(@"end Scrubbing");
+}
+
+- (IBAction)scrub:(id)sender
+{
+    isSeeking = YES;
+    _audioPlayer.currentPlaybackTime = _timeSlider.value;
+    NSLog(@"on scrub");
+    [self scheduleTimer];
+}
+
 - (IBAction)onPlayPause:(id)sender {
      
     Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
@@ -498,6 +526,9 @@ static MZKMusicViewController *sharedInstance;
             [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
         }];
         
+        isSeeking = NO;
+       
+        _timeSlider.maximumValue = _audioPlayer.playableDuration;
         
         if (_audioPlayer.currentPlaybackRate == 0) {
             
@@ -567,6 +598,11 @@ static MZKMusicViewController *sharedInstance;
     
     _elapsedTime.text =[NSString stringWithFormat:@"%02d:%02d:%02d", currentHour, currenctMin, currentSecs];
     _remainningTime.text = [NSString stringWithFormat:@"%02d:%02d:%02d", hour, mins, secs];
+    
+    if (!isSeeking) {
+        _timeSlider.value = _audioPlayer.currentPlaybackTime;
+
+    }
 }
 
 
