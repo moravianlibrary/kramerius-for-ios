@@ -52,6 +52,7 @@ var map = new ol.Map({
         source: zoomifySource
       })
   ],
+  interactions: ol.interaction.defaults({pinchRotate:false}),
   controls:[],
   target: 'image-target',
   view: new ol.View({
@@ -59,6 +60,8 @@ var map = new ol.Map({
     center: ol.extent.getCenter(extent),
     zoom: .9,
     extent: extent
+                    
   })
+  
 });
 

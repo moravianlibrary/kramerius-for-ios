@@ -45,8 +45,6 @@
     // track uncaught exceptions!
     [[GAI sharedInstance] setTrackUncaughtExceptions:YES];
     
-    
-    
     if (!self.defaultDatasourceItem) {
         [self setDefaultDatasource];
     }
@@ -63,12 +61,7 @@
         [wealf loadDataForRelations];
         
     });
-    
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-////   
-////    MZKMusicViewController *nextViewController = [storyboard instantiateViewControllerWithIdentifier:@"MZKMusicViewController"];
-////    nextViewController.view;
-////        
+
     [self loadRecentlyOpened];
     
     return YES;
@@ -365,8 +358,6 @@
         tmpMusicVC.view;
     }
 
-   // [[MZKMusicViewController sharedInstance] setItemPID:pid];
-    
 }
 
 
