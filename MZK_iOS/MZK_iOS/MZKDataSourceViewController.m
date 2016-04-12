@@ -190,11 +190,4 @@
 
 }
 
-
-- (IBAction)onBack:(id)sender {
-    
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-}
 @end

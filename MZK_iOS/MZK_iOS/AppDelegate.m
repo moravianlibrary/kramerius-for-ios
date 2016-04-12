@@ -12,6 +12,7 @@
 #import <Google/Analytics.h>
 
 @interface AppDelegate ()
+@property (nonatomic, strong) NSMutableDictionary *recentlyOpenedDocumentsDictionary;
 
 @end
 
@@ -50,7 +51,7 @@
     }
     
     // init DB manager
-  
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         // Do the work associated with the task, preferably in chunks.
@@ -61,8 +62,6 @@
         [wealf loadDataForRelations];
         
     });
-
-    [self loadRecentlyOpened];
     
     return YES;
 }
@@ -107,6 +106,9 @@
         
         self.defaultDatasourceItem = item1;
     }
+    self.recentlyOpenedDocuments = nil;
+    
+    [self loadRecentlyOpened];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kDatasourceItemChanged object:nil];
 }
@@ -121,7 +123,7 @@
     
     
     if (item.protocol && item.stringURL && item.imageName &&item.name) {
-        //NSLog(@"ItemLoaded");
+        
         return item;
     }else return nil;
 }
@@ -137,7 +139,7 @@
     
     [self setDefaultDatasource];
     
-    [self.menuTabBar setSelectedIndex:0];    
+    [self.menuTabBar setSelectedIndex:0];
 }
 
 -(MZKResourceItem *)getDatasourceItem
@@ -227,7 +229,7 @@
     NSError *error;
     NSString *strFileContent = [NSString stringWithContentsOfFile:[[NSBundle mainBundle]
                                                                    pathForResource:name ofType: @"sql"] encoding:NSUTF8StringEncoding error:&error];
-    if(error) { 
+    if(error) {
         NSLog(@"Error while loading a file");
     }
     
@@ -253,15 +255,16 @@
         NSData *dataRepresentingSavedArray = [currentDefaults objectForKey:kRecentlyOpenedDocuments];
         
         NSMutableDictionary *savedData = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
-    //    NSMutableArray *recentlyOpenedDocumentForLibrary = [[savedData objectForKey:self.defaultDatasourceItem.stringURL] mutableCopy];
+        
         if (!savedData) {
             savedData = [NSMutableDictionary new];
         }
         
+        NSLog(@"Saving recently opened:%@ %@", self.defaultDatasourceItem.stringURL, _recentlyOpenedDocuments.description);
         [savedData setObject:_recentlyOpenedDocuments forKey:self.defaultDatasourceItem.stringURL];
-    
+        
         [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:savedData] forKey:kRecentlyOpenedDocuments];
-                [[NSUserDefaults standardUserDefaults] synchronize];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
@@ -279,9 +282,9 @@
         NSArray *recentlyOpenedDocumentForLibrary = [savedData objectForKey:self.defaultDatasourceItem.stringURL];
         
         if (recentlyOpenedDocumentForLibrary) {
-             _recentlyOpenedDocuments = [[NSMutableArray alloc] initWithArray:recentlyOpenedDocumentForLibrary];
+            _recentlyOpenedDocuments = [[NSMutableArray alloc] initWithArray:recentlyOpenedDocumentForLibrary];
         }
-
+        
     }
     
     if (!_recentlyOpenedDocuments) {
@@ -293,7 +296,7 @@
 
 -(void)addRecentlyOpenedDocument:(MZKItemResource *)item
 {
-
+    
     _recentlyOpenedDocuments = [self loadRecentlyOpened];
     
     if (_recentlyOpenedDocuments.count>0) {
@@ -304,7 +307,7 @@
         {
             [self updateRecentlyOpenedDocument:item withDate:item.lastOpened];
         }
-
+        
     }
     else
     {
@@ -337,7 +340,7 @@
 
 -(NSArray *)getLanguageFromCode:(NSString *)languageCode
 {
-   // for
+    // for
     for (NSArray *array in _dbLangInfo) {
         
         if ([array[0] caseInsensitiveCompare:languageCode] ==NSOrderedSame && ([array[2] caseInsensitiveCompare:@"cs"] ==NSOrderedSame)) {
@@ -375,7 +378,7 @@
         [tmpMusicVC setItemPID:pid];
         tmpMusicVC.view;
     }
-
+    
 }
 
 

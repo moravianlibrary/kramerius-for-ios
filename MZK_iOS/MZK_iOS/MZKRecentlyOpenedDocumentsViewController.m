@@ -27,7 +27,14 @@
    
     [self.view setNeedsLayout];
     // Do any additional setup after loading the view.
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDatasourceChanged:) name:kDatasourceItemChanged object:nil];
+}
+
+-(void)onDatasourceChanged:(NSNotification *)notf
+{
+    _recentlyOpened = nil;
+    [_collectionView reloadData];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -74,7 +81,7 @@
     MZKItemResource *item = [_recentlyOpened objectAtIndex:indexPath.row];
     if (item) {
         cell.itemName.text = item.title;
-        cell.itemAuthors.text = item.getAuthorsStringRepresentation;
+        cell.itemAuthors.text = item.authors;
         cell.item = item;
         cell.itemType.text = [item getLocalizedItemType];
         
@@ -190,6 +197,11 @@
     
     [flowLayout invalidateLayout];
     
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
