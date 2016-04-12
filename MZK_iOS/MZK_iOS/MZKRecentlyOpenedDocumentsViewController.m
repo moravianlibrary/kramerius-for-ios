@@ -27,12 +27,18 @@
    
     [self.view setNeedsLayout];
     // Do any additional setup after loading the view.
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     self.title = @"Naposled otevřené";
     
     _recentlyOpened = delegate.loadRecentlyOpened;
     [_collectionView reloadData];
-    
+    NSLog(@"view will appear");
 }
 
 - (void)didReceiveMemoryWarning {

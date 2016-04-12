@@ -248,8 +248,19 @@
 -(void)saveRecentlyOpened
 {
     if (_recentlyOpenedDocuments) {
-
-        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_recentlyOpenedDocuments] forKey:kRecentlyOpenedDocuments];
+        
+        NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+        NSData *dataRepresentingSavedArray = [currentDefaults objectForKey:kRecentlyOpenedDocuments];
+        
+        NSMutableDictionary *savedData = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
+    //    NSMutableArray *recentlyOpenedDocumentForLibrary = [[savedData objectForKey:self.defaultDatasourceItem.stringURL] mutableCopy];
+        if (!savedData) {
+            savedData = [NSMutableDictionary new];
+        }
+        
+        [savedData setObject:_recentlyOpenedDocuments forKey:self.defaultDatasourceItem.stringURL];
+    
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:savedData] forKey:kRecentlyOpenedDocuments];
                 [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
@@ -260,12 +271,19 @@
     NSData *dataRepresentingSavedArray = [currentDefaults objectForKey:kRecentlyOpenedDocuments];
     if (dataRepresentingSavedArray)
     {
-        NSArray *oldSavedArray = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
-        if (oldSavedArray )
-            _recentlyOpenedDocuments = [[NSMutableArray alloc] initWithArray:oldSavedArray];
+        NSMutableDictionary *savedData = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
+        if (!savedData) {
+            savedData = [NSMutableDictionary new];
+        }
         
-    }
+        NSArray *recentlyOpenedDocumentForLibrary = [savedData objectForKey:self.defaultDatasourceItem.stringURL];
+        
+        if (recentlyOpenedDocumentForLibrary) {
+             _recentlyOpenedDocuments = [[NSMutableArray alloc] initWithArray:recentlyOpenedDocumentForLibrary];
+        }
 
+    }
+    
     if (!_recentlyOpenedDocuments) {
         _recentlyOpenedDocuments = [NSMutableArray new];
     }
