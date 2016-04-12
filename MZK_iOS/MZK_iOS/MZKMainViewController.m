@@ -418,7 +418,6 @@
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     _isRemovingTextWithBackspace = ([searchBar.text stringByReplacingCharactersInRange:range withString:text].length == 0);
-    
     return YES;
 }
 
@@ -426,9 +425,8 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     // Do the search...
-    if (searchBar.text.length >3) {
-        [self performSearchWithText:searchBar.text];
-    }
+    [self performSearchWithText:searchBar.text];
+
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {

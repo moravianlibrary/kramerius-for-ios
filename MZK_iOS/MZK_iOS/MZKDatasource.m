@@ -185,8 +185,14 @@ typedef enum _downloadOperation downloadOperation;
 
 -(void)getSearchResultsAsHints:(NSString *)searchString
 {
-    
-    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=PID,dc.title&q=dc.title:%@*+AND+(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString]];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *recent = [defaults objectForKey:kSettingsShowOnlyPublicDocuments];
+    BOOL visible = NO;
+    if (recent) {
+        visible= [recent boolValue];
+    }
+
+    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=PID,dc.title&q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString],visible?@"dostupnost:*public*+AND+":@""];
     
    
     [self checkAndSetBaseUrl];
@@ -199,8 +205,14 @@ typedef enum _downloadOperation downloadOperation;
 
 -(void)getFullSearchResults:(NSString *)searchString
 {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *recent = [defaults objectForKey:kSettingsShowOnlyPublicDocuments];
+    BOOL visible = NO;
+    if (recent) {
+        visible= [recent boolValue];
+    }
     
-    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?q=dc.title:%@*+AND+(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString]];
+    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
     
     [self checkAndSetBaseUrl];
     
