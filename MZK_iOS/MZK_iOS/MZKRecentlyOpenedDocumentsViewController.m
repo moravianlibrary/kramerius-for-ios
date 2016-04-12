@@ -81,7 +81,8 @@
     MZKItemResource *item = [_recentlyOpened objectAtIndex:indexPath.row];
     if (item) {
         cell.itemName.text = item.title;
-        cell.itemAuthors.text = item.authors;
+    
+        cell.itemAuthors.text = [NSString stringWithFormat:@"Otevřeno: %@",item.lastOpened];
         cell.item = item;
         cell.itemType.text = [item getLocalizedItemType];
         
@@ -139,16 +140,22 @@
 
 -(void)prepareDataForSegue:(MZKItemResource *)item
 {
-    if ([item.model isEqualToString:@"soundrecording"] || [item.model isEqualToString:@"periodical"] || [item.model isEqualToString:@"sheetmusic"]) {
-        [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];
-    }else if([item.model isEqualToString:@"manuscript"] || [item.model isEqualToString:@"monograph"] ||[item.model isEqualToString:@"map"] ||[item.model isEqualToString:@"graphic"])
-    {
+//    if ([item.model isEqualToString:@"soundrecording"] || [item.model isEqualToString:@"periodical"] || [item.model isEqualToString:@"sheetmusic"]) {
+//        [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];
+//        
+//    }else if([item.model isEqualToString:@"manuscript"] || [item.model isEqualToString:@"monograph"] ||[item.model isEqualToString:@"map"] ||[item.model isEqualToString:@"graphic"] || [item.model isEqualToString:@"page"])
+//    {
+//        
+//    }
+    @try {
         [self performSegueWithIdentifier:@"OpenDetail" sender:item];
+    } @catch (NSException *exception) {
+        NSLog(@"Exception:%@", exception.debugDescription);
+    } @finally {
+        
     }
+    
 }
-
-
-
 
 #pragma mark - Collection View Flow Layout Delegate
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
