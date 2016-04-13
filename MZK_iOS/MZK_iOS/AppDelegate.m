@@ -28,6 +28,18 @@
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:kSettingsShowOnlyPublicDocuments];
     }
     
+    // check version of stored recently opened documents - no version means that it is old app so there is no migratio of data in that case reset
+    NSString *version = [defaults objectForKey:kRecentlyOpenedDocumentsVersion];
+    if (!version) {
+        [self resetDefaults];
+    }
+    
+    // set the major version of app to user defaults
+    
+    [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] forKey:kRecentlyOpenedDocumentsVersion];
+    [defaults synchronize];
+    
+    
     self.menuTabBar = (MZKTabBarMenuViewController*)self.window.rootViewController;
     __weak typeof(self) wealf = self;
     self.menuTabBar.delegate = wealf;
@@ -335,6 +347,18 @@
             rItem.lastOpened = strDate;
         }
     }
+}
+
+- (void)resetDefaults {
+    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
+    NSDictionary * dict = [defs dictionaryRepresentation];
+    for (id key in dict) {
+        if ([key isEqualToString:kRecentlyOpenedDocuments]) {
+            [defs removeObjectForKey:key];
+        }
+        
+    }
+    [defs synchronize];
 }
 
 
