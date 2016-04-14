@@ -298,7 +298,7 @@ static MZKMusicViewController *sharedInstance;
 
 -(void)playItemWithPID:(NSString *)pid
 {
-    [[AVAudioSession sharedInstance] setDelegate: self];
+   // [[AVAudioSession sharedInstance] setDelegate: self];
     
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     
