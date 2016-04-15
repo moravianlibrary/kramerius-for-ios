@@ -167,6 +167,9 @@
 #pragma mark - notification handling
 -(void)defaultDatasourceChangedNotification:(NSNotification *)notf
 {
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    
+    
     _datasource = [[MZKDatasource alloc] init];
     [_datasource setDelegate:self];
     [_datasource getInfoAboutCollections];
