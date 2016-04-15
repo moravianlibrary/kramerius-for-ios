@@ -16,6 +16,7 @@
 #import "MZKDetailInformationViewController.h"
 #import <Google/Analytics.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "MZKConstants.h"
 
 static MZKMusicViewController *sharedInstance;
 @interface MZKMusicViewController ()<DataLoadedDelegate, AVAudioPlayerDelegate, AVAudioSessionDelegate>
@@ -62,6 +63,7 @@ static MZKMusicViewController *sharedInstance;
     dispatch_once(&once, ^{
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         sharedInstance = [storyboard instantiateViewControllerWithIdentifier:@"MZKMusicViewController"];
+       
         [sharedInstance view];
         
     });
@@ -94,7 +96,7 @@ static MZKMusicViewController *sharedInstance;
     }
     self.title = @"Hudební přehrávač";
     
-    [self startAnimating];
+   // [self startAnimating];
 }
 
 
@@ -325,7 +327,7 @@ static MZKMusicViewController *sharedInstance;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(videoPlayBackDidFinish:)
+                                             selector:@selector(playbackDidFinish:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:_audioPlayer];
     
@@ -333,6 +335,22 @@ static MZKMusicViewController *sharedInstance;
                                              selector:@selector(playbackStateChanged:)
                                                  name:MPMoviePlayerLoadStateDidChangeNotification
                                                object:nil];
+    
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDatasourceChanged:) name:kDatasourceItemChanged object:nil];
+    
+}
+
+-(void)playbackDidFinish:(NSNotification *)notf
+{
+    NSLog(@"Playback did finish");
+    
+}
+
+-(void)onDatasourceChanged:(NSNotification *)notf
+{
+    if (_audioPlayer) {
+        [_audioPlayer stop];
+    }
     
 }
 
