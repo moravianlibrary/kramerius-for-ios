@@ -639,15 +639,16 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     MZKPageObject *p = [loadedPages objectAtIndex:indexPath.row];
+    
     if ([p.policy isEqualToString:@"public"]) {
-        [self displayPage:p];
+        currentIndex = indexPath.row;
+        [self switchPage];
     }
     else
     {
         [self showErrorWithCancelActionAndTitle:@"Pozor" subtitle:@"Tato stránka není veřejně dostupná." withCompletion:nil];
     }
-    
-    
+        
     [self onShowGrid:nil];
 }
 #pragma mark - recently opened documents
