@@ -198,6 +198,7 @@
         cell.itemAuthors.text = item.getAuthorsStringRepresentation;
         cell.pObject = item;
         cell.itemType.text = [item getLocalizedItemType];
+        cell.publicOnlyIcon.hidden = [item.policy isEqualToString:@"public"]? YES:NO;
         
         if ([item.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
             

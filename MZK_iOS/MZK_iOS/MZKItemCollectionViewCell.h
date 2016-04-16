@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *itemAuthors;
 @property (weak, nonatomic) IBOutlet UIImageView *itemTypeIcon;
 @property (weak, nonatomic) IBOutlet UILabel *itemType;
+@property (weak, nonatomic) IBOutlet UIImageView *publicOnlyIcon;
 @property (nonatomic, strong) MZKItemResource *item;
 @property (nonatomic, strong) MZKPageObject *pObject;
 

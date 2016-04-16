@@ -202,7 +202,8 @@
         cell.itemAuthors.text = item.getAuthorsStringRepresentation;
         cell.item = item;
         cell.itemType.text = [item getLocalizedItemType];
-        
+    
+        cell.publicOnlyIcon.hidden = [item.policy isEqualToString:@"public"]? YES:NO;
         
         AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
         

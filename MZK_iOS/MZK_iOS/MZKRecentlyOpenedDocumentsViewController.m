@@ -85,6 +85,7 @@
         cell.itemAuthors.text = [NSString stringWithFormat:@"Otevřeno: %@",item.lastOpened];
         cell.item = item;
         cell.itemType.text = [item getLocalizedItemType];
+        cell.publicOnlyIcon.hidden = [item.policy isEqualToString:@"public"]? YES:NO;
         
         
         AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
