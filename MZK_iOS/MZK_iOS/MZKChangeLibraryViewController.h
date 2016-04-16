@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "MZKBaseViewController.h"
 
-@interface MZKDataSourceViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface MZKChangeLibraryViewController : UIViewController
 
 @end

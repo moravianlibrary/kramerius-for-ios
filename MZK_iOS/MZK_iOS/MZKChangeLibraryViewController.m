@@ -6,35 +6,41 @@
 //  Copyright (c) 2015 Ondrej Vyhlidal. All rights reserved.
 //
 
-#import "MZKDataSourceViewController.h"
+#import "MZKChangeLibraryViewController.h"
 #import "MZKResourceItem.h"
 #import "MZKDataSourceTableViewCell.h"
 #import "MZKConstants.h"
 #import "AppDelegate.h"
 #import <Google/Analytics.h>
 
-@interface MZKDataSourceViewController (){
+@interface MZKChangeLibraryViewController ()<UITableViewDataSource, UITableViewDelegate>{
     
     NSArray *_libraries;
+    MZKResourceItem *_selectedLibrary;
     
 
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-- (IBAction)onBack:(id)sender;
 
 @end
 
-@implementation MZKDataSourceViewController
+@implementation MZKChangeLibraryViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     _libraries = [self createDataForLibraries];
     
-    self.title = @"Výběr knihovny";
+    self.title = @"Knihovna";
     
     [self initGoogleAnalytics];
     
     [self loadJSONFileFromLocal];
+    
+    // highlight default library
+    NSIndexPath* selectedCellIndexPath= [self getSelectedIndexPath];
+    
+    [self.tableView selectRowAtIndexPath:selectedCellIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+
 }
 
 -(void)initGoogleAnalytics
@@ -56,6 +62,24 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(NSIndexPath *)getSelectedIndexPath
+{
+    NSUInteger index;
+    if (!_selectedLibrary) {
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        _selectedLibrary = appDelegate.defaultDatasourceItem;
+    }
+    
+    index = [_libraries indexOfObjectIdenticalTo:_selectedLibrary];
+    
+    if (index != NSNotFound) {
+         return [NSIndexPath indexPathForRow:index inSection:0];
+    }else{
+      return [NSIndexPath indexPathForRow:0 inSection:0];
+    }
+    
+}
+
 
 /*
 #pragma mark - Navigation
@@ -174,6 +198,7 @@
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     [appDelegate saveToUserDefaults:item];
+    _selectedLibrary = item;
 }
 
 -(void)loadJSONFileFromLocal
@@ -186,8 +211,6 @@
     if (!error && result) {
         
     }
-    
-
 }
 
 @end

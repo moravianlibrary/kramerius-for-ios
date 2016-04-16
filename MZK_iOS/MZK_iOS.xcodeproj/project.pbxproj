@@ -16,7 +16,7 @@
 		2D13D5671C3FC6AD00DB4190 /* MZKDetailInformationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */; };
 		2D1FD9201CAC15A700408166 /* libraries.json in Resources */ = {isa = PBXBuildFile; fileRef = 2D1FD91F1CAC15A700408166 /* libraries.json */; };
 		2D24F06D1B7378740073FC83 /* MZKSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */; };
-		2D24F0701B7387E40073FC83 /* MZKDataSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F06F1B7387E40073FC83 /* MZKDataSourceViewController.m */; };
+		2D24F0701B7387E40073FC83 /* MZKChangeLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F06F1B7387E40073FC83 /* MZKChangeLibraryViewController.m */; };
 		2D24F0761B74C0A80073FC83 /* MZKCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F0751B74C0A80073FC83 /* MZKCollectionItem.m */; };
 		2D2505C71AFE08C30079F70E /* MZKItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505C61AFE08C30079F70E /* MZKItemTableViewCell.m */; };
 		2D2505CA1AFE721A0079F70E /* MZKDomainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505C91AFE721A0079F70E /* MZKDomainItem.m */; };
@@ -82,8 +82,8 @@
 		2D1FD91F1CAC15A700408166 /* libraries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = libraries.json; sourceTree = "<group>"; };
 		2D24F06B1B7378740073FC83 /* MZKSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSearchViewController.h; sourceTree = "<group>"; };
 		2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchViewController.m; sourceTree = "<group>"; };
-		2D24F06E1B7387E40073FC83 /* MZKDataSourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDataSourceViewController.h; sourceTree = "<group>"; };
-		2D24F06F1B7387E40073FC83 /* MZKDataSourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDataSourceViewController.m; sourceTree = "<group>"; };
+		2D24F06E1B7387E40073FC83 /* MZKChangeLibraryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKChangeLibraryViewController.h; sourceTree = "<group>"; };
+		2D24F06F1B7387E40073FC83 /* MZKChangeLibraryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKChangeLibraryViewController.m; sourceTree = "<group>"; };
 		2D24F0741B74C0A80073FC83 /* MZKCollectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionItem.h; sourceTree = "<group>"; };
 		2D24F0751B74C0A80073FC83 /* MZKCollectionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionItem.m; sourceTree = "<group>"; };
 		2D2505C51AFE08C30079F70E /* MZKItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKItemTableViewCell.h; sourceTree = "<group>"; };
@@ -344,8 +344,8 @@
 				2DCAE25B1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m */,
 				2D409B791B8B4C8B00B49EAD /* MZKResourceItem.h */,
 				2D409B7A1B8B4C8B00B49EAD /* MZKResourceItem.m */,
-				2D24F06E1B7387E40073FC83 /* MZKDataSourceViewController.h */,
-				2D24F06F1B7387E40073FC83 /* MZKDataSourceViewController.m */,
+				2D24F06E1B7387E40073FC83 /* MZKChangeLibraryViewController.h */,
+				2D24F06F1B7387E40073FC83 /* MZKChangeLibraryViewController.m */,
 				2D409B761B8B460E00B49EAD /* MZKDataSourceTableViewCell.h */,
 				2D409B771B8B460E00B49EAD /* MZKDataSourceTableViewCell.m */,
 				2DB8A7A11ACD073400A1BB2E /* Main.storyboard */,
@@ -606,7 +606,7 @@
 				2D41FEFB1C3B036D0087F22E /* MZKDetailInformationViewController.m in Sources */,
 				2DB5E44E1CB25CF300C90D36 /* UIImageView+ProgressView.m in Sources */,
 				2DD583A01B6FA0BA001ED3B3 /* XMLReader.m in Sources */,
-				2D24F0701B7387E40073FC83 /* MZKDataSourceViewController.m in Sources */,
+				2D24F0701B7387E40073FC83 /* MZKChangeLibraryViewController.m in Sources */,
 				2D13D5671C3FC6AD00DB4190 /* MZKDetailInformationModel.m in Sources */,
 				2D33C3571C2819E9002BA7D1 /* MZKSettingsViewController.m in Sources */,
 				2DB8A7971ACD073400A1BB2E /* main.m in Sources */,

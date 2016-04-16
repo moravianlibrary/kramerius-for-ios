@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "MZKConstants.h"
 #import "MZKMusicViewController.h"
+#import "MZKChangeLibraryViewController.h"
 #import <Google/Analytics.h>
 
 @interface AppDelegate ()
@@ -41,8 +42,8 @@
     
     
     self.menuTabBar = (MZKTabBarMenuViewController*)self.window.rootViewController;
-    __weak typeof(self) wealf = self;
-    self.menuTabBar.delegate = wealf;
+    
+    self.menuTabBar.delegate = self;
     
     
     // Configure tracker from GoogleService-Info.plist.
@@ -63,7 +64,7 @@
     }
     
     // init DB manager
-    
+    __weak typeof(self) wealf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         // Do the work associated with the task, preferably in chunks.
@@ -411,6 +412,14 @@
         }
     }
     
+}
+
+-(void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    if([viewController isKindOfClass:[UINavigationController class]])
+    {
+    }
+
 }
 
 

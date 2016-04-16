@@ -749,7 +749,7 @@
                                                 <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zgZ-6Z-xuo" id="OEG-Nn-rIG">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhx-WZ-Qf3">
@@ -915,7 +915,7 @@
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O1D-dK-Sg5" id="zE6-rA-elf">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -997,7 +997,7 @@
                                         <rect key="frame" x="0.0" y="22" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JbJ-RJ-Ern" id="efa-X0-qXr">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Q0-vA-0j7">
@@ -1184,10 +1184,10 @@
             </objects>
             <point key="canvasLocation" x="1224" y="-3239"/>
         </scene>
-        <!--Výběr knihovny-->
+        <!--Knihovna-->
         <scene sceneID="Xps-o2-mv1">
             <objects>
-                <viewController storyboardIdentifier="MZKDataSourceViewController" title="Výběr knihovny" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6df-qc-DMZ" customClass="MZKDataSourceViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MZKDataSourceViewController" title="Knihovna" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6df-qc-DMZ" customClass="MZKChangeLibraryViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fAK-RB-FMh"/>
                         <viewControllerLayoutGuide type="bottom" id="S11-Fb-LR7"/>
@@ -1204,7 +1204,7 @@
                                         <rect key="frame" x="0.0" y="65" width="600" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T4C-RZ-C4B" id="BEL-bq-b42">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="90"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="89.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QuW-D5-Zpg" userLabel="libraryIcon">
@@ -1464,7 +1464,7 @@
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xNb-Vj-cLT" id="8l1-Rw-GME">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1694,7 +1694,7 @@
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hGE-wO-bNZ" id="qRZ-gs-ZsD">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -2110,11 +2110,11 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
             </objects>
             <point key="canvasLocation" x="-246" y="-1714"/>
         </scene>
-        <!--Naposled otevřené-->
+        <!--Historie-->
         <scene sceneID="9Lp-KR-pSg">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="I7O-Sd-CBI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Naposled otevřené" image="history_outline_g" selectedImage="history_outline_b" id="OXj-9w-Gvk"/>
+                    <tabBarItem key="tabBarItem" title="Historie" image="history_outline_g" selectedImage="history_outline_b" id="OXj-9w-Gvk"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0KZ-Qr-xt4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2148,11 +2148,11 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
             </objects>
             <point key="canvasLocation" x="-1955" y="-1886"/>
         </scene>
-        <!--Výběr knihovny-->
+        <!--Knihovna-->
         <scene sceneID="Cag-CF-Mao">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vYQ-qL-IC7" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Výběr knihovny" image="lib_outline_g" selectedImage="lib_outline_b" id="Rkr-MF-3kM"/>
+                    <tabBarItem key="tabBarItem" title="Knihovna" image="lib_outline_g" selectedImage="lib_outline_b" id="Rkr-MF-3kM"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="x1V-S3-Dvo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

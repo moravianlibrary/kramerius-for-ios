@@ -41,7 +41,7 @@
 {
     [super viewWillAppear:animated];
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-    self.title = @"Naposled otevřené";
+    self.title = @"Historie";
     
     _recentlyOpened = delegate.loadRecentlyOpened;
     [_collectionView reloadData];

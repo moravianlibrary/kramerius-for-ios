@@ -45,7 +45,7 @@
     
     self = [super initWithCoder:decoder];
     if (self) {
-        self.navigationController.tabBarItem.title = @"Knihovna";
+        self.navigationController.tabBarItem.title = @"Domů";
     }
     return self;
 }

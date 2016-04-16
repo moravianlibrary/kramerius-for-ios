@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "MZKMusicViewController.h"
+#import "MZKChangeLibraryViewController.h"
 
-@interface MZKTabBarMenuViewController : UITabBarController <UITabBarControllerDelegate>
+@interface MZKTabBarMenuViewController : UITabBarController<UINavigationControllerDelegate>
 
 @property (nonatomic, strong) IBOutlet MZKMusicViewController *musicVC;
 
