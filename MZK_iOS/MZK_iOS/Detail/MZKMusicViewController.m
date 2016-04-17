@@ -124,6 +124,8 @@ static MZKMusicViewController *sharedInstance;
     if (state & MPMovieLoadStatePlayable)
     {
         NSLog(@"Playable");
+        _timeSlider.userInteractionEnabled = YES;
+        _timeSlider.maximumValue = _audioPlayer.playableDuration;
         
     }
 
@@ -274,6 +276,8 @@ static MZKMusicViewController *sharedInstance;
     
 }
 
+
+
 -(void)childrenForItemLoaded:(NSArray *)items
 {
     __weak typeof(self) welf = self;
@@ -300,8 +304,7 @@ static MZKMusicViewController *sharedInstance;
 
 -(void)playItemWithPID:(NSString *)pid
 {
-   // [[AVAudioSession sharedInstance] setDelegate: self];
-    
+   
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     
     NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
@@ -344,6 +347,8 @@ static MZKMusicViewController *sharedInstance;
 {
     NSLog(@"Playback did finish");
     
+    [self resetPlayer];
+    
 }
 
 -(void)onDatasourceChanged:(NSNotification *)notf
@@ -352,6 +357,19 @@ static MZKMusicViewController *sharedInstance;
         [_audioPlayer stop];
     }
     
+}
+
+-(void)resetPlayer
+{
+    [_audioPlayer stop];
+    [self prepareSlider];
+    [tickTimer invalidate];
+    tickTimer = nil;
+    
+    if (_audioPlayer.currentPlaybackRate == 0) {
+        
+        [_play setImage:[UIImage imageNamed:@"audioPlay"] forState:UIControlStateNormal];
+    }
 }
 
 -(void)prepareSlider
@@ -508,6 +526,7 @@ static MZKMusicViewController *sharedInstance;
 {
     isSeeking = NO;
     NSLog(@"end Scrubbing");
+    [self scheduleTimer];
 }
 
 - (IBAction)scrub:(id)sender
@@ -515,7 +534,8 @@ static MZKMusicViewController *sharedInstance;
     isSeeking = YES;
     _audioPlayer.currentPlaybackTime = _timeSlider.value;
     NSLog(@"on scrub");
-    [self scheduleTimer];
+    
+    [self updatePlayerViewsWithCurrentTime];
 }
 
 - (IBAction)onPlayPause:(id)sender {
@@ -537,8 +557,6 @@ static MZKMusicViewController *sharedInstance;
             
            
             [songInfo setObject:_currentItem.title forKey:MPMediaItemPropertyTitle];
-           // [songInfo setObject:_currentItem.authors forKey:MPMediaItemPropertyArtist];
-           // [songInfo setObject:@"Audio Album" forKey:MPMediaItemPropertyAlbumTitle];
             [songInfo setObject:[NSNumber numberWithFloat:_audioPlayer.playableDuration] forKey:MPMediaItemPropertyPlaybackDuration];
             [songInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
             [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
@@ -553,6 +571,11 @@ static MZKMusicViewController *sharedInstance;
             [[AVAudioSession sharedInstance] setActive:NO error:nil];
             [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
             [[AVAudioSession sharedInstance] setActive: YES error: nil];
+            
+            if (_timeSlider.value > 0 && _audioPlayer.currentPlaybackRate ==0) {
+                //scrubbed before play
+                _audioPlayer.currentPlaybackTime = _timeSlider.value;
+            }
             
             [_audioPlayer play];
             [_play setImage:[UIImage imageNamed:@"audioPause"] forState:UIControlStateNormal];
@@ -622,8 +645,6 @@ static MZKMusicViewController *sharedInstance;
 
     }
 }
-
-
 
 -(void)scheduleTimer
 {
