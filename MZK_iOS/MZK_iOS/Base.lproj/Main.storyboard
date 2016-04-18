@@ -546,20 +546,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fZe-bH-K01" userLabel="topBar">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XaB-AI-4Xe">
-                                        <rect key="frame" x="546" y="12" width="46" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="bUc-WH-ETd"/>
-                                            <constraint firstAttribute="width" constant="46" id="nIl-5A-ZwU"/>
-                                        </constraints>
-                                        <state key="normal" title="i">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="4uD-fM-Xk4" kind="showDetail" identifier="OpenInfoDetail" action="showViewController:sender:" id="pB0-yE-dEK"/>
-                                        </connections>
-                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nV0-G1-Xkn">
                                         <rect key="frame" x="74" y="8" width="452" height="34"/>
                                         <constraints>
@@ -581,6 +567,21 @@
                                         </state>
                                         <connections>
                                             <action selector="onClose:" destination="l9D-rH-xq3" eventType="touchUpInside" id="lb1-wA-Fam"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XaB-AI-4Xe">
+                                        <rect key="frame" x="546" y="12" width="46" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="bUc-WH-ETd"/>
+                                            <constraint firstAttribute="width" constant="46" id="nIl-5A-ZwU"/>
+                                        </constraints>
+                                        <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="info_outline_g">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="4uD-fM-Xk4" kind="showDetail" identifier="OpenInfoDetail" action="showViewController:sender:" id="pB0-yE-dEK"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -749,7 +750,7 @@
                                                 <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zgZ-6Z-xuo" id="OEG-Nn-rIG">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhx-WZ-Qf3">
@@ -915,7 +916,7 @@
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O1D-dK-Sg5" id="zE6-rA-elf">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -997,7 +998,7 @@
                                         <rect key="frame" x="0.0" y="22" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JbJ-RJ-Ern" id="efa-X0-qXr">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Q0-vA-0j7">
@@ -1178,6 +1179,7 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="collectionView" destination="E9e-kf-V8U" id="0GG-Yu-TVd"/>
+                        <segue destination="s6h-by-1vs" kind="show" identifier="OpenSoundDetail" id="X8j-sX-hEs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QGv-IN-9oW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1204,7 +1206,7 @@
                                         <rect key="frame" x="0.0" y="65" width="600" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T4C-RZ-C4B" id="BEL-bq-b42">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="89.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QuW-D5-Zpg" userLabel="libraryIcon">
@@ -1474,7 +1476,7 @@
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xNb-Vj-cLT" id="8l1-Rw-GME">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1704,7 +1706,7 @@
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hGE-wO-bNZ" id="qRZ-gs-ZsD">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -2005,8 +2007,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gdr-Vh-MGW">
-                                <rect key="frame" x="0.0" y="75" width="600" height="477"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gdr-Vh-MGW">
+                                <rect key="frame" x="0.0" y="79" width="600" height="473"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kramerius" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpQ-XQ-3Mf">
                                         <rect key="frame" x="225" y="8" width="151" height="37"/>
@@ -2062,6 +2064,12 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                                             <outlet property="delegate" destination="dXH-YW-FYV" id="L1x-9E-1Ix"/>
                                         </connections>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWT-tJ-bjD">
+                                        <rect key="frame" x="300" y="100" width="0.0" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -2073,6 +2081,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                                     <constraint firstAttribute="trailing" secondItem="Nhr-hI-Qkh" secondAttribute="trailing" constant="8" id="cQQ-oZ-pnQ"/>
                                     <constraint firstItem="hNb-gZ-lI7" firstAttribute="top" secondItem="Nhr-hI-Qkh" secondAttribute="bottom" constant="39" id="drc-nI-QYC"/>
                                     <constraint firstItem="dX4-RU-JMZ" firstAttribute="centerX" secondItem="gdr-Vh-MGW" secondAttribute="centerX" id="eTZ-9e-2jW"/>
+                                    <constraint firstItem="JWT-tJ-bjD" firstAttribute="centerX" secondItem="gdr-Vh-MGW" secondAttribute="centerX" id="eV1-eN-ThT"/>
                                     <constraint firstItem="wpQ-XQ-3Mf" firstAttribute="top" secondItem="gdr-Vh-MGW" secondAttribute="top" constant="8" id="jaX-UI-I7h"/>
                                     <constraint firstItem="dX4-RU-JMZ" firstAttribute="top" secondItem="wpQ-XQ-3Mf" secondAttribute="bottom" constant="3" id="kn2-yL-OG4"/>
                                     <constraint firstItem="Nhr-hI-Qkh" firstAttribute="leading" secondItem="gdr-Vh-MGW" secondAttribute="leading" constant="8" id="mtG-LI-5Lg"/>
@@ -2080,12 +2089,13 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                                     <constraint firstItem="87F-mt-Lv9" firstAttribute="top" secondItem="dX4-RU-JMZ" secondAttribute="bottom" constant="7" id="nof-fh-HTz"/>
                                     <constraint firstItem="aMd-Q7-w16" firstAttribute="top" secondItem="87F-mt-Lv9" secondAttribute="bottom" constant="8" id="t7O-ks-hRM"/>
                                     <constraint firstAttribute="trailing" secondItem="hNb-gZ-lI7" secondAttribute="trailing" constant="8" id="ynL-Zp-CRg"/>
+                                    <constraint firstItem="JWT-tJ-bjD" firstAttribute="top" secondItem="87F-mt-Lv9" secondAttribute="bottom" constant="5" id="zNE-Wy-ZiH"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="gdr-Vh-MGW" firstAttribute="top" secondItem="jO0-oB-v7P" secondAttribute="bottom" constant="55" id="4OQ-65-5ds"/>
+                            <constraint firstItem="gdr-Vh-MGW" firstAttribute="top" secondItem="jO0-oB-v7P" secondAttribute="bottom" constant="15" id="4OQ-65-5ds"/>
                             <constraint firstItem="p9s-Sr-58f" firstAttribute="top" secondItem="gdr-Vh-MGW" secondAttribute="bottom" constant="-1" id="WEY-E5-FkV"/>
                             <constraint firstItem="gdr-Vh-MGW" firstAttribute="leading" secondItem="8k8-rb-dSd" secondAttribute="leadingMargin" constant="-20" id="dqT-Gv-xY6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gdr-Vh-MGW" secondAttribute="trailing" constant="-20" id="kuk-nQ-F6b"/>
@@ -2093,6 +2103,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                     </view>
                     <navigationItem key="navigationItem" id="4kQ-Nm-vGK"/>
                     <connections>
+                        <outlet property="buildNumberLabel" destination="JWT-tJ-bjD" id="h2F-La-CRE"/>
                         <outlet property="link" destination="hNb-gZ-lI7" id="3gE-mf-4nj"/>
                         <outlet property="version" destination="87F-mt-Lv9" id="rVW-D8-hAb"/>
                     </connections>
@@ -2201,6 +2212,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
         <image name="settings_outline_g" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="X8j-sX-hEs"/>
         <segue reference="rs0-rK-WcW"/>
         <segue reference="wpv-e5-UGR"/>
         <segue reference="pB0-yE-dEK"/>

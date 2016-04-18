@@ -23,6 +23,7 @@
             }
         }
     }
+    //_authors = [names copy];
     return [names copy];
 }
 

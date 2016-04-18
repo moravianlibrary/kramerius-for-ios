@@ -261,7 +261,11 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
             [pageObj setDelegate:self];
             [pageObj loadPageResolution];
         }
-    }
+        
+        
+        self.pageSlider.userInteractionEnabled = loadedPages.count>1?YES:NO;
+        
+        }
     
 }
 
@@ -436,7 +440,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         return;
     }
     
-    
     loadedItem = item;
     self.titleLabel.text = item.title;
     
@@ -445,9 +448,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         [self loadImagePropertiesForPageItem: loadedItem.pid];
     }
     else{
-        
         [detailDatasource getChildrenForItem:loadedItem.pid];
-        
     }
     
 }
@@ -479,7 +480,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 }
 
 - (IBAction)onPageChanged:(id)sender {
-    
     double value = self.pageSlider.value;
     int myInt = (int)(value + (value>0 ? 0.5 : -0.5));
     
@@ -533,9 +533,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         currentIndex--;
         [self switchPage];
     }
-}
-
-- (IBAction)onShowPages:(id)sender {
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer

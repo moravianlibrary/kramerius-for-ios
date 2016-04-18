@@ -123,9 +123,14 @@
     
     newCell.itemName.text =item.title;
     newCell.itemAuthors.text = item.authors;
-    newCell.itemType.text = item.documentType;
-    //newCell.itemTypeIcon
-    AppDelegate *del = [[UIApplication sharedApplication] delegate];
+    newCell.item = item;
+    
+    newCell.itemType.text = [item getLocalizedItemType];
+    
+    newCell.publicOnlyIcon.hidden = [item.policy isEqualToString:@"public"]? YES:NO;
+ 
+    
+    AppDelegate *del = (AppDelegate* )[[UIApplication sharedApplication] delegate];
     MZKResourceItem *resItem = del.getDatasourceItem;
     
     NSString*url = [NSString stringWithFormat:@"%@://%@", resItem.protocol, resItem.stringURL];
@@ -145,7 +150,17 @@
     
     if ([item.policy isEqualToString:@"public"]) {
         
-        [self performSegueWithIdentifier:@"OpenCollectionDetail" sender:nil];
+        if ([item.model isEqualToString:@"soundunit"] || [item.model isEqualToString:@"soundrecording"]) {
+        
+            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            
+            [delegate transitionToMusicViewControllerWithSelectedMusic:item.pid];
+       
+        }
+        else{
+            [self performSegueWithIdentifier:@"OpenCollectionDetail" sender:nil];
+        }
+ 
     }
     else
     {
@@ -260,6 +275,12 @@
         MZKDetailViewController *vc = [segue destinationViewController];
         
         // Pass any objects to the view controller here, like...
+        [vc setItem:_selectedItem];
+        _selectedItem = nil;
+    }
+    else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
+    {
+        MZKMusicViewController *vc = [segue destinationViewController];
         [vc setItem:_selectedItem];
         _selectedItem = nil;
     }

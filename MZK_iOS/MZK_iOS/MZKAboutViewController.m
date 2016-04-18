@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *link;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
+@property (weak, nonatomic) IBOutlet UILabel *buildNumberLabel;
 
 @end
 
@@ -40,6 +41,12 @@
     [self.link addLinkToURL:[NSURL URLWithString:kKrameriusDescriptionLink] withRange:range]; // Embedding a custom link in a substring
     
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    
+    NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+    
+    if (build) {
+        _buildNumberLabel.text = build;
+    }
     
     _version.text =appVersion;
     self.title = @"O aplikaci";

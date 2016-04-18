@@ -132,7 +132,13 @@
         _datasource.delegate = self;
     }
     
-    [_datasource getChildrenForItem:_parentObject.pid];
+    if (parentItemResource ) {
+        
+        [_datasource getChildrenForItem:parentItemResource.pid];
+    }
+    else if(_parentPID){
+        [_datasource getItem:_parentPID];
+    }
 }
 
 
@@ -219,7 +225,7 @@
             cell.itemAuthors.text = [NSString stringWithFormat:@"Číslo %@", item.issueNumber];
         }
         
-        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
         NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
         NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",url, item.pid ];
@@ -240,8 +246,8 @@
     
     if ([po.model isEqualToString:@"soundunit"]) {
         
-         [self onClose:nil];
-        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        [self onClose:nil];
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
         [delegate transitionToMusicViewControllerWithSelectedMusic:po.pid];
         
@@ -361,15 +367,20 @@
 #pragma mark - Data Loaded delegate and Datasource methods
 -(void)childrenForItemLoaded:(NSArray *)items
 {
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf childrenForItemLoaded:items];
+        });
+        return;
+    }
+    
     _items = items;
     
-    __weak typeof(self) wealf = self;
+    [self._collectionView reloadData];
+    [self hideLoadingIndicator];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [wealf._collectionView reloadData];
-        [wealf hideLoadingIndicator];
-        
-    });
 }
 
 #pragma mark - Search bar delegate
@@ -495,13 +506,9 @@
     }
     
     parentItemResource = item;
-    __weak typeof(self) wealf = self;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [wealf refreshTitle];
-        [_datasource getChildrenForItem:parentItemResource.pid];
-        [wealf hideLoadingIndicator];
-    });
+    [self refreshTitle];
+    [_datasource getChildrenForItem:parentItemResource.pid];
 }
 
 -(void)resetSearch

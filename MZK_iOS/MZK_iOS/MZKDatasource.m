@@ -309,6 +309,11 @@ typedef enum _downloadOperation downloadOperation;
     
     if (localError != nil) {
         error = localError;
+        
+        if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
+            [self.delegate downloadFailedWithError:error];
+        }
+        
         return;
     }
     MZKItemResource *resItem = [self parseObjectFromDictionary:parsedObject];
@@ -408,6 +413,13 @@ typedef enum _downloadOperation downloadOperation;
             [self.delegate childrenForItemLoaded:pages];
         }
     }
+    else
+    {
+        if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
+            [self.delegate downloadFailedWithError:[NSError errorWithDomain:@"Nothing downloaded" code:-10000 userInfo:[NSMutableDictionary new]]];
+        }
+
+    }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
 
@@ -470,12 +482,25 @@ typedef enum _downloadOperation downloadOperation;
         MZKCollectionItemResource *cItem = [MZKCollectionItemResource new];
         NSDictionary *itemDict =[parsedObject objectAtIndex:i];
         
-        
+        cItem.model = [itemDict objectForKey:@"fedora.model"];
         cItem.numFound = numberOfResults;
         cItem.start = start;
         cItem.pid = [itemDict objectForKey:@"PID"];
         cItem.datumStr = [itemDict objectForKey:@"datum_str"];
-        cItem.documentCreator = [itemDict objectForKey:@"dc.creator"];
+        
+        NSMutableString *authors = [NSMutableString new];
+        if ([[itemDict objectForKey:@"dc.creator"] isKindOfClass:[NSArray class]]) {
+            for (NSString *name in [itemDict objectForKey:@"dc.creator"]) {
+                [authors appendString:name];
+                
+            }
+        }
+        else
+        {
+            authors = [itemDict objectForKey:@"dc.creator"];
+        }
+        
+        cItem.documentCreator = [authors copy];
         cItem.title = [itemDict objectForKey:@"dc.title"];
         cItem.rootPid = [itemDict objectForKey:@"root_pid"] ;
         cItem.rootTitle =[itemDict objectForKey:@"root_title"];

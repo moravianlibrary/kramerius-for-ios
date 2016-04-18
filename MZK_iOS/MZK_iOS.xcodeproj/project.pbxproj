@@ -274,6 +274,8 @@
 		2DAA60761BA759350004A718 /* Collections */ = {
 			isa = PBXGroup;
 			children = (
+				2D8BB7C51BCE3FC4008E53A1 /* MZKItemCollectionViewCell.h */,
+				2D8BB7C61BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m */,
 				2DAA60731BA7590B0004A718 /* MZKDetailCollectionViewCell.h */,
 				2DAA60741BA7590B0004A718 /* MZKDetailCollectionViewCell.m */,
 				2DAA60701BA758AB0004A718 /* MZKCollectionDetailViewController.h */,
@@ -367,8 +369,6 @@
 				2D02A4611B0624C100D51B0C /* MZKPageObject.m */,
 				2DE387611AE526AA00A2004E /* MZKDatasource.h */,
 				2DE387621AE526AA00A2004E /* MZKDatasource.m */,
-				2D8BB7C51BCE3FC4008E53A1 /* MZKItemCollectionViewCell.h */,
-				2D8BB7C61BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m */,
 				2DB8A7941ACD073400A1BB2E /* Supporting Files */,
 				2D33C3551C2819E9002BA7D1 /* MZKSettingsViewController.h */,
 				2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */,

@@ -7,6 +7,7 @@
 //
 
 #import "MZKCollectionTableViewCell.h"
+#import "MZKConstants.h"
 
 @implementation MZKCollectionTableViewCell
 

@@ -205,7 +205,7 @@
     
         cell.publicOnlyIcon.hidden = [item.policy isEqualToString:@"public"]? YES:NO;
         
-        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
         NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
         NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",url, item.pid ];

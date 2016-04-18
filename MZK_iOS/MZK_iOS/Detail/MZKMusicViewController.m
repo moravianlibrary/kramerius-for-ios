@@ -167,7 +167,20 @@ static MZKMusicViewController *sharedInstance;
 
 -(void)loadDataForController
 {
-    [_datasource getItem:_currentItemPID];
+    if (!_datasource) {
+        _datasource = [MZKDatasource new];
+        _datasource.delegate = self;
+    }
+    
+    if (_currentItem) {
+        [_datasource getChildrenForItem:_currentItem.pid];
+    }
+    else if (_currentItemPID)
+    {
+        [_datasource getItem:_currentItemPID];
+    }
+    
+    
 }
 
 -(void)downloadFailedWithError:(NSError *)error
@@ -243,12 +256,13 @@ static MZKMusicViewController *sharedInstance;
 
 -(void)loadDataForItem:(MZKItemResource *)item
 {
-    
-    
     if (!_datasource) {
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
     }
+    
+    _currentItem = item;
+    
     [_datasource getChildrenForItem:item.pid];
     
    
@@ -305,7 +319,7 @@ static MZKMusicViewController *sharedInstance;
 -(void)playItemWithPID:(NSString *)pid
 {
    
-    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
     NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/streams/MP3",url, pid];
@@ -546,7 +560,7 @@ static MZKMusicViewController *sharedInstance;
         
         
         NSMutableDictionary *songInfo = [[NSMutableDictionary alloc] init];
-        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
         NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
         NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",url, _currentItem.pid ];
