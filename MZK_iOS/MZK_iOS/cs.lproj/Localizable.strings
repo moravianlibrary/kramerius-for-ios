@@ -1,0 +1,27 @@
+/* 
+  Localizable.strings
+  MZK_iOS
+
+  Created by OndrejVyhlidal on 20/04/16.
+  Copyright © 2016 Ondrej Vyhlidal. All rights reserved.
+*/
+
+"KEY" = "CONTENT";
+
+"mzk.home" = "Domů";
+"mzk.library" = "Knihovna";
+"mzk.musicPlayer" = "Přehrávač";
+"mzk.chooseLibrary" = "Knihovny";
+"mzk.collections" = "Sbírky";
+"mzk.history" = "Historie";
+"mzk.settings" = "Nastavení";
+"mzk.about" = "O Aplikaci";
+
+"mzk.mainPage.latest" = "Nejnovější";
+"mzk.mainPage.interesting" = "Zajímavé";
+
+"mzk.type.book" = "Kniha";
+"mzk.type.map" = "Mapa";
+"mzk.type.graphics" = "Grafika";
+"mzk.type.periodical" = "Periodical";
+"mzk.type." = "";

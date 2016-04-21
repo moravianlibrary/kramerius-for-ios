@@ -22,6 +22,15 @@
 
 @implementation MZKRecentlyOpenedDocumentsViewController
 
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    if (self) {
+        self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.history", @"history title");
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
    
@@ -40,12 +49,11 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-    self.title = @"Historie";
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    self.title = self.navigationController.tabBarItem.title;
     
     _recentlyOpened = delegate.loadRecentlyOpened;
     [_collectionView reloadData];
-    NSLog(@"view will appear");
 }
 
 - (void)didReceiveMemoryWarning {

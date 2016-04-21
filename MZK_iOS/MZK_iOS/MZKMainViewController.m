@@ -45,7 +45,7 @@
     
     self = [super initWithCoder:decoder];
     if (self) {
-        self.navigationController.tabBarItem.title = @"Domů";
+        self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.home", @"Home button title");
     }
     return self;
 }
@@ -58,6 +58,10 @@
     datasource = [MZKDatasource new];
     datasource.delegate = self;
     
+    [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.latest", @"") forSegmentAtIndex:0];
+    [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.interesting", @"") forSegmentAtIndex:1];
+    
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
   
     [self refreshAllValues];
@@ -69,7 +73,7 @@
 -(void)refreshTitle
 {
     //get name of selected library
-    AppDelegate *del = [[UIApplication sharedApplication] delegate];
+    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *libName = [[del getDatasourceItem] name];
     self.navigationItem.title = libName;
 }

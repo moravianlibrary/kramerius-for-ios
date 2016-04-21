@@ -1,0 +1,144 @@
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "1ON-l4-TYy"; */
+"1ON-l4-TYy.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Zpět"; ObjectID = "1Rr-NJ-Vnc"; */
+"1Rr-NJ-Vnc.normalTitle" = "Zpět";
+
+/* Class = "UILabel"; text = "10/20"; ObjectID = "1wK-Id-J9N"; */
+"1wK-Id-J9N.text" = "10/20";
+
+/* Class = "UIViewController"; title = "Knihovna"; ObjectID = "6df-qc-DMZ"; */
+"6df-qc-DMZ.title" = "Knihovna";
+
+/* Class = "UILabel"; text = "1.0"; ObjectID = "87F-mt-Lv9"; */
+"87F-mt-Lv9.text" = "1.0";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "9Q0-vA-0j7"; */
+"9Q0-vA-0j7.text" = "Label";
+
+/* Class = "UIBarButtonItem"; title = "tadaaa"; ObjectID = "C5d-P9-gIK"; */
+"C5d-P9-gIK.title" = "tadaaa";
+
+/* Class = "UITabBarItem"; title = "Přehrávač"; ObjectID = "CTi-LU-C0S"; */
+"CTi-LU-C0S.title" = "Přehrávač";
+
+/* Class = "UILabel"; text = "Nastavení"; ObjectID = "CTs-eM-9rB"; */
+"CTs-eM-9rB.text" = "Nastavení";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "FWg-Y5-MiK"; */
+"FWg-Y5-MiK.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Giq-gY-Wqv"; */
+"Giq-gY-Wqv.text" = "Label";
+
+/* Class = "UISearchBar"; GpH-VH-C5x.scopeButtonTitles[0] = "Title"; ObjectID = "GpH-VH-C5x"; */
+"GpH-VH-C5x.scopeButtonTitles[0]" = "Title";
+
+/* Class = "UISearchBar"; GpH-VH-C5x.scopeButtonTitles[1] = "Title"; ObjectID = "GpH-VH-C5x"; */
+"GpH-VH-C5x.scopeButtonTitles[1]" = "Title";
+
+/* Class = "UITabBarItem"; title = "Kolekce"; ObjectID = "H5K-s7-7aW"; */
+"H5K-s7-7aW.title" = "Kolekce";
+
+/* Class = "UIButton"; normalTitle = "Zpět"; ObjectID = "HVq-tc-9ie"; */
+"HVq-tc-9ie.normalTitle" = "Zpět";
+
+/* Class = "UILabel"; text = "00:00:00"; ObjectID = "IY9-hX-xJ0"; */
+"IY9-hX-xJ0.text" = "00:00:00";
+
+/* Class = "UILabel"; text = "00:00:00"; ObjectID = "IeM-Qr-j14"; */
+"IeM-Qr-j14.text" = "00:00:00";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "L1b-ac-fI1"; */
+"L1b-ac-fI1.text" = "Label";
+
+/* Class = "UITabBarItem"; title = "Nastavení"; ObjectID = "MS8-UP-8dE"; */
+"MS8-UP-8dE.title" = "Nastavení";
+
+/* Class = "UITabBarItem"; title = "Historie"; ObjectID = "OXj-9w-Gvk"; */
+"OXj-9w-Gvk.title" = "Historie";
+
+/* Class = "UITabBarItem"; title = "Knihovna"; ObjectID = "PYG-m1-SxV"; */
+"PYG-m1-SxV.title" = "Knihovna";
+
+/* Class = "UIButton"; normalTitle = "<-"; ObjectID = "QnT-JB-a7X"; */
+"QnT-JB-a7X.normalTitle" = "<-";
+
+/* Class = "UITabBarItem"; title = "Knihovna"; ObjectID = "Rkr-MF-3kM"; */
+"Rkr-MF-3kM.title" = "Knihovna";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "V8b-Qo-651"; */
+"V8b-Qo-651.text" = "Label";
+
+/* Class = "UITabBarItem"; title = "O aplikaci"; ObjectID = "VBS-i6-yFA"; */
+"VBS-i6-yFA.title" = "O aplikaci";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "ZFC-OH-gyj"; */
+"ZFC-OH-gyj.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "ZdB-K1-me2"; */
+"ZdB-K1-me2.text" = "Label";
+
+/* Class = "UILabel"; text = "Aplikace zpřístupňuje digitální fondy českých knihoven.\nNajdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii, staré noviny a časopisy, archiválie, rukopisy, kolekce map, gramodesky a další."; ObjectID = "aMd-Q7-w16"; */
+"aMd-Q7-w16.text" = "Aplikace zpřístupňuje digitální fondy českých knihoven.\nNajdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii, staré noviny a časopisy, archiválie, rukopisy, kolekce map, gramodesky a další.";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "afP-X8-RDp"; */
+"afP-X8-RDp.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "cn3-Gn-Ipt"; */
+"cn3-Gn-Ipt.text" = "Label";
+
+/* Class = "UILabel"; text = "Digitální knihovna"; ObjectID = "dX4-RU-JMZ"; */
+"dX4-RU-JMZ.text" = "Digitální knihovna";
+
+/* Class = "UISegmentedControl"; e9e-bE-9mg.segmentTitles[0] = "Nejnovější"; ObjectID = "e9e-bE-9mg"; */
+"e9e-bE-9mg.segmentTitles[0]" = "Nejnovější";
+
+/* Class = "UISegmentedControl"; e9e-bE-9mg.segmentTitles[1] = "Zajímavé"; ObjectID = "e9e-bE-9mg"; */
+"e9e-bE-9mg.segmentTitles[1]" = "Zajímavé";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "eDA-Xc-ooQ"; */
+"eDA-Xc-ooQ.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "hNb-gZ-lI7"; */
+"hNb-gZ-lI7.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "hhx-WZ-Qf3"; */
+"hhx-WZ-Qf3.text" = "Label";
+
+/* Class = "UIViewController"; title = "Kolekce"; ObjectID = "iax-az-9cZ"; */
+"iax-az-9cZ.title" = "Kolekce";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "m2S-rt-z4P"; */
+"m2S-rt-z4P.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "->"; ObjectID = "mQw-Yh-tac"; */
+"mQw-Yh-tac.normalTitle" = "->";
+
+/* Class = "UILabel"; text = "Zobrazovat jen volně dostupné"; ObjectID = "mWi-ld-vBH"; */
+"mWi-ld-vBH.text" = "Zobrazovat jen volně dostupné";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "nV0-G1-Xkn"; */
+"nV0-G1-Xkn.text" = "Label";
+
+/* Class = "UISearchBar"; oGg-rn-VPl.scopeButtonTitles[0] = "Title"; ObjectID = "oGg-rn-VPl"; */
+"oGg-rn-VPl.scopeButtonTitles[0]" = "Title";
+
+/* Class = "UISearchBar"; oGg-rn-VPl.scopeButtonTitles[1] = "Title"; ObjectID = "oGg-rn-VPl"; */
+"oGg-rn-VPl.scopeButtonTitles[1]" = "Title";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "scU-cl-Xyw"; */
+"scU-cl-Xyw.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "i"; ObjectID = "vqp-vO-txu"; */
+"vqp-vO-txu.normalTitle" = "i";
+
+/* Class = "UILabel"; text = "Kramerius"; ObjectID = "wpQ-XQ-3Mf"; */
+"wpQ-XQ-3Mf.text" = "Kramerius";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "z3A-DL-amx"; */
+"z3A-DL-amx.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "zlo-1M-IFi"; */
+"zlo-1M-IFi.text" = "Label";

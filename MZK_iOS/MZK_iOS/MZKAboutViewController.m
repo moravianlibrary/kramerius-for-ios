@@ -25,6 +25,15 @@
 
 @implementation MZKAboutViewController
 
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    if (self) {
+        self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.about", @"about application");
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -49,7 +58,7 @@
     }
     
     _version.text =appVersion;
-    self.title = @"O aplikaci";
+    self.title = self.navigationController.tabBarItem.title;
 }
 
 - (void)didReceiveMemoryWarning {

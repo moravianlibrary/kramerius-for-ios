@@ -67,7 +67,17 @@ static MZKMusicViewController *sharedInstance;
         [sharedInstance view];
         
     });
-    return sharedInstance;}
+    return sharedInstance;
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    if (self) {
+        self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.musicPlayer", @"Player title");
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -94,9 +104,8 @@ static MZKMusicViewController *sharedInstance;
         // Since there were no errors initializing the session, we'll allow begin receiving remote control events
         [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     }
-    self.title = @"Hudební přehrávač";
-    
-   // [self startAnimating];
+    self.title =  self.navigationController.tabBarItem.title;
+
 }
 
 

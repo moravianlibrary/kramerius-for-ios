@@ -27,12 +27,20 @@
 @end
 
 @implementation MZKCollectionsViewController
-
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    if (self) {
+        self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.collections", @"Collections title");
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self loadDataForController];
-    self.title = @"Kolekce";
+    self.title = self.navigationController.tabBarItem.title;
+
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
     [self initGoogleAnalytics];

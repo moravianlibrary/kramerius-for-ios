@@ -61,7 +61,7 @@
                         <segue destination="I7O-Sd-CBI" kind="relationship" relationship="viewControllers" id="izk-rG-9rD"/>
                         <segue destination="vYQ-qL-IC7" kind="relationship" relationship="viewControllers" id="WNU-Ah-vZv"/>
                         <segue destination="C6R-Cv-kpv" kind="relationship" relationship="viewControllers" id="B5h-oS-nYW"/>
-                        <segue destination="MMP-1I-b3c" kind="relationship" relationship="viewControllers" id="AVB-qa-Qe1"/>
+                        <segue destination="Fcx-XV-T0L" kind="relationship" relationship="viewControllers" id="AVB-qa-Qe1"/>
                         <segue destination="7UF-lk-ddU" kind="relationship" relationship="viewControllers" id="aZl-YV-kdL"/>
                     </connections>
                 </tabBarController>
@@ -246,8 +246,8 @@
                                             <segue destination="4uD-fM-Xk4" kind="presentation" identifier="OpenInfoDetail" id="zEy-1m-U9d"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lYS-Uv-mal">
-                                        <rect key="frame" x="300" y="26" width="0.0" height="0.0"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lYS-Uv-mal">
+                                        <rect key="frame" x="300" y="25" width="0.0" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -326,11 +326,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="EbB-4O-cbx">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="3" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="EbB-4O-cbx">
                                 <rect key="frame" x="0.0" y="0.0" width="599" height="600"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hMS-ji-pSk">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hMS-ji-pSk">
                                         <rect key="frame" x="0.0" y="0.0" width="599" height="600"/>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -405,7 +406,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yMx-HL-3FU" userLabel="navigationButtonsView">
                                 <rect key="frame" x="0.0" y="500" width="600" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" alpha="0.20000000000000001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mQw-Yh-tac">
+                                    <button opaque="NO" alpha="0.20000000000000001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mQw-Yh-tac">
                                         <rect key="frame" x="300" y="0.0" width="300" height="50"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -446,13 +447,13 @@
                                     <constraint firstItem="mQw-Yh-tac" firstAttribute="width" secondItem="QnT-JB-a7X" secondAttribute="width" id="ise-Jb-jiY"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nqH-AD-f3s" userLabel="NextPageSideButton">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nqH-AD-f3s" userLabel="NextPageSideButton">
                                 <rect key="frame" x="569" y="50" width="30" height="500"/>
                                 <connections>
                                     <action selector="onNextPage:" destination="l9D-rH-xq3" eventType="touchUpInside" id="wLG-Hk-5b1"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TVn-vm-vKf" userLabel="PreviousPageSideButton">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TVn-vm-vKf" userLabel="PreviousPageSideButton">
                                 <rect key="frame" x="0.0" y="50" width="30" height="500"/>
                                 <connections>
                                     <action selector="onPreviousPage:" destination="l9D-rH-xq3" eventType="touchUpInside" id="DyN-Dl-S88"/>
@@ -824,7 +825,7 @@
             </objects>
             <point key="canvasLocation" x="3311" y="-1382"/>
         </scene>
-        <!--Nastavení-->
+        <!--Settings View Controller-->
         <scene sceneID="LhR-ox-J9c">
             <objects>
                 <viewController storyboardIdentifier="MZKSettingsViewController" id="MMP-1I-b3c" customClass="MZKSettingsViewController" sceneMemberID="viewController">
@@ -838,21 +839,9 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gs0-yM-I8F">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="69"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nastavení" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTs-eM-9rB">
-                                        <rect key="frame" x="261" y="16" width="78" height="37"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="centerY" secondItem="CTs-eM-9rB" secondAttribute="centerY" id="NYe-BV-d7c"/>
                                     <constraint firstAttribute="height" constant="69" id="RVD-Cj-ojt"/>
-                                    <constraint firstAttribute="centerX" secondItem="CTs-eM-9rB" secondAttribute="centerX" id="Yqo-9g-W3f"/>
-                                    <constraint firstItem="CTs-eM-9rB" firstAttribute="top" secondItem="Gs0-yM-I8F" secondAttribute="top" constant="16" id="ZBv-YT-HQU"/>
-                                    <constraint firstAttribute="bottom" secondItem="CTs-eM-9rB" secondAttribute="bottom" constant="16" id="zxC-qm-tMB"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zobrazovat jen volně dostupné" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mWi-ld-vBH">
@@ -879,14 +868,14 @@
                             <constraint firstItem="Gs0-yM-I8F" firstAttribute="top" secondItem="kUC-UO-Fy3" secondAttribute="top" id="gjn-x1-Yl3"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Nastavení" image="settings_outline_g" selectedImage="settings_outline_b" id="MS8-UP-8dE"/>
+                    <navigationItem key="navigationItem" id="pms-vR-6Fc"/>
                     <connections>
                         <outlet property="publicDocuments" destination="lnU-cg-JfG" id="Jnn-7b-8P3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yio-UW-kFC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-402" y="-4167"/>
+            <point key="canvasLocation" x="410" y="-4167"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="gcM-W4-3zD">
@@ -2188,6 +2177,25 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
             </objects>
             <point key="canvasLocation" x="-402" y="-4904"/>
         </scene>
+        <!--Nastavení-->
+        <scene sceneID="Bag-C0-IBD">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Fcx-XV-T0L" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Nastavení" image="settings_outline_g" selectedImage="settings_outline_b" id="MS8-UP-8dE"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mAZ-Vw-WxL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="MMP-1I-b3c" kind="relationship" relationship="rootViewController" id="4zS-Eg-y6M"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xW3-wH-BdE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-402" y="-4167"/>
+        </scene>
     </scenes>
     <resources>
         <image name="audioFF" width="60" height="60"/>
@@ -2212,8 +2220,8 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
         <image name="settings_outline_g" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="X8j-sX-hEs"/>
         <segue reference="rs0-rK-WcW"/>
+        <segue reference="X8j-sX-hEs"/>
         <segue reference="wpv-e5-UGR"/>
         <segue reference="pB0-yE-dEK"/>
     </inferredMetricsTieBreakers>

@@ -17,9 +17,21 @@
 
 @implementation MZKSettingsViewController
 
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    if (self) {
+        self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.settings", @"application settings screen title");
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    
+    self.title = self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.settings", @"application settings screen title");
     [self loadSettings];
 }
 

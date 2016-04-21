@@ -1,0 +1,27 @@
+/* 
+  Localizable.strings
+  MZK_iOS
+
+  Created by OndrejVyhlidal on 20/04/16.
+  Copyright © 2016 Ondrej Vyhlidal. All rights reserved.
+*/
+
+"KEY" = "CONTENT";
+
+"mzk.home" = "Home";
+"mzk.library" = "Library";
+"mzk.musicPlayer" = "Music";
+"mzk.chooseLibrary" = "Libraries";
+"mzk.collections" = "Collections";
+"mzk.history" = "Recent";
+"mzk.settings" = "Settings";
+"mzk.about" = "About";
+
+"mzk.mainPage.latest" = "Latest";
+"mzk.mainPage.interesting" = "Interesting";
+
+"mzk.type.book" = "Book";
+"mzk.type.map" = "Map";
+"mzk.type.graphics" = "Graphics";
+"mzk.type.periodical" = "Periodical";
+"mzk.type." = "";

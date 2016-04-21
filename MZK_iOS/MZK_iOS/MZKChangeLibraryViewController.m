@@ -26,11 +26,20 @@
 
 @implementation MZKChangeLibraryViewController
 
+- (id)initWithCoder:(NSCoder *)decoder {
+    
+    self = [super initWithCoder:decoder];
+    if (self) {
+        self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.chooseLibrary", @"choose library title");
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     _libraries = [self createDataForLibraries];
     
-    self.title = @"Knihovna";
+    self.title = self.navigationController.tabBarItem.title;
     
     [self initGoogleAnalytics];
     

@@ -68,6 +68,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 @implementation MZKDetailViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -93,6 +94,21 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     singleTap.delegate = self;
     self.tapGestureRecognizer = singleTap;
     [self.webView addGestureRecognizer:singleTap];
+    [self.scrollView addGestureRecognizer:singleTap];
+    
+    // swipe gesture recognizers
+    
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onPreviousPage:)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onNextPage:)];
+    swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    
+    [self.scrollView addGestureRecognizer:swipeLeft];
+    [self.scrollView addGestureRecognizer:swipeRight];
+    
+    
+    self.scrollView.backgroundColor = [UIColor blackColor];
     
     [_webView setBackgroundColor:[UIColor blackColor]];
     [_webView.scrollView setBackgroundColor:[UIColor grayColor]];
@@ -138,7 +154,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         height = self.view.frame.size.height;
     }
     
-    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     NSString *queryString = [NSString stringWithFormat:@"?url=%@://%@/search/zoomify/%@/&width=%f&height=%f",delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL, url, width, height];
     
@@ -171,19 +187,31 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     self.scrollView.hidden = NO;
         
     NSLog(@"Page resolution Not Loaded");
-    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     // /search/api/v5.0/item/uuid:a2b0851b-aa48-11e1-b7f6-0050569d679d/streams/IMG_FULL
     // tady schazi dodelat test na url response...
-    NSString *load = [NSString stringWithFormat:@"%@://%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL, page.pid, [NSString stringWithFormat:@"%d", 1000]];
+    
+    int height = self.view.bounds.size.height*2;
+    NSLog(@"Height:%d", height);
+    self.scrollView.minimumZoomScale = 1;
+    self.scrollView.maximumZoomScale = 3;
+    self.scrollView.zoomScale = 1;
+    NSString *load = [NSString stringWithFormat:@"%@://%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL, page.pid, [NSString stringWithFormat:@"%d", height]];
     
     NSURL *finalURL = [NSURL URLWithString:load];
-   // NSURLRequest *request = [NSURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:(NSTimeInterval)50 ];
-    
     
     [_imageZoomView sd_setImageWithURL:finalURL placeholderImage:nil options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)  {
         
+        
+        _scrollView.contentSize = image.size;
+        _imageZoomView.frame = CGRectMake(_scrollView.frame.size.width/2 - image.size.width/2, 0, image.size.width, image.size.height);
+        
+      self.scrollView.contentInset = UIEdgeInsetsZero;
+        
+        NSLog(@"Image Loaded resolution: %f, %f", image.size.height, image.size.width);
+        NSLog(@"Scrollview size:%@", _scrollView.description);
     } usingProgressView:nil];
 
 }
@@ -239,7 +267,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         });
         return;
     }
-    
     
     if (!detailDatasource) {
         detailDatasource = [MZKDatasource new];
@@ -400,6 +427,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     if (statusCode > 399) {
         NSError *error = [NSError errorWithDomain:@"HTTP Error" code:httpResponse.statusCode userInfo:@{@"response":httpResponse}];
         // Forward the error to webView:didFailLoadWithError: or other
+        NSLog(@"Error:%@", error.description);
     }
     else {
         // No HTTP error
@@ -615,7 +643,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     MZKPageObject *page = [loadedPages objectAtIndex:indexPath.row];
     if (page) {
         
-        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
         NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
         NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",url, page.pid ];
@@ -653,7 +681,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 -(void)saveDocumentToRecentlyOpened:(MZKItemResource *)item
 {
     
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSDateFormatter *dateformat = [[NSDateFormatter alloc] init];
     [dateformat setDateFormat:@"dd.MM.yyyy"];
     item.lastOpened = [dateformat stringFromDate:[NSDate date]];
@@ -709,6 +737,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
 }
 
+
 #pragma mark - UIScrollViewDelegate
 
 -(UIImageView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
@@ -722,29 +751,80 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     float heightScale = size.height / _imageZoomView.bounds.size.height;
     float minScale = MIN(widthScale, heightScale);
     
-    _scrollView.minimumZoomScale = minScale;
+    _scrollView.minimumZoomScale = 0;
     
-    _scrollView.zoomScale = minScale;
+    
+   // _scrollView.zoomScale = minScale;
 
+}
+
+- (void)centerContent
+{
+    CGFloat top = 0, left = 0;
+    if (self.scrollView.contentSize.width < self.scrollView.bounds.size.width) {
+        left = (self.scrollView.bounds.size.width-self.scrollView.contentSize.width) * 0.5f;
+    }
+    if (self.scrollView.contentSize.height < self.scrollView.bounds.size.height) {
+        top = (self.scrollView.bounds.size.height-self.scrollView.contentSize.height) * 0.5f;
+    }
+    self.scrollView.contentInset = UIEdgeInsetsMake(top, left, top, left);
 }
 
 -(void)updateConstraintsForSize:(CGSize)size
 {
-    float yOffset = MAX(0, (size.height - _imageZoomView.frame.size.height) / 2);
-    _imageViewTopConstraint.constant = yOffset;
-    _imageViewBottomConstraint.constant = yOffset;
-    
-    float xOffset = MAX(0, (size.width - _imageZoomView.frame.size.width) / 2);
-    _imageViewLeadingConstraint.constant = xOffset;
-    _imageViewTrailingConstraint.constant = xOffset;
+//    
+//    float yOffset = MAX(0, (size.height - _imageZoomView.frame.size.height) / 2);
+//    _imageViewTopConstraint.constant = yOffset;
+//    _imageViewBottomConstraint.constant = yOffset;
+//    
+//    float xOffset = MAX(0, (size.width - _imageZoomView.frame.size.width) / 2);
+//    _imageViewLeadingConstraint.constant = xOffset;
+//    _imageViewTrailingConstraint.constant = xOffset;
+//    
+//    NSLog(@"Constraints:%f, %f", yOffset, xOffset);
     
     [self.view layoutIfNeeded];
 }
 
 -(void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
-    [self updateConstraintsForSize:self.view.bounds.size];
+    [self updateConstraintsForSize:scrollView.bounds.size];
+//    CGFloat width = scrollView.contentSize.width/2;
+//    width =width-width/scrollView.zoomScale;
+//    
+//    CGFloat height = scrollView.contentSize.height/2;
+//    height =height-height/scrollView.zoomScale;
+//    
+//    scrollView.contentOffset = CGPointMake(width, height);
+//    _imageZoomView.center = scrollView.center;
+    
+    
+    [self centerContent];
+//    CGSize imgViewSize = _imageZoomView.frame.size;
+//    CGSize imageSize = _imageZoomView.image.size;
+//    
+//    CGSize realImgSize;
+//    if(imageSize.width / imageSize.height > imgViewSize.width / imgViewSize.height) {
+//        realImgSize = CGSizeMake(imgViewSize.width, imgViewSize.width / imageSize.width * imageSize.height);
+//    }
+//    else {
+//        realImgSize = CGSizeMake(imgViewSize.height / imageSize.height * imageSize.width, imgViewSize.height);
+//    }
+//    
+//    CGRect fr = CGRectMake(0, 0, 0, 0);
+//    fr.size = realImgSize;
+//    _imageZoomView.frame = fr;
+//    
+//    CGSize scrSize = scrollView.frame.size;
+//    float offx = (scrSize.width > realImgSize.width ? (scrSize.width - realImgSize.width) / 2 : 0);
+//    float offy = (scrSize.height > realImgSize.height ? (scrSize.height - realImgSize.height) / 2 : 0);
+//    
+//    // don't animate the change.
+//    scrollView.contentInset = UIEdgeInsetsMake(offy, offx, offy, offx);
+
 }
+
+
 
 #pragma mark -
 
