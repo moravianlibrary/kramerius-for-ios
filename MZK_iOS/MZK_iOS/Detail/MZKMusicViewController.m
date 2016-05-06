@@ -11,13 +11,17 @@
 #import "MZKPageObject.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
 #import "UIImageView+WebCache.h"
 #import "AppDelegate.h"
 #import "MZKDetailInformationViewController.h"
 #import <Google/Analytics.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "MZKConstants.h"
-
+#import "AFNetworking.h"
+static void *AVPlayerDemoPlaybackViewControllerRateObservationContext = &AVPlayerDemoPlaybackViewControllerRateObservationContext;
+static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPlayerDemoPlaybackViewControllerStatusObservationContext;
+static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext;
 static MZKMusicViewController *sharedInstance;
 @interface MZKMusicViewController ()<DataLoadedDelegate, AVAudioPlayerDelegate, AVAudioSessionDelegate>
 {
@@ -42,17 +46,20 @@ static MZKMusicViewController *sharedInstance;
     NSString *_currentItemPID;
     MZKItemResource *_currentItem;
     NSArray *_availableTracks;
-
+    
     id mTimeObserver;
     float mRestoreAfterScrubbingRate;
     BOOL seekToZeroBeforePlay;
     BOOL isSeeking;
+    BOOL isFinished;
     NSTimer *tickTimer;
     
-    MPMoviePlayerController *_audioPlayer;
+    AVAudioPlayer *_audioPlayer;
+    
+    AVPlayer *_player;
+    AVPlayerItem *_playerItem;
     
 }
-
 @end
 
 @implementation MZKMusicViewController
@@ -63,7 +70,7 @@ static MZKMusicViewController *sharedInstance;
     dispatch_once(&once, ^{
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         sharedInstance = [storyboard instantiateViewControllerWithIdentifier:@"MZKMusicViewController"];
-       
+        
         [sharedInstance view];
         
     });
@@ -82,12 +89,14 @@ static MZKMusicViewController *sharedInstance;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self prepareSlider];
     _timeSlider.value = 0;
     if (_currentItemPID) {
         [self loadFullImageForItem:_currentItemPID];
         [self loadThumbnailImageForItem:_currentItemPID];
     }
     [self initGoogleAnalytics];
+    isFinished = NO;
     
     // NOTIFICATIONS
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -105,42 +114,14 @@ static MZKMusicViewController *sharedInstance;
         [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     }
     self.title =  self.navigationController.tabBarItem.title;
-
+    
 }
 
-
-
--(void)playbackStateChanged:(NSNotification*)notification
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
-    NSLog(@"State changed to: %lu\n", (unsigned long)_audioPlayer.loadState);
-    MPMovieLoadState state = [_audioPlayer loadState];
-    
-    if (state & MPMovieLoadStateUnknown) {
-        NSLog(@"Unknown");
-        
-    }
-    
-    if( state & MPMovieLoadStatePlaythroughOK ) {
-        NSLog(@"NodeViewController: Playthrough OK Load State");
-        [self stopAnimating];
-       
-    }
-    
-    if( state & MPMovieLoadStateStalled ) {
-        NSLog(@"NodeViewController: Stalled Load State");
-    }
-    
-    if (state & MPMovieLoadStatePlayable)
-    {
-        NSLog(@"Playable");
-        _timeSlider.userInteractionEnabled = YES;
-        _timeSlider.maximumValue = _audioPlayer.playableDuration;
-        
-    }
-
-  [self updatePlayerViewsWithCurrentTime];
     
 }
+
 -(void)initGoogleAnalytics
 {
     NSString *name = [NSString stringWithFormat:@"Pattern~%@", @"MZKMusicViewController"];
@@ -228,8 +209,8 @@ static MZKMusicViewController *sharedInstance;
         });
         return;
     }
-
-     _item = item;
+    
+    _item = item;
     [self loadDataForItem:_item];
 }
 
@@ -243,7 +224,7 @@ static MZKMusicViewController *sharedInstance;
         });
         return;
     }
-
+    
     loadingContainerVIew.hidden =NO;
     [activityIndicator startAnimating];
 }
@@ -274,7 +255,7 @@ static MZKMusicViewController *sharedInstance;
     
     [_datasource getChildrenForItem:item.pid];
     
-   
+    
 }
 
 -(void)detailForItemLoaded:(MZKItemResource *)item
@@ -290,7 +271,7 @@ static MZKMusicViewController *sharedInstance;
     
     _currentItem = item;
     musicTitleLabel.text = item.title;
-
+    
     [_datasource getChildrenForItem:_currentItem.pid];
 }
 
@@ -320,31 +301,200 @@ static MZKMusicViewController *sharedInstance;
     }
     
     if (_availableTracks.count ==1) {
-
-        [self playItemWithPID:((MZKPageObject *)_availableTracks.firstObject).pid];
+        
+        //[self playItemWithPID:((MZKPageObject *)_availableTracks.firstObject).pid];
+        
+        [self playWithAVPlayer:((MZKPageObject *)_availableTracks.firstObject).pid];
     }
 }
 
--(void)playItemWithPID:(NSString *)pid
+-(void)playWithAVPlayer:(NSString *)pid
 {
-   
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
-    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/streams/MP3",url, pid];
+    NSString*strUrl = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
+    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/streams/MP3",strUrl, pid];
+    
+    
+    AVPlayer *player = [[AVPlayer alloc]initWithURL:[NSURL URLWithString:path]];
+    _player = player;
+    _playerItem = _player.currentItem;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerItemDidReachEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:[_player currentItem]];
+    [_player addObserver:self forKeyPath:@"status" options:0 context:nil];
+    //[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
+    
+    
+    
+}
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    
+    if (object == _player && [keyPath isEqualToString:@"status"]) {
+        if (_player.status == AVPlayerStatusFailed) {
+            NSLog(@"AVPlayer Failed");
+            
+        } else if (_player.status == AVPlayerStatusReadyToPlay) {
+            NSLog(@"AVPlayerStatusReadyToPlay");
+            // perform selector on main thread
+            [self performSelectorOnMainThread:@selector(stopAnimating) withObject:self waitUntilDone:NO];
+            [self performSelectorOnMainThread:@selector(playAfterLoad) withObject:self waitUntilDone:NO];
+            [self performSelectorOnMainThread:@selector(setCurrentTrackToInfoCenter) withObject:self waitUntilDone:NO];
+            
+        } else if (_player.status == AVPlayerItemStatusUnknown) {
+            NSLog(@"AVPlayer Unknown");
+            
+        }
+    }
+}
+
+-(void)playAfterLoad
+{
+    isSeeking = NO;
+    
+    [_player play];
+    if ([self playerPlaying]) {
+        
+        
+        if (_timeSlider.value > 0) {
+            //scrubbed before play
+            [_player seekToTime:CMTimeMakeWithSeconds(_timeSlider.value, NSEC_PER_SEC)];
+        }
+        
+        
+        [_play setImage:[UIImage imageNamed:@"audioPause"] forState:UIControlStateNormal];
+    }
+    else{
+        [_play setImage:[UIImage imageNamed:@"audioPlay"] forState:UIControlStateNormal];
+        
+        
+    }
+    [self scheduleTimer];
+    
+}
+
+-(void)setCurrentTrackToInfoCenter
+{
+    Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
+    if (playingInfoCenter) {
+        
+        NSMutableDictionary *songInfo = [[NSMutableDictionary alloc] init];
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        
+        NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
+        NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",url, _currentItem.pid ];
+        
+        
+        [_artWork sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            MPMediaItemArtwork *albumArt = [[MPMediaItemArtwork alloc] initWithImage:_artWork.image];
+            
+            
+            [songInfo setObject:_currentItem.title forKey:MPMediaItemPropertyTitle];
+            [songInfo setObject:[NSNumber numberWithFloat:[self playbackDuration]] forKey:MPMediaItemPropertyPlaybackDuration];
+            [songInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
+            [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
+        }];
+    }
+    [[AVAudioSession sharedInstance] setActive:NO error:nil];
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker|AVAudioSessionCategoryOptionMixWithOthers error:nil];
+    [[AVAudioSession sharedInstance] setActive: YES error: nil];
+    
+    
+}
+
+- (void)playerItemDidReachEnd:(NSNotification *)notification {
+    
+    //  code here to play next sound file
+    
+}
+
+
+-(BOOL)playerPlaying
+{
+    if (_player) {
+        if(_player.rate >0)
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+-(float)playbackDuration
+{
+    float duration = -1;
+    if (_player.currentItem) {
+        duration = CMTimeGetSeconds(_playerItem.duration);
+    }
+    
+    return duration;
+}
+
+
+
+-(void)playItemWithPID:(NSString *)pid
+{
+    
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    NSString*strUrl = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
+    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/streams/MP3",strUrl, pid];
     
     [self prepareNotificationsForPlayer];
+    [self startAnimating];
+    // 1
+    
+    NSURL *url = [NSURL URLWithString:path];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    // 2
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     
     
-    _audioPlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:path]];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        // 3
+        NSError *myErr;
+        _audioPlayer = [[AVAudioPlayer alloc] initWithData:responseObject error:&myErr];
+        [_audioPlayer setDelegate:self];
+        //_audioPlayer set
+        
+        if (myErr)
+        {
+            NSLog(@"%@", myErr.description);
+            
+        }
+        
+        _audioPlayer.volume = 1.0;
+        
+        
+        [self stopAnimating];
+        
+        [self performSelectorOnMainThread:@selector(onPlayPause:) withObject:nil waitUntilDone:NO];
+        //[self onPlayPause:nil];
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        // 4
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error Retrieving Weather"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
     
-    [_audioPlayer setMovieSourceType:MPMovieSourceTypeStreaming];
-    [_audioPlayer setShouldAutoplay:NO];
-    [_audioPlayer setControlStyle: MPMovieControlStyleEmbedded];
+    // 5
+    [operation start];
     
-    _audioPlayer.view.hidden = YES;
+    // [_audioPlayer setMovieSourceType:MPMovieSourceTypeStreaming];
+    // [_audioPlayer setShouldAutoplay:YES];
+    // [_audioPlayer setControlStyle: MPMovieControlStyleNone];
     
-    [_audioPlayer prepareToPlay];
+    // _audioPlayer.view.hidden = YES;
+    
     
 }
 
@@ -362,7 +512,7 @@ static MZKMusicViewController *sharedInstance;
                                                  name:MPMoviePlayerLoadStateDidChangeNotification
                                                object:nil];
     
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDatasourceChanged:) name:kDatasourceItemChanged object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDatasourceChanged:) name:kDatasourceItemChanged object:nil];
     
 }
 
@@ -371,13 +521,21 @@ static MZKMusicViewController *sharedInstance;
     NSLog(@"Playback did finish");
     
     [self resetPlayer];
+    [[AVAudioSession sharedInstance] setActive:NO error:nil];
     
 }
 
 -(void)onDatasourceChanged:(NSNotification *)notf
 {
     if (_audioPlayer) {
-        [_audioPlayer stop];
+        [self resetPlayer];
+        _currentItem = nil;
+        _currentItemPID = nil;
+        _remainningTime.text = @"00:00:00";
+        _artWork.image = nil;
+        _blurryImage.image = nil;
+        musicTitleLabel.text = @"";
+        
     }
     
 }
@@ -388,16 +546,15 @@ static MZKMusicViewController *sharedInstance;
     [self prepareSlider];
     [tickTimer invalidate];
     tickTimer = nil;
+    [_play setImage:[UIImage imageNamed:@"audioPlay"] forState:UIControlStateNormal];
     
-    if (_audioPlayer.currentPlaybackRate == 0) {
-        
-        [_play setImage:[UIImage imageNamed:@"audioPlay"] forState:UIControlStateNormal];
-    }
+    
 }
 
 -(void)prepareSlider
 {
     _timeSlider.minimumValue = 0;
+    _timeSlider.maximumValue = 0;
     _timeSlider.value = 0;
 }
 
@@ -452,36 +609,36 @@ static MZKMusicViewController *sharedInstance;
     if (receivedEvent.type == UIEventTypeRemoteControl) {
         switch (receivedEvent.subtype) {
             case UIEventSubtypeRemoteControlTogglePlayPause: {
-            
-                if(_audioPlayer.currentPlaybackRate >0.0)
+                
+                if(_player.rate >0.0)
                 {
-                    [_audioPlayer pause];
+                    [_player pause];
                 }
                 else
                 {
-                    [_audioPlayer play];
+                    [_player play];
                 }
                 break;
             }
             case UIEventSubtypeRemoteControlPlay: {
-                [_audioPlayer play];
+                [_player play];
                 break;
             }
             case UIEventSubtypeRemoteControlPause: {
-                [_audioPlayer pause];
+                [_player pause];
                 break;
             }
                 
-           // case UIEventSubtypeRemoteControlNextTrack:
+                // case UIEventSubtypeRemoteControlNextTrack:
             case UIEventSubtypeRemoteControlNextTrack:  {
-               // [self performSelectorOnMainThread:@selector(onFF:) withObject:self waitUntilDone:NO];
+                // [self performSelectorOnMainThread:@selector(onFF:) withObject:self waitUntilDone:NO];
                 [self onFF:nil];
                 break;
             }
-            //case UIEventSubtypeRemoteControlBeginSeekingBackward:
+                //case UIEventSubtypeRemoteControlBeginSeekingBackward:
             case UIEventSubtypeRemoteControlPreviousTrack:{
-              //  [self performSelectorOnMainThread:@selector(onRW:) withObject:self waitUntilDone:NO];
-
+                //  [self performSelectorOnMainThread:@selector(onRW:) withObject:self waitUntilDone:NO];
+                
                 [self onRW:nil];
                 break;
             }
@@ -511,7 +668,7 @@ static MZKMusicViewController *sharedInstance;
 #pragma mark - Playback handling
 -(void)saveLastPlayedMusic
 {
-    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     [delegate saveLastPlayedMusic:self.item.pid];
     
@@ -521,14 +678,6 @@ static MZKMusicViewController *sharedInstance;
 {
     
 }
-
-- (void)playerItemDidReachEnd:(NSNotification *)notification {
-    
-    //  code here to play next sound file
-    
-}
-
-
 
 - (IBAction)onMoreInformation:(id)sender {
     //use as a list of tracks?
@@ -543,93 +692,133 @@ static MZKMusicViewController *sharedInstance;
 {
     NSLog(@"Begin scrubbing");
     isSeeking = YES;
+    if (tickTimer) {
+        
+        [tickTimer invalidate];
+    }
+    
+    
 }
 
 - (IBAction)endScrubbing:(id)sender
 {
     isSeeking = NO;
-    NSLog(@"end Scrubbing");
+    
+    NSLog(@"Player Time :%f", _audioPlayer.currentTime);
+    [_audioPlayer stop];
+    [_audioPlayer setCurrentTime:_timeSlider.value];
+    [_audioPlayer prepareToPlay];
+    [_audioPlayer play];
+    NSLog(@"end Scrubbing %f", _timeSlider.value);
+    
     [self scheduleTimer];
 }
 
 - (IBAction)scrub:(id)sender
 {
     isSeeking = YES;
-    _audioPlayer.currentPlaybackTime = _timeSlider.value;
-    NSLog(@"on scrub");
     
-    [self updatePlayerViewsWithCurrentTime];
+    // NSLog(@"on scrub");
+    
+    //    [self updatePlayerViewsWithCurrentTime];
+    //
+    //    NSTimeInterval timeInterval = _audioPlayer.playableDuration;
+    //    long seconds = lroundf(timeInterval); // Since modulo operator (%) below needs int or long
+    //
+    //    int hour = seconds / 3600;
+    //    int mins = (seconds % 3600) / 60;
+    //    int secs = seconds % 60;
+    
+    
+    long currentTime = _timeSlider.value;
+    
+    int currentHour = currentTime/3600;
+    int currenctMin =  (currentTime % 3600) / 60;
+    int currentSecs = currentTime % 60;
+    
+    
+    _elapsedTime.text =[NSString stringWithFormat:@"%02d:%02d:%02d", currentHour, currenctMin, currentSecs];
 }
 
 - (IBAction)onPlayPause:(id)sender {
-     
+    
     Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
     
-    if (playingInfoCenter) {
+    if (isFinished) {
+        [self setItemPID:_currentItemPID];
+        isFinished = NO;
+        return;
+    }
+    
+    if (_currentItemPID) {
         
-        
-        NSMutableDictionary *songInfo = [[NSMutableDictionary alloc] init];
-        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        
-        NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
-        NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",url, _currentItem.pid ];
-        
-        
-        [_artWork sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            MPMediaItemArtwork *albumArt = [[MPMediaItemArtwork alloc] initWithImage:_artWork.image];
+        if (playingInfoCenter) {
             
-           
-            [songInfo setObject:_currentItem.title forKey:MPMediaItemPropertyTitle];
-            [songInfo setObject:[NSNumber numberWithFloat:_audioPlayer.playableDuration] forKey:MPMediaItemPropertyPlaybackDuration];
-            [songInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
-            [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
-        }];
-        
-        isSeeking = NO;
-       
-        _timeSlider.maximumValue = _audioPlayer.playableDuration;
-        
-        if (_audioPlayer.currentPlaybackRate == 0) {
+            NSMutableDictionary *songInfo = [[NSMutableDictionary alloc] init];
+            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
             
-            [[AVAudioSession sharedInstance] setActive:NO error:nil];
-            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
-            [[AVAudioSession sharedInstance] setActive: YES error: nil];
+            NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
+            NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",url, _currentItem.pid ];
             
-            if (_timeSlider.value > 0 && _audioPlayer.currentPlaybackRate ==0) {
-                //scrubbed before play
-                _audioPlayer.currentPlaybackTime = _timeSlider.value;
+            
+            [_artWork sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                MPMediaItemArtwork *albumArt = [[MPMediaItemArtwork alloc] initWithImage:_artWork.image];
+                
+                
+                [songInfo setObject:_currentItem.title forKey:MPMediaItemPropertyTitle];
+                [songInfo setObject:[NSNumber numberWithFloat:_audioPlayer.duration] forKey:MPMediaItemPropertyPlaybackDuration];
+                [songInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
+                [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
+            }];
+            
+            isSeeking = NO;
+            
+            _timeSlider.maximumValue = _audioPlayer.duration;
+            
+            
+            if (_audioPlayer.playing) {
+                
+                [[AVAudioSession sharedInstance] setActive:NO error:nil];
+                [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
+                [[AVAudioSession sharedInstance] setActive: YES error: nil];
+                
+                if (_timeSlider.value > 0) {
+                    //scrubbed before play
+                    _audioPlayer.currentTime = _timeSlider.value;
+                }
+                
+                [_audioPlayer play];
+                [_play setImage:[UIImage imageNamed:@"audioPause"] forState:UIControlStateNormal];
             }
+            else{
+                [_play setImage:[UIImage imageNamed:@"audioPlay"] forState:UIControlStateNormal];
+                [_audioPlayer pause];
+                
+                
+            }
+            [self scheduleTimer];
             
-            [_audioPlayer play];
-            [_play setImage:[UIImage imageNamed:@"audioPause"] forState:UIControlStateNormal];
         }
-        else{
-            [_play setImage:[UIImage imageNamed:@"audioPlay"] forState:UIControlStateNormal];
-            [_audioPlayer pause];
-            
-            
-        }
-        [self scheduleTimer];
         
     }
 }
 - (IBAction)onFF:(id)sender {
-   
-    NSTimeInterval timeInterval = _audioPlayer.playableDuration;
+    
+    NSTimeInterval timeInterval = _audioPlayer.duration;
     long seconds = lroundf(timeInterval); // Since modulo operator (%) below needs int or long
     
-    long currentTime = _audioPlayer.currentPlaybackTime;
+    long currentTime = _audioPlayer.currentTime;
     if (currentTime +10 <= seconds) {
-        _audioPlayer.currentPlaybackTime+=10;
+        _audioPlayer.currentTime+=10;
         [self scheduleTimer];
     }
 }
 
 - (IBAction)onRW:(id)sender {
     
-    long currentTime = _audioPlayer.currentPlaybackTime;
+    long currentTime = _audioPlayer.currentTime;
     if (currentTime -10 >= 0) {
-        _audioPlayer.currentPlaybackTime-=10;
+        _audioPlayer.currentTime-=10;
         [self scheduleTimer];
         
     }
@@ -646,26 +835,27 @@ static MZKMusicViewController *sharedInstance;
         return;
     }
     
-    NSTimeInterval timeInterval = _audioPlayer.playableDuration;
+    float timeInterval = [self playbackDuration];
     long seconds = lroundf(timeInterval); // Since modulo operator (%) below needs int or long
     
     int hour = seconds / 3600;
     int mins = (seconds % 3600) / 60;
     int secs = seconds % 60;
     
-    long currentTime = _audioPlayer.currentPlaybackTime;
+    long currentTime = CMTimeGetSeconds(_player.currentItem.currentTime);
     
     int currentHour = currentTime/3600;
     int currenctMin =  (currentTime % 3600) / 60;
     int currentSecs = currentTime % 60;
     
+    NSLog(@"%@", [NSString stringWithFormat:@"%02d:%02d:%02d", currentHour, currenctMin, currentSecs]);
     
     _elapsedTime.text =[NSString stringWithFormat:@"%02d:%02d:%02d", currentHour, currenctMin, currentSecs];
     _remainningTime.text = [NSString stringWithFormat:@"%02d:%02d:%02d", hour, mins, secs];
     
     if (!isSeeking) {
-        _timeSlider.value = _audioPlayer.currentPlaybackTime;
-
+        _timeSlider.value = currentTime;
+        
     }
 }
 
@@ -680,7 +870,7 @@ static MZKMusicViewController *sharedInstance;
 
 -(void)loadFullImageForItem:(NSString *)itemPID
 {
-    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
     NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",url, itemPID ];
@@ -692,7 +882,7 @@ static MZKMusicViewController *sharedInstance;
 
 -(void)loadThumbnailImageForItem:(NSString *)itemPID
 {
-    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
     NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",url, itemPID ];
@@ -761,3 +951,4 @@ static MZKMusicViewController *sharedInstance;
 }
 
 @end
+

@@ -456,7 +456,7 @@
     
     [self hideDimmingView];
     [self hideLoadingIndicator];
-    
+    NSLog(@"Results:%@", [results description]);
     _searchResults = results;
     _searchResultsTableView.hidden = NO;
     [_searchResultsTableView reloadData];

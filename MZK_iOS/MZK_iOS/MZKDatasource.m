@@ -15,6 +15,8 @@
 #import "MZKCollectionItemResource.h"
 #import "AppDelegate.h"
 #import "MZKConstants.h"
+#import "AFNetworking.h"
+#import "NSString+URLEncodedString_ch.h"
 
 enum _downloadOperation{
     downloadItem,
@@ -38,6 +40,7 @@ typedef enum _downloadOperation downloadOperation;
     NSURLRequest *_lastRequest;
     NSURL *_lastURL;
     downloadOperation lastOperation;
+    NSOperationQueue *downloadQ;
     
 }
 
@@ -192,13 +195,15 @@ typedef enum _downloadOperation downloadOperation;
         visible= [recent boolValue];
     }
 
-    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=PID,dc.title&q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString],visible?@"dostupnost:*public*+AND+":@""];
+    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=PID,dc.title&q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [[searchString lowercaseString] URLEncodedString_ch],visible?@"dostupnost:*public*+AND+":@""];
     
    
     [self checkAndSetBaseUrl];
     
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq];
     NSURL *url = [[NSURL alloc] initWithString:finalString];
+    
+  
     
     [self downloadDataFromURL:url withOperation:searchHints];
 }
@@ -529,6 +534,19 @@ typedef enum _downloadOperation downloadOperation;
         error = localError;
         return nil;
     }
+    
+    if ([response objectForKey:@"message"] && [response objectForKey:@"status"]) {
+        NSLog(@"Message: %@ and Status:%@", [response objectForKey:@"message"],[response objectForKey:@"status"] );
+        
+        if ([[response objectForKey:@"status"] isEqualToString:@"500"]) {
+            if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
+                [self.delegate downloadFailedWithError:[NSError errorWithDomain:@"Nothing downloaded" code:-10000 userInfo:[NSMutableDictionary new]]];
+                return nil;
+            }
+
+        }
+    }
+    
     NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
     NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
     
@@ -547,7 +565,7 @@ typedef enum _downloadOperation downloadOperation;
     if ([self.delegate respondsToSelector:@selector(searchHintsLoaded:)]) {
         [self.delegate searchHintsLoaded:[results copy]];
     }
-    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     return results;
 }
 
@@ -633,6 +651,7 @@ typedef enum _downloadOperation downloadOperation;
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
     
+    
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
     
     if (operation ==downloadCollectionItems || operation == search || operation == searchHints) {
@@ -643,58 +662,68 @@ typedef enum _downloadOperation downloadOperation;
     lastOperation = operation;
     
    // NSLog(@"Request: %@, with operation:%u", [req description], operation);
+    if (downloadQ) {
+        [downloadQ cancelAllOperations];
+        NSLog(@"cleaning que");
+    }
+    downloadQ = [NSOperationQueue new];
+    downloadQ.name = @"download";
     
-    [NSURLConnection sendAsynchronousRequest:[req copy] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
+   // NSMutableURLRequest *req = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:finalString parameters:nil error:nil];
+    
+    __weak typeof(self) wealf = self;
+    
+    [NSURLConnection sendAsynchronousRequest:[req copy] queue:downloadQ completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
         
         if (error) {
             NSLog(@"Download failed with error:%@", [error debugDescription]);
             NSDictionary *d = error.userInfo;
             NSString *key = [d objectForKey:@"_kCFStreamErrorDomainKey"];
-            [self downloadFailedWithError:error];
+            [wealf downloadFailedWithError:error];
         } else {
             NSLog(@"Download sucessful with operation:%lu", (unsigned long)operation);
             
             switch (operation) {
                 case downloadMostRecent:
-                    [self parseJSONData:data error:error withOperation:operation];
+                    [wealf parseJSONData:data error:error withOperation:operation];
                     break;
                     
                 case downloadRecommended:
-                    [self parseJSONData:data error:error withOperation:operation];
+                    [wealf parseJSONData:data error:error withOperation:operation];
                     break;
                     
                 case downloadItem:
-                    [self parseJSONDataForDetail:data error:error];
+                    [wealf parseJSONDataForDetail:data error:error];
                     break;
                 case downloadChildren:
-                    [self parseJSONDataForChildren:data error:error];
+                    [wealf parseJSONDataForChildren:data error:error];
                     break;
                     
                 case downloadImageProperties:
-                    [self parseImagePropertiesWithData:data error:error];
+                    [wealf parseImagePropertiesWithData:data error:error];
                     break;
                     
                 case downloadCollectionInfo:
-                    [self parseJSONDataForCollections:data error:error];
+                    [wealf parseJSONDataForCollections:data error:error];
                     
                     break;
                 case downloadCollectionItems:
-                    [self parseJSONDataForCollectionItems:data error:error];
+                    [wealf parseJSONDataForCollectionItems:data error:error];
                     break;
                     
                 case search:
                     
-                    [self parseJSONdataForSearch:data error:error];
+                    [wealf parseJSONdataForSearch:data error:error];
                     
                     break;
                     
                 case searchHints:
                     
-                    [self parseJSONdataForSearchHints:data error:error];
+                    [wealf parseJSONdataForSearchHints:data error:error];
                     break;
                     
                 case searchFullResults:
-                    [self parseJSONdataForSearch:data error:error];
+                    [wealf parseJSONdataForSearch:data error:error];
                     break;
                     
                 default:

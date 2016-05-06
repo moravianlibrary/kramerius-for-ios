@@ -11,6 +11,7 @@
 #import "MZKMusicViewController.h"
 #import "MZKChangeLibraryViewController.h"
 #import <Google/Analytics.h>
+#import "AFNetworkActivityIndicatorManager.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong) NSMutableDictionary *recentlyOpenedDocumentsDictionary;
@@ -75,6 +76,8 @@
         [wealf loadDataForRelations];
         
     });
+    
+     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
     return YES;
 }

@@ -742,6 +742,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 -(UIImageView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
+   // NSLog(@"View for zooming:%@", _imageZoomView.transform);
     return _imageZoomView;
 }
 
@@ -751,11 +752,9 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     float heightScale = size.height / _imageZoomView.bounds.size.height;
     float minScale = MIN(widthScale, heightScale);
     
+    NSLog(@"MinScale:%f", minScale);
     _scrollView.minimumZoomScale = 0;
     
-    
-   // _scrollView.zoomScale = minScale;
-
 }
 
 - (void)centerContent
@@ -769,6 +768,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     }
     self.scrollView.contentInset = UIEdgeInsetsMake(top, left, top, left);
 }
+
 
 -(void)updateConstraintsForSize:(CGSize)size
 {
@@ -786,6 +786,15 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     [self.view layoutIfNeeded];
 }
 
+-(void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
+{
+    NSLog(@"End zooming scale:%f", scale);
+    if(scale <0.5)
+    {
+    [self.scrollView setZoomScale:1.0];
+    }
+}
+
 -(void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
     [self updateConstraintsForSize:scrollView.bounds.size];
@@ -799,7 +808,41 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 //    _imageZoomView.center = scrollView.center;
     
     
-    [self centerContent];
+     [self centerContent];
+    
+//    float minZoom = MIN(self.view.bounds.size.width / _imageZoomView.image.size.width,
+//                        self.view.bounds.size.height / _imageZoomView.image.size.height);
+//    NSLog(@"Min ZOOM:%f", minZoom);
+//    if (minZoom > 1) return;
+//    
+//    self.scrollView.minimumZoomScale = minZoom;
+//    
+//    self.scrollView.zoomScale = minZoom;
+}
+
+
+- (CGRect)zoomRectForScrollView:(UIScrollView *)scrollView withScale:(float)scale withCenter:(CGPoint)center {
+    
+    
+ //   NSLog(@"Scale:%f", scale);
+    CGRect zoomRect;
+    
+    // The zoom rect is in the content view's coordinates.
+    // At a zoom scale of 1.0, it would be the size of the
+    // imageScrollView's bounds.
+    // As the zoom scale decreases, so more content is visible,
+    // the size of the rect grows.
+    zoomRect.size.height = scrollView.frame.size.height / scale;
+    zoomRect.size.width  = scrollView.frame.size.width  / scale;
+    
+    // choose an origin so as to get the right center.
+    zoomRect.origin.x = center.x - (zoomRect.size.width  / 2.0);
+    zoomRect.origin.y = center.y - (zoomRect.size.height / 2.0);
+    
+    return zoomRect;
+}
+    
+   
 //    CGSize imgViewSize = _imageZoomView.frame.size;
 //    CGSize imageSize = _imageZoomView.image.size;
 //    
@@ -821,9 +864,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 //    
 //    // don't animate the change.
 //    scrollView.contentInset = UIEdgeInsetsMake(offy, offx, offy, offx);
-
-}
-
 
 
 #pragma mark -
