@@ -7,7 +7,7 @@
 //
 
 #import "MZKChangeLibraryViewController.h"
-#import "MZKResourceItem.h"
+#import "MZKLibraryItem.h"
 #import "MZKDataSourceTableViewCell.h"
 #import "MZKConstants.h"
 #import "AppDelegate.h"
@@ -16,7 +16,7 @@
 @interface MZKChangeLibraryViewController ()<UITableViewDataSource, UITableViewDelegate>{
     
     NSArray *_libraries;
-    MZKResourceItem *_selectedLibrary;
+    MZKLibraryItem *_selectedLibrary;
     
 
 }
@@ -102,44 +102,68 @@
 
 -(NSArray *)createDataForLibraries
 {
-    MZKResourceItem *item1 = [MZKResourceItem new];
+    MZKLibraryItem *item1 = [MZKLibraryItem new];
     item1.name = @"Moravská zemská knihovna";
     item1.protocol = @"http";
     item1.stringURL = @"kramerius.mzk.cz";
     item1.imageName = @"logo_mzk";
    
     
-    MZKResourceItem *item3 = [MZKResourceItem new];
+    MZKLibraryItem *item3 = [MZKLibraryItem new];
     item3.name = @"Jihočeská vědecká knihovna v Českých Budějovicích";
     item3.protocol = @"http";
     item3.stringURL = @"kramerius.cbvk.cz";
     item3.imageName = @"logo_cbvk";
     
-    MZKResourceItem *item4 = [MZKResourceItem new];
+    MZKLibraryItem *item4 = [MZKLibraryItem new];
     item4.name = @"Vědecká knihovna v Olomouci";
     item4.protocol = @"http";
     item4.stringURL = @"kramerius.kr-olomoucky.cz";
     item4.imageName = @"logo_vkol";
     
-    MZKResourceItem *item5 = [MZKResourceItem new];
+    MZKLibraryItem *item5 = [MZKLibraryItem new];
     item5.name = @"Studijní a vědecká knihovna v Hradci Králové";
     item5.protocol = @"http";
     item5.stringURL = @"kramerius4.svkhk.cz";
     item5.imageName = @"logo_svkhk";
     
-    MZKResourceItem *item6 = [MZKResourceItem new];
+    MZKLibraryItem *item6 = [MZKLibraryItem new];
     item6.name = @"Krajská knihovna Karlovy Vary";
     item6.protocol = @"http";
     item6.stringURL = @"k4.kr-karlovarsky.cz";
     item6.imageName = @"logo_kkkv";
     
-    MZKResourceItem *item7 = [MZKResourceItem new];
+    MZKLibraryItem *item7 = [MZKLibraryItem new];
     item7.name = @"Knihovna Akademie věd ČR";
     item7.protocol = @"http";
     item7.stringURL = @"kramerius.lib.cas.cz";
     item7.imageName = @"logo_knav";
+        
+    MZKLibraryItem *item8 = [MZKLibraryItem new];
+    item8.name = @"Severočeská vědecká knihovna v Ústí nad Labem";
+    item8.protocol = @"http";
+    item8.stringURL = @"kramerius.svkul.cz";
+    item8.imageName = @"logo_svkul";
+   
+    MZKLibraryItem *item9 = [MZKLibraryItem new];
+    item9.name = @"Mendelova univerzita v Brně";
+    item9.protocol = @"http";
+    item9.stringURL = @"kramerius4.mendelu.cz";
+    item9.imageName = @"logo_mendelu";
     
-    return [NSArray arrayWithObjects:item1, item3, item4, item5, item6, item7, nil];
+    MZKLibraryItem *item10 = [MZKLibraryItem new];
+    item10.name = @"Městská knihovna Česká Třebová";
+    item10.protocol = @"http";
+    item10.stringURL = @"k5.digiknihovna.cz";
+    item10.imageName = @"logo_mkct";
+    
+    MZKLibraryItem *item11 = [MZKLibraryItem new];
+    item11.name = @"Městská knihovna v Praze";
+    item11.protocol = @"http";
+    item11.stringURL = @"kramerius4.mlp.cz";
+    item11.imageName = @"logo_mlp";
+        
+    return [NSArray arrayWithObjects:item1, item3, item4, item5, item6, item7, item8, item9, item10, item11, nil];
     
    
 //    add(new Domain(false, "Krajská knihovna Karlovy Vary", "http", "k4.kr-karlovarsky.cz", R.drawable.logo_kkkv));
@@ -172,7 +196,7 @@
 {
     MZKDataSourceTableViewCell *cell = (MZKDataSourceTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"MZKDataSourceTableViewCell"];
     
-    MZKResourceItem *tmpItem = [_libraries objectAtIndex:indexPath.row];
+    MZKLibraryItem *tmpItem = [_libraries objectAtIndex:indexPath.row];
     
     cell.libraryName.text = tmpItem.name;
     cell.libraryURL.text = tmpItem.stringURL;
@@ -198,11 +222,11 @@
     
     //set the default datasource...
     
-    MZKResourceItem *item = [_libraries objectAtIndex:indexPath.row];
+    MZKLibraryItem *item = [_libraries objectAtIndex:indexPath.row];
     [self saveToUserDefaults:item];
 }
 
--(void)saveToUserDefaults:(MZKResourceItem *)item
+-(void)saveToUserDefaults:(MZKLibraryItem *)item
 {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     

@@ -18,7 +18,7 @@
 #import "MZKGeneralColletionViewController.h"
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
-#import "MZKResourceItem.h"
+#import "MZKLibraryItem.h"
 
 @interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate>
 {
@@ -163,13 +163,7 @@
                 dialogVisible = NO;
             }];
         }
-        else{
 
-        [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
-            [welf refreshAllValues];
-            dialogVisible = NO;
-        }];
-           }
     }
    
 }

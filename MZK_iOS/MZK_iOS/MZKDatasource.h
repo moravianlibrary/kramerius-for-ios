@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MZKResourceItem.h"
+#import "MZKLibraryItem.h"
 @class MZKItemResource;
 
 @protocol DataLoadedDelegate <NSObject>
@@ -28,7 +28,7 @@
 
 @interface MZKDatasource : NSObject
 {
-    MZKResourceItem *_defaultDatasourceItem;
+    MZKLibraryItem *_defaultDatasourceItem;
 }
 @property (nonatomic, weak) __weak id<DataLoadedDelegate> delegate;
 @property (nonatomic, strong) NSString *baseStringURL;

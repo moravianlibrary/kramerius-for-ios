@@ -109,12 +109,12 @@
 -(void)setDefaultDatasource
 {
     //load from user defaults
-    MZKResourceItem *item  = [self loadDatasourceFromUserDefaults];
+    MZKLibraryItem *item  = [self loadDatasourceFromUserDefaults];
     if (item) {
         self.defaultDatasourceItem = item;
     }else
     {
-        MZKResourceItem *item1 = [MZKResourceItem new];
+        MZKLibraryItem *item1 = [MZKLibraryItem new];
         item1.name = @"Moravská zemská knihovna";
         item1.protocol = @"http";
         item1.stringURL = @"kramerius.mzk.cz";
@@ -129,9 +129,9 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kDatasourceItemChanged object:nil];
 }
 
--(MZKResourceItem*)loadDatasourceFromUserDefaults
+-(MZKLibraryItem*)loadDatasourceFromUserDefaults
 {
-    MZKResourceItem *item = [MZKResourceItem new];
+    MZKLibraryItem *item = [MZKLibraryItem new];
     item.protocol = [[NSUserDefaults standardUserDefaults] stringForKey:kDefaultDatasourceProtocol];
     item.name = [[NSUserDefaults standardUserDefaults] stringForKey:kDefaultDatasourceName];
     item.stringURL = [[NSUserDefaults standardUserDefaults] stringForKey:kDefaultDatasourceStringURL];
@@ -144,7 +144,7 @@
     }else return nil;
 }
 
--(void)saveToUserDefaults:(MZKResourceItem *)item
+-(void)saveToUserDefaults:(MZKLibraryItem *)item
 {
     self.defaultDatasourceItem  =item;
     [[NSUserDefaults standardUserDefaults] setObject:item.name forKey:kDefaultDatasourceName];
@@ -158,7 +158,7 @@
     [self.menuTabBar setSelectedIndex:0];
 }
 
--(MZKResourceItem *)getDatasourceItem
+-(MZKLibraryItem *)getDatasourceItem
 {
     if (!self.defaultDatasourceItem) {
         [self setDefaultDatasource];

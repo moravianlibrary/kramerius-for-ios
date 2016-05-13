@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MZKResourceItem.h"
+#import "MZKLibraryItem.h"
 #import "MZKDatabaseManager.h"
 #import "MZKItemResource.h"
 #import "MZKTabBarMenuViewController.h"
@@ -17,7 +17,7 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (nonatomic, strong) MZKResourceItem *defaultDatasourceItem;
+@property (nonatomic, strong) MZKLibraryItem *defaultDatasourceItem;
 @property (nonatomic, strong) MZKDatabaseManager *dbManager;
 @property (nonatomic, strong) NSArray *dbResultsInfo;
 @property (nonatomic, strong) NSArray *dbInstitutionsInfo;
@@ -26,8 +26,8 @@
 @property (nonatomic, strong) MZKTabBarMenuViewController *menuTabBar;
 
 
--(void)saveToUserDefaults:(MZKResourceItem *)item;
--(MZKResourceItem *)getDatasourceItem;
+-(void)saveToUserDefaults:(MZKLibraryItem *)item;
+-(MZKLibraryItem *)getDatasourceItem;
 -(void)saveLastPlayedMusic:(NSString *)pid;
 -(NSString *)loadLastPlayerMusic;
 

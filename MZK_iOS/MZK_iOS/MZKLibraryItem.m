@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Ondrej Vyhlidal. All rights reserved.
 //
 
-#import "MZKResourceItem.h"
+#import "MZKLibraryItem.h"
 
-@implementation MZKResourceItem
+@implementation MZKLibraryItem
 
 @end

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MZKResourceItem : NSObject
+@interface MZKLibraryItem : NSObject
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *protocol;

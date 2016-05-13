@@ -131,7 +131,7 @@
  
     
     AppDelegate *del = (AppDelegate* )[[UIApplication sharedApplication] delegate];
-    MZKResourceItem *resItem = del.getDatasourceItem;
+    MZKLibraryItem *resItem = del.getDatasourceItem;
     
     NSString*url = [NSString stringWithFormat:@"%@://%@", resItem.protocol, resItem.stringURL];
     NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",url, item.pid ];

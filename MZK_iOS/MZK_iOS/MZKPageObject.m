@@ -174,7 +174,7 @@
 -(void)checkAndSetBaseUrl
 {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    MZKResourceItem *item = appDelegate.getDatasourceItem;
+    MZKLibraryItem *item = appDelegate.getDatasourceItem;
     if (!item) {
         // NSLog(@"Default URL not set!");
     }
