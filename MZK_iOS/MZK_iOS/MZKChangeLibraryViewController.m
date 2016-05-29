@@ -162,8 +162,14 @@
     item11.protocol = @"http";
     item11.stringURL = @"kramerius4.mlp.cz";
     item11.imageName = @"logo_mlp";
-        
-    return [NSArray arrayWithObjects:item1, item3, item4, item5, item6, item7, item8, item9, item10, item11, nil];
+    
+    MZKLibraryItem *item12 = [MZKLibraryItem new];
+    item12.name = @"Národní technická knihovna";
+    item12.protocol = @"http";
+    item12.stringURL = @"kramerius.techlib.cz";
+    item12.imageName = @"logo_ntk";
+    
+    return [NSArray arrayWithObjects:item1, item12, item3, item4, item5, item6, item7, item8, item9, item10, item11, nil];
     
    
 //    add(new Domain(false, "Krajská knihovna Karlovy Vary", "http", "k4.kr-karlovarsky.cz", R.drawable.logo_kkkv));
