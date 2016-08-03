@@ -197,13 +197,10 @@ typedef enum _downloadOperation downloadOperation;
 
     NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=PID,dc.title&q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [[searchString lowercaseString] URLEncodedString_ch],visible?@"dostupnost:*public*+AND+":@""];
     
-   
     [self checkAndSetBaseUrl];
     
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq];
     NSURL *url = [[NSURL alloc] initWithString:finalString];
-    
-  
     
     [self downloadDataFromURL:url withOperation:searchHints];
 }
@@ -232,14 +229,18 @@ typedef enum _downloadOperation downloadOperation;
 
 -(void)getSearchResults:(NSString *)searchQuery
 {
+    
+    NSString *sq1 = [NSString stringWithFormat: @"/search/api/v5.0/search?fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=%@ AND(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [[searchQuery lowercaseString] URLEncodedString_ch]];
+   // sq1 = [self encodeToPercentEscapeString:sq1];
     NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search?q=%@", [searchQuery lowercaseString]];
     if (!searchQuery) {
         sq = @"/search/api/v5.0/search?q=*:*";
     }
     [self checkAndSetBaseUrl];
     
-    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq];
-    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq1];
+    NSString* webStringURL = [finalString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [[NSURL alloc] initWithString:webStringURL];
     
     [self downloadDataFromURL:url withOperation:search];
 }
@@ -599,9 +600,23 @@ typedef enum _downloadOperation downloadOperation;
         cItem.policy = [itemDict objectForKey:@"policy"];
         
         [results addObject:cItem];
+        
+        NSLog(@"Saving search object");
     }
     
-    return [NSArray new];
+    if (results.count >0) {
+        if ([self.delegate respondsToSelector:@selector(searchResultsLoaded:)]) {
+            [self.delegate searchResultsLoaded:[results copy]];
+        }
+    }
+    else{
+        NSLog(@"Nothing was found!");
+    }
+    
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    
+    return [results copy];
 }
 
 
@@ -669,6 +684,8 @@ typedef enum _downloadOperation downloadOperation;
     downloadQ = [NSOperationQueue new];
     downloadQ.name = @"download";
     
+    NSLog(@"REQUEST:%@", [req description]);
+    
    // NSMutableURLRequest *req = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:finalString parameters:nil error:nil];
     
     __weak typeof(self) wealf = self;
@@ -713,7 +730,7 @@ typedef enum _downloadOperation downloadOperation;
                     
                 case search:
                     
-                    [wealf parseJSONdataForSearch:data error:error];
+                [wealf parseJSONdataForSearch:data error:error];
                     
                     break;
                     
@@ -734,6 +751,13 @@ typedef enum _downloadOperation downloadOperation;
     }];
     
 }
+
+-(NSString*) encodeToPercentEscapeString:(NSString *)string {
+    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
+                                                                                 (CFStringRef) string,
+                                                                                 NULL,
+                                                                                 (CFStringRef) @"!*'();:@&=+$,/?%#[]",
+                                                                                 kCFStringEncodingUTF8)); }
 
 
 @end

@@ -22,6 +22,7 @@ NSString *const kRecentMusicPlayed = @"recentMusic";
 NSString *const kSettingsShowOnlyPublicDocuments = @"showOnlyPublicDocuments";
 NSString *const kRecentlyOpenedDocuments = @"kRecentlyOpenedDocuments";
 NSString *const kRecentlyOpenedDocumentsVersion = @"kRecentlyOpenedDocumentsVersion";
+NSString *const kRecentSearches = @"kRecentSearches";
 
 #pragma mark - types keys
 

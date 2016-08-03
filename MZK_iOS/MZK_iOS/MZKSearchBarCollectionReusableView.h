@@ -10,6 +10,7 @@
 
 @interface MZKSearchBarCollectionReusableView : UICollectionReusableView
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 
 -(void)removeSearchBarBorder;
 

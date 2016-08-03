@@ -41,6 +41,8 @@
 		2D41FF011C3BBF970087F22E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D41FF001C3BBF970087F22E /* libsqlite3.tbd */; };
 		2D41FF051C3BBFE50087F22E /* MZKDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D41FF041C3BBFE50087F22E /* MZKDatabaseManager.m */; };
 		2D44DF3F1CB397EF001EF49F /* MZKTabBarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D44DF3E1CB397EF001EF49F /* MZKTabBarMenuViewController.m */; };
+		2D47472F1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */; };
+		2D4747321D4684BD00D6F5F8 /* MZKSearchHistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4747311D4684BD00D6F5F8 /* MZKSearchHistoryItem.m */; };
 		2D58E8F61BA57BAC000D444C /* MZKCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */; };
 		2D665DBD1B02927500B11765 /* MZKDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBC1B02927500B11765 /* MZKDetailViewController.m */; };
 		2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */; };
@@ -128,6 +130,10 @@
 		2D41FF041C3BBFE50087F22E /* MZKDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDatabaseManager.m; sourceTree = "<group>"; };
 		2D44DF3D1CB397EF001EF49F /* MZKTabBarMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKTabBarMenuViewController.h; sourceTree = "<group>"; };
 		2D44DF3E1CB397EF001EF49F /* MZKTabBarMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKTabBarMenuViewController.m; sourceTree = "<group>"; };
+		2D47472D1D467E4B00D6F5F8 /* MZKSearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSearchTableViewCell.h; sourceTree = "<group>"; };
+		2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchTableViewCell.m; sourceTree = "<group>"; };
+		2D4747301D4684BD00D6F5F8 /* MZKSearchHistoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSearchHistoryItem.h; sourceTree = "<group>"; };
+		2D4747311D4684BD00D6F5F8 /* MZKSearchHistoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchHistoryItem.m; sourceTree = "<group>"; };
 		2D58E8F41BA57BAC000D444C /* MZKCollectionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionTableViewCell.h; sourceTree = "<group>"; };
 		2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionTableViewCell.m; sourceTree = "<group>"; };
 		2D665DBB1B02927500B11765 /* MZKDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKDetailViewController.h; path = ../MZKDetailViewController.h; sourceTree = "<group>"; };
@@ -381,6 +387,10 @@
 				2DB8A7941ACD073400A1BB2E /* Supporting Files */,
 				2D33C3551C2819E9002BA7D1 /* MZKSettingsViewController.h */,
 				2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */,
+				2D47472D1D467E4B00D6F5F8 /* MZKSearchTableViewCell.h */,
+				2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */,
+				2D4747301D4684BD00D6F5F8 /* MZKSearchHistoryItem.h */,
+				2D4747311D4684BD00D6F5F8 /* MZKSearchHistoryItem.m */,
 			);
 			path = MZK_iOS;
 			sourceTree = "<group>";
@@ -605,11 +615,13 @@
 				2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */,
 				2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */,
 				2D409B7B1B8B4C8B00B49EAD /* MZKLibraryItem.m in Sources */,
+				2D4747321D4684BD00D6F5F8 /* MZKSearchHistoryItem.m in Sources */,
 				2DAA60721BA758AB0004A718 /* MZKCollectionDetailViewController.m in Sources */,
 				2DCAE25C1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m in Sources */,
 				2D24F0761B74C0A80073FC83 /* MZKCollectionItem.m in Sources */,
 				2D2505CD1AFE73300079F70E /* MZKConstants.m in Sources */,
 				2D3698E41C8ADBF6008FEF3C /* MZKDetailInformationStringModel.m in Sources */,
+				2D47472F1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m in Sources */,
 				2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */,
 				2D2DA5281BF1E03A00423447 /* MZKMusicViewController.m in Sources */,
 				2DE98BD01C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m in Sources */,

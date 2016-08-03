@@ -8,7 +8,6 @@
 
 #import "MZKMainViewController.h"
 #import "MZKDatasource.h"
-#import "MZKItemTableViewCell.h"
 #import "MZKDetailViewController.h"
 #import "MZKConstants.h"
 #import "AppDelegate.h"
@@ -19,24 +18,33 @@
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
 #import "MZKLibraryItem.h"
+#import "MZKSearchHistoryItem.h"
 
-@interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate>
+#import "MZKSearchViewController.h"
+
+@interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, MZKSearchDelegateProtocol>
 {
     MZKDatasource *datasource;
     NSArray *_recent;
     NSArray *_recommended;
+    NSArray *_recentSearches;
     UIRefreshControl *refreshControl;
     NSDictionary *_searchResults;
     BOOL dialogVisible;
-    BOOL _isRemovingTextWithBackspace;
+    
+    MZKSearchViewController *_searchViewController;
+    
 }
+@property (weak, nonatomic) IBOutlet MZKSearchBarCollectionReusableView *searchBarContainerView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContentView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControll;
 @property (weak, nonatomic) IBOutlet UIView *dimmingView;
-@property (weak, nonatomic) IBOutlet UITableView *searchResultsTableView;
+
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UIView *searchBarContainer;
+@property (weak, nonatomic) IBOutlet UIView *searchViewContainer;
 
 @end
 
@@ -63,11 +71,41 @@
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
-  
+    
     [self refreshAllValues];
     [self hideDimmingView];
     [self initGoogleAnalytics];
     [self refreshTitle];
+    
+    
+}
+
+-(void)setupSearchHeader
+{
+    if (_searchBarContainerView) {
+        NSLog(@"Tradaaa");
+    }
+    
+    if (!_searchViewController) {
+        
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        _searchViewController = (MZKSearchViewController *)[sb instantiateViewControllerWithIdentifier:@"MZKSearchViewController"];
+        _searchViewController.view.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+        _searchViewController.view.frame = CGRectMake(0, 0, _searchViewContainer.frame.size.width, _searchViewContainer.frame.size.height);
+        
+        _searchViewController.delegate = self;
+        [self addChildViewController:_searchViewController];
+        
+        _searchBarContainerView.searchBar.delegate = _searchViewController;
+        [_searchViewContainer addSubview:_searchViewController.view];
+        
+        [self.view sendSubviewToBack:_searchViewContainer];
+    }
+    else
+    {
+        NSLog(@"Already added");
+    }
+   
 }
 
 -(void)refreshTitle
@@ -136,7 +174,7 @@
     
     if (![NSThread mainThread]) {
         [self performSelectorOnMainThread:@selector(reloadData) withObject:self.collectionView waitUntilDone:NO];
-    
+        
     }
     
 }
@@ -163,10 +201,29 @@
                 dialogVisible = NO;
             }];
         }
-
+        
     }
-   
+    
 }
+
+-(void)showDimmingView
+{
+    if (_dimmingView.hidden) {
+        _dimmingView.hidden = NO;
+    }
+    [UIView animateWithDuration:0.4 animations:^{
+        _dimmingView.alpha = 0.4;
+    }];
+}
+
+-(void)hideDimmingView
+{
+ 
+    [UIView animateWithDuration:0.4 animations:^{
+        _dimmingView.alpha = 0.0;
+    }];
+}
+
 
 
 #pragma mark - Collection View Datasource
@@ -200,14 +257,14 @@
         cell.itemAuthors.text = item.getAuthorsStringRepresentation;
         cell.item = item;
         cell.itemType.text = [item getLocalizedItemType];
-    
+        
         cell.publicOnlyIcon.hidden = [item.policy isEqualToString:@"public"]? YES:NO;
         
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
         NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
         NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",url, item.pid ];
-    
+        
         [cell.itemImage sd_setImageWithURL:[NSURL URLWithString:path]
                           placeholderImage:nil];
     }
@@ -221,12 +278,18 @@
     
     if (kind == UICollectionElementKindSectionHeader) {
         MZKSearchBarCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"SearchHeader" forIndexPath:indexPath];
-        
+        headerView.backgroundColor = [UIColor clearColor];
+        headerView.searchBar.backgroundColor= [UIColor clearColor];
         headerView.searchBar.layer.borderWidth = 1.0;
         headerView.searchBar.layer.borderColor =  [[UIColor groupTableViewBackgroundColor] CGColor];
-        
+        [headerView removeSearchBarBorder];
         reusableview = headerView;
+        _searchBarContainerView = headerView;
+        
+        [self setupSearchHeader];
     }
+    
+  
     return reusableview;
 }
 
@@ -248,9 +311,6 @@
     {
         [self prepareDataForSegue:cell.item];
     }
-    
-    
-    
     
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
     
@@ -402,7 +462,7 @@
         default:
             break;
     }
-   
+    
     [self hideDimmingView];
 }
 
@@ -412,80 +472,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - SearchBar Delegate
-
-- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    _isRemovingTextWithBackspace = ([searchBar.text stringByReplacingCharactersInRange:range withString:text].length == 0);
-    return YES;
-}
-
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    // Do the search...
-    [self performSearchWithText:searchBar.text];
-
-}
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-    self.searchBar = searchBar;
-    
-    if (searchText.length == 0 && !_isRemovingTextWithBackspace)
-    {
-        NSLog(@"Has clicked on clear !");
-        [self searchBarCancelButtonClicked:searchBar];
-
-    }else if (searchText.length >=3) {
-        [self performSearchWithText:searchText];
-    }
-    else
-    {
-        [self showDimmingView];
-        _searchResults = [NSDictionary new];
-        [_searchResultsTableView reloadData];
-    }
-}
-
--(void)performSearchWithText:(NSString *)searchText
-{
-    if (!datasource) {
-        datasource = [MZKDatasource new];
-        datasource.delegate = self;
-    }
-    [self showLoadingIndicator];
-    [datasource getSearchResultsAsHints:searchText];
-}
-
--(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{
-    [self showDimmingView];
-}
-
--(void)showDimmingView
-{
-    if (_dimmingView.hidden) {
-        _dimmingView.hidden = NO;
-    }
-    [UIView animateWithDuration:0.4 animations:^{
-        _dimmingView.alpha = 0.4;
-    }];
-}
-
--(void)hideDimmingView
-{
-    _searchResultsTableView.hidden = YES;
-    [UIView animateWithDuration:0.4 animations:^{
-        _dimmingView.alpha = 0.0;
-    }];
-}
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-    [self.view endEditing:YES];
-    [searchBar resignFirstResponder];
-    searchBar.text = @"";
-    [self hideDimmingView];
-}
 
 -(void)showLoadingIndicator
 {
@@ -516,39 +502,9 @@
     [self hideLoadingIndicator];
     
     _searchResults = results;
-    _searchResultsTableView.hidden = NO;
-    [_searchResultsTableView reloadData];
+
 }
 
-#pragma mark - search table view delegate and datasource
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return  _searchResults.allKeys.count;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchHintCell"];
-    
-    
-    cell.textLabel.text = [_searchResults.allKeys objectAtIndex:indexPath.row];
-    return cell;
-    
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSString *key = [_searchResults.allKeys objectAtIndex:indexPath.row];
-    NSString *targetPid = [_searchResults objectForKey:key];
-    
-    [datasource getItem:targetPid];
-    
-    [_searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
-}
 
 -(void) detailForItemLoaded:(MZKItemResource *)item
 {
@@ -563,4 +519,19 @@
     
     [self prepareDataForSegue:item];
 }
+
+#pragma mark - Search Delegate
+
+-(void)searchStarted
+{
+    [self.view bringSubviewToFront:self.searchViewContainer];
+    NSLog(@"Bringing to front");
+}
+
+-(void)searchEnded
+{
+    [self.view sendSubviewToBack:self.searchViewContainer];
+    NSLog(@"sendint to back");
+}
+
 @end
