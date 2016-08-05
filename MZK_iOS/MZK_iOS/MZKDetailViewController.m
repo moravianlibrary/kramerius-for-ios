@@ -15,9 +15,9 @@
 #import <Google/Analytics.h>
 #import "MZKDetailInformationViewController.h"
 #import "MyURLProtocol.h"
-#import <SDWebImage/UIImageView+WebCache.h>
-#import "UIImageView+ProgressView.h"
 
+#import "UIImageView+ProgressView.h"
+@import SDWebImage;
 
 NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 

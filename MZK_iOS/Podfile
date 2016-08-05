@@ -8,5 +8,6 @@ pod 'AFNetworking', '~> 2.0'
 pod 'Google/Analytics'
 pod 'CocoaLumberjack'
 pod 'TTTAttributedLabel'
+pod 'TSMessages'
 end
 

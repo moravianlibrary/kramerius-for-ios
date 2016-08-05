@@ -11,11 +11,11 @@
 #import "MZKCollectionItemResource.h"
 #import "MZKDatasource.h"
 #import "MZKDetailViewController.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+
 #import "MZKItemCollectionViewCell.h"
 #import <Google/Analytics.h>
 #import "AppDelegate.h"
-
+@import SDWebImage;
 
 @interface MZKCollectionDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, DataLoadedDelegate>
 {

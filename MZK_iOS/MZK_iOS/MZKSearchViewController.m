@@ -16,6 +16,8 @@
 #import "MZKConstants.h"
 #import "MZKSearchTableViewCell.h"
 #import "MZKSearchHistoryItem.h"
+#import "MZKQueue.h"
+#import "TSMessage.h"
 
 @interface MZKSearchViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DataLoadedDelegate>
 {
@@ -25,6 +27,8 @@
     MZKDatasource *_datasource;
     MZKItemResource *_item;
     BOOL _isRemovingTextWithBackspace;
+    
+    MZKQueue *_hist;
    
 }
 @property (weak, nonatomic) IBOutlet UITableView *searchResultsTableView;
@@ -54,6 +58,8 @@
     _recentSearches = [self loadRecentSearches];
 
     self.searchResultsTableView.tableFooterView = [[UIView alloc] init];
+    _hist = [[MZKQueue alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
 }
 
 -(void)initGoogleAnalytics
@@ -290,7 +296,11 @@
 
     [_datasource getSearchResults:title];
     
+    [_hist enqueue:title];
+    
 }
+
+
 
 #pragma mark - datasource delegate
 
@@ -351,79 +361,79 @@
 }
 
 #pragma mark - recent searches
--(void)addRecentSearch:(MZKSearchHistoryItem *)item
+-(void)addRecentSearch:(NSString *)recentSearch
 {
-    
-    NSMutableArray *currentSearches = [[self loadRecentSearches] mutableCopy];
-    
-    if (currentSearches.count <3) {
-        [currentSearches addObject:item];
+    if (_hist.count<3) {
+        [_hist enqueue:recentSearch];
+        NSLog(@"Adding, hist count:%lu", (unsigned long)_hist.count);
     }
     else
     {
-        [currentSearches removeObjectAtIndex:0];
-        [currentSearches addObject:item];
+        NSLog(@"Removing, hist count:%lu", (unsigned long)_hist.count);
+        [_hist dequeue];
+        [_hist enqueue:recentSearch];
     }
-    
-    _recentSearches = currentSearches;
-    [self saveRecentSearches];
-    
 }
-
 
 -(void)saveRecentSearches
 {
     
-    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
-    NSData *dataRepresentingSavedArray = [currentDefaults objectForKey:kRecentSearches];
-    
-    NSMutableArray *savedData = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
-    
-    if (!savedData) {
-        savedData = [NSMutableArray new];
-    }
-    
-    int pos = 0;
-    NSMutableArray *tmpNewArray = [NSMutableArray new];
-    while (_recentSearches[pos]) {
-        
-        [tmpNewArray addObject:_recentSearches[pos]];
-        pos++;
-    }
-    
-    [savedData addObjectsFromArray:_recentSearches];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:savedData] forKey:kRecentSearches];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_hist] forKey:kRecentSearches];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
 }
 
--(NSArray *)loadRecentSearches
+-(MZKQueue *)loadRecentSearches
 {
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     NSData *dataRepresentingSavedArray = [currentDefaults objectForKey:kRecentSearches];
-    NSArray *savedData;
+    MZKQueue *savedData;
     if (dataRepresentingSavedArray)
     {
         savedData = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
         if (!savedData) {
-            savedData = [NSArray new];
+            savedData = [MZKQueue new];
         }
     }else
     {
-        return [NSArray new];
+        return [MZKQueue new];
         
     }
     
     NSLog(@"Loading recent searches:%lu", (unsigned long)savedData.count);
     
     return savedData;
+    
+    [TSMessage showNotificationWithTitle:@"Your Title"
+                                subtitle:@"A description"
+                                    type:TSMessageNotificationTypeError];
+    
+    
+    // Add a button inside the message
+    [TSMessage showNotificationInViewController:self
+                                          title:@"Update available"
+                                       subtitle:@"Please update the app"
+                                          image:nil
+                                           type:TSMessageNotificationTypeMessage
+                                       duration:TSMessageNotificationDurationAutomatic
+                                       callback:nil
+                                    buttonTitle:@"Update"
+                                 buttonCallback:^{
+                                     NSLog(@"User tapped the button");
+                                 }
+                                     atPosition:TSMessageNotificationPositionTop
+                           canBeDismissedByUser:YES];
+
 }
 
 -(void)datasourceChanged:(NSNotification *)notf
 {
     // when datasource is changed we need to drop all recent changes
     
+    //remove all recent searches
+    
+    _hist = [[MZKQueue alloc] init];
+    NSLog(@"Removing history searches");
 }
 
 #pragma mark - search bar 
@@ -433,6 +443,11 @@
     if ([self.searchBar respondsToSelector:@selector(setBarTintColor:)]) {
         self.searchBar.barTintColor = [UIColor clearColor];
     }
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

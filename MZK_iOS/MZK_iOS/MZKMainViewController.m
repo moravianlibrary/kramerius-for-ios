@@ -13,12 +13,14 @@
 #import "AppDelegate.h"
 #import "MZKItemCollectionViewCell.h"
 #import "MZKMusicViewController.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "MZKGeneralColletionViewController.h"
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
 #import "MZKLibraryItem.h"
 #import "MZKSearchHistoryItem.h"
+
+@import SDWebImage;
+
 
 #import "MZKSearchViewController.h"
 
