@@ -15,20 +15,18 @@
 #import "MZKGeneralColletionViewController.h"
 #import "MZKConstants.h"
 #import "MZKSearchTableViewCell.h"
-#import "MZKSearchHistoryItem.h"
 #import "MZKQueue.h"
 #import "TSMessage.h"
 
 @interface MZKSearchViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DataLoadedDelegate>
 {
     NSArray *_searchHints;
-    NSArray *_recentSearches;
+    MZKQueue *_recentSearches;
     NSArray *_searchResults;
     MZKDatasource *_datasource;
     MZKItemResource *_item;
     BOOL _isRemovingTextWithBackspace;
-    
-    MZKQueue *_hist;
+
    
 }
 @property (weak, nonatomic) IBOutlet UITableView *searchResultsTableView;
@@ -58,8 +56,8 @@
     _recentSearches = [self loadRecentSearches];
 
     self.searchResultsTableView.tableFooterView = [[UIView alloc] init];
-    _hist = [[MZKQueue alloc] init];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(datasourceChanged:) name:kDatasourceItemChanged object:nil];
 }
 
 -(void)initGoogleAnalytics
@@ -228,10 +226,7 @@
         });
         return;
     }
-    
-    //t[self hideDimmingView];
-   //DELEGATE? [self hideLoadingIndicator];
-    
+        
     _searchHints= results;
     _searchResultsTableView.hidden = NO;
     [_searchResultsTableView reloadData];
@@ -257,8 +252,8 @@
         
         if (indexPath.row <=_recentSearches.count-1) {
             
-            MZKSearchHistoryItem *tmpItem = [_recentSearches objectAtIndex:indexPath.row];
-            cell.searchHintLabel.text = tmpItem.title;
+            NSString *itemTitle = [_recentSearches objectAtIndex:indexPath.row];
+            cell.searchHintLabel.text = itemTitle;
             cell.searchTypeIcon.image = [UIImage imageNamed:@"recentSearch"];
             
             return cell;
@@ -275,12 +270,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *key = [_searchHints objectAtIndex:indexPath.row];
-
-    MZKSearchHistoryItem *item = [[MZKSearchHistoryItem alloc] init];
-    item.timestamp = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
-
-    item.title = key;
-    
+   
     [self performSearchWithItem:key];
     [_searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -296,11 +286,9 @@
 
     [_datasource getSearchResults:title];
     
-    [_hist enqueue:title];
+    [_recentSearches enqueue:title];
     
 }
-
-
 
 #pragma mark - datasource delegate
 
@@ -363,22 +351,22 @@
 #pragma mark - recent searches
 -(void)addRecentSearch:(NSString *)recentSearch
 {
-    if (_hist.count<3) {
-        [_hist enqueue:recentSearch];
-        NSLog(@"Adding, hist count:%lu", (unsigned long)_hist.count);
+    if (_recentSearches.count<3) {
+        [_recentSearches enqueue:recentSearch];
+        NSLog(@"Adding, hist count:%lu", (unsigned long)_recentSearches.count);
     }
     else
     {
-        NSLog(@"Removing, hist count:%lu", (unsigned long)_hist.count);
-        [_hist dequeue];
-        [_hist enqueue:recentSearch];
+        NSLog(@"Removing, hist count:%lu", (unsigned long)_recentSearches.count);
+        [_recentSearches dequeue];
+        [_recentSearches enqueue:recentSearch];
     }
 }
 
 -(void)saveRecentSearches
 {
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_hist] forKey:kRecentSearches];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_recentSearches] forKey:kRecentSearches];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
 }
@@ -432,7 +420,7 @@
     
     //remove all recent searches
     
-    _hist = [[MZKQueue alloc] init];
+    _recentSearches = [[MZKQueue alloc] init];
     NSLog(@"Removing history searches");
 }
 

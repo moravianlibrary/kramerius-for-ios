@@ -57,4 +57,9 @@
     return self;
 }
 
+-(id)objectAtIndex:(NSUInteger)index
+{
+    return [_data objectAtIndex:index];
+}
+
 @end

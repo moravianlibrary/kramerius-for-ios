@@ -13,6 +13,8 @@
 -(id)dequeue;
 -(NSUInteger)count;
 
+-(id)objectAtIndex:(NSUInteger)index;
+
 -(void)encodeWithCoder:(NSCoder *)aCoder;
 - (id)initWithCoder:(NSCoder *)coder;
 
