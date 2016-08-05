@@ -45,6 +45,7 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *searchBarContainer;
 @property (weak, nonatomic) IBOutlet UIView *searchViewContainer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewContainerTopConstraint;
 
 @end
 
@@ -73,7 +74,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
     
     [self refreshAllValues];
-    [self hideDimmingView];
     [self initGoogleAnalytics];
     [self refreshTitle];
     
@@ -86,11 +86,7 @@
 }
 
 -(void)setupSearchHeader
-{
-    if (_searchBarContainerView) {
-        NSLog(@"Tradaaa");
-    }
-    
+{    
     if (!_searchViewController) {
         
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -213,23 +209,23 @@
     
 }
 
--(void)showDimmingView
-{
-    if (_dimmingView.hidden) {
-        _dimmingView.hidden = NO;
-    }
-    [UIView animateWithDuration:0.4 animations:^{
-        _dimmingView.alpha = 0.4;
-    }];
-}
-
--(void)hideDimmingView
-{
- 
-    [UIView animateWithDuration:0.4 animations:^{
-        _dimmingView.alpha = 0.0;
-    }];
-}
+//-(void)showDimmingView
+//{
+//    if (_dimmingView.hidden) {
+//        _dimmingView.hidden = NO;
+//    }
+//    [UIView animateWithDuration:0.4 animations:^{
+//        _dimmingView.alpha = 0.4;
+//    }];
+//}
+//
+//-(void)hideDimmingView
+//{
+// 
+//    [UIView animateWithDuration:0.4 animations:^{
+//        _dimmingView.alpha = 0.0;
+//    }];
+//}
 
 
 
@@ -292,6 +288,9 @@
         [headerView removeSearchBarBorder];
         reusableview = headerView;
         _searchBarContainerView = headerView;
+        
+        UICollectionViewLayoutAttributes *cv = [self.collectionView layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath];
+        NSLog(@"CV frame:%@", [cv description]);
         
         [self setupSearchHeader];
     }
@@ -364,11 +363,6 @@
     return calculatedWidth+kMinCellWidth;
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [self updateCollectionViewLayoutWithSize:size];
-}
-
 - (void)updateCollectionViewLayoutWithSize:(CGSize)size {
     
     UICollectionViewFlowLayout *flowLayout = (id)self.collectionView.collectionViewLayout;
@@ -379,7 +373,6 @@
     flowLayout.itemSize = sizeOfCell;
     
     [flowLayout invalidateLayout];
-    
 }
 
 
@@ -470,7 +463,7 @@
             break;
     }
     
-    [self hideDimmingView];
+   // [self hideDimmingView];
 }
 
 
@@ -494,25 +487,6 @@
     self.activityIndicatorContentView.hidden = self.activityIndicator.hidden = YES;
 }
 
--(void)searchHintsLoaded:(NSDictionary *)results
-{
-    if(![[NSThread currentThread] isMainThread])
-    {
-        __weak typeof(self) welf = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [welf searchHintsLoaded:results];
-        });
-        return;
-    }
-    
-    [self hideDimmingView];
-    [self hideLoadingIndicator];
-    
-    _searchResults = results;
-
-}
-
-
 -(void) detailForItemLoaded:(MZKItemResource *)item
 {
     if(![[NSThread currentThread] isMainThread])
@@ -527,17 +501,54 @@
     [self prepareDataForSegue:item];
 }
 
+
+
 #pragma mark - Search Delegate
 
 -(void)searchStarted
 {
     [self.view bringSubviewToFront:self.searchViewContainer];
+   // self.collectionView scr
+    self.collectionView.scrollEnabled = NO;
     NSLog(@"Bringing to front");
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0]; // indexPath of your header, item must be 0
+    
+    CGFloat offsetY = [_collectionView layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath].frame.origin.y;
+    
+    CGFloat contentInsetY = self.collectionView.contentInset.top;
+    CGFloat sectionInsetY = ((UICollectionViewFlowLayout *)_collectionView.collectionViewLayout).sectionInset.top;
+    
+    [_collectionView setContentOffset:CGPointMake(_collectionView.contentOffset.x, offsetY - contentInsetY - sectionInsetY) animated:YES];
+    
+//    UICollectionViewLayoutAttributes *cv = [self.collectionView layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeader atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+//    NSLog(@"CV frame:%@", [cv description]);
+}
+
+-(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    // best call super just in case
+    
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    // will execute before rotation
+    [self updateCollectionViewLayoutWithSize:size];
+    
+    [coordinator animateAlongsideTransition:^(id  _Nonnull context) {
+        
+        // will execute during rotation
+        
+    } completion:^(id  _Nonnull context) {
+        
+        // will execute after rotation
+      
+    }];
 }
 
 -(void)searchEnded
 {
     [self.view sendSubviewToBack:self.searchViewContainer];
+    self.collectionView.scrollEnabled = YES;
     NSLog(@"sendint to back");
 }
 

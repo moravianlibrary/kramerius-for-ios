@@ -16,7 +16,6 @@
 #import "MZKConstants.h"
 #import "MZKSearchTableViewCell.h"
 #import "MZKSearchHistoryItem.h"
-@import QuartzCore;
 
 @interface MZKSearchViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DataLoadedDelegate>
 {
@@ -53,15 +52,8 @@
     [self initGoogleAnalytics];
     _searchHints= [NSArray new];
     _recentSearches = [self loadRecentSearches];
-    
-//    CATransition *transition = [CATransition animation];
-//    transition.type = kCATransitionPush;
-//    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-//    transition.fillMode = kCAFillModeForwards;
-//    transition.duration = 0.6;
-//    transition.subtype = kCATransitionFromTop;
-//    
-//    [self.searchResultsTableView.layer addAnimation:transition forKey:@"UITableViewReloadDataAnimationKey"];
+
+    self.searchResultsTableView.tableFooterView = [[UIView alloc] init];
 }
 
 -(void)initGoogleAnalytics
@@ -135,7 +127,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     // Do the search...
-    [self performHintSearchWithText:searchBar.text];
+    [self performSearchWithItem:searchBar.text];
     
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -150,6 +142,10 @@
         // show recent
         _searchResultsTableView.hidden = NO;
         [_searchResultsTableView reloadData];
+        
+        if ([self.delegate respondsToSelector:@selector(searchStarted)]) {
+            [self.delegate searchStarted];
+        }
         
     }else if (searchText.length >=3) {
         [self performHintSearchWithText:searchText];
@@ -209,6 +205,10 @@
     [searchBar resignFirstResponder];
     searchBar.text = @"";
     [self hideDimmingView];
+    
+    if ([self.delegate respondsToSelector:@selector(searchEnded)]) {
+        [self.delegate searchEnded];
+    }
 }
 
 
@@ -275,43 +275,24 @@
 
     item.title = key;
     
-    [self performSearchWithItem:item];
+    [self performSearchWithItem:key];
     [_searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - regular search
 
--(void)performSearchWithItem:(MZKSearchHistoryItem *)item
+-(void)performSearchWithItem:(NSString *)title
 {
     if (!_datasource) {
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
     }
 
-    [_datasource getSearchResults:item.title];
+    [_datasource getSearchResults:title];
     
 }
 
 #pragma mark - datasource delegate
--(void)detailForItemLoaded:(MZKItemResource *)item
-{
-    if(![[NSThread currentThread] isMainThread])
-    {
-        __weak typeof(self) welf = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [welf detailForItemLoaded:item];
-        });
-        return;
-    }
-    _item = item;
-    
-    if ([_item.model caseInsensitiveCompare:@"manuscript"] ==NSOrderedSame) {
-         [self performSegueWithIdentifier:@"OpenDetail" sender:_item];
-    }else if ([_item.model caseInsensitiveCompare:@"soundunit"] ==NSOrderedSame)
-    {
-        [self performSegueWithIdentifier:@"OpenSoundDetail" sender:_item];
-    }
-}
 
 -(void)searchResultsLoaded:(NSArray *)results
 {
@@ -331,6 +312,10 @@
     _searchResults = results;
     
     [self performSegueWithIdentifier:@"OpenGeneralList" sender:nil];
+    
+    if ([self.delegate respondsToSelector:@selector(searchEnded)]) {
+        [self.delegate searchEnded];
+    }
 
 }
 
