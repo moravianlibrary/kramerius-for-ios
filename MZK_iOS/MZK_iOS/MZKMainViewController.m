@@ -22,7 +22,7 @@
 
 #import "MZKSearchViewController.h"
 
-@interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, MZKSearchDelegateProtocol>
+@interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, MZKSearchDelegateProtocol> //, UIViewControllerPreviewingDelegate
 {
     MZKDatasource *datasource;
     NSArray *_recent;
@@ -79,6 +79,11 @@
     
     
 }
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+   //  _searchViewController.view.frame = CGRectMake(0, 0, _searchViewContainer.frame.size.width, _searchViewContainer.frame.size.height);
+}
 
 -(void)setupSearchHeader
 {
@@ -93,6 +98,8 @@
         _searchViewController.view.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
         _searchViewController.view.frame = CGRectMake(0, 0, _searchViewContainer.frame.size.width, _searchViewContainer.frame.size.height);
         
+        _searchViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _searchViewController.view.translatesAutoresizingMaskIntoConstraints = YES;
         _searchViewController.delegate = self;
         [self addChildViewController:_searchViewController];
         

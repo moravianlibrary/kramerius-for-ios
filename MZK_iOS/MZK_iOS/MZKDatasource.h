@@ -22,7 +22,7 @@
 -(void)childrenForItemLoaded:(NSArray *)items;
 -(void)searchResultsLoaded:(NSArray *)results;
 -(void)downloadFailedWithError:(NSError *)error;
--(void)searchHintsLoaded:(NSDictionary *)results;
+-(void)searchHintsLoaded:(NSArray *)results;
 
 @end
 

@@ -25,3 +25,5 @@
 "mzk.type.graphics" = "Grafika";
 "mzk.type.periodical" = "Periodical";
 "mzk.type." = "";
+
+"mzk.searchResults" = "Výsledky hledání";

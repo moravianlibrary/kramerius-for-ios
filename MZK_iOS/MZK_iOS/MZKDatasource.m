@@ -195,7 +195,7 @@ typedef enum _downloadOperation downloadOperation;
         visible= [recent boolValue];
     }
 
-    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=PID,dc.title&q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [[searchString lowercaseString] URLEncodedString_ch],visible?@"dostupnost:*public*+AND+":@""];
+    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=dc.title&q=%@+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [[searchString lowercaseString] URLEncodedString_ch],visible?@"dostupnost:*public*+AND+":@""];
     
     [self checkAndSetBaseUrl];
     
@@ -526,7 +526,7 @@ typedef enum _downloadOperation downloadOperation;
     return results;
 }
 
--(NSDictionary *)parseJSONdataForSearchHints:(NSData *)data error:(NSError *)error
+-(NSArray *)parseJSONdataForSearchHints:(NSData *)data error:(NSError *)error
 {
     NSError *localError = nil;
     NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
@@ -553,21 +553,20 @@ typedef enum _downloadOperation downloadOperation;
     
     NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
     NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
+    NSMutableArray *resultsArray = [NSMutableArray new];
     
     for (int i = 0; i<parsedObject.count; i++) {
         NSDictionary *itemDict =[parsedObject objectAtIndex:i];
         NSString *s = [itemDict objectForKey:@"dc.title"];
-        NSString *sPid = [itemDict objectForKey:@"PID"];
-        
-        [results setObject:sPid forKey:s];
+        [resultsArray addObject:s];
     }
     
     
     if ([self.delegate respondsToSelector:@selector(searchHintsLoaded:)]) {
-        [self.delegate searchHintsLoaded:[results copy]];
+        [self.delegate searchHintsLoaded:[resultsArray copy]];
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
-    return results;
+    return [resultsArray copy];
 }
 
 -(NSArray *)parseJSONdataForSearch:(NSData *)data error:(NSError *)error

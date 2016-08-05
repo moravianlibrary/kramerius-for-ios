@@ -20,7 +20,7 @@
 
 @interface MZKSearchViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DataLoadedDelegate>
 {
-    NSDictionary *_searchHints;
+    NSArray *_searchHints;
     NSArray *_recentSearches;
     NSArray *_searchResults;
     MZKDatasource *_datasource;
@@ -41,6 +41,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = NSLocalizedString(@"mzk.searchResults", @"Search VC title");
+    
     [_searchResultsTableView registerClass:[MZKSearchTableViewCell class] forCellReuseIdentifier:@"MZKSearchTableViewCell"];
     
   //  _searchResultsTableView.registerClass(UITableViewCell.classForKeyedArchiver(), forCellReuseIdentifier: "your_reuse_identifier")
@@ -49,7 +51,7 @@
     [self hideDimmingView];
     // Do any additional setup after loading the view.
     [self initGoogleAnalytics];
-    _searchHints= [NSDictionary new];
+    _searchHints= [NSArray new];
     _recentSearches = [self loadRecentSearches];
     
 //    CATransition *transition = [CATransition animation];
@@ -155,7 +157,7 @@
     else
     {
         [self showDimmingView];
-        _searchHints= [NSDictionary new];
+        _searchHints= [NSArray new];
         _searchResultsTableView.hidden = NO;
         [_searchResultsTableView reloadData];
     }
@@ -167,10 +169,7 @@
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
     }
-    //delegate call to show loading indicator?
-    
-    
-    //[self showLoadingIndicator];
+
     [_datasource getSearchResultsAsHints:searchText];
 }
 
@@ -213,7 +212,7 @@
 }
 
 
--(void)searchHintsLoaded:(NSDictionary *)results
+-(void)searchHintsLoaded:(NSArray *)results
 {
     if(![[NSThread currentThread] isMainThread])
     {
@@ -239,9 +238,9 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"Number of rows:%lu", (_searchHints.allKeys.count + _recentSearches.count));
+    NSLog(@"Number of rows:%lu", (_searchHints.count + _recentSearches.count));
     NSLog(@"NUmber of recent searches:%lu", (unsigned long)_recentSearches.count);
-    return  _searchHints.allKeys.count + _recentSearches.count;
+    return  _searchHints.count + _recentSearches.count;
 }
 
 -(MZKSearchTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -257,31 +256,24 @@
             cell.searchTypeIcon.image = [UIImage imageNamed:@"recentSearch"];
             
             return cell;
-            
         }
     }
     
     // no recent searches
-    cell.searchHintLabel.text = [_searchHints.allKeys objectAtIndex:indexPath.row-_recentSearches.count];
+    cell.searchHintLabel.text = [_searchHints objectAtIndex:indexPath.row-_recentSearches.count];
     cell.searchTypeIcon.image = [UIImage imageNamed:@"zoomSearchIcon"];
 
     return cell;
-    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *key = [_searchHints.allKeys objectAtIndex:indexPath.row];
-    NSString *targetPid = [_searchHints objectForKey:key];
-    
-    //[_datasource getItem:targetPid];
-    
+    NSString *key = [_searchHints objectAtIndex:indexPath.row];
+
     MZKSearchHistoryItem *item = [[MZKSearchHistoryItem alloc] init];
     item.timestamp = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
-    item.pid = targetPid;
+
     item.title = key;
-    
-   // [self addRecentSearch:item];
     
     [self performSearchWithItem:item];
     [_searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -366,7 +358,7 @@
         UINavigationController *navVC =[segue destinationViewController];
         MZKGeneralColletionViewController *vc =(MZKGeneralColletionViewController *)navVC.topViewController;
         //[vc setParentPID:((MZKItemResource *)sender).pid];
-        vc.title = @"Search Results";
+        vc.title = NSLocalizedString(@"mzk.searchResults", @"Search results title for VC");
         vc.isFirst = YES;
         vc.shouldShowSearchBar = NO;
         vc.items = _searchResults;
