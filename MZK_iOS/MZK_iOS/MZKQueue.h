@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface MZKQueue : NSObject<NSCoding>
+@property (strong) NSMutableArray *data;
 -(void)enqueue:(id)anObject;
 -(id)dequeue;
 -(NSUInteger)count;

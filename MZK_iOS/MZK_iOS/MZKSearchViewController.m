@@ -252,31 +252,39 @@
 {
     MZKSearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MZKSearchTableViewCell2" forIndexPath:indexPath];
     
-    if (_recentSearches.count > 0) {
+    if ((_recentSearches.count -1) && indexPath.row <=2) {
+    
+        NSString *itemTitle = [_recentSearches objectAtIndex:indexPath.row];
+        cell.searchHintLabel.text = itemTitle;
+        cell.searchTypeIcon.image = [UIImage imageNamed:@"recentSearch"];
         
-        if (indexPath.row <=_recentSearches.count-1) {
-            
-            NSString *itemTitle = [_recentSearches objectAtIndex:indexPath.row];
-            cell.searchHintLabel.text = itemTitle;
-            cell.searchTypeIcon.image = [UIImage imageNamed:@"recentSearch"];
-            
-            return cell;
-        }
+        return cell;
     }
     
     // no recent searches
     cell.searchHintLabel.text = [_searchHints objectAtIndex:indexPath.row-_recentSearches.count];
     cell.searchTypeIcon.image = [UIImage imageNamed:@"zoomSearchIcon"];
-
+    
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *key = [_searchHints objectAtIndex:indexPath.row];
+    NSLog(@"Index path:%ld", (long)indexPath.row);
+    NSLog(@"Recent Searches count:%d", _recentSearches.count);
+    NSString *key;
+    if ((_recentSearches.count -1) && indexPath.row <=2) {
+        key = [_recentSearches objectAtIndex:indexPath.row];
+    }
+    else
+    {
+         key = [_searchHints objectAtIndex:indexPath.row - _recentSearches.count];
+    }
+  
    
     [self performSearchWithItem:key];
     [_searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
+
 }
 
 #pragma mark - regular search
@@ -290,7 +298,7 @@
 
     [_datasource getSearchResults:title];
     
-    [_recentSearches enqueue:title];
+    [self addRecentSearch:title];
     
 }
 
@@ -310,10 +318,11 @@
     
     [self hideDimmingView];
     
-    
     _searchResults = results;
     
     [self performSegueWithIdentifier:@"OpenGeneralList" sender:nil];
+    _searchBar.text = @"";
+    [self hideDimmingView];
     
     if ([self.delegate respondsToSelector:@selector(searchEnded)]) {
         [self.delegate searchEnded];
@@ -356,7 +365,11 @@
 -(void)addRecentSearch:(NSString *)recentSearch
 {
     if (_recentSearches.count<3) {
-        [_recentSearches enqueue:recentSearch];
+        
+        if (![_recentSearches.data containsObject:recentSearch]) {
+             [_recentSearches enqueue:recentSearch];
+        }
+       
         NSLog(@"Adding, hist count:%lu", (unsigned long)_recentSearches.count);
     }
     else
@@ -365,14 +378,14 @@
         [_recentSearches dequeue];
         [_recentSearches enqueue:recentSearch];
     }
+    
+    [self saveRecentSearches];
 }
 
 -(void)saveRecentSearches
 {
-    
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_recentSearches] forKey:kRecentSearches];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
 }
 
 -(MZKQueue *)loadRecentSearches

@@ -599,8 +599,6 @@ typedef enum _downloadOperation downloadOperation;
         cItem.policy = [itemDict objectForKey:@"policy"];
         
         [results addObject:cItem];
-        
-        NSLog(@"Saving search object");
     }
     
     if (results.count >0) {

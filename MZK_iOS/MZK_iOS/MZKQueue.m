@@ -10,7 +10,7 @@
 
 @interface MZKQueue()
 
-@property (strong) NSMutableArray *data;
+
 @end
 
 @implementation MZKQueue
