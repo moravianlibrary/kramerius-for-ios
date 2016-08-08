@@ -70,28 +70,63 @@
 -(void)refreshTitle
 {
     // title has to be different based on type of parent resource!!!
-    NSString *title;
+    NSMutableString *title = [NSMutableString new];
     
-    //    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
-    //
-    //
-    ////        if (parentItemResource.year) {
-    ////            cell.itemName.text = item.year;
-    ////        }
-    ////
-    ////        if (parentItemResource.volumeNumber) {
-    ////            cell.itemAuthors.text = item.volumeNumber;
-    ////        }
-    //    }
-    //
-    //
-    //    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
-    //
-    ////        cell.itemName.text = item.date;
-    ////        cell.itemAuthors.text = item.issueNumber;
-    //    }
+    if ([parentItemResource.model caseInsensitiveCompare:kPeriodical] == NSOrderedSame) {
+        
+        NSLog(@"Periodical:%@", parentItemResource.debugDescription);
+        
+        if (parentItemResource.rootTitle) {
+            [title appendString:parentItemResource.rootTitle];
+        }
+    }
     
-    self.navigationItem.title = parentItemResource.title;
+    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
+        
+        NSLog(@"Periodical Volume:%@", parentItemResource.debugDescription);
+        
+        if (parentItemResource.rootTitle) {
+           [title appendString:parentItemResource.rootTitle];
+        }
+        
+        if (parentItemResource.year) {
+            [title appendString:@" "];
+            [title appendString:parentItemResource.year];
+            NSLog(@"Year:%@", parentItemResource.year);
+        }
+    }
+    
+    
+    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
+        
+        // do we have a root title?
+        if (parentItemResource.rootTitle) {
+            [title appendString:parentItemResource.rootTitle];
+        }
+        
+        // do we have a date of release?
+        if (parentItemResource.issueNumber) {
+            [title appendString:@" "];
+            NSLog(@"IssueNumber:%@", parentItemResource.issueNumber);
+            [title appendString:parentItemResource.issueNumber];
+        }
+        else if (parentItemResource.year) {
+            [title appendString:@" "];
+            [title appendString:parentItemResource.year];
+            NSLog(@"Year:%@", parentItemResource.year);
+        }
+    }
+    
+    if (title) {
+        self.navigationItem.title = title;
+    }
+    else
+    {
+        NSLog(@"There is no usable title! Using default instead!");
+        self.navigationItem.title = parentItemResource.title;
+    }
+    
+    
 }
 
 -(IBAction)onClose:(id)sender
@@ -221,8 +256,26 @@
         
         if ([item.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
             
+            if (item.year) {
+                cell.itemName.text = item.year;
+            }
+            
             cell.itemName.text = item.date;
-            cell.itemAuthors.text = [NSString stringWithFormat:@"Číslo %@", item.issueNumber];
+            
+            
+            if ([cell.itemName.text caseInsensitiveCompare:@""] ==NSOrderedSame) {
+                // we dont have a title
+                cell.itemName.text = [NSString stringWithFormat:@"Číslo %@", item.issueNumber];
+            }
+            else
+            {
+                 cell.itemAuthors.text = [NSString stringWithFormat:@"Číslo %@", item.issueNumber];
+                
+            }
+ 
+            if (!item.title) {
+                cell.itemName.text = item.rootTitle;
+            }
         }
         
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -443,24 +496,24 @@
     self.activityIndicatorContainerView.hidden = self.activityIndicator.hidden = YES;
 }
 
--(void)searchHintsLoaded:(NSDictionary *)results
-{
-    if(![[NSThread currentThread] isMainThread])
-    {
-        __weak typeof(self) welf = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [welf searchHintsLoaded:results];
-        });
-        return;
-    }
-    
-    [self hideDimmingView];
-    [self hideLoadingIndicator];
-    NSLog(@"Results:%@", [results description]);
-    _searchResults = results;
-    _searchResultsTableView.hidden = NO;
-    [_searchResultsTableView reloadData];
-}
+//-(void)searchHintsLoaded:(NSDictionary *)results
+//{
+//    if(![[NSThread currentThread] isMainThread])
+//    {
+//        __weak typeof(self) welf = self;
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [welf searchHintsLoaded:results];
+//        });
+//        return;
+//    }
+//
+//    [self hideDimmingView];
+//    [self hideLoadingIndicator];
+//    NSLog(@"Results:%@", [results description]);
+//    _searchResults = results;
+//    _searchResultsTableView.hidden = NO;
+//    [_searchResultsTableView reloadData];
+//}
 
 #pragma mark - search table view delegate and datasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

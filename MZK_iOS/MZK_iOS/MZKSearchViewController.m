@@ -226,7 +226,11 @@
         });
         return;
     }
-        
+    
+    if (results.count == 0) {
+        // display message
+    }
+    
     _searchHints= results;
     _searchResultsTableView.hidden = NO;
     [_searchResultsTableView reloadData];
@@ -392,26 +396,6 @@
     
     return savedData;
     
-    [TSMessage showNotificationWithTitle:@"Your Title"
-                                subtitle:@"A description"
-                                    type:TSMessageNotificationTypeError];
-    
-    
-    // Add a button inside the message
-    [TSMessage showNotificationInViewController:self
-                                          title:@"Update available"
-                                       subtitle:@"Please update the app"
-                                          image:nil
-                                           type:TSMessageNotificationTypeMessage
-                                       duration:TSMessageNotificationDurationAutomatic
-                                       callback:nil
-                                    buttonTitle:@"Update"
-                                 buttonCallback:^{
-                                     NSLog(@"User tapped the button");
-                                 }
-                                     atPosition:TSMessageNotificationPositionTop
-                           canBeDismissedByUser:YES];
-
 }
 
 -(void)datasourceChanged:(NSNotification *)notf
@@ -421,6 +405,8 @@
     //remove all recent searches
     
     _recentSearches = [[MZKQueue alloc] init];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_recentSearches] forKey:kRecentSearches];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     NSLog(@"Removing history searches");
 }
 
@@ -431,6 +417,40 @@
     if ([self.searchBar respondsToSelector:@selector(setBarTintColor:)]) {
         self.searchBar.barTintColor = [UIColor clearColor];
     }
+}
+
+#pragma mark - Notification message
+
+-(void)displayMessageWithTitle:(NSString *)title description:(NSString *)description andType:(TSMessageNotificationType)type
+{
+//        [TSMessage showNotificationWithTitle:title
+//                                    subtitle:description
+//                                        type:type];
+    
+
+    
+      
+    
+        // Add a button inside the message
+        [TSMessage showNotificationInViewController:self.parentViewController
+                                              title:@"Update available"
+                                           subtitle:@"Please update the app"
+                                              image:nil
+                                               type:TSMessageNotificationTypeMessage
+                                           duration:TSMessageNotificationDurationAutomatic
+                                           callback:nil
+                                        buttonTitle:@"Update"
+                                     buttonCallback:^{
+                                         NSLog(@"User tapped the button");
+                                     }
+                                         atPosition:TSMessageNotificationPositionTop
+                               canBeDismissedByUser:YES];
+    
+
+}
+- (IBAction)onTest:(id)sender {
+    
+    [self displayMessageWithTitle:@"Error" description:@"problem pri stahovani" andType:TSMessageNotificationTypeMessage];
 }
 
 -(void)dealloc

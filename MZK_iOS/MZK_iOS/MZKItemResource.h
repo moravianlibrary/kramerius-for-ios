@@ -31,6 +31,11 @@
 @property (nonatomic, strong) NSString *datumStr;
 @property (nonatomic, strong) NSString *lastOpened;
 
+@property (nonatomic, strong) NSString *issueNumber;
+@property (nonatomic, strong) NSString *year;
+@property (nonatomic, strong) NSString *date;
+@property (nonatomic, strong) NSString *volumeNumber;
+
 @property (nonatomic, strong) NSNumber *indexLastOpenedPage;
 
 -(NSString *)getAuthorsStringRepresentation;

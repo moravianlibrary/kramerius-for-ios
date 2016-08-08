@@ -641,6 +641,35 @@ typedef enum _downloadOperation downloadOperation;
     
     newItem.author = [rawData objectForKey:@"author"];
     
+    if([rawData objectForKey:@"details"]){
+     //   page.type = [[rawData objectForKey:@"details"] objectForKey:@"type"];
+        NSLog(@"Parsing details");
+        
+        if ([[[rawData objectForKey:@"details"] objectForKey:@"year"] isKindOfClass:[NSString class]]) {
+            newItem.year =[[rawData objectForKey:@"details"] objectForKey:@"year"];
+        }
+        
+        if ([[[rawData objectForKey:@"details"] objectForKey:@"date"] isKindOfClass:[NSString class]]) {
+            newItem.date =[[rawData objectForKey:@"details"] objectForKey:@"date"];
+        }
+        
+        if ([[[rawData objectForKey:@"details"] objectForKey:@"volumeNumber"] isKindOfClass:[NSString class]]) {
+            newItem.volumeNumber =[[rawData objectForKey:@"details"] objectForKey:@"volumeNumber"];
+        }
+        
+        if ([[[rawData objectForKey:@"details"] objectForKey:@"issueNumber"] isKindOfClass:[NSString class]]) {
+            newItem.issueNumber =[[rawData objectForKey:@"details"] objectForKey:@"issueNumber"];
+            if ([newItem.issueNumber isEqualToString:@""]) {
+                if ([[[rawData objectForKey:@"details"] objectForKey:@"partNumber"] isKindOfClass:[NSString class]]) {
+                    newItem.issueNumber =[[rawData objectForKey:@"details"] objectForKey:@"partNumber"];
+                }
+            }
+        }
+        
+        
+    }
+
+    
     [rawData objectForKey:@""];
     
     return newItem;
