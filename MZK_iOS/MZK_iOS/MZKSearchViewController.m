@@ -16,7 +16,7 @@
 #import "MZKConstants.h"
 #import "MZKSearchTableViewCell.h"
 #import "MZKQueue.h"
-#import "TSMessage.h"
+
 
 @interface MZKSearchViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DataLoadedDelegate>
 {
@@ -26,8 +26,8 @@
     MZKDatasource *_datasource;
     MZKItemResource *_item;
     BOOL _isRemovingTextWithBackspace;
-
-   
+    
+    
 }
 @property (weak, nonatomic) IBOutlet UITableView *searchResultsTableView;
 @property (weak, nonatomic) IBOutlet UIView *dimmingView;
@@ -46,7 +46,7 @@
     
     [_searchResultsTableView registerClass:[MZKSearchTableViewCell class] forCellReuseIdentifier:@"MZKSearchTableViewCell"];
     
-  //  _searchResultsTableView.registerClass(UITableViewCell.classForKeyedArchiver(), forCellReuseIdentifier: "your_reuse_identifier")
+    //  _searchResultsTableView.registerClass(UITableViewCell.classForKeyedArchiver(), forCellReuseIdentifier: "your_reuse_identifier")
     
     // Do any additional setup after loading the view.
     [self hideDimmingView];
@@ -54,7 +54,7 @@
     [self initGoogleAnalytics];
     _searchHints= [NSArray new];
     _recentSearches = [self loadRecentSearches];
-
+    
     self.searchResultsTableView.tableFooterView = [[UIView alloc] init];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(datasourceChanged:) name:kDatasourceItemChanged object:nil];
@@ -92,7 +92,7 @@
     }
     
     //[_datasource getFullSearchResults:_stringItem];
-
+    
 }
 
 -(void)downloadFailedWithError:(NSError *)error
@@ -105,19 +105,20 @@
         });
         return;
     }
+    NSLog(@"Download error:%@", [error description]);
     
-    [self showErrorWithCancelActionAndTitle:@"Problém při stahování" subtitle:@"Opakujte zadání"];
+    // [self showErrorWithCancelActionAndTitle:@"Problém při stahování" subtitle:@"Opakujte zadání"];
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 #pragma mark - SearchBar Delegate
 
@@ -137,7 +138,7 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     self.searchBar = searchBar;
-
+    
     if (searchText.length == 0 && !_isRemovingTextWithBackspace)
     {
         NSLog(@"Has clicked on clear !");
@@ -151,7 +152,7 @@
             [self.delegate searchStarted];
         }
         
-    }else if (searchText.length >=3) {
+    }else if (searchText.length >=2) {
         [self performHintSearchWithText:searchText];
     }
     else
@@ -169,7 +170,7 @@
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
     }
-
+    
     [_datasource getSearchResultsAsHints:searchText];
 }
 
@@ -216,25 +217,7 @@
 }
 
 
--(void)searchHintsLoaded:(NSArray *)results
-{
-    if(![[NSThread currentThread] isMainThread])
-    {
-        __weak typeof(self) welf = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [welf searchHintsLoaded:results];
-        });
-        return;
-    }
-    
-    if (results.count == 0) {
-        // display message
-    }
-    
-    _searchHints= results;
-    _searchResultsTableView.hidden = NO;
-    [_searchResultsTableView reloadData];
-}
+
 
 #pragma mark - search table view delegate and datasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -252,8 +235,8 @@
 {
     MZKSearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MZKSearchTableViewCell2" forIndexPath:indexPath];
     
-    if ((_recentSearches.count -1) && indexPath.row <=2) {
-    
+    if (_recentSearches.count > 0 && indexPath.row <= _recentSearches.count-1 ) {
+        
         NSString *itemTitle = [_recentSearches objectAtIndex:indexPath.row];
         cell.searchHintLabel.text = itemTitle;
         cell.searchTypeIcon.image = [UIImage imageNamed:@"recentSearch"];
@@ -271,20 +254,20 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Index path:%ld", (long)indexPath.row);
-    NSLog(@"Recent Searches count:%d", _recentSearches.count);
+    NSLog(@"Recent Searches count:%lu", (unsigned long)_recentSearches.count);
     NSString *key;
-    if ((_recentSearches.count -1) && indexPath.row <=2) {
+    if (_recentSearches.count > 0 && indexPath.row <= _recentSearches.count-1 ) {
         key = [_recentSearches objectAtIndex:indexPath.row];
     }
     else
     {
-         key = [_searchHints objectAtIndex:indexPath.row - _recentSearches.count];
+        key = [_searchHints objectAtIndex:indexPath.row - _recentSearches.count];
     }
-  
-   
+    
+    
     [self performSearchWithItem:key];
     [_searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
 }
 
 #pragma mark - regular search
@@ -295,7 +278,7 @@
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
     }
-
+    
     [_datasource getSearchResults:title];
     
     [self addRecentSearch:title];
@@ -303,6 +286,28 @@
 }
 
 #pragma mark - datasource delegate
+
+-(void)searchHintsLoaded:(NSArray *)results
+{
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf searchHintsLoaded:results];
+        });
+        return;
+    }
+    
+    if (results.count == 0) {
+        // display message
+        
+        [self showTSMessageWithTitle:@"Nenalezeno" subtitle:@"Vašemu dotazu neodpovídá žádný titul." type:TSMessageNotificationTypeMessage];
+    }
+    
+    _searchHints= results;
+    _searchResultsTableView.hidden = NO;
+    [_searchResultsTableView reloadData];
+}
 
 -(void)searchResultsLoaded:(NSArray *)results
 {
@@ -314,20 +319,27 @@
         });
         return;
     }
+    
+    [self hideDimmingView];
+    
+    if (results.count == 0) {
+        // display message
+        
+        [self showTSMessageWithTitle:@"Nenalezeno" subtitle:@"Vašemu dotazu neodpovídá žádný titul." type:TSMessageNotificationTypeError];
+    }
+    else
+    {
+        _searchResults = results;
+        
+        [self performSegueWithIdentifier:@"OpenGeneralList" sender:nil];
+        _searchBar.text = @"";
+        [self hideDimmingView];
+    }
 
-    
-    [self hideDimmingView];
-    
-    _searchResults = results;
-    
-    [self performSegueWithIdentifier:@"OpenGeneralList" sender:nil];
-    _searchBar.text = @"";
-    [self hideDimmingView];
-    
     if ([self.delegate respondsToSelector:@selector(searchEnded)]) {
         [self.delegate searchEnded];
     }
-
+    
 }
 
 #pragma mark segues for general view controller
@@ -367,10 +379,9 @@
     if (_recentSearches.count<3) {
         
         if (![_recentSearches.data containsObject:recentSearch]) {
-             [_recentSearches enqueue:recentSearch];
+            [_recentSearches enqueue:recentSearch];
+            NSLog(@"Adding, hist count:%lu", (unsigned long)_recentSearches.count);
         }
-       
-        NSLog(@"Adding, hist count:%lu", (unsigned long)_recentSearches.count);
     }
     else
     {
@@ -423,7 +434,7 @@
     NSLog(@"Removing history searches");
 }
 
-#pragma mark - search bar 
+#pragma mark - search bar
 
 -(void)removeSearchBarBorder
 {
@@ -436,30 +447,17 @@
 
 -(void)displayMessageWithTitle:(NSString *)title description:(NSString *)description andType:(TSMessageNotificationType)type
 {
-//        [TSMessage showNotificationWithTitle:title
-//                                    subtitle:description
-//                                        type:type];
+    //        [TSMessage showNotificationWithTitle:title
+    //                                    subtitle:description
+    //                                        type:type];
     
-
     
-      
     
-        // Add a button inside the message
-        [TSMessage showNotificationInViewController:self.parentViewController
-                                              title:@"Update available"
-                                           subtitle:@"Please update the app"
-                                              image:nil
-                                               type:TSMessageNotificationTypeMessage
-                                           duration:TSMessageNotificationDurationAutomatic
-                                           callback:nil
-                                        buttonTitle:@"Update"
-                                     buttonCallback:^{
-                                         NSLog(@"User tapped the button");
-                                     }
-                                         atPosition:TSMessageNotificationPositionTop
-                               canBeDismissedByUser:YES];
     
-
+    
+    
+    
+    
 }
 - (IBAction)onTest:(id)sender {
     

@@ -41,15 +41,20 @@ typedef enum _downloadOperation downloadOperation;
     NSURL *_lastURL;
     downloadOperation lastOperation;
     NSOperationQueue *downloadQ;
+    AFHTTPRequestOperation *currentOperation;
     
 }
 
 -(id)init
 {
     self = [super init];
-    if (self) {
+if (self) {
         [self checkAndSetBaseUrl];
     }
+    
+    downloadQ = [NSOperationQueue new];
+    downloadQ.name = @"download";
+    
     
     return self;
 }
@@ -113,8 +118,8 @@ typedef enum _downloadOperation downloadOperation;
     {
         [self getCollectionItems:collectionPID];
     }
-   
-   
+    
+    
 }
 
 -(void)getCollectionItems:(NSString *)collectionPID
@@ -176,7 +181,7 @@ typedef enum _downloadOperation downloadOperation;
 {
     BOOL showOnlyPublic = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettingsShowOnlyPublicDocuments] boolValue];
     NSString *desired = showOnlyPublic ? @"/search/api/v5.0/feed/custom?policy=public" : @"/search/api/v5.0/feed/custom";
-
+    
     [self checkAndSetBaseUrl];
     
     NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, desired];
@@ -194,14 +199,17 @@ typedef enum _downloadOperation downloadOperation;
     if (recent) {
         visible= [recent boolValue];
     }
-
+    
+    NSString *recentSq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=dc.title&q=dc.title:%@*+AND+(fedora.model:monograph^4+OR+fedora.model:periodical^4+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)+AND+(dostupnost:public^3+OR+dostupnost:private)&rows=20",[[searchString lowercaseString] URLEncodedString_ch]];
+    
     NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=dc.title&q=%@+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [[searchString lowercaseString] URLEncodedString_ch],visible?@"dostupnost:*public*+AND+":@""];
     
     [self checkAndSetBaseUrl];
     
-    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq];
+    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, recentSq];
+    finalString = [finalString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [[NSURL alloc] initWithString:finalString];
-    
+
     [self downloadDataFromURL:url withOperation:searchHints];
 }
 
@@ -229,9 +237,15 @@ typedef enum _downloadOperation downloadOperation;
 
 -(void)getSearchResults:(NSString *)searchQuery
 {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *recent = [defaults objectForKey:kSettingsShowOnlyPublicDocuments];
+    BOOL visible = NO;
+    if (recent) {
+        visible= [recent boolValue];
+    }
     
-    NSString *sq1 = [NSString stringWithFormat: @"/search/api/v5.0/search?fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=%@ AND(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [[searchQuery lowercaseString] URLEncodedString_ch]];
-   // sq1 = [self encodeToPercentEscapeString:sq1];
+    NSString *sq1 = [NSString stringWithFormat: @"/search/api/v5.0/search?fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=%@ AND%@(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [[searchQuery lowercaseString] URLEncodedString_ch], visible?@"dostupnost:*public*+AND+":@""];
+    // sq1 = [self encodeToPercentEscapeString:sq1];
     NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search?q=%@", [searchQuery lowercaseString]];
     if (!searchQuery) {
         sq = @"/search/api/v5.0/search?q=*:*";
@@ -251,7 +265,7 @@ typedef enum _downloadOperation downloadOperation;
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MZKLibraryItem *item = appDelegate.getDatasourceItem;
     if (!item) {
-       // NSLog(@"Default URL not set!");
+        // NSLog(@"Default URL not set!");
     }
     self.baseStringURL = [NSString stringWithFormat:@"%@://%@", item.protocol, item.stringURL];
 }
@@ -374,7 +388,7 @@ typedef enum _downloadOperation downloadOperation;
             }
             
             page.title = pageTitle;
-                        
+            
             if([currentObject objectForKey:@"details"]){
                 page.type = [[currentObject objectForKey:@"details"] objectForKey:@"type"];
                 
@@ -424,11 +438,11 @@ typedef enum _downloadOperation downloadOperation;
         if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
             [self.delegate downloadFailedWithError:[NSError errorWithDomain:@"Nothing downloaded" code:-10000 userInfo:[NSMutableDictionary new]]];
         }
-
+        
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
-
+    
     return pages;
 }
 
@@ -451,7 +465,7 @@ typedef enum _downloadOperation downloadOperation;
         cItem.nameENG = [[[parsedObject objectAtIndex:i] objectForKey:@"descs"] objectForKey:@"en"];
         cItem.nameCZ = [[[parsedObject objectAtIndex:i] objectForKey:@"descs"] objectForKey:@"cs"];
         cItem.label =[[parsedObject objectAtIndex:i] objectForKey:@"label"];
-
+        
         [results addObject:cItem];
         
     }
@@ -515,15 +529,53 @@ typedef enum _downloadOperation downloadOperation;
         [results addObject:cItem];
         
     }
-        
+    
     if ([self.delegate respondsToSelector:@selector(collectionItemsLoaded:)]) {
         [self.delegate collectionItemsLoaded:[results copy]];
-       
+        
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
     
     return results;
+}
+
+
+// AF Networking parsing method!
+-(NSArray *)parseJSONDataForHints:(NSDictionary*)response error:(NSError *)error
+{
+    NSLog(@"Parsing hints");
+    // paging not used for hints!
+    //    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
+    //    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
+    if ([response objectForKey:@"message"] && [response objectForKey:@"status"]) {
+        NSLog(@"Message: %@ and Status:%@", [response objectForKey:@"message"],[response objectForKey:@"status"] );
+        
+        if ([[response objectForKey:@"status"] isEqualToString:@"500"]) {
+            if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
+                [self.delegate downloadFailedWithError:[NSError errorWithDomain:@"Nothing downloaded" code:-10000 userInfo:[NSMutableDictionary new]]];
+                return nil;
+            }
+            
+        }
+    }
+    
+    NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
+    NSMutableArray *resultsArray = [NSMutableArray new];
+    
+    for (int i = 0; i<parsedObject.count; i++) {
+        NSDictionary *itemDict =[parsedObject objectAtIndex:i];
+        NSString *s = [itemDict objectForKey:@"dc.title"];
+        [resultsArray addObject:s];
+    }
+    
+    
+    if ([self.delegate respondsToSelector:@selector(searchHintsLoaded:)]) {
+        [self.delegate searchHintsLoaded:[resultsArray copy]];
+    }
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    return [resultsArray copy];
 }
 
 -(NSArray *)parseJSONdataForSearchHints:(NSData *)data error:(NSError *)error
@@ -544,7 +596,7 @@ typedef enum _downloadOperation downloadOperation;
                 [self.delegate downloadFailedWithError:[NSError errorWithDomain:@"Nothing downloaded" code:-10000 userInfo:[NSMutableDictionary new]]];
                 return nil;
             }
-
+            
         }
     }
     
@@ -601,13 +653,9 @@ typedef enum _downloadOperation downloadOperation;
         [results addObject:cItem];
     }
     
-    if (results.count >0) {
-        if ([self.delegate respondsToSelector:@selector(searchResultsLoaded:)]) {
-            [self.delegate searchResultsLoaded:[results copy]];
-        }
-    }
-    else{
-        NSLog(@"Nothing was found!");
+    
+    if ([self.delegate respondsToSelector:@selector(searchResultsLoaded:)]) {
+        [self.delegate searchResultsLoaded:[results copy]];
     }
     
     
@@ -640,7 +688,7 @@ typedef enum _downloadOperation downloadOperation;
     newItem.author = [rawData objectForKey:@"author"];
     
     if([rawData objectForKey:@"details"]){
-     //   page.type = [[rawData objectForKey:@"details"] objectForKey:@"type"];
+        //   page.type = [[rawData objectForKey:@"details"] objectForKey:@"type"];
         NSLog(@"Parsing details");
         
         if ([[[rawData objectForKey:@"details"] objectForKey:@"year"] isKindOfClass:[NSString class]]) {
@@ -666,7 +714,7 @@ typedef enum _downloadOperation downloadOperation;
         
         
     }
-
+    
     
     [rawData objectForKey:@""];
     
@@ -693,97 +741,132 @@ typedef enum _downloadOperation downloadOperation;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
     
     
-    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
     
     if (operation ==downloadCollectionItems || operation == search || operation == searchHints) {
         [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     }
-
+    
     _lastURL = strURL;
     lastOperation = operation;
     
-   // NSLog(@"Request: %@, with operation:%u", [req description], operation);
-    if (downloadQ) {
-        [downloadQ cancelAllOperations];
-        NSLog(@"cleaning que");
+    if (operation == searchHints) {
+        [self downloadSearchHintsWithRequest:req withOperation:operation];
+        NSLog(@"Performing search hints");
+        return;
     }
-    downloadQ = [NSOperationQueue new];
-    downloadQ.name = @"download";
     
-    NSLog(@"REQUEST:%@", [req description]);
     
-   // NSMutableURLRequest *req = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:finalString parameters:nil error:nil];
-    
-    __weak typeof(self) wealf = self;
-    
-    [NSURLConnection sendAsynchronousRequest:[req copy] queue:downloadQ completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
+ 
         
-        if (error) {
-            NSLog(@"Download failed with error:%@", [error debugDescription]);
-            NSDictionary *d = error.userInfo;
-            NSString *key = [d objectForKey:@"_kCFStreamErrorDomainKey"];
-            [wealf downloadFailedWithError:error];
-        } else {
-            NSLog(@"Download sucessful with operation:%lu", (unsigned long)operation);
+        NSLog(@"REQUEST:%@", [req description]);
+        
+        // NSMutableURLRequest *req = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:finalString parameters:nil error:nil];
+        
+        __weak typeof(self) wealf = self;
+        
+        [NSURLConnection sendAsynchronousRequest:[req copy] queue:downloadQ completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
             
-            switch (operation) {
-                case downloadMostRecent:
-                    [wealf parseJSONData:data error:error withOperation:operation];
-                    break;
-                    
-                case downloadRecommended:
-                    [wealf parseJSONData:data error:error withOperation:operation];
-                    break;
-                    
-                case downloadItem:
-                    [wealf parseJSONDataForDetail:data error:error];
-                    break;
-                case downloadChildren:
-                    [wealf parseJSONDataForChildren:data error:error];
-                    break;
-                    
-                case downloadImageProperties:
-                    [wealf parseImagePropertiesWithData:data error:error];
-                    break;
-                    
-                case downloadCollectionInfo:
-                    [wealf parseJSONDataForCollections:data error:error];
-                    
-                    break;
-                case downloadCollectionItems:
-                    [wealf parseJSONDataForCollectionItems:data error:error];
-                    break;
-                    
-                case search:
-                    
-                [wealf parseJSONdataForSearch:data error:error];
-                    
-                    break;
-                    
-                case searchHints:
-                    
-                    [wealf parseJSONdataForSearchHints:data error:error];
-                    break;
-                    
-                case searchFullResults:
-                    [wealf parseJSONdataForSearch:data error:error];
-                    break;
-                    
-                default:
-                    break;
+            if (error) {
+                NSLog(@"Download failed with error:%@", [error debugDescription]);
+                NSDictionary *d = error.userInfo;
+                NSString *key = [d objectForKey:@"_kCFStreamErrorDomainKey"];
+                [wealf downloadFailedWithError:error];
+            } else {
+                NSLog(@"Download sucessful with operation:%lu", (unsigned long)operation);
+               
+                    switch (operation) {
+                        case downloadMostRecent:
+                            [wealf parseJSONData:data error:error withOperation:operation];
+                            break;
+                            
+                        case downloadRecommended:
+                            [wealf parseJSONData:data error:error withOperation:operation];
+                            break;
+                            
+                        case downloadItem:
+                            [wealf parseJSONDataForDetail:data error:error];
+                            break;
+                        case downloadChildren:
+                            [wealf parseJSONDataForChildren:data error:error];
+                            break;
+                            
+                        case downloadImageProperties:
+                            [wealf parseImagePropertiesWithData:data error:error];
+                            break;
+                            
+                        case downloadCollectionInfo:
+                            [wealf parseJSONDataForCollections:data error:error];
+                            
+                            break;
+                        case downloadCollectionItems:
+                            [wealf parseJSONDataForCollectionItems:data error:error];
+                            break;
+                            
+                        case search:
+                            
+                            [wealf parseJSONdataForSearch:data error:error];
+                            
+                            break;
+                            
+                        case searchHints:
+                            
+                            [wealf parseJSONdataForSearchHints:data error:error];
+                            break;
+                            
+                        case searchFullResults:
+                            [wealf parseJSONdataForSearch:data error:error];
+                            break;
+                            
+                        default:
+                            break;
+                    }
             }
-            
-        }
-    }];
+            }];
+        
     
 }
 
--(NSString*) encodeToPercentEscapeString:(NSString *)string {
+-(NSString*) encodeToPercentEscapeString:(NSString *)string  {
     return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
                                                                                  (CFStringRef) string,
                                                                                  NULL,
                                                                                  (CFStringRef) @"!*'();:@&=+$,/?%#[]",
                                                                                  kCFStringEncodingUTF8)); }
+#pragma mark - AFNetworking
+-(void)downloadSearchHintsWithRequest:(NSMutableURLRequest *)request withOperation:(downloadOperation)operation
+{
+    __weak typeof(self) wealf = self;
+    
+    if (currentOperation) {
+        [currentOperation cancel];
+        NSLog(@"Cancel current operation!");
+    }
+    
+    currentOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    currentOperation.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [currentOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+         NSError *localError = nil;
+        [wealf parseJSONDataForHints:(NSDictionary *)responseObject error:localError];
+           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               if ([wealf.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
+                   [wealf.delegate downloadFailedWithError:error];
+               }
+      }];
+    
+    // 5
+    [currentOperation start];
+    
+}
+
+
+
+
+
+
+
 
 
 @end

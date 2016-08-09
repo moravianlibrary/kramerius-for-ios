@@ -25,15 +25,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 -(void)showErrorWithCancelActionAndTitle:(NSString *)title subtitle:(NSString *)subtitle withCompletion:(void (^)())actionBlock
 {
     UIAlertController * alert=   [UIAlertController
@@ -147,5 +138,46 @@
     
     [self presentViewController:alert animated:YES completion:nil];
 }
+
+
+
+-(void)showTSMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle type:(TSMessageNotificationType)type
+{
+    // Add a button inside the message
+    
+    [TSMessage showNotificationWithTitle:title subtitle:subtitle type:type];
+    
+}
+
+-(void)showTSMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle type:(TSMessageNotificationType)type buttonTitle:(NSString *)buttonTitle confirmAction:(void (^)())actionBlock
+{
+    // Add a button inside the message
+    [TSMessage showNotificationInViewController:self.parentViewController
+                                          title:title
+                                       subtitle:subtitle
+                                          image:nil
+                                           type:type
+                                       duration:TSMessageNotificationDurationAutomatic
+                                       callback:nil
+                                    buttonTitle:buttonTitle
+                                 buttonCallback:^{
+                                     NSLog(@"User tapped the button");
+                                     actionBlock();
+                                 }
+                                     atPosition:TSMessageNotificationPositionTop
+                           canBeDismissedByUser:YES];
+    
+}
+
+-(void)showTSErrorWithCancelActionAndTitle:(NSString *)title subtitle:(NSString *)subtitle withCompletion:(void (^)())actionBlock
+{
+    
+}
+
+
+
+
+
+
 
 @end
