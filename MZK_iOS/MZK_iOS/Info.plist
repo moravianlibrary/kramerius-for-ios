@@ -22,11 +22,6 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>3</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>mzk</string>
-		<string>http</string>
-	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

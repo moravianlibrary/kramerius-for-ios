@@ -77,7 +77,7 @@
         
     });
     
-     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
     return YES;
 }
@@ -146,16 +146,19 @@
 
 -(void)saveToUserDefaults:(MZKLibraryItem *)item
 {
-    self.defaultDatasourceItem  =item;
-    [[NSUserDefaults standardUserDefaults] setObject:item.name forKey:kDefaultDatasourceName];
-    [[NSUserDefaults standardUserDefaults] setObject:item.stringURL forKey:kDefaultDatasourceStringURL];
-    [[NSUserDefaults standardUserDefaults] setObject:item.imageName forKey:kDefaultImageName];
-    [[NSUserDefaults standardUserDefaults] setObject:item.protocol forKey:kDefaultDatasourceProtocol];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [self setDefaultDatasource];
-    
-    [self.menuTabBar setSelectedIndex:0];
+    if (![self.defaultDatasourceItem.name isEqualToString:item.name]) {
+
+        self.defaultDatasourceItem  =item;
+        [[NSUserDefaults standardUserDefaults] setObject:item.name forKey:kDefaultDatasourceName];
+        [[NSUserDefaults standardUserDefaults] setObject:item.stringURL forKey:kDefaultDatasourceStringURL];
+        [[NSUserDefaults standardUserDefaults] setObject:item.imageName forKey:kDefaultImageName];
+        [[NSUserDefaults standardUserDefaults] setObject:item.protocol forKey:kDefaultDatasourceProtocol];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [self setDefaultDatasource];
+        
+        [self.menuTabBar setSelectedIndex:0];
+    }
 }
 
 -(MZKLibraryItem *)getDatasourceItem
@@ -408,10 +411,10 @@
             [tmpMusicVC setItemPID:pid];
             tmpMusicVC.view;
         }else{
-        UINavigationController *tmpNav = [self.menuTabBar.viewControllers objectAtIndex:4];
-        MZKMusicViewController *tmpMusicVC = tmpNav.viewControllers[0];
-        [tmpMusicVC setItemPID:pid];
-        tmpMusicVC.view;
+            UINavigationController *tmpNav = [self.menuTabBar.viewControllers objectAtIndex:4];
+            MZKMusicViewController *tmpMusicVC = tmpNav.viewControllers[0];
+            [tmpMusicVC setItemPID:pid];
+            tmpMusicVC.view;
         }
     }
     
@@ -422,7 +425,7 @@
     if([viewController isKindOfClass:[UINavigationController class]])
     {
     }
-
+    
 }
 
 
