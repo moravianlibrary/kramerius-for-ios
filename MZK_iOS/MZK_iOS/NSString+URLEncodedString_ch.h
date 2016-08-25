@@ -10,5 +10,6 @@
 
 @interface NSString (URLEncodedString_ch)
 - (NSString *) URLEncodedString_ch;
+- (NSString *)urlEncodeUsingEncoding:(NSStringEncoding)encoding;
 
 @end

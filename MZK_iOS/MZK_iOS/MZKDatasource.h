@@ -46,7 +46,7 @@
 -(void)getCollectionItems:(NSString *)collectionPID;
 -(void)getCollectionItems:(NSString *)collectionPID withRangeFrom:(NSInteger)from to:(NSInteger)to;
 -(void)getCollectionItems:(NSString *)collectionPID withRangeFrom:(NSInteger)from numberOfItems:(NSInteger)numberOfItems;
--(void)getSearchResults:(NSString *)searchQuery;
+-(void)getSearchResults:(NSString *)searchString;
 -(void)getSearchResultsAsHints:(NSString *)searchString;
 -(void)getFullSearchResults:(NSString *)searchString;
 

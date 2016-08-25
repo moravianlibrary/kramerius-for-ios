@@ -42,6 +42,9 @@ typedef enum _downloadOperation downloadOperation;
     downloadOperation lastOperation;
     NSOperationQueue *downloadQ;
     AFHTTPRequestOperation *currentOperation;
+    NSString *_scheme;
+    NSString *_host;
+    
     
 }
 
@@ -199,17 +202,17 @@ if (self) {
     if (recent) {
         visible= [recent boolValue];
     }
+        [self checkAndSetBaseUrl];
     
-    NSString *recentSq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=dc.title&q=dc.title:%@*+AND+(fedora.model:monograph^4+OR+fedora.model:periodical^4+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)+AND+(dostupnost:public^3+OR+dostupnost:private)&rows=20",[[searchString lowercaseString] URLEncodedString_ch]];
+    NSURLComponents *components = [[NSURLComponents alloc] init];
+    components.scheme = _scheme;
+    components.host = _host;
+    components.path = @"/search/api/v5.0/search/";
+    components.query = [NSString stringWithFormat:@"fl=dc.title&q=dc.title:%@*+AND+(fedora.model:monograph^4+OR+fedora.model:periodical^4+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)+AND+(dostupnost:public^3+OR+dostupnost:private)&rows=20", [searchString lowercaseString]];
     
-    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?fl=dc.title&q=%@+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [[searchString lowercaseString] URLEncodedString_ch],visible?@"dostupnost:*public*+AND+":@""];
-    
-    [self checkAndSetBaseUrl];
-    
-    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, recentSq];
-    finalString = [finalString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [[NSURL alloc] initWithString:finalString];
-
+    NSURL *url = components.URL;
+    //NSLog(@"HINT URL:%@", url.absoluteString);
+    NSLog(@"Percent encoded:%@",[components percentEncodedQuery]) ;
     [self downloadDataFromURL:url withOperation:searchHints];
 }
 
@@ -222,20 +225,27 @@ if (self) {
         visible= [recent boolValue];
     }
     
-    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
+   // NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
     
     [self checkAndSetBaseUrl];
     
-    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq];
-    finalString = [finalString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    
+    NSURLComponents *components = [[NSURLComponents alloc] init];
+    components.scheme = _scheme;
+    components.host = _host;
+    components.path = @"/search/api/v5.0/search/";
+    components.query = [NSString stringWithFormat:@"q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
+    
+    NSLog(@"Percent encoded:%@",[components percentEncodedQuery]) ;
+    NSURL *url = components.URL;
+    
     
     [self downloadDataFromURL:url withOperation:searchFullResults];
 }
 
 
 
--(void)getSearchResults:(NSString *)searchQuery
+-(void)getSearchResults:(NSString *)searchString
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *recent = [defaults objectForKey:kSettingsShowOnlyPublicDocuments];
@@ -243,18 +253,26 @@ if (self) {
     if (recent) {
         visible= [recent boolValue];
     }
-    
-    NSString *sq1 = [NSString stringWithFormat: @"/search/api/v5.0/search?fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=%@ AND%@(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [[searchQuery lowercaseString] URLEncodedString_ch], visible?@"dostupnost:*public*+AND+":@""];
-    // sq1 = [self encodeToPercentEscapeString:sq1];
-    NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search?q=%@", [searchQuery lowercaseString]];
-    if (!searchQuery) {
-        sq = @"/search/api/v5.0/search?q=*:*";
-    }
+//    
+//    NSString *sq1 = [NSString stringWithFormat: @"/search/api/v5.0/search/?fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=%@*AND%@(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [[searchString lowercaseString] URLEncodedString_ch], visible?@"dostupnost:*public*+AND+":@""];
+//    
     [self checkAndSetBaseUrl];
     
-    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq1];
-    NSString* webStringURL = [finalString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [[NSURL alloc] initWithString:webStringURL];
+//    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq1];
+//    NSString* webStringURL = [finalString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    NSURL *url = [[NSURL alloc] initWithString:webStringURL];
+    
+    
+    
+    NSURLComponents *components = [[NSURLComponents alloc] init];
+    components.scheme = _scheme;
+    components.host = _host;
+    components.path = @"/search/api/v5.0/search/";
+    components.query = [NSString stringWithFormat:@"fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=%@*+AND+%@(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
+    
+    NSLog(@"Percent encoded:%@",[components percentEncodedQuery]) ;
+    NSURL *url = components.URL;
+
     
     [self downloadDataFromURL:url withOperation:search];
 }
@@ -267,6 +285,9 @@ if (self) {
     if (!item) {
         // NSLog(@"Default URL not set!");
     }
+    _scheme = item.protocol;
+    _host = item.stringURL;
+    
     self.baseStringURL = [NSString stringWithFormat:@"%@://%@", item.protocol, item.stringURL];
 }
 
@@ -740,7 +761,6 @@ if (self) {
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
     
-    
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
     
     if (operation ==downloadCollectionItems || operation == search || operation == searchHints) {
@@ -755,22 +775,15 @@ if (self) {
         NSLog(@"Performing search hints");
         return;
     }
+          NSLog(@"REQUEST:%@", [req description]);
+        
     
-    
- 
-        
-        NSLog(@"REQUEST:%@", [req description]);
-        
-        // NSMutableURLRequest *req = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:finalString parameters:nil error:nil];
-        
         __weak typeof(self) wealf = self;
         
         [NSURLConnection sendAsynchronousRequest:[req copy] queue:downloadQ completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
             
             if (error) {
                 NSLog(@"Download failed with error:%@", [error debugDescription]);
-                NSDictionary *d = error.userInfo;
-                NSString *key = [d objectForKey:@"_kCFStreamErrorDomainKey"];
                 [wealf downloadFailedWithError:error];
             } else {
                 NSLog(@"Download sucessful with operation:%lu", (unsigned long)operation);
@@ -804,9 +817,7 @@ if (self) {
                             break;
                             
                         case search:
-                            
                             [wealf parseJSONdataForSearch:data error:error];
-                            
                             break;
                             
                         case searchHints:
@@ -860,13 +871,4 @@ if (self) {
     [currentOperation start];
     
 }
-
-
-
-
-
-
-
-
-
 @end

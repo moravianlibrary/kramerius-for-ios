@@ -403,44 +403,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/MZKSearchViewController.m"
-            timestampString = "492421468.546223"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
-            landmarkName = "-downloadFailedWithError:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "MZK_iOS/MZKDatasource.m"
-            timestampString = "492449750.036511"
+            timestampString = "493802194.779322"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "754"
-            endingLineNumber = "754"
-            landmarkName = "-downloadDataFromURL:withOperation:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/MZKDatasource.m"
-            timestampString = "492449750.036511"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "555"
-            endingLineNumber = "555"
+            startingLineNumber = "576"
+            endingLineNumber = "576"
             landmarkName = "-parseJSONDataForHints:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -451,13 +419,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/MZKSearchViewController.m"
-            timestampString = "492447012.16994"
+            filePath = "MZK_iOS/MZKDatasource.m"
+            timestampString = "493634756.449946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
-            landmarkName = "-searchResultsLoaded:"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
+            landmarkName = "-getFullSearchResults:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -468,12 +436,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/MZKDatasource.m"
-            timestampString = "492449750.036511"
+            timestampString = "493801863.533254"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
-            landmarkName = "-getSearchResultsAsHints:"
+            startingLineNumber = "243"
+            endingLineNumber = "243"
+            landmarkName = "-getFullSearchResults:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
