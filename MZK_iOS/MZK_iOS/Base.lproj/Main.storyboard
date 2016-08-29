@@ -856,20 +856,37 @@
                                     <action selector="publicDocumentsUIsliderValueChanged:" destination="MMP-1I-b3c" eventType="valueChanged" id="DjO-bI-DFJ"/>
                                 </connections>
                             </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nevypínat obrazovku při čtení" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJ8-9i-dkX">
+                                <rect key="frame" x="20" y="116" width="228" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n84-Xw-vn8">
+                                <rect key="frame" x="264" y="111" width="51" height="31"/>
+                                <connections>
+                                    <action selector="onDimmScreenChanged:" destination="MMP-1I-b3c" eventType="valueChanged" id="UQ3-nL-EJc"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="leadingMargin" secondItem="hJ8-9i-dkX" secondAttribute="leading" id="0RD-EC-ggh"/>
                             <constraint firstItem="mWi-ld-vBH" firstAttribute="leading" secondItem="kUC-UO-Fy3" secondAttribute="leading" constant="20" id="1YU-CY-ln8"/>
                             <constraint firstItem="mWi-ld-vBH" firstAttribute="top" secondItem="Gs0-yM-I8F" secondAttribute="bottom" constant="8" id="4un-f3-Ncl"/>
                             <constraint firstItem="Gs0-yM-I8F" firstAttribute="leading" secondItem="kUC-UO-Fy3" secondAttribute="leadingMargin" constant="-20" id="BbN-p1-QH0"/>
+                            <constraint firstItem="n84-Xw-vn8" firstAttribute="leading" secondItem="hJ8-9i-dkX" secondAttribute="trailing" constant="16" id="GgW-jh-vGy"/>
                             <constraint firstItem="lnU-cg-JfG" firstAttribute="leading" secondItem="mWi-ld-vBH" secondAttribute="trailing" constant="8" id="Ov4-Sk-f2d"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Gs0-yM-I8F" secondAttribute="trailing" constant="-20" id="WF4-7o-bvL"/>
                             <constraint firstItem="lnU-cg-JfG" firstAttribute="top" secondItem="Gs0-yM-I8F" secondAttribute="bottom" constant="3" id="edd-Fp-Z2O"/>
                             <constraint firstItem="Gs0-yM-I8F" firstAttribute="top" secondItem="kUC-UO-Fy3" secondAttribute="top" id="gjn-x1-Yl3"/>
+                            <constraint firstItem="n84-Xw-vn8" firstAttribute="top" secondItem="lnU-cg-JfG" secondAttribute="bottom" constant="8" id="n9V-fF-8ey"/>
+                            <constraint firstItem="hJ8-9i-dkX" firstAttribute="top" secondItem="mWi-ld-vBH" secondAttribute="bottom" constant="18" id="qrK-Rz-Wej"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="pms-vR-6Fc"/>
                     <connections>
+                        <outlet property="dimmScreen" destination="n84-Xw-vn8" id="UTk-bR-vtX"/>
                         <outlet property="publicDocuments" destination="lnU-cg-JfG" id="Jnn-7b-8P3"/>
                     </connections>
                 </viewController>

@@ -15,6 +15,7 @@
 #import <Google/Analytics.h>
 #import "MZKDetailInformationViewController.h"
 #import "MyURLProtocol.h"
+#import "MZKConstants.h"
 
 #import "UIImageView+ProgressView.h"
 @import SDWebImage;
@@ -73,6 +74,8 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    
+    
     self.webView.delegate = self;
     currentIndex = 0;
     
@@ -114,6 +117,15 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     [_webView.scrollView setBackgroundColor:[UIColor grayColor]];
     
     barsHidden = hidingBars = NO;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *shouldDimmDisplay = [defaults objectForKey:kShouldDimmDisplay];
+    
+    BOOL shouldDimm = [shouldDimmDisplay boolValue];
+    
+    NSLog(@"Should DIMM:%@", shouldDimm?@"YES":@"NO");
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:!shouldDimm];
     
     [self initGoogleAnalytics];
 }
@@ -491,6 +503,15 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
  */
 
 - (IBAction)onClose:(id)sender {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *shouldDimmDisplay = [defaults objectForKey:kShouldDimmDisplay];
+    
+    BOOL shouldDimm = [shouldDimmDisplay boolValue];
+    
+    NSLog(@"Should DIMM CLOSE:%@", shouldDimm?@"YES":@"NO");
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:shouldDimm];
     
     if (_item) {
         [self saveDocumentToRecentlyOpened:_item];

@@ -36,6 +36,20 @@
         [self resetDefaults];
     }
     
+    NSNumber *shouldDimmDisplay = [defaults objectForKey:kShouldDimmDisplay];
+    
+    if (!shouldDimmDisplay) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:kShouldDimmDisplay];
+    }
+    else
+    {
+        BOOL shouldDimm = [shouldDimmDisplay boolValue];
+    
+        [[UIApplication sharedApplication] setIdleTimerDisabled:shouldDimm];
+        
+    }
+    
+    
     // set the major version of app to user defaults
     
     [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] forKey:kRecentlyOpenedDocumentsVersion];

@@ -669,7 +669,7 @@ if (self) {
         cItem.rootPid = [itemDict objectForKey:@"root_pid"];
         cItem.rootTitle =[itemDict objectForKey:@"root_title"];
         cItem.model = [itemDict objectForKey:@"fedora.model"];
-        cItem.policy = [itemDict objectForKey:@"policy"];
+        cItem.policy = [itemDict objectForKey:@"dostupnost"];
         
         [results addObject:cItem];
     }

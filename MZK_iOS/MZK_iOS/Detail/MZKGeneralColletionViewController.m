@@ -314,11 +314,10 @@
         
         [self.navigationController pushViewController:nextViewController animated:YES];
     }
-    
-    
-    if ([po.policy isEqualToString:@"public"]) {
+
+   if ([po.policy isEqualToString:@"public"]) {
         
-        if ([po.model isEqualToString:@"periodicalitem"])
+        if ([po.model isEqualToString:@"periodicalitem"] || [po.model isEqualToString:@"manuscript"] || [po.model isEqualToString:@"monograph"] ||[po.model isEqualToString:@"map"] ||[po.model isEqualToString:@"graphic"] || [po.model isEqualToString:@"page"])
         {
             //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
             

@@ -22,6 +22,7 @@ extern NSString *const kSettingsShowOnlyPublicDocuments;
 extern NSString *const kRecentlyOpenedDocuments;
 extern NSString *const kRecentlyOpenedDocumentsVersion;
 extern NSString *const kRecentSearches;
+extern NSString *const kShouldDimmDisplay;
 
 #pragma mark - types keys
 extern NSString *const kTrack;

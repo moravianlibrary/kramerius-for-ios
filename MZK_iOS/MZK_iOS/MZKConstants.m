@@ -23,6 +23,7 @@ NSString *const kSettingsShowOnlyPublicDocuments = @"showOnlyPublicDocuments";
 NSString *const kRecentlyOpenedDocuments = @"kRecentlyOpenedDocuments";
 NSString *const kRecentlyOpenedDocumentsVersion = @"kRecentlyOpenedDocumentsVersion";
 NSString *const kRecentSearches = @"kRecentSearches";
+NSString *const kShouldDimmDisplay = @"kShouldDimmDisplay";
 
 #pragma mark - types keys
 

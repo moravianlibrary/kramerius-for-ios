@@ -12,6 +12,7 @@
 
 @interface MZKSettingsViewController ()
 @property (weak, nonatomic) IBOutlet UISwitch *publicDocuments;
+@property (weak, nonatomic) IBOutlet UISwitch *dimmScreen;
 
 @end
 
@@ -58,12 +59,29 @@
     
         [self.publicDocuments setOn: visible];
     }
+    
+    
+    
+    NSNumber *shouldDimmDisplay = [defaults objectForKey:kShouldDimmDisplay];
+    
+    if (shouldDimmDisplay) {
+        
+        [_dimmScreen setOn:shouldDimmDisplay];
+    }
+    
+    
 }
 
 - (IBAction)publicDocumentsUIsliderValueChanged:(id)sender {
     
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:self.publicDocuments.on] forKey:kSettingsShowOnlyPublicDocuments];
-     [[NSNotificationCenter defaultCenter] postNotificationName:kDatasourceItemChanged object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDatasourceItemChanged object:nil];
+}
+
+- (IBAction)onDimmScreenChanged:(id)sender {
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:_dimmScreen.on] forKey:kShouldDimmDisplay];
+   // [[UIApplication sharedApplication] setIdleTimerDisabled:_dimmScreen.on];
 }
 
 /*
