@@ -50,8 +50,6 @@
 -(void)loadSettings
 {
    //kSettingsShowOnlyPublicDocuments
-    
-   
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *recent = [defaults objectForKey:kSettingsShowOnlyPublicDocuments];
     if (recent) {
@@ -59,17 +57,13 @@
     
         [self.publicDocuments setOn: visible];
     }
-    
-    
-    
+
     NSNumber *shouldDimmDisplay = [defaults objectForKey:kShouldDimmDisplay];
     
     if (shouldDimmDisplay) {
         
         [_dimmScreen setOn:shouldDimmDisplay];
     }
-    
-    
 }
 
 - (IBAction)publicDocumentsUIsliderValueChanged:(id)sender {
@@ -80,8 +74,10 @@
 
 - (IBAction)onDimmScreenChanged:(id)sender {
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:_dimmScreen.on] forKey:kShouldDimmDisplay];
-   // [[UIApplication sharedApplication] setIdleTimerDisabled:_dimmScreen.on];
+    BOOL onScreen = _dimmScreen.on;
+
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:onScreen] forKey:kShouldDimmDisplay];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 /*

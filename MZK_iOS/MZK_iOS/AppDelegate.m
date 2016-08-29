@@ -41,14 +41,9 @@
     if (!shouldDimmDisplay) {
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:kShouldDimmDisplay];
     }
-    else
-    {
-        BOOL shouldDimm = [shouldDimmDisplay boolValue];
     
-        [[UIApplication sharedApplication] setIdleTimerDisabled:shouldDimm];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
         
-    }
-    
     
     // set the major version of app to user defaults
     

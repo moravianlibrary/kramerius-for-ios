@@ -125,7 +125,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     NSLog(@"Should DIMM:%@", shouldDimm?@"YES":@"NO");
     
-    [[UIApplication sharedApplication] setIdleTimerDisabled:!shouldDimm];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:shouldDimm];
     
     [self initGoogleAnalytics];
 }
@@ -504,14 +504,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 - (IBAction)onClose:(id)sender {
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *shouldDimmDisplay = [defaults objectForKey:kShouldDimmDisplay];
-    
-    BOOL shouldDimm = [shouldDimmDisplay boolValue];
-    
-    NSLog(@"Should DIMM CLOSE:%@", shouldDimm?@"YES":@"NO");
-    
-    [[UIApplication sharedApplication] setIdleTimerDisabled:shouldDimm];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     
     if (_item) {
         [self saveDocumentToRecentlyOpened:_item];
