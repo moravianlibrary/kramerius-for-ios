@@ -17,7 +17,6 @@
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
 #import "MZKLibraryItem.h"
-#import "MZKSearchHistoryItem.h"
 
 @import SDWebImage;
 
