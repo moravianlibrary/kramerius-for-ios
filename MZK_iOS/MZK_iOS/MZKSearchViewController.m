@@ -121,6 +121,7 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     self.searchBar = searchBar;
+    _searchResultsTableView.hidden = NO;
     
     _filteredRecentSearches = [self getSearchHintsFromRecentWithString:searchText];
     
@@ -129,13 +130,12 @@
         [self searchBarCancelButtonClicked:searchBar];
         
         // show recent
-        _searchResultsTableView.hidden = NO;
         
         if ([self.delegate respondsToSelector:@selector(searchStarted)]) {
             [self.delegate searchStarted];
         }
         
-    }else if (searchText.length >=2) {
+    }else if (searchText.length >=1) {
         [self performHintSearchWithText:searchText];
     }
     else
