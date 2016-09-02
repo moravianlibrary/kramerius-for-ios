@@ -154,7 +154,6 @@
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
     }
-    
     [_datasource getSearchResultsAsHints:searchText];
 }
 
