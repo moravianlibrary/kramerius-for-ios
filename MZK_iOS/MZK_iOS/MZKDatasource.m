@@ -211,8 +211,6 @@ if (self) {
     components.query = [NSString stringWithFormat:@"fl=dc.title&q=dc.title:%@*+AND+(fedora.model:monograph^4+OR+fedora.model:periodical^4+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)+AND+(dostupnost:public^3+OR+dostupnost:private)&rows=20", [searchString lowercaseString]];
     
     NSURL *url = components.URL;
-    //NSLog(@"HINT URL:%@", url.absoluteString);
-    NSLog(@"Percent encoded:%@",[components percentEncodedQuery]) ;
     [self downloadDataFromURL:url withOperation:searchHints];
 }
 
@@ -220,15 +218,13 @@ if (self) {
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *recent = [defaults objectForKey:kSettingsShowOnlyPublicDocuments];
+    
     BOOL visible = NO;
     if (recent) {
         visible= [recent boolValue];
     }
     
-   // NSString *sq = [NSString stringWithFormat:@"/search/api/v5.0/search/?q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
-    
     [self checkAndSetBaseUrl];
-    
     
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = _scheme;
@@ -258,12 +254,6 @@ if (self) {
 //    
     [self checkAndSetBaseUrl];
     
-//    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, sq1];
-//    NSString* webStringURL = [finalString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    NSURL *url = [[NSURL alloc] initWithString:webStringURL];
-    
-    
-    
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = _scheme;
     components.host = _host;
@@ -282,16 +272,11 @@ if (self) {
 {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MZKLibraryItem *item = appDelegate.getDatasourceItem;
-    if (!item) {
-        // NSLog(@"Default URL not set!");
-    }
     _scheme = item.protocol;
     _host = item.stringURL;
     
     self.baseStringURL = [NSString stringWithFormat:@"%@://%@", item.protocol, item.stringURL];
 }
-
-
 
 -(void)downloadFailedWithError:(NSError *)error
 {
@@ -565,8 +550,7 @@ if (self) {
 // AF Networking parsing method!
 -(NSArray *)parseJSONDataForHints:(NSDictionary*)response error:(NSError *)error
 {
-    NSLog(@"Parsing hints");
-    // paging not used for hints!
+       // paging not used for hints!
     //    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
     //    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
     if ([response objectForKey:@"message"] && [response objectForKey:@"status"]) {
@@ -710,7 +694,6 @@ if (self) {
     
     if([rawData objectForKey:@"details"]){
         //   page.type = [[rawData objectForKey:@"details"] objectForKey:@"type"];
-        NSLog(@"Parsing details");
         
         if ([[[rawData objectForKey:@"details"] objectForKey:@"year"] isKindOfClass:[NSString class]]) {
             newItem.year =[[rawData objectForKey:@"details"] objectForKey:@"year"];
@@ -772,10 +755,9 @@ if (self) {
     
     if (operation == searchHints) {
         [self downloadSearchHintsWithRequest:req withOperation:operation];
-        NSLog(@"Performing search hints");
-        return;
+       return;
     }
-          NSLog(@"REQUEST:%@", [req description]);
+    
         
     
         __weak typeof(self) wealf = self;

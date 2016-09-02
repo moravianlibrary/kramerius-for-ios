@@ -15,20 +15,18 @@
 #import "MZKGeneralColletionViewController.h"
 #import "MZKConstants.h"
 #import "MZKSearchTableViewCell.h"
-#import "MZKQueue.h"
-
 
 @interface MZKSearchViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DataLoadedDelegate>
 {
     NSArray *_searchHints;
-    MZKQueue *_recentSearches;
     NSArray *_searchResults;
     MZKDatasource *_datasource;
     MZKItemResource *_item;
     BOOL _isRemovingTextWithBackspace;
-    
-    
+    NSArray *_filteredRecentSearches;
+    NSMutableSet *_recentMutableSearches;
 }
+
 @property (weak, nonatomic) IBOutlet UITableView *searchResultsTableView;
 @property (weak, nonatomic) IBOutlet UIView *dimmingView;
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContainerView;
@@ -46,14 +44,12 @@
     
     [_searchResultsTableView registerClass:[MZKSearchTableViewCell class] forCellReuseIdentifier:@"MZKSearchTableViewCell"];
     
-    //  _searchResultsTableView.registerClass(UITableViewCell.classForKeyedArchiver(), forCellReuseIdentifier: "your_reuse_identifier")
-    
     // Do any additional setup after loading the view.
     [self hideDimmingView];
     // Do any additional setup after loading the view.
     [self initGoogleAnalytics];
     _searchHints= [NSArray new];
-    _recentSearches = [self loadRecentSearches];
+    _recentMutableSearches = [self loadRecentSearches];
     
     self.searchResultsTableView.tableFooterView = [[UIView alloc] init];
     
@@ -106,19 +102,7 @@
         return;
     }
     NSLog(@"Download error:%@", [error description]);
-    
-    // [self showErrorWithCancelActionAndTitle:@"Problém při stahování" subtitle:@"Opakujte zadání"];
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 #pragma mark - SearchBar Delegate
 
@@ -127,7 +111,6 @@
     _isRemovingTextWithBackspace = ([searchBar.text stringByReplacingCharactersInRange:range withString:text].length == 0);
     return YES;
 }
-
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
@@ -139,14 +122,14 @@
 {
     self.searchBar = searchBar;
     
+    _filteredRecentSearches = [self getSearchHintsFromRecentWithString:searchText];
+    
     if (searchText.length == 0 && !_isRemovingTextWithBackspace)
     {
-        NSLog(@"Has clicked on clear !");
         [self searchBarCancelButtonClicked:searchBar];
         
         // show recent
         _searchResultsTableView.hidden = NO;
-        [_searchResultsTableView reloadData];
         
         if ([self.delegate respondsToSelector:@selector(searchStarted)]) {
             [self.delegate searchStarted];
@@ -160,8 +143,9 @@
         [self showDimmingView];
         _searchHints= [NSArray new];
         _searchResultsTableView.hidden = NO;
-        [_searchResultsTableView reloadData];
     }
+    
+    [_searchResultsTableView reloadData];
 }
 
 -(void)performHintSearchWithText:(NSString *)searchText
@@ -216,9 +200,6 @@
     }
 }
 
-
-
-
 #pragma mark - search table view delegate and datasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -226,18 +207,18 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"Number of rows:%lu", (_searchHints.count + _recentSearches.count));
-    NSLog(@"NUmber of recent searches:%lu", (unsigned long)_recentSearches.count);
-    return  _searchHints.count + _recentSearches.count;
+    NSLog(@"Number of rows:%lu", (_searchHints.count + _filteredRecentSearches.count));
+    NSLog(@"NUmber of recent searches:%lu", (unsigned long)_filteredRecentSearches.count);
+    return  _searchHints.count + _filteredRecentSearches.count;
 }
 
 -(MZKSearchTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MZKSearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MZKSearchTableViewCell2" forIndexPath:indexPath];
     
-    if (_recentSearches.count > 0 && indexPath.row <= _recentSearches.count-1 ) {
+    if (_filteredRecentSearches.count > 0 && indexPath.row <= _filteredRecentSearches.count-1 ) {
         
-        NSString *itemTitle = [_recentSearches objectAtIndex:indexPath.row];
+        NSString *itemTitle = [_filteredRecentSearches objectAtIndex:indexPath.row];
         cell.searchHintLabel.text = itemTitle;
         cell.searchTypeIcon.image = [UIImage imageNamed:@"recentSearch"];
         
@@ -245,7 +226,7 @@
     }
     
     // no recent searches
-    cell.searchHintLabel.text = [_searchHints objectAtIndex:indexPath.row-_recentSearches.count];
+    cell.searchHintLabel.text = [_searchHints objectAtIndex:indexPath.row-_filteredRecentSearches.count];
     cell.searchTypeIcon.image = [UIImage imageNamed:@"zoomSearchIcon"];
     
     return cell;
@@ -254,20 +235,18 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Index path:%ld", (long)indexPath.row);
-    NSLog(@"Recent Searches count:%lu", (unsigned long)_recentSearches.count);
+    NSLog(@"Recent Searches count:%lu", (unsigned long)_filteredRecentSearches.count);
     NSString *key;
-    if (_recentSearches.count > 0 && indexPath.row <= _recentSearches.count-1 ) {
-        key = [_recentSearches objectAtIndex:indexPath.row];
+    if (_filteredRecentSearches.count > 0 && indexPath.row <= _filteredRecentSearches.count-1 ) {
+        key = [_filteredRecentSearches objectAtIndex:indexPath.row];
     }
     else
     {
-        key = [_searchHints objectAtIndex:indexPath.row - _recentSearches.count];
+        key = [_searchHints objectAtIndex:indexPath.row - _filteredRecentSearches.count];
     }
-    
     
     [self performSearchWithItem:key];
     [_searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
-    
 }
 
 #pragma mark - regular search
@@ -281,8 +260,16 @@
     
     [_datasource getSearchResults:title];
     
-    [self addRecentSearch:title];
     
+    if (![_recentMutableSearches containsObject:title]) {
+        NSLog(@"Adding recent search");
+        [_recentMutableSearches addObject:title];
+        [self saveRecentSearches];
+    }
+    else
+    {
+        NSLog(@"Ignoring recent search");
+    }
 }
 
 #pragma mark - datasource delegate
@@ -335,7 +322,7 @@
         _searchBar.text = @"";
         [self hideDimmingView];
     }
-
+    
     if ([self.delegate respondsToSelector:@selector(searchEnded)]) {
         [self.delegate searchEnded];
     }
@@ -374,45 +361,59 @@
 }
 
 #pragma mark - recent searches
--(void)addRecentSearch:(NSString *)recentSearch
+-(NSArray *)getSearchHintsFromRecentWithString:(NSString *)key
 {
-    if (_recentSearches.count<3) {
+    
+    NSMutableSet *results = [NSMutableSet new];
+    // create NSPredicate with correct format
+    
+    results = [self loadRecentSearches];
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"SELF beginswith '%@'", key]];
+    
+    [results filterUsingPredicate:pred];
+    
+    NSMutableArray *filteredResults = [NSMutableArray new];
+    
+    if (results.count >3) {
         
-        if (![_recentSearches.data containsObject:recentSearch]) {
-            [_recentSearches enqueue:recentSearch];
-            NSLog(@"Adding, hist count:%lu", (unsigned long)_recentSearches.count);
+        for (int i = 0; i<3; i++) {
+            [filteredResults addObject:results.allObjects[i]];
         }
     }
     else
     {
-        NSLog(@"Removing, hist count:%lu", (unsigned long)_recentSearches.count);
-        [_recentSearches dequeue];
-        [_recentSearches enqueue:recentSearch];
+        filteredResults = [results.allObjects copy];
     }
     
-    [self saveRecentSearches];
+    // get top 3 results
+    
+    NSLog(@"Filtered Array:%@", [filteredResults description]);
+    
+    return [filteredResults copy];
+    
 }
 
 -(void)saveRecentSearches
 {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_recentSearches] forKey:kRecentSearches];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_recentMutableSearches] forKey:kRecentSearches];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
--(MZKQueue *)loadRecentSearches
+-(NSMutableSet *)loadRecentSearches
 {
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     NSData *dataRepresentingSavedArray = [currentDefaults objectForKey:kRecentSearches];
-    MZKQueue *savedData;
+    NSMutableSet *savedData;
     if (dataRepresentingSavedArray)
     {
         savedData = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
         if (!savedData) {
-            savedData = [MZKQueue new];
+            savedData = [NSMutableSet new];
         }
     }else
     {
-        return [MZKQueue new];
+        return [NSMutableSet new];
         
     }
     
@@ -424,44 +425,17 @@
 
 -(void)datasourceChanged:(NSNotification *)notf
 {
-    // when datasource is changed we need to drop all recent changes
+    // Do not remove history of searches!
     
-    //remove all recent searches
-    
-    _recentSearches = [[MZKQueue alloc] init];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_recentSearches] forKey:kRecentSearches];
-    [[NSUserDefaults standardUserDefaults] synchronize];
     NSLog(@"Removing history searches");
 }
 
 #pragma mark - search bar
-
 -(void)removeSearchBarBorder
 {
     if ([self.searchBar respondsToSelector:@selector(setBarTintColor:)]) {
         self.searchBar.barTintColor = [UIColor clearColor];
     }
-}
-
-#pragma mark - Notification message
-
--(void)displayMessageWithTitle:(NSString *)title description:(NSString *)description andType:(TSMessageNotificationType)type
-{
-    //        [TSMessage showNotificationWithTitle:title
-    //                                    subtitle:description
-    //                                        type:type];
-    
-    
-    
-    
-    
-    
-    
-    
-}
-- (IBAction)onTest:(id)sender {
-    
-    [self displayMessageWithTitle:@"Error" description:@"problem pri stahovani" andType:TSMessageNotificationTypeMessage];
 }
 
 -(void)dealloc
