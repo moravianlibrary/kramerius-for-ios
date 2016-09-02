@@ -208,7 +208,7 @@ if (self) {
     components.scheme = _scheme;
     components.host = _host;
     components.path = @"/search/api/v5.0/search/";
-    components.query = [NSString stringWithFormat:@"fl=dc.title&q=dc.title:%@*+AND+(fedora.model:monograph^4+OR+fedora.model:periodical^4+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)+AND+(dostupnost:public^3+OR+dostupnost:private)&rows=20", [searchString lowercaseString]];
+    components.query = [NSString stringWithFormat:@"fl=dc.title&q=dc.title:%@*+AND+%@(fedora.model:monograph^4+OR+fedora.model:periodical^4+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)+AND+(dostupnost:public^3+OR+dostupnost:private)&rows=20", [searchString lowercaseString], visible?@"dostupnost:*public*+AND+":@""];
     
     NSURL *url = components.URL;
     [self downloadDataFromURL:url withOperation:searchHints];
@@ -230,7 +230,7 @@ if (self) {
     components.scheme = _scheme;
     components.host = _host;
     components.path = @"/search/api/v5.0/search/";
-    components.query = [NSString stringWithFormat:@"q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
+    components.query = [NSString stringWithFormat:@"q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString],visible?@"dostupnost:*public*+AND+":@""];
     
     NSLog(@"Percent encoded:%@",[components percentEncodedQuery]) ;
     NSURL *url = components.URL;
