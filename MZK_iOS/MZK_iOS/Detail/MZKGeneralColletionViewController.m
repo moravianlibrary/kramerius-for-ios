@@ -332,7 +332,7 @@
             
         }
         
-        if ([po.model isEqualToString:@"periodicalvolume"])
+        if ([po.model isEqualToString:@"periodicalvolume"] ||[po.model isEqualToString:@"periodical"])
         {
             //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
             

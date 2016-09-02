@@ -233,8 +233,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Index path:%ld", (long)indexPath.row);
-    NSLog(@"Recent Searches count:%lu", (unsigned long)_filteredRecentSearches.count);
     NSString *key;
     if (_filteredRecentSearches.count > 0 && indexPath.row <= _filteredRecentSearches.count-1 ) {
         key = [_filteredRecentSearches objectAtIndex:indexPath.row];
@@ -261,13 +259,8 @@
     
     
     if (![_recentMutableSearches containsObject:title]) {
-        NSLog(@"Adding recent search");
-        [_recentMutableSearches addObject:title];
+         [_recentMutableSearches addObject:title];
         [self saveRecentSearches];
-    }
-    else
-    {
-        NSLog(@"Ignoring recent search");
     }
 }
 
@@ -318,8 +311,6 @@
         _searchResults = results;
         
         [self performSegueWithIdentifier:@"OpenGeneralList" sender:nil];
-        _searchBar.text = @"";
-        [self hideDimmingView];
     }
     
     if ([self.delegate respondsToSelector:@selector(searchEnded)]) {
@@ -356,6 +347,9 @@
         vc.isFirst = YES;
         vc.shouldShowSearchBar = NO;
         vc.items = _searchResults;
+        
+        _searchBar.text = @"";
+        [self hideDimmingView];
     }
 }
 
