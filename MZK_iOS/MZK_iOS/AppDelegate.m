@@ -31,15 +31,24 @@
     }
     
     // check version of stored recently opened documents - no version means that it is old app so there is no migratio of data in that case reset
-    NSString *version = [defaults objectForKey:kRecentlyOpenedDocumentsVersion];
-    if (!version) {
+    NSNumber *version = [defaults objectForKey:kRecentlyOpenedDocumentsVersion];
+    if (!version || [version integerValue] != kMinimalRecentSearchesVersion) {
         [self resetDefaults];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kMinimalRecentSearchesVersion] forKey:kRecentlyOpenedDocumentsVersion];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
+    else
+    {
+        NSLog(@"Version is OK!");
+    }
+    
     
     NSNumber *shouldDimmDisplay = [defaults objectForKey:kShouldDimmDisplay];
     
     if (!shouldDimmDisplay) {
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:kShouldDimmDisplay];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
