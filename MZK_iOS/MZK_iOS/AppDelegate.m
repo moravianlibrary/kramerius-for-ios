@@ -376,13 +376,8 @@
 
 - (void)resetDefaults {
     NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
-    NSDictionary * dict = [defs dictionaryRepresentation];
-    for (id key in dict) {
-        if ([key isEqualToString:kRecentlyOpenedDocuments]) {
-            [defs removeObjectForKey:key];
-        }
-        
-    }
+    [defs removeObjectForKey:kRecentlyOpenedDocuments];
+
     [defs synchronize];
 }
 
