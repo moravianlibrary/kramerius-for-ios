@@ -23,6 +23,7 @@ extern NSString *const kRecentlyOpenedDocuments;
 extern NSString *const kRecentlyOpenedDocumentsVersion;
 extern NSString *const kRecentSearches;
 extern NSString *const kShouldDimmDisplay;
+extern NSString *const kMinimalRecentSearches;
 extern int const kMinimalRecentSearchesVersion;
 
 #pragma mark - types keys

@@ -362,7 +362,7 @@
     
     results = [self loadRecentSearches];
     
-    NSPredicate *pred = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"SELF beginswith '%@'", key]];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"SELF beginswith[c] '%@'", [key lowercaseString]]];
     
     [results filterUsingPredicate:pred];
     
