@@ -25,7 +25,7 @@ NSString *const kRecentlyOpenedDocumentsVersion = @"kRecentlyOpenedDocumentsVers
 NSString *const kRecentSearches = @"kRecentSearches";
 NSString *const kShouldDimmDisplay = @"kShouldDimmDisplay";
 NSString *const kMinimalRecentSearches = @"kMinimalRecentSearches";
-int const kMinimalRecentSearchesVersion = 1;
+int const kMinimalRecentSearchesVersion = 2;
 
 #pragma mark - types keys
 

@@ -377,6 +377,7 @@
 - (void)resetDefaults {
     NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
     [defs removeObjectForKey:kRecentlyOpenedDocuments];
+    [defs removeObjectForKey:kRecentSearches];
 
     [defs synchronize];
 }
