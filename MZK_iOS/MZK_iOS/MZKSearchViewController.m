@@ -206,8 +206,6 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"Number of rows:%lu", (_searchHints.count + _filteredRecentSearches.count));
-    NSLog(@"NUmber of recent searches:%lu", (unsigned long)_filteredRecentSearches.count);
     return  _searchHints.count + _filteredRecentSearches.count;
 }
 
@@ -259,7 +257,7 @@
     
     
     if (![_recentMutableSearches containsObject:title]) {
-         [_recentMutableSearches addObject:title];
+        [_recentMutableSearches addObject:title];
         [self saveRecentSearches];
     }
 }
@@ -278,14 +276,14 @@
     }
     
     if (results.count == 0) {
-        // display message
-        
-        [self showTSMessageWithTitle:@"Nenalezeno" subtitle:@"Vašemu dotazu neodpovídá žádný titul." type:TSMessageNotificationTypeMessage];
+        NSLog(@"0 HINTS results");
     }
-    
-    _searchHints= results;
-    _searchResultsTableView.hidden = NO;
-    [_searchResultsTableView reloadData];
+    else{
+        
+        _searchHints= results;
+        _searchResultsTableView.hidden = NO;
+        [_searchResultsTableView reloadData];
+    }
 }
 
 -(void)searchResultsLoaded:(NSArray *)results
@@ -379,12 +377,7 @@
         filteredResults = [results.allObjects copy];
     }
     
-    // get top 3 results
-    
-    NSLog(@"Filtered Array:%@", [filteredResults description]);
-    
     return [filteredResults copy];
-    
 }
 
 -(void)saveRecentSearches
@@ -410,17 +403,8 @@
         
     }
     
-    NSLog(@"Loading recent searches:%lu", (unsigned long)savedData.count);
-    
     return savedData;
     
-}
-
--(void)datasourceChanged:(NSNotification *)notf
-{
-    // Do not remove history of searches!
-    
-    NSLog(@"Removing history searches");
 }
 
 #pragma mark - search bar
