@@ -227,22 +227,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/Detail/MZKMusicViewController.m"
-            timestampString = "484227212.502192"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
-            landmarkName = "-setItemPID:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "MZK_iOS/MZKDetailViewController.m"
             timestampString = "494162414.830575"
             startingColumnNumber = "9223372036854775807"
@@ -260,27 +244,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/Detail/MZKMusicViewController.m"
-            timestampString = "484227212.502192"
+            timestampString = "494776277.504684"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
-            landmarkName = "-audioPlayerDidFinishPlaying:successfully:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/Detail/MZKMusicViewController.m"
-            timestampString = "484830539.869459"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "708"
-            endingLineNumber = "708"
+            startingLineNumber = "703"
+            endingLineNumber = "703"
             landmarkName = "-onRW:"
             landmarkType = "5">
          </BreakpointContent>
@@ -292,28 +260,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/Detail/MZKMusicViewController.m"
-            timestampString = "484830539.869459"
+            timestampString = "494776277.504684"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "694"
-            endingLineNumber = "694"
+            startingLineNumber = "689"
+            endingLineNumber = "689"
             landmarkName = "-onFF:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/Detail/MZKMusicViewController.m"
-            timestampString = "484829972.506001"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "461"
-            endingLineNumber = "461"
-            landmarkName = "-playbackDidFinish:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -340,38 +292,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/Detail/MZKGeneralColletionViewController.m"
-            timestampString = "494532332.322818"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
-            landmarkName = "-collectionView:didSelectItemAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/Detail/MZKGeneralColletionViewController.m"
-            timestampString = "494532334.594597"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
-            landmarkName = "-collectionView:didSelectItemAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/Detail/MZKGeneralColletionViewController.m"
             timestampString = "494532360.94841"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
@@ -387,13 +307,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/AppDelegate.m"
-            timestampString = "494618162.358231"
+            filePath = "MZK_iOS/Detail/MZKMusicViewController.m"
+            timestampString = "494776277.504684"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "-application:didFinishLaunchingWithOptions:"
+            startingLineNumber = "464"
+            endingLineNumber = "464"
+            landmarkName = "-onDatasourceChanged:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -403,13 +323,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/AppDelegate.m"
-            timestampString = "494618976.479162"
+            filePath = "MZK_iOS/Detail/MZKMusicViewController.m"
+            timestampString = "494776277.504684"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "-application:didFinishLaunchingWithOptions:"
+            startingLineNumber = "669"
+            endingLineNumber = "669"
+            landmarkName = "-onPlayPause:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -419,13 +339,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/AppDelegate.m"
-            timestampString = "494666517.739384"
+            filePath = "MZK_iOS/Detail/MZKMusicViewController.m"
+            timestampString = "494775998.140622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "-application:didFinishLaunchingWithOptions:"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
+            landmarkName = "-playWithAVPlayer:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MZK_iOS/Detail/MZKMusicViewController.m"
+            timestampString = "494776194.065427"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "739"
+            endingLineNumber = "739"
+            landmarkName = "-updatePlayerViewsWithCurrentTime"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

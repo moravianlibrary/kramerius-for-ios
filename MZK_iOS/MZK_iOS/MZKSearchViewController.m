@@ -52,8 +52,6 @@
     _recentMutableSearches = [self loadRecentSearches];
     
     self.searchResultsTableView.tableFooterView = [[UIView alloc] init];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(datasourceChanged:) name:kDatasourceItemChanged object:nil];
 }
 
 -(void)initGoogleAnalytics
