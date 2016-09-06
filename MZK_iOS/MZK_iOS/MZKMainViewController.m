@@ -210,25 +210,6 @@
     
 }
 
-//-(void)showDimmingView
-//{
-//    if (_dimmingView.hidden) {
-//        _dimmingView.hidden = NO;
-//    }
-//    [UIView animateWithDuration:0.4 animations:^{
-//        _dimmingView.alpha = 0.4;
-//    }];
-//}
-//
-//-(void)hideDimmingView
-//{
-// 
-//    [UIView animateWithDuration:0.4 animations:^{
-//        _dimmingView.alpha = 0.0;
-//    }];
-//}
-
-
 
 #pragma mark - Collection View Datasource
 
@@ -291,7 +272,6 @@
         _searchBarContainerView = headerView;
         
         UICollectionViewLayoutAttributes *cv = [self.collectionView layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath];
-        NSLog(@"CV frame:%@", [cv description]);
         
         [self setupSearchHeader];
     }

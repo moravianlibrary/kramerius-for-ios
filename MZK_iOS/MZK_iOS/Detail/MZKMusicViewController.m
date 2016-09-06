@@ -325,6 +325,7 @@ static MZKMusicViewController *sharedInstance;
         } else if (_player.status == AVPlayerStatusReadyToPlay) {
             NSLog(@"AVPlayerStatusReadyToPlay");
             // perform selector on main thread
+            
             [self performSelectorOnMainThread:@selector(stopAnimating) withObject:self waitUntilDone:NO];
             [self performSelectorOnMainThread:@selector(playAfterLoad) withObject:self waitUntilDone:NO];
             [self performSelectorOnMainThread:@selector(setCurrentTrackToInfoCenter) withObject:self waitUntilDone:NO];
@@ -661,6 +662,15 @@ static MZKMusicViewController *sharedInstance;
 
 - (IBAction)onPlayPause:(id)sender {
     
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self)welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf onPlayPause:sender];
+        });
+        return;
+    }
+
     if (_currentItemPID) {
         
         [self setCurrentTrackToInfoCenter];
@@ -686,6 +696,16 @@ static MZKMusicViewController *sharedInstance;
 }
 - (IBAction)onFF:(id)sender {
     
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self)welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf onFF:sender];
+        });
+        return;
+    }
+
+    
     NSTimeInterval timeInterval = [self playbackDuration];
     long seconds = lroundf(timeInterval); // Since modulo operator (%) below needs int or long
     
@@ -699,6 +719,16 @@ static MZKMusicViewController *sharedInstance;
 }
 
 - (IBAction)onRW:(id)sender {
+    
+    if(![[NSThread currentThread] isMainThread])
+    {
+        __weak typeof(self)welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf onRW:sender];
+        });
+        return;
+    }
+    
     
     long currentTime = CMTimeGetSeconds(_player.currentItem.currentTime);
     if (currentTime -10 >= 0) {

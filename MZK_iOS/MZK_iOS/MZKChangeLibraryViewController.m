@@ -71,6 +71,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 -(NSIndexPath *)getSelectedIndexPath
 {
     NSUInteger index;
@@ -79,7 +80,13 @@
         _selectedLibrary = appDelegate.defaultDatasourceItem;
     }
     
-    index = [_libraries indexOfObjectIdenticalTo:_selectedLibrary];
+    
+    for (int i =0; i<_libraries.count; i++) {
+        if ([((MZKLibraryItem *)_libraries[i]).name caseInsensitiveCompare:_selectedLibrary.name] == NSOrderedSame) {
+            index = i;
+            break;
+        }
+    }
     
     if (index != NSNotFound) {
          return [NSIndexPath indexPathForRow:index inSection:0];
