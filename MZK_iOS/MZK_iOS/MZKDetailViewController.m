@@ -212,7 +212,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     NSURL *finalURL = [NSURL URLWithString:load];
     
-    [_imageZoomView sd_setImageWithURL:finalURL placeholderImage:nil options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+    [_imageZoomView sd_setImageWithURL:finalURL placeholderImage:nil options:nil progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)  {
         

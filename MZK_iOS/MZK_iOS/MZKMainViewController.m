@@ -83,11 +83,11 @@
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-   //  _searchViewController.view.frame = CGRectMake(0, 0, _searchViewContainer.frame.size.width, _searchViewContainer.frame.size.height);
+    //  _searchViewController.view.frame = CGRectMake(0, 0, _searchViewContainer.frame.size.width, _searchViewContainer.frame.size.height);
 }
 
 -(void)setupSearchHeader
-{    
+{
     if (!_searchViewController) {
         
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -109,7 +109,7 @@
     {
         NSLog(@"Already added");
     }
-   
+    
 }
 
 -(void)refreshTitle
@@ -276,7 +276,7 @@
         [self setupSearchHeader];
     }
     
-  
+    
     return reusableview;
 }
 
@@ -417,15 +417,20 @@
 #pragma mark - notification handling
 -(void)defaultDatasourceChangedNotification:(NSNotification *)notf
 {
-    if ( ![[NSThread currentThread] isEqual:[NSThread mainThread]] )
+    if(![[NSThread currentThread] isMainThread])
     {
-        [self performSelectorOnMainThread:@selector(refreshAllValues) withObject:self waitUntilDone:NO];
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf defaultDatasourceChangedNotification:notf];
+        });
+        return;
     }
-    else
-    {
-        [self refreshAllValues];
-        [self refreshTitle];
-    }
+    
+    _recent = [NSArray new];
+    _recommended = [NSArray new];
+    
+    [self refreshAllValues];
+    [self refreshTitle];
 }
 
 #pragma mark - segment controll
@@ -444,15 +449,8 @@
             break;
     }
     
-   // [self hideDimmingView];
+    // [self hideDimmingView];
 }
-
-
--(void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 
 -(void)showLoadingIndicator
 {
@@ -489,7 +487,7 @@
 -(void)searchStarted
 {
     [self.view bringSubviewToFront:self.searchViewContainer];
-   // self.collectionView scr
+    // self.collectionView scr
     self.collectionView.scrollEnabled = NO;
     NSLog(@"Bringing to front");
     
@@ -502,8 +500,8 @@
     
     [_collectionView setContentOffset:CGPointMake(_collectionView.contentOffset.x, offsetY - contentInsetY - sectionInsetY) animated:YES];
     
-//    UICollectionViewLayoutAttributes *cv = [self.collectionView layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeader atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-//    NSLog(@"CV frame:%@", [cv description]);
+    //    UICollectionViewLayoutAttributes *cv = [self.collectionView layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeader atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    //    NSLog(@"CV frame:%@", [cv description]);
 }
 
 -(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -522,7 +520,7 @@
     } completion:^(id  _Nonnull context) {
         
         // will execute after rotation
-      
+        
     }];
 }
 
@@ -531,6 +529,11 @@
     [self.view sendSubviewToBack:self.searchViewContainer];
     self.collectionView.scrollEnabled = YES;
     NSLog(@"sendint to back");
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
