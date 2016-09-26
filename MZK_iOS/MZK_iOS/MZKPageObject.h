@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MZKConstants.h"
 
 @class MZKPageObject;
 @protocol PageResolutionLoadedDelegate <NSObject>
@@ -29,7 +30,7 @@
 @property (readwrite) NSInteger page;
 @property (nonatomic, strong) NSArray *author;
 @property (nonatomic, strong) NSString *pid;
-@property (nonatomic, strong) NSString *model;
+@property (nonatomic, assign) MZKModel model;
 @property (nonatomic, strong) NSString *rootTitle;
 @property (nonatomic, strong) NSString *rootPid;
 @property (nonatomic, strong) NSString *policy;

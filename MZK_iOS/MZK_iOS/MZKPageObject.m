@@ -95,79 +95,82 @@
     return [names copy];
 }
 
-
 -(NSString *)getLocalizedItemType
 {
     NSString *localizedItemType =kDocumentUnknown;
     
-    if ([self.model caseInsensitiveCompare:kTrack] == NSOrderedSame) {
-        localizedItemType = kDocumentTrack;
+    switch (self.model) {
+        case Monograph:
+            localizedItemType = kDocumentMonograph;
+            break;
+            
+        case Periodical:
+            localizedItemType = kDocumentPeriodical;
+            break;
+            
+        case PeriodicalItem:
+            localizedItemType = kDocumentPeriodicalItem;
+            break;
+            
+        case PeriodicalVolume:
+            localizedItemType = kDocumentPeriodicalVolume;
+            break;
+            
+        case Page:
+            localizedItemType = kDocumentPage;
+            break;
+            
+        case Map:
+            localizedItemType = kDocumentMap;
+            break;
+            
+        case Graphic:
+            localizedItemType = kDocumentGraphic;
+            break;
+            
+        case Archive:
+            localizedItemType = kDocumentArchive;
+            break;
+            
+        case Article:
+            localizedItemType = kDocumentArticle;
+            break;
+            
+        case Manuscript:
+            localizedItemType = kDocumentManuscript;
+            break;
+            
+        case Supplement:
+            localizedItemType = kDocumentSupplement;
+            break;
+            
+        case InternalPart:
+            localizedItemType = kDocumentInternalpart;
+            break;
+            
+        case Sheetmusic:
+            localizedItemType = kDocumentSheetmusic;
+            break;
+            
+        case SoundUnit:
+            localizedItemType = kDocumentSoundUnit;
+            break;
+            
+        case SoundRecording:
+            localizedItemType = kDocumentSoundRecording;
+            break;
+            
+        case Track:
+            localizedItemType = kDocumentTrack;
+            break;
+            
+        case  Unknown:
+            localizedItemType = kDocumentUnknown;
+            break;
+            
+        default:
+            break;
     }
-    
-    if ([self.model caseInsensitiveCompare:kSoundRecording] == NSOrderedSame) {
-        localizedItemType = kDocumentSoundRecording;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kVirtualCollection] == NSOrderedSame) {
-        //localizedItemType = kdocu;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kMonograph] == NSOrderedSame) {
-        localizedItemType = kDocumentMonograph;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kPeriodical] == NSOrderedSame) {
-        localizedItemType = kDocumentPeriodical;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
-        localizedItemType = kDocumentPeriodicalItem;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
-        localizedItemType = kDocumentPeriodicalVolume;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kGraphic] == NSOrderedSame) {
-        localizedItemType = kDocumentGraphic;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kManuscript] == NSOrderedSame) {
-        localizedItemType = kDocumentManuscript;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kSheetmusic] == NSOrderedSame) {
-        localizedItemType = kDocumentSheetmusic;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kMap] == NSOrderedSame) {
-        localizedItemType = kDocumentMap;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kPage] == NSOrderedSame) {
-        localizedItemType = kDocumentPage;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kPhoto] == NSOrderedSame) {
-        localizedItemType = kDocumentUnknown;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kArchive] == NSOrderedSame) {
-        localizedItemType = kDocumentArchive;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kBook] == NSOrderedSame) {
-        localizedItemType = kDocumentUnknown;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kManuscript] == NSOrderedSame) {
-        localizedItemType = kDocumentManuscript;
-    }
-    
-    if ([self.model caseInsensitiveCompare:kSoundUnit] == NSOrderedSame) {
-        localizedItemType = kDocumentSoundUnit;
-    }
-    
     return localizedItemType;
 }
 

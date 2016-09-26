@@ -338,7 +338,7 @@
     {
         UINavigationController *navVC =[segue destinationViewController];
         MZKGeneralColletionViewController *vc =(MZKGeneralColletionViewController *)navVC.topViewController;
-        //[vc setParentPID:((MZKItemResource *)sender).pid];
+     
         vc.title = NSLocalizedString(@"mzk.searchResults", @"Search results title for VC");
         vc.isFirst = YES;
         vc.shouldShowSearchBar = NO;

@@ -363,7 +363,8 @@ if (self) {
             
             MZKPageObject *page = [MZKPageObject new];
             page.pid = [currentObject objectForKey:@"pid"];
-            page.model = [currentObject objectForKey:@"model"];
+            NSString *model = [currentObject objectForKey:@"model"];
+            page.model = [MZKConstants stringToModel:model];
             page.author = [currentObject objectForKey:@"author"];
             page.rootPid =  [currentObject objectForKey:@"root_pid"];
             page.rootTitle =  [currentObject objectForKey:@"root_title"];

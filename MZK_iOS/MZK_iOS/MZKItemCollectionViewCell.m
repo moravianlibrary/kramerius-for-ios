@@ -24,7 +24,7 @@
 -(void)setPObject:(MZKPageObject *)pObject
 {
     _pObject = pObject;
-    [self setModelImage:_pObject.model];
+    [self setModelImage:[MZKConstants modelTypeToString:_pObject.model]];
 }
 
 -(void)setItem:(MZKItemResource *)item
