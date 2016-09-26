@@ -72,7 +72,7 @@
     // title has to be different based on type of parent resource!!!
     NSMutableString *title = [NSMutableString new];
     
-    if ([parentItemResource.model caseInsensitiveCompare:kPeriodical] == NSOrderedSame) {
+    if (parentItemResource.model == Periodical) {
         
         NSLog(@"Periodical:%@", parentItemResource.debugDescription);
         
@@ -81,7 +81,7 @@
         }
     }
     
-    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
+    if (parentItemResource.model == PeriodicalVolume) {
         
         NSLog(@"Periodical Volume:%@", parentItemResource.debugDescription);
         
@@ -97,7 +97,7 @@
     }
     
     
-    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
+    if (parentItemResource.model == PeriodicalItem) {
         
         // do we have a root title?
         if (parentItemResource.rootTitle) {

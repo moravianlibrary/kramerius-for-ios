@@ -150,7 +150,7 @@
     
     if ([item.policy isEqualToString:@"public"]) {
         
-        if ([item.model isEqualToString:@"soundunit"] || [item.model isEqualToString:@"soundrecording"]) {
+        if (item.model == SoundUnit || item.model ==SoundRecording) {
         
             AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
             

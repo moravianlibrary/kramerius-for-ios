@@ -360,11 +360,23 @@
 
 -(void)prepareDataForSegue:(MZKItemResource *)item
 {
-    if ([item.model isEqualToString:@"soundrecording"] || [item.model isEqualToString:@"periodical"] || [item.model isEqualToString:@"sheetmusic"]) {
-        [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];
-    }else if([item.model isEqualToString:@"manuscript"] || [item.model isEqualToString:@"monograph"] ||[item.model isEqualToString:@"map"] ||[item.model isEqualToString:@"graphic"] || [item.model isEqualToString:@"page"])
-    {
-        [self performSegueWithIdentifier:@"OpenDetail" sender:item];
+    
+    switch (item.model) {
+        case Map :
+        case Monograph:
+        case Manuscript:
+        case Graphic:
+        case Page:
+            [self performSegueWithIdentifier:@"OpenDetail" sender:item];
+            break;
+            
+        case SoundRecording:
+        case Periodical:
+        case Sheetmusic:
+            [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];
+            
+        default:
+            break;
     }
 }
 

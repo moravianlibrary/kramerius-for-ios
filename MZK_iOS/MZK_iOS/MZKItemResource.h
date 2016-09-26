@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MZKConstants.h"
 
 @interface MZKItemResource : NSObject<NSCoding>
 
 @property (nonatomic, strong) NSString *pid;
-@property (nonatomic, strong) NSString *model;
+// used only for unknown types ....
+@property (nonatomic, strong) NSString *fallbackModel;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *authors;
 @property (nonatomic, strong) NSArray *author;
@@ -38,9 +40,14 @@
 
 @property (nonatomic, strong) NSNumber *indexLastOpenedPage;
 
+//primary model
+@property (nonatomic, assign) MZKModel model;
+
 -(NSString *)getAuthorsStringRepresentation;
 -(NSString *)getLocalizedItemType;
 
 -(void)encodeWithCoder:(NSCoder *)aCoder;
 - (id)initWithCoder:(NSCoder *)coder;
+
+-(void)setModel:(MZKModel)model;
 @end

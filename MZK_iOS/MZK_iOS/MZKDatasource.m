@@ -16,7 +16,6 @@
 #import "AppDelegate.h"
 #import "MZKConstants.h"
 #import "AFNetworking.h"
-#import "NSString+URLEncodedString_ch.h"
 
 enum _downloadOperation{
     downloadItem,
@@ -44,8 +43,6 @@ typedef enum _downloadOperation downloadOperation;
     AFHTTPRequestOperation *currentOperation;
     NSString *_scheme;
     NSString *_host;
-    
-    
 }
 
 -(id)init
@@ -57,7 +54,6 @@ if (self) {
     
     downloadQ = [NSOperationQueue new];
     downloadQ.name = @"download";
-    
     
     return self;
 }
@@ -508,7 +504,9 @@ if (self) {
         MZKCollectionItemResource *cItem = [MZKCollectionItemResource new];
         NSDictionary *itemDict =[parsedObject objectAtIndex:i];
         
-        cItem.model = [itemDict objectForKey:@"fedora.model"];
+        NSString *model = [itemDict objectForKey:@"fedora.model"];
+        
+        cItem.model = [MZKConstants stringToModel:model];
         cItem.numFound = numberOfResults;
         cItem.start = start;
         cItem.pid = [itemDict objectForKey:@"PID"];
@@ -652,7 +650,9 @@ if (self) {
         cItem.title = [itemDict objectForKey:@"dc.title"];
         cItem.rootPid = [itemDict objectForKey:@"root_pid"];
         cItem.rootTitle =[itemDict objectForKey:@"root_title"];
-        cItem.model = [itemDict objectForKey:@"fedora.model"];
+        
+        NSString *model = [itemDict objectForKey:@"fedora.model"];
+        cItem.model = [MZKConstants stringToModel:model];
         cItem.policy = [itemDict objectForKey:@"dostupnost"];
         
         [results addObject:cItem];
@@ -675,7 +675,9 @@ if (self) {
     MZKItemResource *newItem = [MZKItemResource new];
     
     newItem.pid = [rawData objectForKey:@"pid"];
-    newItem.model = [rawData objectForKey:@"model"];
+    NSString *model = [rawData objectForKey:@"model"];
+    
+    newItem.model = [MZKConstants stringToModel:model];
     newItem.issn = [rawData objectForKey:@"issn"];
     newItem.datumStr = [rawData objectForKey:@"datumStr"];
     

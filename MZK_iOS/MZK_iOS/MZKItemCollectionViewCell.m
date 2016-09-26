@@ -30,13 +30,14 @@
 -(void)setItem:(MZKItemResource *)item
 {
     _item = item;
-    [self setModelImage:_item.model];
+    [self setModelImage:[MZKConstants modelTypeToString:_item.model]];
     
 }
 
 -(void)setModelImage:(NSString *)model
 {
     NSString *itemTypeIconImg;
+    
     if ([model isEqualToString:kMonograph]) {
         itemTypeIconImg = @"ic_book_green";
     }

@@ -484,7 +484,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     self.titleLabel.text = item.title;
     
     
-    if ([loadedItem.model isEqualToString:@"page"]) {
+    if (loadedItem.model == Page) {
         [self loadImagePropertiesForPageItem: loadedItem.pid];
     }
     else{
