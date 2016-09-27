@@ -367,12 +367,17 @@
         case Manuscript:
         case Graphic:
         case Page:
+        case PeriodicalItem:
+        case Article:
+        case Archive:
+        case InternalPart:
+        case Supplement:
+        case Sheetmusic:
             [self performSegueWithIdentifier:@"OpenDetail" sender:item];
             break;
             
         case SoundRecording:
         case Periodical:
-        case Sheetmusic:
             [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];
             
         default:
