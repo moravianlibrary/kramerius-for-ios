@@ -17,8 +17,11 @@
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
 #import "MZKLibraryItem.h"
+#import "UINavigationBar+CustomHeight.h"
 
 @import SDWebImage;
+
+const int kHeaderHeight = 75;
 
 
 #import "MZKSearchViewController.h"
@@ -47,6 +50,8 @@
 @property (weak, nonatomic) IBOutlet UIView *searchBarContainer;
 @property (weak, nonatomic) IBOutlet UIView *searchViewContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewContainerTopConstraint;
+@property (weak, nonatomic) IBOutlet UILabel *headerTitleLabel;
+@property (weak, nonatomic) IBOutlet UIView *navigationItemContainerView;
 
 @end
 
@@ -63,10 +68,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
     dialogVisible = NO;
     datasource = [MZKDatasource new];
     datasource.delegate = self;
+    
+    self.collectionView.contentInset =  UIEdgeInsetsMake(0, 0, 0, 5.0);
     
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.latest", @"") forSegmentAtIndex:0];
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.interesting", @"") forSegmentAtIndex:1];
@@ -77,12 +85,31 @@
     [self refreshAllValues];
     [self initGoogleAnalytics];
     [self refreshTitle];
-    
-    
+  
 }
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+  [self.navigationController.navigationBar setHeight:kHeaderHeight];
+    
+    _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+     [self.navigationController.navigationBar setHeight:kHeaderHeight];
+     _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+}
+
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
+    //[self.navigationController.navigationBar setFrame:CGRectMake(0, 0, self.view.frame.size.width,100)];
+     self.collectionView.contentInset =  UIEdgeInsetsMake(0, 0, 0, 15.0);
+   // [self.view setNeedsLayout];
     //  _searchViewController.view.frame = CGRectMake(0, 0, _searchViewContainer.frame.size.width, _searchViewContainer.frame.size.height);
 }
 
@@ -117,7 +144,7 @@
     //get name of selected library
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *libName = [[del getDatasourceItem] name];
-    self.navigationItem.title = libName;
+   _headerTitleLabel.text = libName;
 }
 
 -(void)initGoogleAnalytics
@@ -529,10 +556,13 @@
     
     // will execute before rotation
     [self updateCollectionViewLayoutWithSize:size];
+    // self.collectionView.contentInset =  UIEdgeInsetsMake(0, 0, 0, 5.0);
     
     [coordinator animateAlongsideTransition:^(id  _Nonnull context) {
         
         // will execute during rotation
+        _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+
         
     } completion:^(id  _Nonnull context) {
         
