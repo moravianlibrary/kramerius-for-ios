@@ -40,9 +40,23 @@
     }
     else
     {
-        NSLog(@"Version is OK!");
+        NSLog(@"Version is OK! SEARCHES");
     }
     
+    
+    // check version of stored recently opened documents - no version means that it is old app so there is no migratio of data in that case reset
+    NSNumber *versionRecentDocuments = [defaults objectForKey:kRecentlyOpenedDocumentsVersion];
+    if (!versionRecentDocuments || [versionRecentDocuments integerValue] != kMinimalRecentDocumentsVersion) {
+        [self resetDefaults];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kMinimalRecentDocumentsVersion] forKey:kRecentlyOpenedDocumentsVersion];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    else
+    {
+        NSLog(@"Version is OK! DOCS");
+    }
+
     
     NSNumber *shouldDimmDisplay = [defaults objectForKey:kShouldDimmDisplay];
     
@@ -53,13 +67,7 @@
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
         
-    
-    // set the major version of app to user defaults
-    
-    [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] forKey:kRecentlyOpenedDocumentsVersion];
-    [defaults synchronize];
-    
-    
+
     self.menuTabBar = (MZKTabBarMenuViewController*)self.window.rootViewController;
     
     self.menuTabBar.delegate = self;

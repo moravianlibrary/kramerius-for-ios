@@ -109,6 +109,7 @@ const int kHeaderHeight = 75;
     [super viewDidLayoutSubviews];
     //[self.navigationController.navigationBar setFrame:CGRectMake(0, 0, self.view.frame.size.width,100)];
      self.collectionView.contentInset =  UIEdgeInsetsMake(0, 0, 0, 15.0);
+    _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
    // [self.view setNeedsLayout];
     //  _searchViewController.view.frame = CGRectMake(0, 0, _searchViewContainer.frame.size.width, _searchViewContainer.frame.size.height);
 }

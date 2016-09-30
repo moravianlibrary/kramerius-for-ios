@@ -47,6 +47,7 @@ extern NSString *const kRecentSearches;
 extern NSString *const kShouldDimmDisplay;
 extern NSString *const kMinimalRecentSearches;
 extern int const kMinimalRecentSearchesVersion;
+extern int const kMinimalRecentDocumentsVersion;
 
 #pragma mark - types keys
 extern NSString *const kTrack;
