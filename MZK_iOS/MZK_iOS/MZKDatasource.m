@@ -564,7 +564,7 @@ if (self) {
         }
     }
     
-    NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
+    NSArray *parsedObject = [[response objectForKey:@"response"] objectForKey:@"docs"];
     NSMutableArray *resultsArray = [NSMutableArray new];
     
     for (int i = 0; i<parsedObject.count; i++) {

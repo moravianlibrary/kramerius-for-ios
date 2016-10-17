@@ -57,7 +57,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - CocoaLumberjack
   - Google/Analytics
-  - SDWebImage (~> 3.7)
+  - SDWebImage (~> 3.8)
   - TSMessages (from `https://github.com/KrauseFx/TSMessages.git`)
   - TTTAttributedLabel
 
@@ -85,6 +85,6 @@ SPEC CHECKSUMS:
   TSMessages: 6e403b790139636c15ab4f51946537095e03e79c
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: b0f26381a99c290b7557aa22a0abe306f6154c88
+PODFILE CHECKSUM: d48773d2180b6ca15eb360b96996bd4fcec62b74
 
 COCOAPODS: 1.0.1

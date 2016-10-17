@@ -238,6 +238,7 @@
         key = [_searchHints objectAtIndex:indexPath.row - _filteredRecentSearches.count];
     }
     
+    _searchBar.text = key;
     [self performSearchWithItem:key];
     [_searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
 }

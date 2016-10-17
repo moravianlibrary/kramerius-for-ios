@@ -51,6 +51,9 @@
 		2D9150F21C82F4C200AD380F /* MyURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9150F11C82F4C200AD380F /* MyURLProtocol.m */; };
 		2D91512C1C873D2C00AD380F /* MZKDetailInformationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D91512B1C873D2C00AD380F /* MZKDetailInformationTableViewCell.m */; };
 		2D91D3971CC8A8A000EBE622 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2D91D3991CC8A8A000EBE622 /* Localizable.strings */; };
+		2D93784C1DA29232005B2ED3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D93784B1DA29232005B2ED3 /* Security.framework */; };
+		2D93784E1DA293DF005B2ED3 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D93784D1DA293DF005B2ED3 /* AFNetworking.framework */; };
+		2D93784F1DA293DF005B2ED3 /* AFNetworking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2D93784D1DA293DF005B2ED3 /* AFNetworking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2DA030521C0A002800B7759B /* MZKBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA030511C0A002800B7759B /* MZKBaseViewController.m */; };
 		2DAA60721BA758AB0004A718 /* MZKCollectionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA60711BA758AB0004A718 /* MZKCollectionDetailViewController.m */; };
 		2DAA60751BA7590B0004A718 /* MZKDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA60741BA7590B0004A718 /* MZKDetailCollectionViewCell.m */; };
@@ -71,6 +74,20 @@
 		2DFA424B1D54880900FC6EEF /* MZKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFA424A1D54880900FC6EEF /* MZKQueue.m */; };
 		759A7DECF30310912FD01D8D /* Pods_MZK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C90D7A1AB48D0E0C75DD57 /* Pods_MZK_iOS.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2D9378501DA293DF005B2ED3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2D93784F1DA293DF005B2ED3 /* AFNetworking.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2D009CD31BAAE52E0042021D /* MZKCollectionItemResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionItemResource.h; sourceTree = "<group>"; };
@@ -153,6 +170,8 @@
 		2D91D3961CC8A87F00EBE622 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Main.strings; sourceTree = "<group>"; };
 		2D91D3981CC8A8A000EBE622 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2D91D39A1CC8A8A900EBE622 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2D93784B1DA29232005B2ED3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		2D93784D1DA293DF005B2ED3 /* AFNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AFNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA030501C0A002800B7759B /* MZKBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKBaseViewController.h; sourceTree = "<group>"; };
 		2DA030511C0A002800B7759B /* MZKBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKBaseViewController.m; sourceTree = "<group>"; };
 		2DAA60701BA758AB0004A718 /* MZKCollectionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionDetailViewController.h; sourceTree = "<group>"; };
@@ -196,6 +215,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D93784C1DA29232005B2ED3 /* Security.framework in Frameworks */,
+				2D93784E1DA293DF005B2ED3 /* AFNetworking.framework in Frameworks */,
 				2D41FF011C3BBF970087F22E /* libsqlite3.tbd in Frameworks */,
 				2D2787C61BF4BB4A0007D00E /* AVFoundation.framework in Frameworks */,
 				2D2787C41BF4B92A0007D00E /* MediaPlayer.framework in Frameworks */,
@@ -322,6 +343,7 @@
 		2DB8A7881ACD073400A1BB2E = {
 			isa = PBXGroup;
 			children = (
+				2D93784D1DA293DF005B2ED3 /* AFNetworking.framework */,
 				2DB8A7931ACD073400A1BB2E /* MZK_iOS */,
 				2DB8A7B01ACD073400A1BB2E /* MZK_iOSTests */,
 				2DB8A7921ACD073400A1BB2E /* Products */,
@@ -445,6 +467,7 @@
 		C4864A5EBA3AC6CFFA83C9E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D93784B1DA29232005B2ED3 /* Security.framework */,
 				2D41FF001C3BBF970087F22E /* libsqlite3.tbd */,
 				2D2787C51BF4BB4A0007D00E /* AVFoundation.framework */,
 				2D2787C31BF4B92A0007D00E /* MediaPlayer.framework */,
@@ -475,6 +498,7 @@
 				2DB8A78F1ACD073400A1BB2E /* Resources */,
 				984A690BA1CBE454FD910EBD /* [CP] Embed Pods Frameworks */,
 				699878298BFBE6F5DCFE5F9F /* [CP] Copy Pods Resources */,
+				2D9378501DA293DF005B2ED3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -497,6 +521,7 @@
 					2DB8A7901ACD073400A1BB2E = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 873S4GA3KJ;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -775,6 +800,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cz.mzk.ios.KRAMERIUS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -793,6 +819,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cz.mzk.ios.KRAMERIUS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
