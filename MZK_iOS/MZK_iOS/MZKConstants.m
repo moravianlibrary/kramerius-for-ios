@@ -25,7 +25,8 @@ NSString *const kRecentlyOpenedDocumentsVersion = @"kRecentlyOpenedDocumentsVers
 NSString *const kRecentSearches = @"kRecentSearches";
 NSString *const kShouldDimmDisplay = @"kShouldDimmDisplay";
 NSString *const kMinimalRecentSearches = @"kMinimalRecentSearches";
-int const kMinimalRecentSearchesVersion = 2;
+int const kMinimalRecentSearchesVersion = 3;
+int const kMinimalRecentDocumentsVersion = 2;
 
 #pragma mark - types keys
 
@@ -53,7 +54,9 @@ NSString *const kLabel= @"label";
 NSString *const kLock= @"lock";
 NSString *const kMusic= @"music";
 NSString *const kVinil= @"vinil";
-
+NSString *const kArticle = @"article";
+NSString *const kSupplement = @"supplement";
+NSString *const kInternalPart = @"internalpart";
 
 #pragma mark - czech translations
 NSString *const kKrameriusDescription = @"Aplikace zpřístupňuje digitální fondy českých knihoven. Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii, staré noviny a časopisy, archiválie, rukopisy, kolekce map, gramodesky a další.";
@@ -76,6 +79,116 @@ NSString *const kDocumentGraphic = @"Grafika";
 NSString *const kDocumentSheetmusic = @"Hudebniny";
 NSString *const kDocumentArchive = @"Archiválie";
 NSString *const kDocumentUnknown = @"Neznámý typ";
+NSString *const kDocumentArticle = @"Článek";
+NSString *const kDocumentSupplement = @"Příloha";
+NSString *const kDocumentInternalpart =@"Vnitřní část";
+
++ (NSString*)modelTypeToString:(MZKModel)model {
+    NSString *result = kDocumentUnknown;
+ 
+    switch(model) {
+        case Monograph:
+            result = kMonograph;
+            break;
+        case Periodical:
+            result = kPeriodical;
+            break;
+        case PeriodicalItem:
+            result = kPeriodicalItem;
+            break;
+        case PeriodicalVolume:
+            result = kPeriodicalVolume;
+            break;
+        case Map:
+            result = kMap;
+            break;
+        case Manuscript:
+            result = kManuscript;
+            break;
+        case Graphic:
+            result = kGraphic;
+            break;
+        case Archive:
+            result = kArchive;
+            break;
+        case Article:
+            result =kArticle;
+            break;
+        case Sheetmusic:
+            result = kSheetmusic;
+            break;
+        case Page:
+            result = kPage;
+            break;
+        case Supplement:
+            result = kSupplement;
+            break;
+            
+        case InternalPart:
+            result = kInternalPart;
+            break;
+        case SoundUnit:
+            result = kSoundUnit;
+            break;
+        case SoundRecording:
+            result = kSoundRecording;
+            break;
+        case Track:
+            result = kTrack;
+            break;
+            
+        default:
+            [NSException raise:NSGenericException format:@"Unexpected Model Type."];
+            result = kDocumentUnknown;
+    }
+    
+    
+    return result;
+}
+
++ (MZKModel)stringToModel:(NSString *)strToModel
+{
+    MZKModel tmpModel = Unknown;
+    
+    if ([strToModel caseInsensitiveCompare:kMonograph] == NSOrderedSame) {
+        tmpModel = Monograph;
+        
+    }else if ([strToModel caseInsensitiveCompare:kPeriodical]== NSOrderedSame) {
+        tmpModel = Periodical;
+    }else if ([strToModel caseInsensitiveCompare:kPeriodicalItem]== NSOrderedSame) {
+        tmpModel = PeriodicalItem;
+    }else if ([strToModel caseInsensitiveCompare:kPeriodicalVolume]== NSOrderedSame) {
+        tmpModel = PeriodicalVolume;
+    }else if ([strToModel caseInsensitiveCompare:kMap]== NSOrderedSame) {
+        tmpModel = Map;
+    }else if ([strToModel caseInsensitiveCompare:kGraphic]== NSOrderedSame) {
+        tmpModel = Graphic;
+    }else if ([strToModel caseInsensitiveCompare:kArchive]== NSOrderedSame) {
+        tmpModel = Archive;
+    }else if ([strToModel caseInsensitiveCompare:kSheetmusic]== NSOrderedSame) {
+        tmpModel = Sheetmusic;
+    }else if ([strToModel caseInsensitiveCompare:kManuscript]== NSOrderedSame) {
+        tmpModel = Manuscript;
+    }else if ([strToModel caseInsensitiveCompare:kPage]== NSOrderedSame) {
+        tmpModel = Page;
+    }else if ([strToModel caseInsensitiveCompare:kSupplement]== NSOrderedSame) {
+        tmpModel = Supplement;
+    }else if ([strToModel caseInsensitiveCompare:kArticle]== NSOrderedSame) {
+        tmpModel =  Article;
+    }else if ([strToModel caseInsensitiveCompare:kInternalPart]== NSOrderedSame) {
+        tmpModel = InternalPart;
+    }else if ([strToModel caseInsensitiveCompare:kSoundUnit]== NSOrderedSame) {
+        tmpModel = SoundUnit;
+    }else if ([strToModel caseInsensitiveCompare:kSoundRecording]== NSOrderedSame) {
+        tmpModel = SoundRecording;
+    } else if ([strToModel caseInsensitiveCompare:kTrack]== NSOrderedSame) {
+            tmpModel = Track;
+    }
+    
+    return tmpModel;
+    
+}
+
 
 
 @end

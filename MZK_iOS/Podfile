@@ -1,13 +1,16 @@
 # Uncomment this line to define a global platform for your project
 # platform :ios, '6.0'
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/Fiser33/iOSTiledViewerSpec.git'
 
 target 'MZK_iOS' do
 use_frameworks!
-pod 'SDWebImage', '~>3.7'
+pod 'SDWebImage', '~>3.8'
 pod 'AFNetworking', '~> 2.0'
 pod 'Google/Analytics'
 pod 'CocoaLumberjack'
 pod 'TTTAttributedLabel'
 pod 'TSMessages', :git => 'https://github.com/KrauseFx/TSMessages.git'
+pod 'iOSTiledViewer'
 end
 

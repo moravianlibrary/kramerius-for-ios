@@ -8,6 +8,28 @@
 
 #import <Foundation/Foundation.h>
 
+// model enum
+
+typedef NS_ENUM(NSInteger, MZKModel) {
+    Monograph,
+    Periodical,
+    Map,
+    Graphic,
+    Archive,
+    Sheetmusic,
+    PeriodicalVolume,
+    PeriodicalItem,
+    Manuscript,
+    Page,
+    Supplement,
+    Article,
+    InternalPart,
+    SoundRecording,
+    SoundUnit,
+    Track,
+    Unknown
+};
+
 @interface MZKConstants : NSObject
 #pragma mark - NSUserDefaults keys
 extern NSString *const kDefaultDatasourceName;
@@ -25,6 +47,7 @@ extern NSString *const kRecentSearches;
 extern NSString *const kShouldDimmDisplay;
 extern NSString *const kMinimalRecentSearches;
 extern int const kMinimalRecentSearchesVersion;
+extern int const kMinimalRecentDocumentsVersion;
 
 #pragma mark - types keys
 extern NSString *const kTrack;
@@ -48,6 +71,9 @@ extern NSString *const kVinil;
 extern NSString *const kPeriodicalVolume;
 extern NSString *const kPeriodicalItem;
 extern NSString *const kSoundUnit;
+extern NSString *const kArticle;
+extern NSString *const kSupplement;
+extern NSString *const kInternalPart;
 
 #pragma mark - datasource keys
 extern NSString *const kKrameriusDescription;
@@ -71,7 +97,13 @@ extern NSString *const kDocumentGraphic ;
 extern NSString *const kDocumentSheetmusic;
 extern NSString *const kDocumentArchive;
 extern NSString *const kDocumentUnknown ;
+extern NSString *const kDocumentArticle;
+extern NSString *const kDocumentSupplement;
+extern NSString *const kDocumentInternalpart;
 
+// convinience methods
++ (NSString*)modelTypeToString:(MZKModel)model;
++ (MZKModel)stringToModel:(NSString *)strToModel;
 
 
 @end

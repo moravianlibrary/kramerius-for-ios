@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MZKLibraryItem.h"
+
 @class MZKItemResource;
 
 @protocol DataLoadedDelegate <NSObject>

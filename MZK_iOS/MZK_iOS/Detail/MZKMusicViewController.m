@@ -303,6 +303,18 @@ static MZKMusicViewController *sharedInstance;
     NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/streams/MP3",strUrl, pid];
     
     
+    if (_player) {
+        // stop playback
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:[_player currentItem]];
+        
+        [_player removeObserver:self forKeyPath:@"status"];
+        
+        _player = nil;
+        _playerItem = nil;
+        [self prepareSlider];
+    }
+    
+    
     AVPlayer *player = [[AVPlayer alloc]initWithURL:[NSURL URLWithString:path]];
     _player = player;
     _playerItem = _player.currentItem;

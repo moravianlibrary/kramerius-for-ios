@@ -17,8 +17,11 @@
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
 #import "MZKLibraryItem.h"
+#import "UINavigationBar+CustomHeight.h"
 
 @import SDWebImage;
+
+const int kHeaderHeight = 75;
 
 
 #import "MZKSearchViewController.h"
@@ -47,6 +50,8 @@
 @property (weak, nonatomic) IBOutlet UIView *searchBarContainer;
 @property (weak, nonatomic) IBOutlet UIView *searchViewContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewContainerTopConstraint;
+@property (weak, nonatomic) IBOutlet UILabel *headerTitleLabel;
+@property (weak, nonatomic) IBOutlet UIView *navigationItemContainerView;
 
 @end
 
@@ -63,10 +68,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
     dialogVisible = NO;
     datasource = [MZKDatasource new];
     datasource.delegate = self;
+    
+    self.collectionView.contentInset =  UIEdgeInsetsMake(0, 0, 0, 5.0);
     
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.latest", @"") forSegmentAtIndex:0];
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.interesting", @"") forSegmentAtIndex:1];
@@ -77,17 +85,37 @@
     [self refreshAllValues];
     [self initGoogleAnalytics];
     [self refreshTitle];
-    
-    
+  
 }
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+  [self.navigationController.navigationBar setHeight:kHeaderHeight];
+    
+    _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+     [self.navigationController.navigationBar setHeight:kHeaderHeight];
+     _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+}
+
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-   //  _searchViewController.view.frame = CGRectMake(0, 0, _searchViewContainer.frame.size.width, _searchViewContainer.frame.size.height);
+    //[self.navigationController.navigationBar setFrame:CGRectMake(0, 0, self.view.frame.size.width,100)];
+     self.collectionView.contentInset =  UIEdgeInsetsMake(0, 0, 0, 15.0);
+    _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+   // [self.view setNeedsLayout];
+    //  _searchViewController.view.frame = CGRectMake(0, 0, _searchViewContainer.frame.size.width, _searchViewContainer.frame.size.height);
 }
 
 -(void)setupSearchHeader
-{    
+{
     if (!_searchViewController) {
         
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -109,7 +137,7 @@
     {
         NSLog(@"Already added");
     }
-   
+    
 }
 
 -(void)refreshTitle
@@ -117,7 +145,7 @@
     //get name of selected library
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *libName = [[del getDatasourceItem] name];
-    self.navigationItem.title = libName;
+   _headerTitleLabel.text = libName;
 }
 
 -(void)initGoogleAnalytics
@@ -276,7 +304,7 @@
         [self setupSearchHeader];
     }
     
-  
+    
     return reusableview;
 }
 
@@ -360,11 +388,28 @@
 
 -(void)prepareDataForSegue:(MZKItemResource *)item
 {
-    if ([item.model isEqualToString:@"soundrecording"] || [item.model isEqualToString:@"periodical"] || [item.model isEqualToString:@"sheetmusic"]) {
-        [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];
-    }else if([item.model isEqualToString:@"manuscript"] || [item.model isEqualToString:@"monograph"] ||[item.model isEqualToString:@"map"] ||[item.model isEqualToString:@"graphic"] || [item.model isEqualToString:@"page"])
-    {
-        [self performSegueWithIdentifier:@"OpenDetail" sender:item];
+    
+    switch (item.model) {
+        case Map :
+        case Monograph:
+        case Manuscript:
+        case Graphic:
+        case Page:
+        case PeriodicalItem:
+        case Article:
+        case Archive:
+        case InternalPart:
+        case Supplement:
+        case Sheetmusic:
+            [self performSegueWithIdentifier:@"OpenDetail" sender:item];
+            break;
+            
+        case SoundRecording:
+        case Periodical:
+            [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];
+            
+        default:
+            break;
     }
 }
 
@@ -417,15 +462,20 @@
 #pragma mark - notification handling
 -(void)defaultDatasourceChangedNotification:(NSNotification *)notf
 {
-    if ( ![[NSThread currentThread] isEqual:[NSThread mainThread]] )
+    if(![[NSThread currentThread] isMainThread])
     {
-        [self performSelectorOnMainThread:@selector(refreshAllValues) withObject:self waitUntilDone:NO];
+        __weak typeof(self) welf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf defaultDatasourceChangedNotification:notf];
+        });
+        return;
     }
-    else
-    {
-        [self refreshAllValues];
-        [self refreshTitle];
-    }
+    
+    _recent = [NSArray new];
+    _recommended = [NSArray new];
+    
+    [self refreshAllValues];
+    [self refreshTitle];
 }
 
 #pragma mark - segment controll
@@ -444,15 +494,8 @@
             break;
     }
     
-   // [self hideDimmingView];
+    // [self hideDimmingView];
 }
-
-
--(void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 
 -(void)showLoadingIndicator
 {
@@ -489,7 +532,7 @@
 -(void)searchStarted
 {
     [self.view bringSubviewToFront:self.searchViewContainer];
-   // self.collectionView scr
+    // self.collectionView scr
     self.collectionView.scrollEnabled = NO;
     NSLog(@"Bringing to front");
     
@@ -502,8 +545,8 @@
     
     [_collectionView setContentOffset:CGPointMake(_collectionView.contentOffset.x, offsetY - contentInsetY - sectionInsetY) animated:YES];
     
-//    UICollectionViewLayoutAttributes *cv = [self.collectionView layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeader atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-//    NSLog(@"CV frame:%@", [cv description]);
+    //    UICollectionViewLayoutAttributes *cv = [self.collectionView layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeader atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    //    NSLog(@"CV frame:%@", [cv description]);
 }
 
 -(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -514,15 +557,18 @@
     
     // will execute before rotation
     [self updateCollectionViewLayoutWithSize:size];
+    // self.collectionView.contentInset =  UIEdgeInsetsMake(0, 0, 0, 5.0);
     
     [coordinator animateAlongsideTransition:^(id  _Nonnull context) {
         
         // will execute during rotation
+        _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+
         
     } completion:^(id  _Nonnull context) {
         
         // will execute after rotation
-      
+        
     }];
 }
 
@@ -531,6 +577,11 @@
     [self.view sendSubviewToBack:self.searchViewContainer];
     self.collectionView.scrollEnabled = YES;
     NSLog(@"sendint to back");
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

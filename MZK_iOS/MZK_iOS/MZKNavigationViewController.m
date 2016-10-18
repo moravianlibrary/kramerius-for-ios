@@ -1,26 +1,22 @@
 //
-//  TabBarMenuViewController.m
+//  MZKNavigationViewController.m
 //  MZK_iOS
 //
-//  Created by OndrejVyhlidal on 05/04/16.
+//  Created by OndrejVyhlidal on 29/09/2016.
 //  Copyright © 2016 Ondrej Vyhlidal. All rights reserved.
 //
 
-#import "MZKTabBarMenuViewController.h"
+#import "MZKNavigationViewController.h"
 
-@interface MZKTabBarMenuViewController ()
+@interface MZKNavigationViewController ()
 
 @end
 
-@implementation MZKTabBarMenuViewController
+@implementation MZKNavigationViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.customizableViewControllers = @[];
-
-
 }
 
 - (void)didReceiveMemoryWarning {

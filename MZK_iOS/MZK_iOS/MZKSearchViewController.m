@@ -238,6 +238,7 @@
         key = [_searchHints objectAtIndex:indexPath.row - _filteredRecentSearches.count];
     }
     
+    _searchBar.text = key;
     [self performSearchWithItem:key];
     [_searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -338,7 +339,7 @@
     {
         UINavigationController *navVC =[segue destinationViewController];
         MZKGeneralColletionViewController *vc =(MZKGeneralColletionViewController *)navVC.topViewController;
-        //[vc setParentPID:((MZKItemResource *)sender).pid];
+     
         vc.title = NSLocalizedString(@"mzk.searchResults", @"Search results title for VC");
         vc.isFirst = YES;
         vc.shouldShowSearchBar = NO;

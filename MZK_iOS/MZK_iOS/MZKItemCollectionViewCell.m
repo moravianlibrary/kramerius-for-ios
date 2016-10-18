@@ -24,19 +24,20 @@
 -(void)setPObject:(MZKPageObject *)pObject
 {
     _pObject = pObject;
-    [self setModelImage:_pObject.model];
+    [self setModelImage:[MZKConstants modelTypeToString:_pObject.model]];
 }
 
 -(void)setItem:(MZKItemResource *)item
 {
     _item = item;
-    [self setModelImage:_item.model];
+    [self setModelImage:[MZKConstants modelTypeToString:_item.model]];
     
 }
 
 -(void)setModelImage:(NSString *)model
 {
     NSString *itemTypeIconImg;
+    
     if ([model isEqualToString:kMonograph]) {
         itemTypeIconImg = @"ic_book_green";
     }

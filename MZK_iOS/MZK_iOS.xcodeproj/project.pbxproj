@@ -47,11 +47,13 @@
 		2D665DBD1B02927500B11765 /* MZKDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBC1B02927500B11765 /* MZKDetailViewController.m */; };
 		2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */; };
 		2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D78B2961C200DC0004341DA /* MZKAboutViewController.m */; };
-		2D85D1B91CD88CCD00D6FDE3 /* NSString+URLEncodedString_ch.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D85D1B81CD88CCD00D6FDE3 /* NSString+URLEncodedString_ch.m */; };
 		2D8BB7C71BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D8BB7C61BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m */; };
 		2D9150F21C82F4C200AD380F /* MyURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9150F11C82F4C200AD380F /* MyURLProtocol.m */; };
 		2D91512C1C873D2C00AD380F /* MZKDetailInformationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D91512B1C873D2C00AD380F /* MZKDetailInformationTableViewCell.m */; };
 		2D91D3971CC8A8A000EBE622 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2D91D3991CC8A8A000EBE622 /* Localizable.strings */; };
+		2D93784C1DA29232005B2ED3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D93784B1DA29232005B2ED3 /* Security.framework */; };
+		2D93784E1DA293DF005B2ED3 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D93784D1DA293DF005B2ED3 /* AFNetworking.framework */; };
+		2D93784F1DA293DF005B2ED3 /* AFNetworking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2D93784D1DA293DF005B2ED3 /* AFNetworking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2DA030521C0A002800B7759B /* MZKBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA030511C0A002800B7759B /* MZKBaseViewController.m */; };
 		2DAA60721BA758AB0004A718 /* MZKCollectionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA60711BA758AB0004A718 /* MZKCollectionDetailViewController.m */; };
 		2DAA60751BA7590B0004A718 /* MZKDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA60741BA7590B0004A718 /* MZKDetailCollectionViewCell.m */; };
@@ -66,6 +68,8 @@
 		2DB8A7A51ACD073400A1BB2E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DB8A7A41ACD073400A1BB2E /* Images.xcassets */; };
 		2DB8A7A81ACD073400A1BB2E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DB8A7A61ACD073400A1BB2E /* LaunchScreen.xib */; };
 		2DCAE25C1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DCAE25B1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m */; };
+		2DD1B9EE1D9D4AE0004011FC /* MZKNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1B9ED1D9D4AE0004011FC /* MZKNavigationViewController.m */; };
+		2DD1B9F11D9E42D4004011FC /* UINavigationBar+CustomHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1B9F01D9E42D4004011FC /* UINavigationBar+CustomHeight.m */; };
 		2DD583A01B6FA0BA001ED3B3 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD5839F1B6FA0BA001ED3B3 /* XMLReader.m */; };
 		2DE387601AE523B400A2004E /* MZKItemResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE3875F1AE523B400A2004E /* MZKItemResource.m */; };
 		2DE387631AE526AB00A2004E /* MZKDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE387621AE526AA00A2004E /* MZKDatasource.m */; };
@@ -73,6 +77,20 @@
 		2DFA424B1D54880900FC6EEF /* MZKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFA424A1D54880900FC6EEF /* MZKQueue.m */; };
 		759A7DECF30310912FD01D8D /* Pods_MZK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C90D7A1AB48D0E0C75DD57 /* Pods_MZK_iOS.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2D9378501DA293DF005B2ED3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2D93784F1DA293DF005B2ED3 /* AFNetworking.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2D009CD31BAAE52E0042021D /* MZKCollectionItemResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionItemResource.h; sourceTree = "<group>"; };
@@ -144,8 +162,6 @@
 		2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionsViewController.m; sourceTree = "<group>"; };
 		2D78B2951C200DC0004341DA /* MZKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKAboutViewController.h; sourceTree = "<group>"; };
 		2D78B2961C200DC0004341DA /* MZKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKAboutViewController.m; sourceTree = "<group>"; };
-		2D85D1B71CD88CCD00D6FDE3 /* NSString+URLEncodedString_ch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncodedString_ch.h"; sourceTree = "<group>"; };
-		2D85D1B81CD88CCD00D6FDE3 /* NSString+URLEncodedString_ch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncodedString_ch.m"; sourceTree = "<group>"; };
 		2D8BB7C51BCE3FC4008E53A1 /* MZKItemCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKItemCollectionViewCell.h; sourceTree = "<group>"; };
 		2D8BB7C61BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKItemCollectionViewCell.m; sourceTree = "<group>"; };
 		2D9150F01C82F4C200AD380F /* MyURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyURLProtocol.h; sourceTree = "<group>"; };
@@ -157,6 +173,8 @@
 		2D91D3961CC8A87F00EBE622 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Main.strings; sourceTree = "<group>"; };
 		2D91D3981CC8A8A000EBE622 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2D91D39A1CC8A8A900EBE622 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2D93784B1DA29232005B2ED3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		2D93784D1DA293DF005B2ED3 /* AFNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AFNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA030501C0A002800B7759B /* MZKBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKBaseViewController.h; sourceTree = "<group>"; };
 		2DA030511C0A002800B7759B /* MZKBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKBaseViewController.m; sourceTree = "<group>"; };
 		2DAA60701BA758AB0004A718 /* MZKCollectionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionDetailViewController.h; sourceTree = "<group>"; };
@@ -181,6 +199,10 @@
 		2DB8A7B31ACD073400A1BB2E /* MZK_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MZK_iOSTests.m; sourceTree = "<group>"; };
 		2DCAE25A1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSearchBarCollectionReusableView.h; sourceTree = "<group>"; };
 		2DCAE25B1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchBarCollectionReusableView.m; sourceTree = "<group>"; };
+		2DD1B9EC1D9D4AE0004011FC /* MZKNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKNavigationViewController.h; sourceTree = "<group>"; };
+		2DD1B9ED1D9D4AE0004011FC /* MZKNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKNavigationViewController.m; sourceTree = "<group>"; };
+		2DD1B9EF1D9E42D4004011FC /* UINavigationBar+CustomHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+CustomHeight.h"; sourceTree = "<group>"; };
+		2DD1B9F01D9E42D4004011FC /* UINavigationBar+CustomHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+CustomHeight.m"; sourceTree = "<group>"; };
 		2DD5839E1B6FA0BA001ED3B3 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
 		2DD5839F1B6FA0BA001ED3B3 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		2DE3875E1AE523B400A2004E /* MZKItemResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKItemResource.h; sourceTree = "<group>"; };
@@ -201,6 +223,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D93784C1DA29232005B2ED3 /* Security.framework in Frameworks */,
+				2D93784E1DA293DF005B2ED3 /* AFNetworking.framework in Frameworks */,
 				2D41FF011C3BBF970087F22E /* libsqlite3.tbd in Frameworks */,
 				2D2787C61BF4BB4A0007D00E /* AVFoundation.framework in Frameworks */,
 				2D2787C41BF4B92A0007D00E /* MediaPlayer.framework in Frameworks */,
@@ -332,6 +356,7 @@
 		2DB8A7881ACD073400A1BB2E = {
 			isa = PBXGroup;
 			children = (
+				2D93784D1DA293DF005B2ED3 /* AFNetworking.framework */,
 				2DB8A7931ACD073400A1BB2E /* MZK_iOS */,
 				2DB8A7B01ACD073400A1BB2E /* MZK_iOSTests */,
 				2DB8A7921ACD073400A1BB2E /* Products */,
@@ -351,6 +376,8 @@
 		2DB8A7931ACD073400A1BB2E /* MZK_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2DD1B9EF1D9E42D4004011FC /* UINavigationBar+CustomHeight.h */,
+				2DD1B9F01D9E42D4004011FC /* UINavigationBar+CustomHeight.m */,
 				2D44DF3C1CB397BB001EF49F /* Menu */,
 				2DB5E44B1CB25CF300C90D36 /* 3rdParty */,
 				2D9150F41C849E7F00AD380F /* ZoomifyReader */,
@@ -381,6 +408,8 @@
 				2D409B761B8B460E00B49EAD /* MZKDataSourceTableViewCell.h */,
 				2D409B771B8B460E00B49EAD /* MZKDataSourceTableViewCell.m */,
 				2DB8A7A11ACD073400A1BB2E /* Main.storyboard */,
+				2DD1B9EC1D9D4AE0004011FC /* MZKNavigationViewController.h */,
+				2DD1B9ED1D9D4AE0004011FC /* MZKNavigationViewController.m */,
 				2D78B2951C200DC0004341DA /* MZKAboutViewController.h */,
 				2D78B2961C200DC0004341DA /* MZKAboutViewController.m */,
 				2DB8A7A41ACD073400A1BB2E /* Images.xcassets */,
@@ -399,8 +428,6 @@
 				2D02A4611B0624C100D51B0C /* MZKPageObject.m */,
 				2DE387611AE526AA00A2004E /* MZKDatasource.h */,
 				2DE387621AE526AA00A2004E /* MZKDatasource.m */,
-				2D85D1B71CD88CCD00D6FDE3 /* NSString+URLEncodedString_ch.h */,
-				2D85D1B81CD88CCD00D6FDE3 /* NSString+URLEncodedString_ch.m */,
 				2DB8A7941ACD073400A1BB2E /* Supporting Files */,
 				2D33C3551C2819E9002BA7D1 /* MZKSettingsViewController.h */,
 				2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */,
@@ -453,6 +480,7 @@
 		C4864A5EBA3AC6CFFA83C9E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D93784B1DA29232005B2ED3 /* Security.framework */,
 				2D41FF001C3BBF970087F22E /* libsqlite3.tbd */,
 				2D2787C51BF4BB4A0007D00E /* AVFoundation.framework */,
 				2D2787C31BF4B92A0007D00E /* MediaPlayer.framework */,
@@ -483,6 +511,7 @@
 				2DB8A78F1ACD073400A1BB2E /* Resources */,
 				984A690BA1CBE454FD910EBD /* [CP] Embed Pods Frameworks */,
 				699878298BFBE6F5DCFE5F9F /* [CP] Copy Pods Resources */,
+				2D9378501DA293DF005B2ED3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -499,12 +528,13 @@
 		2DB8A7891ACD073400A1BB2E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Ondrej Vyhlidal";
 				TargetAttributes = {
 					2DB8A7901ACD073400A1BB2E = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 873S4GA3KJ;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -624,12 +654,14 @@
 				2D665DBD1B02927500B11765 /* MZKDetailViewController.m in Sources */,
 				2DE387601AE523B400A2004E /* MZKItemResource.m in Sources */,
 				2D58E8F61BA57BAC000D444C /* MZKCollectionTableViewCell.m in Sources */,
+				2DD1B9F11D9E42D4004011FC /* UINavigationBar+CustomHeight.m in Sources */,
 				2D2505D01AFE76880079F70E /* MZKDomainHolder.m in Sources */,
 				2D2DA52E1BF2356900423447 /* MZKGeneralColletionViewController.m in Sources */,
 				2D2DA5201BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m in Sources */,
 				2D41FF051C3BBFE50087F22E /* MZKDatabaseManager.m in Sources */,
 				2D91512C1C873D2C00AD380F /* MZKDetailInformationTableViewCell.m in Sources */,
 				2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */,
+				2DD1B9EE1D9D4AE0004011FC /* MZKNavigationViewController.m in Sources */,
 				2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */,
 				2D409B7B1B8B4C8B00B49EAD /* MZKLibraryItem.m in Sources */,
 				2D4747321D4684BD00D6F5F8 /* MZKSearchHistoryItem.m in Sources */,
@@ -785,6 +817,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cz.mzk.ios.KRAMERIUS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -803,6 +836,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cz.mzk.ios.KRAMERIUS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -72,7 +72,7 @@
     // title has to be different based on type of parent resource!!!
     NSMutableString *title = [NSMutableString new];
     
-    if ([parentItemResource.model caseInsensitiveCompare:kPeriodical] == NSOrderedSame) {
+    if (parentItemResource.model == Periodical) {
         
         NSLog(@"Periodical:%@", parentItemResource.debugDescription);
         
@@ -81,7 +81,7 @@
         }
     }
     
-    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
+    if (parentItemResource.model == PeriodicalVolume) {
         
         NSLog(@"Periodical Volume:%@", parentItemResource.debugDescription);
         
@@ -97,7 +97,7 @@
     }
     
     
-    if ([parentItemResource.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
+    if (parentItemResource.model == PeriodicalItem) {
         
         // do we have a root title?
         if (parentItemResource.rootTitle) {
@@ -241,7 +241,7 @@
         cell.itemType.text = [item getLocalizedItemType];
         cell.publicOnlyIcon.hidden = [item.policy isEqualToString:@"public"]? YES:NO;
         
-        if ([item.model caseInsensitiveCompare:kPeriodicalVolume] == NSOrderedSame) {
+        if (item.model == PeriodicalVolume) {
             
             
             if (item.year) {
@@ -254,7 +254,7 @@
         }
         
         
-        if ([item.model caseInsensitiveCompare:kPeriodicalItem] == NSOrderedSame) {
+        if (item.model == PeriodicalItem) {
             
             if (item.year) {
                 cell.itemName.text = item.year;
@@ -297,7 +297,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     MZKPageObject *po =[_items objectAtIndex:indexPath.row];
     
-    if ([po.model isEqualToString:@"soundunit"]) {
+    if (po.model == SoundUnit) {
         
         [self onClose:nil];
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -316,23 +316,20 @@
     }
 
    if ([po.policy isEqualToString:@"public"]) {
-        
-        if ([po.model isEqualToString:@"periodicalitem"] || [po.model isEqualToString:@"manuscript"] || [po.model isEqualToString:@"monograph"] ||[po.model isEqualToString:@"map"] ||[po.model isEqualToString:@"graphic"] || [po.model isEqualToString:@"page"])
-        {
-            //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
-            
-            MZKDetailViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKDetailViewController"];
-            
-            // Pass any objects to the view controller here, like...
-            [vc setItemPID:po.pid];
-            
-            [self presentViewController:vc animated:YES completion:^{
-                
-            }];
-            
-        }
-        
-        if ([po.model isEqualToString:@"periodicalvolume"] ||[po.model isEqualToString:@"periodical"])
+       
+       if (po.model == PeriodicalItem || po.model == Manuscript || po.model == Monograph || po.model == Map || po.model == Graphic || po.model == Page || po.model == Article || po.model == Archive || po.model == InternalPart || po.model == Sheetmusic || po.model == Supplement) {
+           MZKDetailViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKDetailViewController"];
+           
+           // Pass any objects to the view controller here, like...
+           [vc setItemPID:po.pid];
+           
+           [self presentViewController:vc animated:YES completion:^{
+               
+           }];
+
+       }
+       
+        if (po.model== PeriodicalVolume || po.model ==Periodical)
         {
             //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
             
