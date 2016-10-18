@@ -21,7 +21,7 @@
 
 @import SDWebImage;
 
-const int kHeaderHeight = 75;
+const int kHeaderHeight = 95;
 
 
 #import "MZKSearchViewController.h"
@@ -221,20 +221,32 @@ const int kHeaderHeight = 75;
         });
         return;
     }
-    [self hideLoadingIndicator];
-    //[self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?"
-    if (!dialogVisible) {
-        dialogVisible = YES;
+    
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        //NSError Domain Code
+        [self showTsErrorWithNSError:error andConfirmAction:^{
+            
+            [welf refreshAllValues];
+            
+        }];
         
-        if (error.code==-1009) {
-            NSLog(@"Network disconected!!!!!");
-            [self showErrorWithTitle:@"Nelze pokračovat" subtitle:@"Zkontrolujte svoje připojení." confirmAction:^{
-                [welf refreshAllValues];
-                dialogVisible = NO;
-            }];
-        }
+    }else{
         
     }
+    
+
+    [self hideLoadingIndicator];
+//    //[self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?"
+//    if (!dialogVisible) {
+//        dialogVisible = YES;
+//        
+////        if (error.code==-1009) {
+////            NSLog(@"Network disconected!!!!!");
+////            [self showErrorWithTitle:@"Nelze pokračovat" subtitle:@"Zkontrolujte svoje připojení." confirmAction:^{
+////                [welf refreshAllValues];
+////                dialogVisible = NO;
+////            }];
+////        }
     
 }
 

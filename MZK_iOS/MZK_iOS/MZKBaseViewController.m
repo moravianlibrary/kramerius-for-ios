@@ -174,6 +174,112 @@
     
 }
 
+-(void)showTsErrorWithNSError:(NSError *)error andConfirmAction:(void (^)())actionBlock
+{
+    NSString *title;
+    NSString *subtitle;
+    NSString *buttonTitle;
+    TSMessageNotificationDuration duration = TSMessageNotificationDurationAutomatic;
+    
+        // NSURLErrorDomain
+    
+        switch (error.code) {
+                case NSURLErrorUnknown:
+                
+                break;
+                
+                case NSURLErrorCancelled:
+                
+                break;
+                case NSURLErrorBadURL:
+                
+                break;
+                case NSURLErrorTimedOut:
+                title = NSLocalizedString(@"mzk.error", @"Error title of message box");
+                subtitle = NSLocalizedString(@"mzk.error.connectionTimeout", @"Pouzito v okamziku, kdy vyprsi timeout");
+                duration = TSMessageNotificationDurationEndless;
+                buttonTitle = NSLocalizedString(@"mzk.error.retry", @"Retry");
+                
+                break;
+                case NSURLErrorUnsupportedURL:
+                
+                break;
+                case NSURLErrorCannotFindHost:
+                
+                break;
+                case NSURLErrorCannotConnectToHost:
+                
+                break;
+                case NSURLErrorNetworkConnectionLost:
+                title = NSLocalizedString(@"mzk.error", @"Error title of message box");
+                subtitle = NSLocalizedString(@"mzk.error.networkConnectionLost", @"Conection Lost");
+                duration = TSMessageNotificationDurationEndless;
+                buttonTitle = NSLocalizedString(@"mzk.error.retry", @"Retry");
+
+                
+                break;
+                case NSURLErrorDNSLookupFailed:
+                
+                break;
+                case NSURLErrorHTTPTooManyRedirects:
+                
+                break;
+                case NSURLErrorResourceUnavailable:
+                
+                break;
+                case NSURLErrorNotConnectedToInternet:
+                title = NSLocalizedString(@"mzk.error", @"Error title of message box");
+                subtitle = NSLocalizedString(@"mzk.error.checkYourInternetConnection", @"Conection Lost");
+                duration = TSMessageNotificationDurationEndless;
+                buttonTitle = NSLocalizedString(@"mzk.error.retry", @"Retry");
+                break;
+                
+                case NSURLErrorRedirectToNonExistentLocation:
+                
+                break;
+                case NSURLErrorBadServerResponse:
+                
+                break;
+                case NSURLErrorUserCancelledAuthentication:
+                
+                break;
+                case NSURLErrorUserAuthenticationRequired:
+                
+                break;
+                case NSURLErrorZeroByteResource:
+                
+                break;
+                case NSURLErrorCannotDecodeRawData:
+                
+                break;
+                case NSURLErrorCannotDecodeContentData:
+                
+                break;
+                case NSURLErrorCannotParseResponse:
+                
+                break;
+                
+            default:
+                break;
+        }
+    
+        [TSMessage showNotificationInViewController:self.parentViewController
+                                              title:title
+                                           subtitle:subtitle
+                                              image:nil
+                                               type:TSMessageNotificationTypeError
+                                           duration:duration
+                                           callback:nil
+                                        buttonTitle:buttonTitle
+                                     buttonCallback:^{
+                                         NSLog(@"User tapped the button");
+                                         actionBlock();
+                                     }
+                                         atPosition:TSMessageNotificationPositionTop
+                               canBeDismissedByUser:YES];
+
+}
+
 
 
 

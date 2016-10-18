@@ -100,6 +100,15 @@
         return;
     }
     NSLog(@"Download error:%@", [error description]);
+    
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        //NSError Domain Code
+        [self showTsErrorWithNSError:error andConfirmAction:^{
+           // [welf loadDataForController];
+        }];
+        
+    }
+
 }
 
 #pragma mark - SearchBar Delegate

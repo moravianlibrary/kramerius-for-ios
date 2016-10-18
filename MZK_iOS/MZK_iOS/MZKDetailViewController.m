@@ -261,6 +261,8 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         return;
     }
     
+    
+    
     [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
         if (_item) {
             [welf loadDataForItem:_item];

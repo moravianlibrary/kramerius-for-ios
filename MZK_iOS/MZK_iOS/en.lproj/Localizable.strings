@@ -27,3 +27,13 @@
 "mzk.type." = "";
 
 "mzk.searchResults" = "Search Results";
+
+"mzk.error" = "Error";
+"mzk.error.url.unknown" = "Unknown error occured.";
+"mzk.error.requestCancelled" = "Request canceled";
+"mzk.error.connectionTimeout" = "Connection timeout";
+"mzk.error.unsupportedURL" = "Unsupported URL";
+"mzk.error.networkConnectionLost" = "Network connection lost";
+"mzk.error.checkYourInternetConnection" = "Check your internet connection";
+"mzk.error.retry" = "Retry";
+"mzk.error.cancel" = "Cancel";
