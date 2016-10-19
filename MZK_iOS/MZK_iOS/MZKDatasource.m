@@ -161,9 +161,10 @@ if (self) {
 
 -(void)getMostRecent
 {
-    
-    BOOL showOnlyPublic = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettingsShowOnlyPublicDocuments] boolValue];
-    NSString *recent = showOnlyPublic ? @"/search/api/v5.0/feed/newest?policy=public" : @"/search/api/v5.0/feed/newest";
+  //  BOOL showOnlyPublic = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettingsShowOnlyPublicDocuments] boolValue];
+    //according to this: https://github.com/moravianlibrary/kramerius-for-ios/issues/110
+    // show only public in most recent document ignoring settings
+    NSString *recent = @"/search/api/v5.0/feed/newest?policy=public"; //= showOnlyPublic ? @"/search/api/v5.0/feed/newest?policy=public" : @"/search/api/v5.0/feed/newest";
     
     [self checkAndSetBaseUrl];
     
@@ -172,8 +173,6 @@ if (self) {
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
     [self downloadDataFromURL:url withOperation:downloadMostRecent];
-    
-    
 }
 
 -(void)getRecommended
