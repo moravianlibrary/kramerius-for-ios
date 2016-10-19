@@ -509,25 +509,6 @@
     self.activityIndicatorContainerView.hidden = self.activityIndicator.hidden = YES;
 }
 
-//-(void)searchHintsLoaded:(NSDictionary *)results
-//{
-//    if(![[NSThread currentThread] isMainThread])
-//    {
-//        __weak typeof(self) welf = self;
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [welf searchHintsLoaded:results];
-//        });
-//        return;
-//    }
-//
-//    [self hideDimmingView];
-//    [self hideLoadingIndicator];
-//    NSLog(@"Results:%@", [results description]);
-//    _searchResults = results;
-//    _searchResultsTableView.hidden = NO;
-//    [_searchResultsTableView reloadData];
-//}
-
 #pragma mark - search table view delegate and datasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

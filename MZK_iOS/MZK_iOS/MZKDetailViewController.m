@@ -260,9 +260,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         });
         return;
     }
-    
-    
-    
+
     [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
         if (_item) {
             [welf loadDataForItem:_item];
@@ -732,7 +730,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         
         if (_item) {
             targetPid = _item.pid;
-            [vc setType:[_item getAuthorsStringRepresentation]];
+            [vc setType:[_item getLocalizedItemType]];
         }
         else if (loadedItem)
         {

@@ -191,10 +191,17 @@
     
     // title info
     
-    if (info.title) {
+    if (_type) {
         MZKDetailInformationStringModel *model = [MZKDetailInformationStringModel new];
-        [model setTitle:@"Kniha"];
+        [model setTitle:@"Typ:"];
+        [model setInfo:_type];
         [infoArray addObject:model];
+        
+
+    }
+    
+    
+    if (info.title) {
         
         MZKDetailInformationStringModel *modelTitle = [MZKDetailInformationStringModel new];
         [modelTitle setTitle:@"Hlavní název:"];

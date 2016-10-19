@@ -868,7 +868,7 @@ static MZKMusicViewController *sharedInstance;
         
         if (_currentItem.rootPid) {
             targetPid = _currentItem.rootPid;
-            [vc setType:[_item getAuthorsStringRepresentation]];
+            [vc setType:[_item getLocalizedItemType]];
         }
         
         // Pass any objects to the view controller here, like...
