@@ -47,7 +47,7 @@ static char const *const heightKey = "Height";
         newSize = CGSizeMake(self.superview.bounds.size.width, [self.height floatValue]);
     } else {
         newSize = [super sizeThatFits:size];
-        newSize.width = self.window.bounds.size.width;
+        newSize.width = self.window.bounds.size.width; // fixed by ovyhlidal
     }
 
     return newSize;

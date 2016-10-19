@@ -113,7 +113,7 @@ const int kHeaderHeight = 95;
 {
     [super viewDidLayoutSubviews];
     
-    self.collectionView.contentInset = UIEdgeInsetsMake(10, self.collectionView.contentInset.left, self.collectionView.contentInset.bottom, self.collectionView.contentInset.right);
+    self.collectionView.contentInset = UIEdgeInsetsMake(8, self.collectionView.contentInset.left, self.collectionView.contentInset.bottom, self.collectionView.contentInset.right);
 }
 
 -(void)refreshTitle
