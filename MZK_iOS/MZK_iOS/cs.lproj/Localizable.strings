@@ -27,3 +27,13 @@
 "mzk.type." = "";
 
 "mzk.searchResults" = "Výsledky hledání";
+
+"mzk.error" = "Chyba";
+"mzk.error.url.unknown" = "Neznámá chyba.";
+"mzk.error.requestCancelled" = "Zušeno";
+"mzk.error.connectionTimeout" = "Čas vypršel, zkontrolujte připojení k internetu";
+"mzk.error.unsupportedURL" = "Špatný formát URL";
+"mzk.error.networkConnectionLost" = "Spojení ztraceno";
+"mzk.error.checkYourInternetConnection" = "Zkontrolujte připojení k internetu";
+"mzk.error.retry" = "Opakovat";
+"mzk.error.cancel" = "Zrušit";

@@ -50,6 +50,15 @@
     [self initGoogleAnalytics];
     _searchResults = [NSDictionary new];
     
+    
+    NSLog(@"top = %f, bounds top %f", self._collectionView.frame.origin.y, self._collectionView.bounds.origin.y);
+    NSLog(@"offset y = %f", self._collectionView.contentOffset.y);
+    NSLog(@"height = %f", self._collectionView.contentSize.height);
+    NSLog(@"inset top = %f", self._collectionView.contentInset.top);
+    NSLog(@"inset bottom = %f", self._collectionView.contentInset.bottom);
+    NSLog(@"inset left = %f", self._collectionView.contentInset.left);
+    NSLog(@"inset right = %f", self._collectionView.contentInset.right);
+    
 }
 
 -(void)initGoogleAnalytics
@@ -86,7 +95,7 @@
         NSLog(@"Periodical Volume:%@", parentItemResource.debugDescription);
         
         if (parentItemResource.rootTitle) {
-           [title appendString:parentItemResource.rootTitle];
+            [title appendString:parentItemResource.rootTitle];
         }
         
         if (parentItemResource.year) {
@@ -125,8 +134,6 @@
         NSLog(@"There is no usable title! Using default instead!");
         self.navigationItem.title = parentItemResource.title;
     }
-    
-    
 }
 
 -(IBAction)onClose:(id)sender
@@ -201,9 +208,19 @@
     
     [self hideLoadingIndicator];
     
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        //NSError Domain Code
+        [self showTsErrorWithNSError:error andConfirmAction:^{
+            
+            [welf showLoadingIndicator];
+            [welf loadDataForController];
+            
+            
+        }];
+        
+    }
+    
     [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
-        [welf showLoadingIndicator];
-        [welf loadDataForController];
         
     }];
 }
@@ -269,10 +286,10 @@
             }
             else
             {
-                 cell.itemAuthors.text = [NSString stringWithFormat:@"Číslo %@", item.issueNumber];
+                cell.itemAuthors.text = [NSString stringWithFormat:@"Číslo %@", item.issueNumber];
                 
             }
- 
+            
             if (!item.title) {
                 cell.itemName.text = item.rootTitle;
             }
@@ -314,21 +331,21 @@
         
         [self.navigationController pushViewController:nextViewController animated:YES];
     }
-
-   if ([po.policy isEqualToString:@"public"]) {
-       
-       if (po.model == PeriodicalItem || po.model == Manuscript || po.model == Monograph || po.model == Map || po.model == Graphic || po.model == Page || po.model == Article || po.model == Archive || po.model == InternalPart || po.model == Sheetmusic || po.model == Supplement) {
-           MZKDetailViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKDetailViewController"];
-           
-           // Pass any objects to the view controller here, like...
-           [vc setItemPID:po.pid];
-           
-           [self presentViewController:vc animated:YES completion:^{
-               
-           }];
-
-       }
-       
+    
+    if ([po.policy isEqualToString:@"public"]) {
+        
+        if (po.model == PeriodicalItem || po.model == Manuscript || po.model == Monograph || po.model == Map || po.model == Graphic || po.model == Page || po.model == Article || po.model == Archive || po.model == InternalPart || po.model == Sheetmusic || po.model == Supplement) {
+            MZKDetailViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKDetailViewController"];
+            
+            // Pass any objects to the view controller here, like...
+            [vc setItemPID:po.pid];
+            
+            [self presentViewController:vc animated:YES completion:^{
+                
+            }];
+            
+        }
+        
         if (po.model== PeriodicalVolume || po.model ==Periodical)
         {
             //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];

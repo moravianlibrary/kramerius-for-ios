@@ -22,4 +22,6 @@
 -(void)showTSMessageWithTitle:(NSString *)title subtitle:(NSString *)subtitle type:(TSMessageNotificationType)type confirmAction:(void (^)())actionBlock;
 
 
+-(void)showTsErrorWithNSError:(NSError *)error andConfirmAction:(void (^)())actionBlock;
+
 @end

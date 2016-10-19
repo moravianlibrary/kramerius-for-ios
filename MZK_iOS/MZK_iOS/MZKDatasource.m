@@ -161,9 +161,10 @@ if (self) {
 
 -(void)getMostRecent
 {
-    
-    BOOL showOnlyPublic = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettingsShowOnlyPublicDocuments] boolValue];
-    NSString *recent = showOnlyPublic ? @"/search/api/v5.0/feed/newest?policy=public" : @"/search/api/v5.0/feed/newest";
+  //  BOOL showOnlyPublic = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettingsShowOnlyPublicDocuments] boolValue];
+    //according to this: https://github.com/moravianlibrary/kramerius-for-ios/issues/110
+    // show only public in most recent document ignoring settings
+    NSString *recent = @"/search/api/v5.0/feed/newest?policy=public"; //= showOnlyPublic ? @"/search/api/v5.0/feed/newest?policy=public" : @"/search/api/v5.0/feed/newest";
     
     [self checkAndSetBaseUrl];
     
@@ -172,8 +173,6 @@ if (self) {
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
     [self downloadDataFromURL:url withOperation:downloadMostRecent];
-    
-    
 }
 
 -(void)getRecommended
@@ -206,6 +205,7 @@ if (self) {
     components.path = @"/search/api/v5.0/search/";
     components.query = [NSString stringWithFormat:@"fl=dc.title&q=dc.title:%@*+AND+%@(fedora.model:monograph^4+OR+fedora.model:periodical^4+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)+AND+(dostupnost:public^3+OR+dostupnost:private)&rows=20", [searchString lowercaseString], visible?@"dostupnost:*public*+AND+":@""];
     
+  //  NSLog(@"Hints:%@",[components URL]) ;
     NSURL *url = components.URL;
     [self downloadDataFromURL:url withOperation:searchHints];
 }
@@ -254,9 +254,9 @@ if (self) {
     components.scheme = _scheme;
     components.host = _host;
     components.path = @"/search/api/v5.0/search/";
-    components.query = [NSString stringWithFormat:@"fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=%@*+AND+%@(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
+    components.query = [NSString stringWithFormat:@"fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:soundrecording+OR+fedora.model:map+OR+fedora.model:graphic+OR+fedora.model:sheetmusic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
     
-    NSLog(@"Percent encoded:%@",[components percentEncodedQuery]) ;
+    NSLog(@"Percent encoded:%@",[components URL]) ;
     NSURL *url = components.URL;
 
     

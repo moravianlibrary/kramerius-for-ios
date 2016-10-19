@@ -40,7 +40,7 @@
     // Do any additional setup after loading the view.
     [self loadDataForController];
     self.title = self.navigationController.tabBarItem.title;
-
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
     [self initGoogleAnalytics];
@@ -52,7 +52,7 @@
     [_datasource setDelegate:self];
     [_datasource getInfoAboutCollections];
     _selectedCollectionName = nil;
-
+    
 }
 
 -(void)initGoogleAnalytics
@@ -76,14 +76,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 #pragma mark - Datasource Delegate
 -(void)collectionListLoaded:(NSArray *)collections
 {
@@ -95,7 +95,7 @@
         });
         return;
     }
-
+    
     _collections = collections;
     [self.tableView reloadData];
 }
@@ -111,10 +111,20 @@
         return;
     }
     
-    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
-        [welf loadDataForController];
-    }];
-
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        //NSError Domain Code
+        [self showTsErrorWithNSError:error andConfirmAction:^{
+            [welf loadDataForController];
+        }];
+        
+    }
+    else
+    {
+        [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
+            [welf loadDataForController];
+        }];
+    }
+    
 }
 
 #pragma mark - UITableView Delegate and Datasource
@@ -149,9 +159,9 @@
     _selectedCollectionPID= item.pid;
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-   
+    
     //[self performSegueWithIdentifier:@"OpenDetail" sender:item];
-
+    
     [self performSegueWithIdentifier:@"OpenCollection" sender:self];
 }
 
@@ -164,7 +174,7 @@
         MZKCollectionDetailViewController *vc = [segue destinationViewController];
         
         // Pass any objects to the view controller here, like...
-     
+        
         [vc setCollectionPID:_selectedCollectionPID];
         [vc setSelectedCollectionName:_selectedCollectionName];
         
@@ -176,7 +186,6 @@
 -(void)defaultDatasourceChangedNotification:(NSNotification *)notf
 {
     [self.navigationController popToRootViewControllerAnimated:NO];
-    
     
     _datasource = [[MZKDatasource alloc] init];
     [_datasource setDelegate:self];

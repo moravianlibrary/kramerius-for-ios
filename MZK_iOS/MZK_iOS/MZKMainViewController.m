@@ -21,7 +21,7 @@
 
 @import SDWebImage;
 
-const int kHeaderHeight = 75;
+const int kHeaderHeight = 95;
 
 
 #import "MZKSearchViewController.h"
@@ -65,7 +65,6 @@ const int kHeaderHeight = 75;
     return self;
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -73,8 +72,6 @@ const int kHeaderHeight = 75;
     dialogVisible = NO;
     datasource = [MZKDatasource new];
     datasource.delegate = self;
-    
-    self.collectionView.contentInset =  UIEdgeInsetsMake(0, 0, 0, 5.0);
     
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.latest", @"") forSegmentAtIndex:0];
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.interesting", @"") forSegmentAtIndex:1];
@@ -85,14 +82,22 @@ const int kHeaderHeight = 75;
     [self refreshAllValues];
     [self initGoogleAnalytics];
     [self refreshTitle];
-  
+    
+    NSLog(@"top = %f, bounds top %f", self.collectionView.frame.origin.y, self.collectionView.bounds.origin.y);
+    NSLog(@"offset y = %f", self.collectionView.contentOffset.y);
+    NSLog(@"height = %f", self.collectionView.contentSize.height);
+    NSLog(@"inset top = %f", self.collectionView.contentInset.top);
+    NSLog(@"inset bottom = %f", self.collectionView.contentInset.bottom);
+    NSLog(@"inset left = %f", self.collectionView.contentInset.left);
+    NSLog(@"inset right = %f", self.collectionView.contentInset.right);
+    
 }
 
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-  [self.navigationController.navigationBar setHeight:kHeaderHeight];
+    [self.navigationController.navigationBar setHeight:kHeaderHeight];
     
     _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
 }
@@ -107,37 +112,8 @@ const int kHeaderHeight = 75;
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    //[self.navigationController.navigationBar setFrame:CGRectMake(0, 0, self.view.frame.size.width,100)];
-     self.collectionView.contentInset =  UIEdgeInsetsMake(0, 0, 0, 15.0);
-    _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
-   // [self.view setNeedsLayout];
-    //  _searchViewController.view.frame = CGRectMake(0, 0, _searchViewContainer.frame.size.width, _searchViewContainer.frame.size.height);
-}
-
--(void)setupSearchHeader
-{
-    if (!_searchViewController) {
-        
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        _searchViewController = (MZKSearchViewController *)[sb instantiateViewControllerWithIdentifier:@"MZKSearchViewController"];
-        _searchViewController.view.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
-        _searchViewController.view.frame = CGRectMake(0, 0, _searchViewContainer.frame.size.width, _searchViewContainer.frame.size.height);
-        
-        _searchViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        _searchViewController.view.translatesAutoresizingMaskIntoConstraints = YES;
-        _searchViewController.delegate = self;
-        [self addChildViewController:_searchViewController];
-        
-        _searchBarContainerView.searchBar.delegate = _searchViewController;
-        [_searchViewContainer addSubview:_searchViewController.view];
-        
-        [self.view sendSubviewToBack:_searchViewContainer];
-    }
-    else
-    {
-        NSLog(@"Already added");
-    }
     
+    self.collectionView.contentInset = UIEdgeInsetsMake(8, self.collectionView.contentInset.left, self.collectionView.contentInset.bottom, self.collectionView.contentInset.right);
 }
 
 -(void)refreshTitle
@@ -173,7 +149,6 @@ const int kHeaderHeight = 75;
     [datasource getRecommended];
     [datasource getMostRecent];
     [self showLoadingIndicator];
-    
 }
 
 -(void)reloadValues
@@ -185,7 +160,7 @@ const int kHeaderHeight = 75;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+#pragma mark - Datasource methods
 -(void)dataLoaded:(NSArray *)data withKey:(NSString *)key
 {
     if ([key isEqualToString:kRecent]) {
@@ -208,7 +183,6 @@ const int kHeaderHeight = 75;
         [self performSelectorOnMainThread:@selector(reloadData) withObject:self.collectionView waitUntilDone:NO];
         
     }
-    
 }
 
 -(void)downloadFailedWithError:(NSError *)error
@@ -221,26 +195,23 @@ const int kHeaderHeight = 75;
         });
         return;
     }
-    [self hideLoadingIndicator];
-    //[self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si pakovat akci?"
-    if (!dialogVisible) {
-        dialogVisible = YES;
-        
-        if (error.code==-1009) {
-            NSLog(@"Network disconected!!!!!");
-            [self showErrorWithTitle:@"Nelze pokračovat" subtitle:@"Zkontrolujte svoje připojení." confirmAction:^{
-                [welf refreshAllValues];
-                dialogVisible = NO;
-            }];
-        }
+    
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        //NSError Domain Code
+        [self showTsErrorWithNSError:error andConfirmAction:^{
+            
+            [welf refreshAllValues];
+            
+        }];
         
     }
+    
+    [self hideLoadingIndicator];
     
 }
 
 
 #pragma mark - Collection View Datasource
-
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
     
     switch (_segmentControll.selectedSegmentIndex) {
@@ -303,8 +274,6 @@ const int kHeaderHeight = 75;
         
         [self setupSearchHeader];
     }
-    
-    
     return reusableview;
 }
 
@@ -350,7 +319,6 @@ const int kHeaderHeight = 75;
     CGSize sizeOfCell = CGSizeMake(desiredWidth, 140);
     
     return sizeOfCell;
-    
 }
 
 -(float)calculateCellWidthFromScreenWidth:(float)width
@@ -384,35 +352,6 @@ const int kHeaderHeight = 75;
     [flowLayout invalidateLayout];
 }
 
-
-
--(void)prepareDataForSegue:(MZKItemResource *)item
-{
-    
-    switch (item.model) {
-        case Map :
-        case Monograph:
-        case Manuscript:
-        case Graphic:
-        case Page:
-        case PeriodicalItem:
-        case Article:
-        case Archive:
-        case InternalPart:
-        case Supplement:
-        case Sheetmusic:
-            [self performSegueWithIdentifier:@"OpenDetail" sender:item];
-            break;
-            
-        case SoundRecording:
-        case Periodical:
-            [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];
-            
-        default:
-            break;
-    }
-}
-
 -(MZKItemResource *)itemAtIndexPath:(NSIndexPath *)path
 {
     switch (_segmentControll.selectedSegmentIndex) {
@@ -432,7 +371,6 @@ const int kHeaderHeight = 75;
 
 
 #pragma mark - segues
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // Make sure your segue name in storyboard is the same as this line
@@ -456,6 +394,33 @@ const int kHeaderHeight = 75;
         MZKGeneralColletionViewController *vc =(MZKGeneralColletionViewController *)navVC.topViewController;
         [vc setParentPID:((MZKItemResource *)sender).pid];
         vc.isFirst = YES;
+    }
+}
+
+-(void)prepareDataForSegue:(MZKItemResource *)item
+{
+    
+    switch (item.model) {
+            case Map :
+            case Monograph:
+            case Manuscript:
+            case Graphic:
+            case Page:
+            case PeriodicalItem:
+            case Article:
+            case Archive:
+            case InternalPart:
+            case Supplement:
+            case Sheetmusic:
+            [self performSegueWithIdentifier:@"OpenDetail" sender:item];
+            break;
+            
+            case SoundRecording:
+            case Periodical:
+            [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];
+            
+        default:
+            break;
     }
 }
 
@@ -493,8 +458,6 @@ const int kHeaderHeight = 75;
         default:
             break;
     }
-    
-    // [self hideDimmingView];
 }
 
 -(void)showLoadingIndicator
@@ -525,16 +488,13 @@ const int kHeaderHeight = 75;
     [self prepareDataForSegue:item];
 }
 
-
-
-#pragma mark - Search Delegate
-
+#pragma mark - Search
 -(void)searchStarted
 {
+    // shows dimming view and bring the focus to the search bar
     [self.view bringSubviewToFront:self.searchViewContainer];
-    // self.collectionView scr
+ 
     self.collectionView.scrollEnabled = NO;
-    NSLog(@"Bringing to front");
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0]; // indexPath of your header, item must be 0
     
@@ -544,39 +504,63 @@ const int kHeaderHeight = 75;
     CGFloat sectionInsetY = ((UICollectionViewFlowLayout *)_collectionView.collectionViewLayout).sectionInset.top;
     
     [_collectionView setContentOffset:CGPointMake(_collectionView.contentOffset.x, offsetY - contentInsetY - sectionInsetY) animated:YES];
-    
-    //    UICollectionViewLayoutAttributes *cv = [self.collectionView layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeader atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    //    NSLog(@"CV frame:%@", [cv description]);
+
 }
 
+-(void)searchEnded
+{
+    // search ended, enable scrolling and hide dimming view
+    [self.view sendSubviewToBack:self.searchViewContainer];
+    
+    self.collectionView.scrollEnabled = YES;
+}
+
+-(void)setupSearchHeader
+{
+    if (!_searchViewController) {
+        
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        _searchViewController = (MZKSearchViewController *)[sb instantiateViewControllerWithIdentifier:@"MZKSearchViewController"];
+        _searchViewController.view.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+        _searchViewController.view.frame = CGRectMake(0, 0, _searchViewContainer.frame.size.width, _searchViewContainer.frame.size.height);
+        
+        _searchViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _searchViewController.view.translatesAutoresizingMaskIntoConstraints = YES;
+        _searchViewController.delegate = self;
+        [self addChildViewController:_searchViewController];
+        
+        _searchBarContainerView.searchBar.delegate = _searchViewController;
+        [_searchViewContainer addSubview:_searchViewController.view];
+        
+        [self.view sendSubviewToBack:_searchViewContainer];
+    }
+    else
+    {
+        NSLog(@"Already added");
+    }
+    
+}
+
+#pragma mark - rotation handling
 -(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
+    // rotation handling
     // best call super just in case
     
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
     // will execute before rotation
     [self updateCollectionViewLayoutWithSize:size];
-    // self.collectionView.contentInset =  UIEdgeInsetsMake(0, 0, 0, 5.0);
     
     [coordinator animateAlongsideTransition:^(id  _Nonnull context) {
         
         // will execute during rotation
         _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
-
         
     } completion:^(id  _Nonnull context) {
         
         // will execute after rotation
-        
     }];
-}
-
--(void)searchEnded
-{
-    [self.view sendSubviewToBack:self.searchViewContainer];
-    self.collectionView.scrollEnabled = YES;
-    NSLog(@"sendint to back");
 }
 
 -(void)dealloc
