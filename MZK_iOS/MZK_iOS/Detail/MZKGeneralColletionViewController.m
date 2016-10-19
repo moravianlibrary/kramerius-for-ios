@@ -50,6 +50,15 @@
     [self initGoogleAnalytics];
     _searchResults = [NSDictionary new];
     
+    
+    NSLog(@"top = %f, bounds top %f", self._collectionView.frame.origin.y, self._collectionView.bounds.origin.y);
+    NSLog(@"offset y = %f", self._collectionView.contentOffset.y);
+    NSLog(@"height = %f", self._collectionView.contentSize.height);
+    NSLog(@"inset top = %f", self._collectionView.contentInset.top);
+    NSLog(@"inset bottom = %f", self._collectionView.contentInset.bottom);
+    NSLog(@"inset left = %f", self._collectionView.contentInset.left);
+    NSLog(@"inset right = %f", self._collectionView.contentInset.right);
+    
 }
 
 -(void)initGoogleAnalytics
