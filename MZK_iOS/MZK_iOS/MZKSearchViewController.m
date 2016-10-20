@@ -310,7 +310,7 @@
     if (results.count == 0) {
         // display message
         
-        [self showTSMessageWithTitle:@"Nenalezeno" subtitle:@"Vašemu dotazu neodpovídá žádný titul." type:TSMessageNotificationTypeError];
+        [self showTSMessageWithTitle:NSLocalizedString(@"mzk.error.coulNotFind", @"No results found") subtitle:NSLocalizedString(@"mzk.error.noRecordsFound", @"No results found") type:TSMessageNotificationTypeError];
     }
     else
     {

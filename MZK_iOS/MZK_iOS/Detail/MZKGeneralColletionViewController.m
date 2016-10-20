@@ -214,15 +214,12 @@
             
             [welf showLoadingIndicator];
             [welf loadDataForController];
-            
-            
         }];
-        
     }
     
-    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
-        
-    }];
+//    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
+//        
+//    }];
 }
 
 /*

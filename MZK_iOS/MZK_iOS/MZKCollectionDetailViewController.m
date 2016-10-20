@@ -98,10 +98,13 @@
         return;
     }
     //[self hideLoadingIndicator];
-    
-    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
-        [welf loadDataForController];
-    }];
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        //NSError Domain Code
+        [self showTsErrorWithNSError:error andConfirmAction:^{
+
+            [welf loadDataForController];
+        }];
+    }
 }
 
 

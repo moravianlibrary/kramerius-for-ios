@@ -185,10 +185,20 @@ static MZKMusicViewController *sharedInstance;
         return;
     }
     
-    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
-        [welf loadDataForController];
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        //NSError Domain Code
+        [self showTsErrorWithNSError:error andConfirmAction:^{
+            [welf loadDataForController];
+        }];
+    }
+    else
+    {
         
-    }];
+        [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
+            [welf loadDataForController];
+            
+        }];
+    }
 }
 
 
@@ -325,7 +335,7 @@ static MZKMusicViewController *sharedInstance;
                                                object:[_player currentItem]];
     
     [_player addObserver:self forKeyPath:@"status" options:0 context:nil];
- 
+    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -421,7 +431,7 @@ static MZKMusicViewController *sharedInstance;
     
     [self setCurrentTrackToInfoCenter];
     
-   _timeSlider.maximumValue = [self playbackDuration];
+    _timeSlider.maximumValue = [self playbackDuration];
     
 }
 
@@ -489,7 +499,7 @@ static MZKMusicViewController *sharedInstance;
         
         _player = nil;
         _playerItem = nil;
-       }
+    }
     
 }
 
@@ -500,7 +510,7 @@ static MZKMusicViewController *sharedInstance;
     [tickTimer invalidate];
     tickTimer = nil;
     [_play setImage:[UIImage imageNamed:@"audioPlay"] forState:UIControlStateNormal];
-     _elapsedTime.text = @"00:00:00";
+    _elapsedTime.text = @"00:00:00";
 }
 
 -(void)prepareSlider
@@ -661,13 +671,13 @@ static MZKMusicViewController *sharedInstance;
 - (IBAction)scrub:(id)sender
 {
     isSeeking = YES;
-        
+    
     long currentTime = _timeSlider.value;
     
     int currentHour = currentTime/3600;
     int currenctMin =  (currentTime % 3600) / 60;
     int currentSecs = currentTime % 60;
-
+    
     
     _elapsedTime.text =[NSString stringWithFormat:@"%02d:%02d:%02d", currentHour, currenctMin, currentSecs];
 }
@@ -682,7 +692,7 @@ static MZKMusicViewController *sharedInstance;
         });
         return;
     }
-
+    
     if (_currentItemPID) {
         
         [self setCurrentTrackToInfoCenter];
@@ -690,7 +700,7 @@ static MZKMusicViewController *sharedInstance;
         
         _timeSlider.maximumValue = [self playbackDuration];
         
-         if (![self playerPlaying]) {
+        if (![self playerPlaying]) {
             
             [_player play];
             [_play setImage:[UIImage imageNamed:@"audioPause"] forState:UIControlStateNormal];
@@ -716,7 +726,7 @@ static MZKMusicViewController *sharedInstance;
         });
         return;
     }
-
+    
     
     NSTimeInterval timeInterval = [self playbackDuration];
     long seconds = lroundf(timeInterval); // Since modulo operator (%) below needs int or long
@@ -744,7 +754,7 @@ static MZKMusicViewController *sharedInstance;
     
     long currentTime = CMTimeGetSeconds(_player.currentItem.currentTime);
     if (currentTime -10 >= 0) {
-         [_player seekToTime:CMTimeMakeWithSeconds(currentTime -10 , NSEC_PER_SEC)];
+        [_player seekToTime:CMTimeMakeWithSeconds(currentTime -10 , NSEC_PER_SEC)];
         [self scheduleTimer];
         
     }
@@ -774,7 +784,7 @@ static MZKMusicViewController *sharedInstance;
     int currenctMin =  (currentTime % 3600) / 60;
     int currentSecs = currentTime % 60;
     
-  //  NSLog(@"%@", [NSString stringWithFormat:@"%02d:%02d:%02d", currentHour, currenctMin, currentSecs]);
+    //  NSLog(@"%@", [NSString stringWithFormat:@"%02d:%02d:%02d", currentHour, currenctMin, currentSecs]);
     
     _elapsedTime.text =[NSString stringWithFormat:@"%02d:%02d:%02d", currentHour, currenctMin, currentSecs];
     _remainningTime.text = [NSString stringWithFormat:@"%02d:%02d:%02d", hour, mins, secs];
@@ -784,7 +794,7 @@ static MZKMusicViewController *sharedInstance;
         _timeSlider.value = currentTime;
         
     }
-   
+    
 }
 
 -(void)scheduleTimer
@@ -873,7 +883,7 @@ static MZKMusicViewController *sharedInstance;
         
         // Pass any objects to the view controller here, like...
         [vc setItem:targetPid];
-
+        
     }
 }
 

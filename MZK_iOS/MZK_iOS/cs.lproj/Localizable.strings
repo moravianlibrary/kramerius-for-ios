@@ -35,5 +35,9 @@
 "mzk.error.unsupportedURL" = "Špatný formát URL";
 "mzk.error.networkConnectionLost" = "Spojení ztraceno";
 "mzk.error.checkYourInternetConnection" = "Zkontrolujte připojení k internetu";
+"mzk.error.unableToConnect" = "Nelze se připojit, zkontrolujte prosím připojení";
 "mzk.error.retry" = "Opakovat";
 "mzk.error.cancel" = "Zrušit";
+
+"mzk.error.coulNotFind" = "Nenalezeno";
+"mzk.error.noRecordsFound" = "Vašemu dotazu neodpovídá žádný titul";

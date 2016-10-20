@@ -260,13 +260,22 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         });
         return;
     }
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        //NSError Domain Code
+        [self showTsErrorWithNSError:error andConfirmAction:^{
+            
+            if (_item) {
+                [welf loadDataForItem:_item];
+            }
+        }];
+    }
 
-    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
-        if (_item) {
-            [welf loadDataForItem:_item];
-        }
-        
-    }];
+//    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
+//        if (_item) {
+//            [welf loadDataForItem:_item];
+//        }
+//        
+//    }];
 }
 
 -(void)loadDataForItem:(MZKItemResource *)item
