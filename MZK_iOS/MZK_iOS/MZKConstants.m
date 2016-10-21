@@ -10,6 +10,11 @@
 
 @implementation MZKConstants
 
+int const kMinimalRecentSearchesVersion = 3;
+int const kMinimalRecentDocumentsVersion = 2;
+int const kMinimalLibrariesCacheVersionNumber = 1;
+
+
 NSString *const MyFirstConstant = @"FirstConstant";
 NSString *const kDefaultDatasourceName = @"kDefaultDatasourceName";
 NSString *const kDefaultDatasourceProtocol = @"kDefaultDatasourceProtocol";
@@ -25,8 +30,7 @@ NSString *const kRecentlyOpenedDocumentsVersion = @"kRecentlyOpenedDocumentsVers
 NSString *const kRecentSearches = @"kRecentSearches";
 NSString *const kShouldDimmDisplay = @"kShouldDimmDisplay";
 NSString *const kMinimalRecentSearches = @"kMinimalRecentSearches";
-int const kMinimalRecentSearchesVersion = 3;
-int const kMinimalRecentDocumentsVersion = 2;
+NSString *const kMinimalLibrariesCacheVersion = @"kMinimalLibrariesCacheVersion";
 
 #pragma mark - types keys
 

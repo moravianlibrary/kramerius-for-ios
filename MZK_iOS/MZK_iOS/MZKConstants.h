@@ -31,6 +31,10 @@ typedef NS_ENUM(NSInteger, MZKModel) {
 };
 
 @interface MZKConstants : NSObject
+extern int const kMinimalRecentSearchesVersion;
+extern int const kMinimalRecentDocumentsVersion;
+extern int const kMinimalLibrariesCacheVersionNumber;
+
 #pragma mark - NSUserDefaults keys
 extern NSString *const kDefaultDatasourceName;
 extern NSString *const kDefaultDatasourceProtocol;
@@ -46,8 +50,8 @@ extern NSString *const kRecentlyOpenedDocumentsVersion;
 extern NSString *const kRecentSearches;
 extern NSString *const kShouldDimmDisplay;
 extern NSString *const kMinimalRecentSearches;
-extern int const kMinimalRecentSearchesVersion;
-extern int const kMinimalRecentDocumentsVersion;
+
+extern NSString *const kMinimalLibrariesCacheVersion;
 
 #pragma mark - types keys
 extern NSString *const kTrack;

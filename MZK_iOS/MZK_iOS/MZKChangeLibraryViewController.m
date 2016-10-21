@@ -12,11 +12,15 @@
 #import "MZKConstants.h"
 #import "AppDelegate.h"
 #import <Google/Analytics.h>
+#import "MZKDatasource.h"
+#import "NSString+MD5.h"
 
-@interface MZKChangeLibraryViewController ()<UITableViewDataSource, UITableViewDelegate>{
+@interface MZKChangeLibraryViewController ()<UITableViewDataSource, UITableViewDelegate, DataLoadedDelegate>{
     
     NSArray *_libraries;
     MZKLibraryItem *_selectedLibrary;
+    MZKDatasource *_datasource;
+    
     
 
 }
@@ -39,11 +43,14 @@
     [super viewDidLoad];
     _libraries = [self createDataForLibraries];
     
+   // [self downloadJsonFromServer];
+   // [self loadJSONFileFromLocal];
+
+    
     self.title = self.navigationController.tabBarItem.title;
     
     [self initGoogleAnalytics];
     
-    [self loadJSONFileFromLocal];
     
     // highlight default library
     NSIndexPath* selectedCellIndexPath= [self getSelectedIndexPath];
@@ -215,6 +222,14 @@
     cell.libraryURL.text = tmpItem.stringURL;
     cell.libraryIcon.image = [UIImage imageNamed:tmpItem.imageName];
     
+//    NSString *hash = [tmpItem.code MD5];
+//    NSMutableString *s = [tmpItem.libraryURL mutableCopy];
+//    [s appendFormat:@"/assets/logo_%@-%@.png", tmpItem.code, hash];
+//    
+//    NSURL *finalUrl = [NSURL URLWithString:s];
+//    
+//    NSLog(@"final URL:%@", [finalUrl absoluteString]);
+    
     return cell;
 }
 
@@ -247,16 +262,69 @@
     _selectedLibrary = item;
 }
 
--(void)loadJSONFileFromLocal
+-(NSArray *)loadJSONFileFromLocal
 {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"libraries" ofType:@"json"];
     NSData* data = [NSData dataWithContentsOfFile:filePath];
     NSError* error = nil;
     NSArray *result = [NSJSONSerialization JSONObjectWithData:data
                                                 options:kNilOptions error:&error];
+    
+    NSMutableArray *librariesArray = [NSMutableArray new];
     if (!error && result) {
-        
+        for (NSDictionary *lib in result) {
+            if ([[lib objectForKey:@"ios"] integerValue] >=2) {
+                MZKLibraryItem *item = [MZKLibraryItem new];
+                item.libID = [[lib objectForKey:@"id"] integerValue];
+                item.name = [lib objectForKey:@"name"];
+                item.code = [lib objectForKey:@"code"];
+                item.version = [lib objectForKey:@"version"];
+                item.libraryURL = [lib objectForKey:@"library_url"];
+                [librariesArray addObject:item];
+                NSLog(@"Library added");
+            }
+           
+            
+            
+        }
+
+    }
+    
+    return [librariesArray copy];
+}
+
+-(void)downloadJsonFromServer
+{
+    // download json from server
+    // save json
+    
+    _datasource = [MZKDatasource new];
+    _datasource.delegate = self;
+    [_datasource getLibraries];
+ 
+}
+
+#pragma mark - data loaded delegate methods
+-(void)librariesLoaded:(NSArray *)results
+{
+    
+    _libraries = results;
+    [self.tableView reloadData];
+    
+}
+
+// error states
+-(void)downloadFailedWithError:(NSError *)error
+{
+    if([error.domain isEqualToString:NSURLErrorDomain])
+    {
+        // load from cache;
+        // inform user that there is problem with connection
+        _libraries = [self loadJSONFileFromLocal];
+        [self.tableView reloadData];
     }
 }
+
+
 
 @end

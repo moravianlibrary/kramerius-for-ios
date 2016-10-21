@@ -44,6 +44,7 @@
 		2D47472F1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */; };
 		2D4747321D4684BD00D6F5F8 /* MZKSearchHistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4747311D4684BD00D6F5F8 /* MZKSearchHistoryItem.m */; };
 		2D58E8F61BA57BAC000D444C /* MZKCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */; };
+		2D5BB44F1DBA267D001EAB35 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5BB44E1DBA267D001EAB35 /* NSString+MD5.m */; };
 		2D665DBD1B02927500B11765 /* MZKDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBC1B02927500B11765 /* MZKDetailViewController.m */; };
 		2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */; };
 		2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D78B2961C200DC0004341DA /* MZKAboutViewController.m */; };
@@ -155,6 +156,8 @@
 		2D4747311D4684BD00D6F5F8 /* MZKSearchHistoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKSearchHistoryItem.m; path = ../MZKSearchHistoryItem.m; sourceTree = "<group>"; };
 		2D58E8F41BA57BAC000D444C /* MZKCollectionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionTableViewCell.h; sourceTree = "<group>"; };
 		2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionTableViewCell.m; sourceTree = "<group>"; };
+		2D5BB44D1DBA267D001EAB35 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		2D5BB44E1DBA267D001EAB35 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		2D665DBB1B02927500B11765 /* MZKDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKDetailViewController.h; path = ../MZKDetailViewController.h; sourceTree = "<group>"; };
 		2D665DBC1B02927500B11765 /* MZKDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKDetailViewController.m; path = ../MZKDetailViewController.m; sourceTree = "<group>"; };
 		2D665DBE1B03D98C00B11765 /* MZKCollectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionsViewController.h; sourceTree = "<group>"; };
@@ -406,6 +409,8 @@
 				2DD5839D1B6FA0BA001ED3B3 /* XMLParser */,
 				2D89DB7A1B5E57DA00E69119 /* OpenLayers */,
 				2DB8A7981ACD073400A1BB2E /* AppDelegate.h */,
+				2D5BB44D1DBA267D001EAB35 /* NSString+MD5.h */,
+				2D5BB44E1DBA267D001EAB35 /* NSString+MD5.m */,
 				2DB8A7991ACD073400A1BB2E /* AppDelegate.m */,
 				2DB88C1A1C15B0E900AC7070 /* GoogleService-Info.plist */,
 				2DA030501C0A002800B7759B /* MZKBaseViewController.h */,
@@ -684,6 +689,7 @@
 				2DD583A01B6FA0BA001ED3B3 /* XMLReader.m in Sources */,
 				2D24F0701B7387E40073FC83 /* MZKChangeLibraryViewController.m in Sources */,
 				2D13D5671C3FC6AD00DB4190 /* MZKDetailInformationModel.m in Sources */,
+				2D5BB44F1DBA267D001EAB35 /* NSString+MD5.m in Sources */,
 				2D33C3571C2819E9002BA7D1 /* MZKSettingsViewController.m in Sources */,
 				2DB8A7971ACD073400A1BB2E /* main.m in Sources */,
 				2D2505C71AFE08C30079F70E /* MZKItemTableViewCell.m in Sources */,

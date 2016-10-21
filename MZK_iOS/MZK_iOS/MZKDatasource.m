@@ -29,6 +29,7 @@ enum _downloadOperation{
     search,
     searchHints,
     searchFullResults,
+    libraries,
 };
 typedef enum _downloadOperation downloadOperation;
 
@@ -261,6 +262,19 @@ if (self) {
 
     
     [self downloadDataFromURL:url withOperation:search];
+}
+
+-(void)getLibraries
+{
+    // dedicated url for getting libraries
+    // response as JSON
+    // implement caching mechanism (when app is offline show the cached list)
+    // refresh list of libraries after every start of the app...
+    
+    NSString *defaultURL = @"http://registrkrameriu.mzk.cz/libraries.json";
+ 
+    [self downloadDataFromURL:[NSURL URLWithString:defaultURL] withOperation:libraries];
+
 }
 
 #pragma mark - privateMethods
@@ -670,6 +684,43 @@ if (self) {
     return [results copy];
 }
 
+-(void)parseJSONDataForLibraries:(NSData *)data error:(NSError *)error
+{
+    NSError *localError = nil;
+    NSArray *result = [NSJSONSerialization JSONObjectWithData:data
+                                                      options:kNilOptions error:&error];
+    
+    if (localError != nil) {
+        error = localError;
+    }
+    
+    NSMutableArray *librariesArray = [NSMutableArray new];
+    if (!error && result) {
+        for (NSDictionary *lib in result) {
+            if ([[lib objectForKey:@"ios"] integerValue] >=2) {
+                MZKLibraryItem *item = [MZKLibraryItem new];
+                item.libID = [[lib objectForKey:@"id"] integerValue];
+                item.name = [lib objectForKey:@"name"];
+                item.code = [lib objectForKey:@"code"];
+                item.version = [lib objectForKey:@"version"];
+                item.libraryURL = [lib objectForKey:@"library_url"];
+                [librariesArray addObject:item];
+                NSLog(@"Library added");
+            }
+            
+            
+            
+        }
+        
+    }
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+
+    if ([self.delegate respondsToSelector:@selector(librariesLoaded:)]) {
+        [self.delegate librariesLoaded:[librariesArray copy]];
+    }
+    
+}
 
 -(MZKItemResource *)parseObjectFromDictionary:(NSDictionary *)rawData
 {
@@ -813,6 +864,9 @@ if (self) {
                         case searchFullResults:
                             [wealf parseJSONdataForSearch:data error:error];
                             break;
+                            
+                            case libraries:
+                            [wealf parseJSONDataForLibraries:data error:error];
                             
                         default:
                             break;

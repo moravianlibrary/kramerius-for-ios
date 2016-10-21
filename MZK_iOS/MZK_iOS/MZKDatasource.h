@@ -14,6 +14,7 @@
 @protocol DataLoadedDelegate <NSObject>
 
 @optional
+// successfull states
 -(void)dataLoaded:(NSArray*)data withKey:(NSString *)key;
 -(void)detailForItemLoaded:(MZKItemResource *)item;
 -(void)pagesLoadedForItem:(NSArray *)pages;
@@ -22,9 +23,11 @@
 -(void)collectionItemsLoaded:(NSArray *)collectionItems withNumberOfItems:(NSInteger)numberOfItems;
 -(void)childrenForItemLoaded:(NSArray *)items;
 -(void)searchResultsLoaded:(NSArray *)results;
--(void)downloadFailedWithError:(NSError *)error;
 -(void)searchHintsLoaded:(NSArray *)results;
+-(void)librariesLoaded:(NSArray *)results;
 
+// error states
+-(void)downloadFailedWithError:(NSError *)error;
 @end
 
 @interface MZKDatasource : NSObject
@@ -34,7 +37,7 @@
 @property (nonatomic, weak) __weak id<DataLoadedDelegate> delegate;
 @property (nonatomic, strong) NSString *baseStringURL;
 
-
+// get methos
 -(void)getItem:(NSString *)pid;
 -(void)getChildrenForItem:(NSString *)pid;
 -(void)getSiblingsForItem:(NSString *)pid;
@@ -50,7 +53,6 @@
 -(void)getSearchResults:(NSString *)searchString;
 -(void)getSearchResultsAsHints:(NSString *)searchString;
 -(void)getFullSearchResults:(NSString *)searchString;
-
-
+-(void)getLibraries;
 
 @end
