@@ -5,7 +5,7 @@ source 'https://github.com/Fiser33/iOSTiledViewerSpec.git'
 
 target 'MZK_iOS' do
 use_frameworks!
-pod 'SDWebImage', '~>3.8'
+pod 'SDWebImage'
 pod 'AFNetworking', '~> 2.0'
 pod 'Google/Analytics'
 pod 'CocoaLumberjack'

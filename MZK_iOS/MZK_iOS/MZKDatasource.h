@@ -55,4 +55,6 @@
 -(void)getFullSearchResults:(NSString *)searchString;
 -(void)getLibraries;
 
+-(id)init;
+
 @end

@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		2D009CD51BAAE52E0042021D /* MZKCollectionItemResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D009CD41BAAE52E0042021D /* MZKCollectionItemResource.m */; };
 		2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D02A4611B0624C100D51B0C /* MZKPageObject.m */; };
+		2D0DD5701DD0A0E100C0E3A8 /* HTTPStatusCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DD56E1DD0A0E100C0E3A8 /* HTTPStatusCodes.swift */; };
+		2D0DD5711DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DD56F1DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift */; };
+		2D113CB11DC0D7780042B9ED /* MZKPageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D113CB01DC0D7780042B9ED /* MZKPageDetailViewController.swift */; };
+		2D113CB31DC0DC4A0042B9ED /* MZKPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D113CB21DC0DC4A0042B9ED /* MZKPageViewController.swift */; };
 		2D13D54A1C3E66BD00DB4190 /* inst.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D5471C3E66BD00DB4190 /* inst.sql */; };
 		2D13D54B1C3E66BD00DB4190 /* languages.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D5481C3E66BD00DB4190 /* languages.sql */; };
 		2D13D54C1C3E66BD00DB4190 /* relators.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D5491C3E66BD00DB4190 /* relators.sql */; };
@@ -47,6 +51,7 @@
 		2D5BB44F1DBA267D001EAB35 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5BB44E1DBA267D001EAB35 /* NSString+MD5.m */; };
 		2D665DBD1B02927500B11765 /* MZKDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBC1B02927500B11765 /* MZKDetailViewController.m */; };
 		2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */; };
+		2D782BFE1DC9E4200086323E /* MZKDetailManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */; };
 		2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D78B2961C200DC0004341DA /* MZKAboutViewController.m */; };
 		2D8BB7C71BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D8BB7C61BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m */; };
 		2D9150F21C82F4C200AD380F /* MyURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9150F11C82F4C200AD380F /* MyURLProtocol.m */; };
@@ -97,6 +102,11 @@
 		2D009CD41BAAE52E0042021D /* MZKCollectionItemResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKCollectionItemResource.m; path = ../MZKCollectionItemResource.m; sourceTree = "<group>"; };
 		2D02A4601B0624C100D51B0C /* MZKPageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKPageObject.h; path = ../MZKPageObject.h; sourceTree = "<group>"; };
 		2D02A4611B0624C100D51B0C /* MZKPageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKPageObject.m; path = ../MZKPageObject.m; sourceTree = "<group>"; };
+		2D0DD56E1DD0A0E100C0E3A8 /* HTTPStatusCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatusCodes.swift; sourceTree = "<group>"; };
+		2D0DD56F1DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HTTPStatusCodes+Extensions.swift"; sourceTree = "<group>"; };
+		2D0F65451DD5C5E900CEC252 /* MZK_iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MZK_iOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		2D113CB01DC0D7780042B9ED /* MZKPageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKPageDetailViewController.swift; sourceTree = "<group>"; };
+		2D113CB21DC0DC4A0042B9ED /* MZKPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKPageViewController.swift; sourceTree = "<group>"; };
 		2D13D5471C3E66BD00DB4190 /* inst.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = inst.sql; sourceTree = "<group>"; };
 		2D13D5481C3E66BD00DB4190 /* languages.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = languages.sql; sourceTree = "<group>"; };
 		2D13D5491C3E66BD00DB4190 /* relators.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = relators.sql; sourceTree = "<group>"; };
@@ -162,6 +172,7 @@
 		2D665DBC1B02927500B11765 /* MZKDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKDetailViewController.m; path = ../MZKDetailViewController.m; sourceTree = "<group>"; };
 		2D665DBE1B03D98C00B11765 /* MZKCollectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionsViewController.h; sourceTree = "<group>"; };
 		2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionsViewController.m; sourceTree = "<group>"; };
+		2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKDetailManagerViewController.swift; sourceTree = "<group>"; };
 		2D78B2951C200DC0004341DA /* MZKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKAboutViewController.h; sourceTree = "<group>"; };
 		2D78B2961C200DC0004341DA /* MZKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKAboutViewController.m; sourceTree = "<group>"; };
 		2D8BB7C51BCE3FC4008E53A1 /* MZKItemCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKItemCollectionViewCell.h; sourceTree = "<group>"; };
@@ -260,6 +271,9 @@
 				2DAB71A21D803A6300765AF7 /* MZKDetailPageViewController.h */,
 				2DAB71A31D803A6300765AF7 /* MZKDetailPageViewController.m */,
 				2DAB71A71D803E2700765AF7 /* MZKDetail.storyboard */,
+				2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */,
+				2D113CB21DC0DC4A0042B9ED /* MZKPageViewController.swift */,
+				2D113CB01DC0D7780042B9ED /* MZKPageDetailViewController.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -366,6 +380,8 @@
 		2DB5E44B1CB25CF300C90D36 /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
+				2D0DD56E1DD0A0E100C0E3A8 /* HTTPStatusCodes.swift */,
+				2D0DD56F1DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift */,
 				2DD1B9EF1D9E42D4004011FC /* UINavigationBar+CustomHeight.h */,
 				2DD1B9F01D9E42D4004011FC /* UINavigationBar+CustomHeight.m */,
 				2DB5E44C1CB25CF300C90D36 /* UIImageView+ProgressView.h */,
@@ -443,6 +459,7 @@
 				2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */,
 				2D47472D1D467E4B00D6F5F8 /* MZKSearchTableViewCell.h */,
 				2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */,
+				2D0F65451DD5C5E900CEC252 /* MZK_iOS-Bridging-Header.h */,
 			);
 			path = MZK_iOS;
 			sourceTree = "<group>";
@@ -651,6 +668,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D782BFE1DC9E4200086323E /* MZKDetailManagerViewController.swift in Sources */,
 				2D009CD51BAAE52E0042021D /* MZKCollectionItemResource.m in Sources */,
 				2DB8A79A1ACD073400A1BB2E /* AppDelegate.m in Sources */,
 				2DE387631AE526AB00A2004E /* MZKDatasource.m in Sources */,
@@ -669,6 +687,8 @@
 				2D41FF051C3BBFE50087F22E /* MZKDatabaseManager.m in Sources */,
 				2D91512C1C873D2C00AD380F /* MZKDetailInformationTableViewCell.m in Sources */,
 				2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */,
+				2D0DD5701DD0A0E100C0E3A8 /* HTTPStatusCodes.swift in Sources */,
+				2D113CB11DC0D7780042B9ED /* MZKPageDetailViewController.swift in Sources */,
 				2DD1B9EE1D9D4AE0004011FC /* MZKNavigationViewController.m in Sources */,
 				2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */,
 				2D409B7B1B8B4C8B00B49EAD /* MZKLibraryItem.m in Sources */,
@@ -689,12 +709,14 @@
 				2DD583A01B6FA0BA001ED3B3 /* XMLReader.m in Sources */,
 				2D24F0701B7387E40073FC83 /* MZKChangeLibraryViewController.m in Sources */,
 				2D13D5671C3FC6AD00DB4190 /* MZKDetailInformationModel.m in Sources */,
+				2D113CB31DC0DC4A0042B9ED /* MZKPageViewController.swift in Sources */,
 				2D5BB44F1DBA267D001EAB35 /* NSString+MD5.m in Sources */,
 				2D33C3571C2819E9002BA7D1 /* MZKSettingsViewController.m in Sources */,
 				2DB8A7971ACD073400A1BB2E /* main.m in Sources */,
 				2D2505C71AFE08C30079F70E /* MZKItemTableViewCell.m in Sources */,
 				2DAB71A11D802F0000765AF7 /* MZKDetailManagerViewController.m in Sources */,
 				2DAB71A51D803A6300765AF7 /* MZKDetailPageViewController.m in Sources */,
+				2D0DD5711DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift in Sources */,
 				2D41FEF81C3B03460087F22E /* MZKDetailInformationDataSource.m in Sources */,
 				2DA030521C0A002800B7759B /* MZKBaseViewController.m in Sources */,
 				2D2505CA1AFE721A0079F70E /* MZKDomainItem.m in Sources */,
@@ -815,6 +837,7 @@
 			baseConfigurationReference = E2EE3763628F98B9EBD3EA02 /* Pods-MZK_iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -824,6 +847,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cz.mzk.ios.KRAMERIUS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "MZK_iOS/MZK_iOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -834,6 +859,7 @@
 			baseConfigurationReference = D0D2068D1D167091E6D27E4E /* Pods-MZK_iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -843,6 +869,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cz.mzk.ios.KRAMERIUS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "MZK_iOS/MZK_iOS-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

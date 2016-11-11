@@ -12,6 +12,7 @@
 #import "MZKChangeLibraryViewController.h"
 #import <Google/Analytics.h>
 #import "AFNetworkActivityIndicatorManager.h"
+#import "MZKTabBarMenuViewController.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong) NSMutableDictionary *recentlyOpenedDocumentsDictionary;
