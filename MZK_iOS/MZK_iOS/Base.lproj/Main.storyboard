@@ -697,7 +697,7 @@
         <!--Detail Information View Controller-->
         <scene sceneID="edK-Ko-f7v">
             <objects>
-                <viewController id="4uD-fM-Xk4" customClass="MZKDetailInformationViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MZKDetailInformationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4uD-fM-Xk4" customClass="MZKDetailInformationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="APp-NR-o1y"/>
                         <viewControllerLayoutGuide type="bottom" id="U1f-vF-oEG"/>
@@ -2077,7 +2077,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nhr-hI-Qkh" customClass="TTTAttributedLabel">
-                                        <rect key="frame" x="8" y="243" width="367" height="33"/>
+                                        <rect key="frame" x="8" y="243" width="367" height="32"/>
                                         <attributedString key="attributedText">
                                             <fragment content="Máte-li jakékoliv připomínky, otázky nebo nápady, kontaktujte nás prosím na developer@mzk.cz.">
                                                 <attributes>
@@ -2089,7 +2089,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNb-gZ-lI7" customClass="TTTAttributedLabel">
-                                        <rect key="frame" x="8" y="315" width="367" height="21"/>
+                                        <rect key="frame" x="8" y="314" width="367" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>

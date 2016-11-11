@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MZKBaseViewController.h"
+@class MZKBaseViewController;
+//#import "MZKBaseViewController.h"
 
-@interface MZKDetailInformationViewController : MZKBaseViewController
+@interface MZKDetailInformationViewController : UIViewController
 @property (nonatomic, strong) NSString *item;
 @property (nonatomic, strong) NSString *type;
 @property (weak, nonatomic) IBOutlet UILabel *model;

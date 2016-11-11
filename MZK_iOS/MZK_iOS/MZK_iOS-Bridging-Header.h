@@ -12,4 +12,4 @@
 #import "AppDelegate.h"
 #import "UIImageView+WebCache.h"
 #import "MZKPageDetailCollectionViewCell.h"
-
+#import "MZKDetailInformationViewController.h"

@@ -413,6 +413,7 @@
 		2DB8A7931ACD073400A1BB2E /* MZK_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2D0F65451DD5C5E900CEC252 /* MZK_iOS-Bridging-Header.h */,
 				2D79665B1DB6B11100891B94 /* Model */,
 				2D44DF3C1CB397BB001EF49F /* Menu */,
 				2DB5E44B1CB25CF300C90D36 /* 3rdParty */,
@@ -459,7 +460,6 @@
 				2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */,
 				2D47472D1D467E4B00D6F5F8 /* MZKSearchTableViewCell.h */,
 				2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */,
-				2D0F65451DD5C5E900CEC252 /* MZK_iOS-Bridging-Header.h */,
 			);
 			path = MZK_iOS;
 			sourceTree = "<group>";

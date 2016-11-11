@@ -76,11 +76,12 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         
         // MZKDetailInformationViewController
         
-//        let storyboard = UIStoryboard(name: "MZKDetail", bundle: nil)
-//        let controller = storyboard.instantiateViewController(withIdentifier: "MZKDetailInformationViewController") as! MZKDetailInformationViewController
-//        
-//        
-//        self.present(controller, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "MZKDetailInformationViewController") as! MZKDetailInformationViewController
+        controller.item = self.itemPID
+        
+        
+        self.present(controller, animated: true, completion: nil)
         
         
     }

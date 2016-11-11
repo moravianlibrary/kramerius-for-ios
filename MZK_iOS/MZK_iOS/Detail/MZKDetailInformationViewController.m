@@ -173,7 +173,7 @@
         return;
     }
     // nahradit lepsim errorem
-    [self showErrorWithCancelActionAndTitle:@"Problém v aplikaci" subtitle:@"Akci se nepodařilo dokončit."];
+   // [self showErrorWithCancelActionAndTitle:@"Problém v aplikaci" subtitle:@"Akci se nepodařilo dokončit."];
     
 }
 
