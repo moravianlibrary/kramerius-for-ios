@@ -24,6 +24,9 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     @IBOutlet weak var showThumbnailButton: UIButton!
     @IBOutlet weak var pageThumbnailsCollectionView: UICollectionView!
     // close can be used for initialize with params ...
+    @IBOutlet weak var topHideShow: UIButton!
+    @IBOutlet weak var bottomHideShow: UIButton!
+    
     lazy private var mzkDatasource : MZKDatasource = {
         return MZKDatasource()
     }()
@@ -31,30 +34,25 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     var itemPID:String!
     var pages:[MZKPageObject]!
     var childVC:MZKPageViewController!
+    var barsVisible:Bool = true
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
         self.loadPages(pid: itemPID)
         self.pageSlider.minimumValue = 0
         self.pageSlider.value = 0
         self.loadItem(pid: itemPID)
         
-        
-        //[self.pageSlider setMaxFractionDigitsDisplayed:0];
-        //self.slider.popUpViewColor = [UIColor colorWithHue:0.55 saturation:0.8 brightness:0.9 alpha:0.7];
-        //self.slider.font = [UIFont fontWithName:@"GillSans-Bold" size:22];
-        //self.slider.textColor = [UIColor colorWithHue:0.55 saturation:1.0 brightness:0.5 alpha:1];
+        barsVisible = true
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
+   
     // MARK Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if  segue.identifier == "ShowPageViewController"
@@ -70,12 +68,6 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     
     // MARK : actions
     @IBAction func onAction(_ sender: Any) {
-        self.topBarTopConstant.constant = -50
-        self.bottomBarBottomConstant.constant = -50
-        
-        UIView.animate(withDuration: 0.5) {
-            self.view.layoutIfNeeded()
-        }
         
     }
     @IBAction func onShowInformation(_ sender: Any) {
@@ -105,8 +97,35 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         childVC.goToPage(index: currentValue-1)
 
     }
+    
     @IBAction func pageSliderValueChanged(_ sender: Any) {
             }
+    
+    @IBAction func onShowHideBars(_ sender: Any) {
+        
+        if (barsVisible) {
+            //hide bars
+            self.topBarTopConstant.constant = -70
+            self.bottomBarBottomConstant.constant = -50
+            
+            
+        }
+        else
+        {
+            //show bars
+            
+            self.topBarTopConstant.constant = 0
+            self.bottomBarBottomConstant.constant = 0
+        }
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.view.layoutIfNeeded()
+        }, completion:  {(_) -> Void in
+            self.barsVisible = !self.barsVisible
+            self.bottomHideShow.isSelected = !self.barsVisible
+            self.topHideShow.isSelected = !self.barsVisible
+        })
+    }
     // MARK: - Loading of pages
     
     func loadItem(pid:String) ->()
@@ -242,9 +261,33 @@ extension MZKDetailManagerViewController : UICollectionViewDataSource
         
         return cell
     }
-    
-   
-
-    
 }
 
+
+// MARK convinience methods for rotating image
+//
+//extension Double {
+//    func toRadians() -> CGFloat {
+//        return CGFloat(self * .pi / 180.0)
+//    }
+//}
+//
+//extension UIImage {
+//    func rotated(by degrees: Double, flipped: Bool = false) -> UIImage? {
+//        guard let cgImage = self.cgImage else { return nil }
+//        
+//        let transform = CGAffineTransform(rotationAngle: degrees.toRadians())
+//        var rect = CGRect(origin: .zero, size: self.size).applying(transform)
+//        rect.origin = .zero
+//        
+//        let renderer = UIGraphicsImageRenderer(size: rect.size)
+//        return renderer.image { renderContext in
+//            renderContext.cgContext.translateBy(x: rect.midX, y: rect.midY)
+//            renderContext.cgContext.rotate(by: degrees.toRadians())
+//            renderContext.cgContext.scaleBy(x: flipped ? -1.0 : 1.0, y: -1.0)
+//            
+//            let drawRect = CGRect(origin: CGPoint(x: -self.size.width/2, y: -self.size.height/2), size: self.size)
+//            renderContext.cgContext.draw(cgImage, in: drawRect)
+//        }
+//    }
+//}
