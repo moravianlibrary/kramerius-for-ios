@@ -13,3 +13,5 @@
 #import "UIImageView+WebCache.h"
 #import "MZKPageDetailCollectionViewCell.h"
 #import "MZKDetailInformationViewController.h"
+#import "ASValuePopUpView.h"
+#import "ASValueTrackingSlider.h"

@@ -59,9 +59,8 @@ protocol PageIndexDelegate: class {
     override func viewDidLoad() {
         super.viewDidLoad()
         dataSource = self
-        delegate = self
         // dataSource = self set up from SB?
-        // delegate = self
+         delegate = self
         
     }
     
@@ -129,11 +128,27 @@ protocol PageIndexDelegate: class {
         return orderedViewControllers[previousIndex]
     }
     
+    private var pendingIndex: Int?
+    
+    func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [UIViewController]) {
+        pendingIndex = orderedViewControllers.index(of: orderedViewControllers.first!)
+    }
+    
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if completed {
+            currentIndex = pendingIndex
+        }
+    }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
         if finished {
             
+            if let firstViewController = viewControllers?.first,
+                let index = orderedViewControllers.index(of: firstViewController) {
+                pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: index+1)
+                currentIndex = pendingIndex
+            }
         }
     }
     
@@ -153,8 +168,7 @@ protocol PageIndexDelegate: class {
         
         for i in 1...pages.count
         {
-            print(i)
-            orderedViewControllers .append(newPageViewController(itemPID: pages[i-1].pid, index: i))
+           orderedViewControllers .append(newPageViewController(itemPID: pages[i-1].pid, index: i))
         }
         
         DispatchQueue.main.async (execute: { () -> Void in
@@ -183,15 +197,6 @@ protocol PageIndexDelegate: class {
     }
     
     
-    func pageViewController(pageViewController: UIPageViewController,
-                            didFinishAnimating finished: Bool,
-                            previousViewControllers: [UIViewController],
-                            transitionCompleted completed: Bool) {
-        if let firstViewController = viewControllers?.first,
-            let index = orderedViewControllers.index(of: firstViewController) {
-            pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: index)
-        }
-    }
     
     private func newPageViewController(itemPID: String, index: Int) -> UIViewController {
         
@@ -207,9 +212,18 @@ protocol PageIndexDelegate: class {
     public func goToPage(index: Int) {
         if index < orderedViewControllers.count {
             self.setViewControllers([orderedViewControllers[index]], direction: .forward, animated: true, completion: nil)
+            
+            if let firstViewController = viewControllers?.first,
+                let index = orderedViewControllers.index(of: firstViewController) {
+                pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: index+1)
+                currentIndex = pendingIndex
+            }
+
         }
     }
 
     
         
 }
+
+

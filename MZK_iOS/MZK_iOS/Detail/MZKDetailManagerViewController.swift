@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, PageIndexDelegate {
+class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, PageIndexDelegate, UIPageViewControllerDelegate {
     
     @IBOutlet weak var topBarTopConstant: NSLayoutConstraint!
     @IBOutlet weak var bottomBarBottomConstant: NSLayoutConstraint!
@@ -18,9 +18,10 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     @IBOutlet weak var currentPageNumber: UILabel!
     @IBOutlet weak var itemTitle: UILabel!
     @IBOutlet weak var pageThumbnails: UIButton!
-    @IBOutlet weak var pageSlider: UISlider!
+    @IBOutlet weak var pageSlider: ASValueTrackingSlider!
     @IBOutlet weak var pageThumbnailView: UIView!
     
+    @IBOutlet weak var showThumbnailButton: UIButton!
     @IBOutlet weak var pageThumbnailsCollectionView: UICollectionView!
     // close can be used for initialize with params ...
     lazy private var mzkDatasource : MZKDatasource = {
@@ -39,6 +40,13 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         self.loadPages(pid: itemPID)
         self.pageSlider.minimumValue = 0
         self.pageSlider.value = 0
+        self.loadItem(pid: itemPID)
+        
+        
+        //[self.pageSlider setMaxFractionDigitsDisplayed:0];
+        //self.slider.popUpViewColor = [UIColor colorWithHue:0.55 saturation:0.8 brightness:0.9 alpha:0.7];
+        //self.slider.font = [UIFont fontWithName:@"GillSans-Bold" size:22];
+        //self.slider.textColor = [UIColor colorWithHue:0.55 saturation:1.0 brightness:0.5 alpha:1];
     }
     
     override func didReceiveMemoryWarning() {
@@ -53,10 +61,8 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         {
             if let destinationVC = segue.destination as? MZKPageViewController {
                 destinationVC.itemPID = self.itemPID
-                // destinationVC.pagesLoadedDelegate = self
                 childVC = destinationVC
                 childVC.pageIndexDelegate = self
-                
                 self.addChildViewController(destinationVC)
             }
         }
@@ -80,38 +86,75 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         let controller = storyboard.instantiateViewController(withIdentifier: "MZKDetailInformationViewController") as! MZKDetailInformationViewController
         controller.item = self.itemPID
         
-        
         self.present(controller, animated: true, completion: nil)
-        
-        
     }
     
     @IBAction func onShowThumbnails(_ sender: Any) {
         pageThumbnailView.isHidden = !pageThumbnailView.isHidden
-        
+        self.showThumbnailButton.isSelected = !pageThumbnailView.isHidden
     }
+    
     @IBAction func onClose(_ sender: Any) {
         
         self.presentingViewController?.dismiss(animated: true, completion:nil)
     }
+    
+    @IBAction func onSliderValueChanged(_ sender: Any) {
+        let currentValue = Int((sender as! UISlider).value)
+        print("Hodnota: \(currentValue)")
+        childVC.goToPage(index: currentValue-1)
+
+    }
+    @IBAction func pageSliderValueChanged(_ sender: Any) {
+            }
     // MARK: - Loading of pages
+    
+    func loadItem(pid:String) ->()
+    {
+        mzkDatasource.delegate = self
+        mzkDatasource.getItem(pid)
+    }
     
     func loadPages(pid:String) -> () {
         mzkDatasource.delegate = self
         mzkDatasource .getChildrenForItem(pid)
     }
     
-    
     func children(forItemLoaded items: [Any]!) {
         pages = items as! [MZKPageObject]!
         childVC .pagesLoaded(pages: pages)
         
-        
         DispatchQueue.main.async (execute: { () -> Void in
-            self.currentPageNumber.text = "\(self.childVC.currentIndex)/\(self.pages.count)"
+            self.pageSlider.minimumValue=1
+            self.pageSlider.maximumValue = Float(self.pages.count)
+            self.pageSlider.value = 1
+            
+            var startIndex = 1
+            
+            self.currentPageNumber.text = "\(startIndex as Int)/\(self.pages.count)"
             self.pageThumbnailsCollectionView.reloadData()
+            self.setupSlider()
             
         })
+    }
+    
+    func detail(forItemLoaded item: MZKItemResource!) {
+        DispatchQueue.main.async (execute: { () -> Void in
+            self.itemTitle.text = item.title
+            // reuse this item ...
+        })
+    }
+    
+    func setupSlider() -> ()
+    {
+        self.pageSlider.popUpViewCornerRadius = 6.0;
+        self.pageSlider .setMaxFractionDigitsDisplayed(0)
+        self.pageSlider.popUpViewColor = UIColor.init(colorLiteralRed: 0, green: 118/255, blue: 255/255, alpha: 0.8)
+        self.pageSlider.font = UIFont.systemFont(ofSize: 22)
+        self.pageSlider.textColor = UIColor.black
+        self.pageSlider.tintColor = self.pageSlider.popUpViewColor
+        self.pageSlider.minimumTrackTintColor = self.pageSlider.popUpViewColor
+ 
     }
     
     // MARK other methods
@@ -140,7 +183,9 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     {
         DispatchQueue.main.async (execute: { () -> Void in
             self.currentPageNumber.text = "\(index)/\(self.pages.count)"
-            
+            self.pageSlider.minimumValue=1
+            self.pageSlider.maximumValue = Float(self.pages.count)
+            self.pageSlider.value = Float(index)
         })
         
     }
@@ -150,7 +195,6 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
             childVC.goToPage(index: index)
         }
     }
-    
 }
 
 extension MZKDetailManagerViewController : UICollectionViewDelegate
@@ -160,13 +204,10 @@ extension MZKDetailManagerViewController : UICollectionViewDelegate
         self.goToPage(index: indexPath.row)
         self .onShowThumbnails(Any.self)
     }
-    
-    
 }
 
 extension MZKDetailManagerViewController : UICollectionViewDataSource
 {
-    
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
