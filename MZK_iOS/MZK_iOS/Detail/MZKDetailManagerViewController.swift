@@ -27,12 +27,23 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     @IBOutlet weak var topHideShow: UIButton!
     @IBOutlet weak var bottomHideShow: UIButton!
     
-    lazy private var mzkDatasource : MZKDatasource = {
+    @IBOutlet weak var createBookmark: UIButton!
+    @IBOutlet weak var showBookmarks: UIButton!
+    @IBOutlet weak var bookmarkContainer: UIView!
+    @IBOutlet weak var bookmarkTableView: UITableView!
+    @IBOutlet weak var bookmarkContainerLeadingConstraint: NSLayoutConstraint!
+    
+    lazy fileprivate var mzkDatasource : MZKDatasource = {
         return MZKDatasource()
+    }()
+    
+    lazy fileprivate var bookmarkDatasource : MZKBookmarkDatasource = {
+        return MZKBookmarkDatasource()
     }()
     
     var itemPID:String!
     var pages:[MZKPageObject]!
+    var bookmarks:[MZKBookmark]!
     var childVC:MZKPageViewController!
     var barsVisible:Bool = true
     
@@ -40,19 +51,24 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.loadPages(pid: itemPID)
+        self.loadPages(itemPID)
         self.pageSlider.minimumValue = 0
         self.pageSlider.value = 0
-        self.loadItem(pid: itemPID)
+        self.loadItem(itemPID)
+        showBookmarks.isEnabled = false
         
         barsVisible = true
+        bookmarkContainerLeadingConstraint.constant = -bookmarkContainer.frame.size.width
+        
+      //  bookmarkTableView.register(MZKBookmarkTableViewCell.self, forCellReuseIdentifier: "MZKBookmarkTableViewCell")
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-   
+    
     // MARK Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if  segue.identifier == "ShowPageViewController"
@@ -67,9 +83,6 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     }
     
     // MARK : actions
-    @IBAction func onAction(_ sender: Any) {
-        
-    }
     @IBAction func onShowInformation(_ sender: Any) {
         
         // MZKDetailInformationViewController
@@ -94,12 +107,12 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     @IBAction func onSliderValueChanged(_ sender: Any) {
         let currentValue = Int((sender as! UISlider).value)
         print("Hodnota: \(currentValue)")
-        childVC.goToPage(index: currentValue-1)
-
+        childVC.goToPage(currentValue-1)
+        
     }
     
     @IBAction func pageSliderValueChanged(_ sender: Any) {
-            }
+    }
     
     @IBAction func onShowHideBars(_ sender: Any) {
         
@@ -126,22 +139,78 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
             self.topHideShow.isSelected = !self.barsVisible
         })
     }
+    
+    @IBAction func onCreateBookmark(_ sender: Any) {
+        
+        // MARK: - Creates new bookmark for current page
+        let bookmark:MZKBookmark = MZKBookmark()
+        bookmark.parentPID = itemPID
+        bookmark.pagePID = childVC.currentPagePID
+        bookmark.pageIndex = "\(childVC.currentIndex)"
+        
+        // current date
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        
+        bookmark.dateCreated = formatter.string(from: date)
+        
+        bookmarkDatasource.addBookmark(bookmark)
+        
+        bookmarks = bookmarkDatasource.getBookmarks(bookmark.parentPID)
+        
+        print("Bookmarks count: \(bookmarks.count)")
+        
+        // rreload bookmarks
+        self.bookmarkTableView.reloadData()
+        setupBookmarkViews()
+        
+    }
+    
+    @IBAction func onShowBookmarks(_ sender: Any) {
+        self.bookmarkTableView.reloadData()
+        
+        
+        if (bookmarkContainerLeadingConstraint.constant == 0)
+        {
+            bookmarkContainerLeadingConstraint.constant = -bookmarkContainer.frame.size.width
+            self.showBookmarks.isSelected = false
+        }
+        else
+        {
+            bookmarkContainerLeadingConstraint.constant = 0
+            self.showBookmarks.isSelected = true
+        }
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.view.layoutIfNeeded()
+        }, completion:  {(_) -> Void in
+            
+            if(self.bookmarkContainerLeadingConstraint.constant == 0)
+            {
+                self.bookmarkContainer.isHidden = true
+            }
+            
+        })
+        
+        
+    }
     // MARK: - Loading of pages
     
-    func loadItem(pid:String) ->()
+    func loadItem(_ pid:String) ->()
     {
         mzkDatasource.delegate = self
         mzkDatasource.getItem(pid)
     }
     
-    func loadPages(pid:String) -> () {
+    func loadPages(_ pid:String) -> () {
         mzkDatasource.delegate = self
         mzkDatasource .getChildrenForItem(pid)
     }
     
     func children(forItemLoaded items: [Any]!) {
         pages = items as! [MZKPageObject]!
-        childVC .pagesLoaded(pages: pages)
+        childVC .pagesLoaded(pages)
         
         DispatchQueue.main.async (execute: { () -> Void in
             self.pageSlider.minimumValue=1
@@ -153,6 +222,9 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
             self.currentPageNumber.text = "\(startIndex as Int)/\(self.pages.count)"
             self.pageThumbnailsCollectionView.reloadData()
             self.setupSlider()
+            self.bookmarks = self.bookmarkDatasource.getBookmarks(self.itemPID)
+            self.setupBookmarkViews()
+            self.bookmarkTableView.reloadData()
             
         })
     }
@@ -173,7 +245,19 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         self.pageSlider.textColor = UIColor.black
         self.pageSlider.tintColor = self.pageSlider.popUpViewColor
         self.pageSlider.minimumTrackTintColor = self.pageSlider.popUpViewColor
- 
+        
+    }
+    
+    func setupBookmarkViews() -> Void
+    {
+        if(bookmarks != nil)
+        {
+            if (bookmarks.count > 0)
+            {
+                showBookmarks.isEnabled = true
+            }
+        }
+        
     }
     
     // MARK other methods
@@ -185,11 +269,10 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
      - parameter tutorialPageViewController: the TutorialPageViewController instance
      - parameter count: the total number of pages.
      */
-    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate,
-                           didUpdatePageCount count: Int)
-    {
-        
-    }
+    
+    //    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate, didUpdatePageIndex index: Int) {
+    //
+    //    }
     
     /**
      Called when the current index is updated.
@@ -197,8 +280,7 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
      - parameter tutorialPageViewController: the TutorialPageViewController instance
      - parameter index: the index of the currently visible page.
      */
-    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate,
-                           didUpdatePageIndex index: Int)
+    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate, didUpdatePageIndex index: Int)
     {
         DispatchQueue.main.async (execute: { () -> Void in
             self.currentPageNumber.text = "\(index)/\(self.pages.count)"
@@ -209,9 +291,9 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         
     }
     
-    public func goToPage(index: Int) {
+    open func goToPage(_ index: Int) {
         if index < pages.count {
-            childVC.goToPage(index: index)
+            childVC.goToPage(index)
         }
     }
 }
@@ -220,7 +302,7 @@ extension MZKDetailManagerViewController : UICollectionViewDelegate
 {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        self.goToPage(index: indexPath.row)
+        self.goToPage(indexPath.row)
         self .onShowThumbnails(Any.self)
     }
 }
@@ -263,31 +345,33 @@ extension MZKDetailManagerViewController : UICollectionViewDataSource
     }
 }
 
+extension MZKDetailManagerViewController : UITableViewDelegate
+{
+    
+}
 
-// MARK convinience methods for rotating image
-//
-//extension Double {
-//    func toRadians() -> CGFloat {
-//        return CGFloat(self * .pi / 180.0)
-//    }
-//}
-//
-//extension UIImage {
-//    func rotated(by degrees: Double, flipped: Bool = false) -> UIImage? {
-//        guard let cgImage = self.cgImage else { return nil }
-//        
-//        let transform = CGAffineTransform(rotationAngle: degrees.toRadians())
-//        var rect = CGRect(origin: .zero, size: self.size).applying(transform)
-//        rect.origin = .zero
-//        
-//        let renderer = UIGraphicsImageRenderer(size: rect.size)
-//        return renderer.image { renderContext in
-//            renderContext.cgContext.translateBy(x: rect.midX, y: rect.midY)
-//            renderContext.cgContext.rotate(by: degrees.toRadians())
-//            renderContext.cgContext.scaleBy(x: flipped ? -1.0 : 1.0, y: -1.0)
-//            
-//            let drawRect = CGRect(origin: CGPoint(x: -self.size.width/2, y: -self.size.height/2), size: self.size)
-//            renderContext.cgContext.draw(cgImage, in: drawRect)
-//        }
-//    }
-//}
+extension MZKDetailManagerViewController : UITableViewDataSource
+{
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (bookmarks != nil)
+        {
+            return bookmarks.count
+        }
+        
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MZKBookmarkTableViewCell", for: indexPath) as! MZKBookmarkTableViewCell
+        let bookmark = bookmarks[indexPath.row]
+        
+        cell.bookmarkLabel.text = "Zalozka na strane: \(bookmark.pageIndex)"
+        
+        return cell
+    }
+}

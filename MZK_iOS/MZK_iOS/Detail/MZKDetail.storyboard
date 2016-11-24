@@ -72,7 +72,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v49-6n-5Pj">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v49-6n-5Pj" userLabel="i">
                                         <rect key="frame" x="332" y="24" width="25" height="25"/>
                                         <state key="normal" image="info_outline_g"/>
                                         <state key="selected" image="info_outline_b"/>
@@ -81,12 +81,30 @@
                                             <action selector="onShowInformation:" destination="eva-nw-erY" eventType="touchUpInside" id="bHq-Xw-7Kc"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fc6-wI-BVA">
+                                        <rect key="frame" x="299" y="24" width="25" height="25"/>
+                                        <state key="normal" image="BookmarkRibbon"/>
+                                        <state key="selected" image="BookmarkRibbon_B"/>
+                                        <connections>
+                                            <action selector="onCreateBookmark:" destination="eva-nw-erY" eventType="touchUpInside" id="TfS-xh-iif"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTk-OO-hP2">
+                                        <rect key="frame" x="40" y="24" width="25" height="25"/>
+                                        <state key="normal" image="BookmarkMenu"/>
+                                        <state key="selected" image="BookmarkMenu_b"/>
+                                        <connections>
+                                            <action selector="onShowBookmarks:" destination="eva-nw-erY" eventType="touchUpInside" id="jgy-UB-L0o"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="ZSY-uK-czU" firstAttribute="centerX" secondItem="uIM-ur-Q7B" secondAttribute="centerX" id="2Vo-PD-Aiy"/>
                                     <constraint firstItem="A6d-ZH-ZtH" firstAttribute="top" secondItem="uIM-ur-Q7B" secondAttribute="top" constant="20" id="EjX-OP-C47"/>
+                                    <constraint firstItem="v49-6n-5Pj" firstAttribute="leading" secondItem="Fc6-wI-BVA" secondAttribute="trailing" constant="8" id="FSW-9y-i9F"/>
                                     <constraint firstItem="ZSY-uK-czU" firstAttribute="top" secondItem="uIM-ur-Q7B" secondAttribute="top" constant="30" id="HF8-GG-RRq"/>
                                     <constraint firstItem="A6d-ZH-ZtH" firstAttribute="leading" secondItem="uIM-ur-Q7B" secondAttribute="leading" constant="8" id="Mt7-uc-gim"/>
+                                    <constraint firstItem="xTk-OO-hP2" firstAttribute="top" secondItem="uIM-ur-Q7B" secondAttribute="top" constant="24" id="SWw-fC-jr1"/>
                                     <constraint firstItem="5xT-Og-VRW" firstAttribute="top" secondItem="uIM-ur-Q7B" secondAttribute="top" id="TjC-oh-0Cf"/>
                                     <constraint firstAttribute="height" constant="89" id="VHu-as-gvx"/>
                                     <constraint firstAttribute="trailing" secondItem="v49-6n-5Pj" secondAttribute="trailing" constant="18" id="Y64-RZ-iJj"/>
@@ -94,6 +112,8 @@
                                     <constraint firstAttribute="bottom" secondItem="5xT-Og-VRW" secondAttribute="bottom" constant="24" id="dYg-tb-sg4"/>
                                     <constraint firstItem="QXQ-UO-4rH" firstAttribute="top" secondItem="A6d-ZH-ZtH" secondAttribute="bottom" constant="14" id="gq1-OV-ik0"/>
                                     <constraint firstItem="v49-6n-5Pj" firstAttribute="top" secondItem="uIM-ur-Q7B" secondAttribute="top" constant="24" id="lIu-7r-n6P"/>
+                                    <constraint firstItem="Fc6-wI-BVA" firstAttribute="top" secondItem="uIM-ur-Q7B" secondAttribute="top" constant="24" id="mJZ-8y-z3O"/>
+                                    <constraint firstItem="xTk-OO-hP2" firstAttribute="leading" secondItem="uIM-ur-Q7B" secondAttribute="leading" constant="40" id="nXV-pm-gdE"/>
                                     <constraint firstItem="5xT-Og-VRW" firstAttribute="leading" secondItem="uIM-ur-Q7B" secondAttribute="leading" id="pv7-Q0-UCm"/>
                                     <constraint firstAttribute="trailing" secondItem="5xT-Og-VRW" secondAttribute="trailing" id="sL4-by-nL7"/>
                                 </constraints>
@@ -239,11 +259,90 @@
                                     <constraint firstAttribute="centerY" secondItem="cFm-Js-2Cd" secondAttribute="centerY" constant="3" id="zKV-ey-ImE"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a5z-1f-EWi">
+                                <rect key="frame" x="0.0" y="64" width="375" height="553"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PCt-Bs-3Jj">
+                                        <rect key="frame" x="0.0" y="0.0" width="245" height="553"/>
+                                        <subviews>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NUv-9P-xjp">
+                                                <rect key="frame" x="0.0" y="0.0" width="245" height="553"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="245" id="CZO-iu-8Cj"/>
+                                                </constraints>
+                                                <prototypes>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MZKBookmarkTableViewCell" id="PRj-2m-Xse" customClass="MZKBookmarkTableViewCell" customModule="MZK_iOS" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="28" width="245" height="44"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="PRj-2m-Xse" id="QnZ-m4-SfG">
+                                                            <rect key="frame" x="0.0" y="0.0" width="245" height="44"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nBX-fp-XWu">
+                                                                    <rect key="frame" x="8" y="0.0" width="21" height="35"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="35" id="AML-Gj-hPv"/>
+                                                                        <constraint firstAttribute="width" constant="21" id="dYy-0E-R22"/>
+                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="fb7-dp-kpT"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4YP-b0-QXF">
+                                                                    <rect key="frame" x="37" y="-10.5" width="42" height="21"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="21" id="fiM-Ld-oAs"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="nBX-fp-XWu" firstAttribute="leading" secondItem="QnZ-m4-SfG" secondAttribute="leading" constant="8" id="Ckt-W0-qHj"/>
+                                                                <constraint firstItem="4YP-b0-QXF" firstAttribute="leading" secondItem="QnZ-m4-SfG" secondAttribute="leading" constant="37" id="Duj-GK-iIE"/>
+                                                                <constraint firstItem="4YP-b0-QXF" firstAttribute="centerY" secondItem="QnZ-m4-SfG" secondAttribute="centerY" id="EpN-zw-uk4"/>
+                                                                <constraint firstItem="4YP-b0-QXF" firstAttribute="leading" secondItem="nBX-fp-XWu" secondAttribute="trailing" constant="8" id="dXO-ZO-M05"/>
+                                                                <constraint firstItem="nBX-fp-XWu" firstAttribute="top" secondItem="QnZ-m4-SfG" secondAttribute="top" id="gUd-JJ-LD0"/>
+                                                                <constraint firstAttribute="bottom" secondItem="nBX-fp-XWu" secondAttribute="bottom" constant="8" id="xcG-8P-d7w"/>
+                                                                <constraint firstItem="4YP-b0-QXF" firstAttribute="leading" secondItem="nBX-fp-XWu" secondAttribute="trailing" constant="8" id="xq2-Wd-OFD"/>
+                                                            </constraints>
+                                                        </tableViewCellContentView>
+                                                        <connections>
+                                                            <outlet property="bookmarkImageView" destination="nBX-fp-XWu" id="72g-VZ-QNX"/>
+                                                            <outlet property="bookmarkLabel" destination="4YP-b0-QXF" id="YTC-JZ-4Wp"/>
+                                                        </connections>
+                                                    </tableViewCell>
+                                                </prototypes>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="eva-nw-erY" id="Foo-Vm-tob"/>
+                                                    <outlet property="delegate" destination="eva-nw-erY" id="JYB-xE-yKL"/>
+                                                </connections>
+                                            </tableView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="NUv-9P-xjp" firstAttribute="top" secondItem="PCt-Bs-3Jj" secondAttribute="top" id="24C-V1-vPr"/>
+                                            <constraint firstAttribute="trailing" secondItem="NUv-9P-xjp" secondAttribute="trailing" id="EyJ-GP-KTM"/>
+                                            <constraint firstAttribute="bottom" secondItem="NUv-9P-xjp" secondAttribute="bottom" id="UsK-uu-FpU"/>
+                                            <constraint firstItem="NUv-9P-xjp" firstAttribute="leading" secondItem="PCt-Bs-3Jj" secondAttribute="leading" id="a69-hh-rJn"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="PCt-Bs-3Jj" secondAttribute="bottom" id="C89-2E-3YR"/>
+                                    <constraint firstAttribute="trailing" secondItem="PCt-Bs-3Jj" secondAttribute="trailing" constant="130" id="PMO-HC-AN8"/>
+                                    <constraint firstItem="PCt-Bs-3Jj" firstAttribute="top" secondItem="a5z-1f-EWi" secondAttribute="top" id="dEU-da-uvm"/>
+                                    <constraint firstItem="PCt-Bs-3Jj" firstAttribute="leading" secondItem="a5z-1f-EWi" secondAttribute="leading" id="tny-ax-mX5"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="yXD-PY-Ez9" secondAttribute="trailing" id="4xI-y1-FZR"/>
                             <constraint firstItem="qk8-mr-fJG" firstAttribute="leading" secondItem="Ayl-Ng-FwM" secondAttribute="leading" id="80w-jY-C0u"/>
+                            <constraint firstItem="a5z-1f-EWi" firstAttribute="top" secondItem="RgJ-Sy-yBb" secondAttribute="bottom" constant="44" id="A4W-N3-Fc4"/>
+                            <constraint firstAttribute="trailing" secondItem="a5z-1f-EWi" secondAttribute="trailing" id="Kdh-gL-HIf"/>
                             <constraint firstItem="9hP-yz-8MY" firstAttribute="top" secondItem="iHN-hF-wPK" secondAttribute="bottom" id="Ln2-B0-YT7"/>
                             <constraint firstAttribute="trailing" secondItem="uIM-ur-Q7B" secondAttribute="trailing" id="QWI-Bu-E6x"/>
                             <constraint firstItem="yXD-PY-Ez9" firstAttribute="leading" secondItem="Ayl-Ng-FwM" secondAttribute="leading" id="TWZ-rl-v8v"/>
@@ -253,20 +352,27 @@
                             <constraint firstItem="yXD-PY-Ez9" firstAttribute="top" secondItem="RgJ-Sy-yBb" secondAttribute="bottom" id="ZxZ-S2-Vgb"/>
                             <constraint firstItem="uIM-ur-Q7B" firstAttribute="top" secondItem="RgJ-Sy-yBb" secondAttribute="bottom" constant="-20" id="dth-a7-A8r"/>
                             <constraint firstAttribute="trailing" secondItem="iHN-hF-wPK" secondAttribute="trailing" id="j4i-0z-1bO"/>
+                            <constraint firstItem="a5z-1f-EWi" firstAttribute="leading" secondItem="Ayl-Ng-FwM" secondAttribute="leading" id="jLv-JO-E68"/>
                             <constraint firstItem="qk8-mr-fJG" firstAttribute="top" secondItem="uIM-ur-Q7B" secondAttribute="bottom" constant="-25" id="lqA-iE-wLq"/>
+                            <constraint firstItem="9hP-yz-8MY" firstAttribute="top" secondItem="a5z-1f-EWi" secondAttribute="bottom" constant="50" id="vkf-j2-U1m"/>
                             <constraint firstAttribute="trailing" secondItem="qk8-mr-fJG" secondAttribute="trailing" id="wNd-fj-tIJ"/>
                             <constraint firstItem="iHN-hF-wPK" firstAttribute="leading" secondItem="Ayl-Ng-FwM" secondAttribute="leading" id="zQS-qg-FEz"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
+                        <outlet property="bookmarkContainer" destination="a5z-1f-EWi" id="8OL-Y2-gFO"/>
+                        <outlet property="bookmarkContainerLeadingConstraint" destination="jLv-JO-E68" id="heC-zX-wwt"/>
+                        <outlet property="bookmarkTableView" destination="NUv-9P-xjp" id="337-u6-enf"/>
                         <outlet property="bottomBarBottomConstant" destination="Ln2-B0-YT7" id="hPy-hw-okS"/>
                         <outlet property="bottomHideShow" destination="m3p-85-X10" id="7Ba-ED-H3T"/>
+                        <outlet property="createBookmark" destination="Fc6-wI-BVA" id="j6U-Gp-PXv"/>
                         <outlet property="currentPageNumber" destination="taU-WG-HiH" id="BUH-ob-PEd"/>
                         <outlet property="itemTitle" destination="ZSY-uK-czU" id="OqO-8f-UUl"/>
                         <outlet property="pageSlider" destination="12w-dM-yQr" id="lLD-3y-aEE"/>
                         <outlet property="pageThumbnailView" destination="qk8-mr-fJG" id="ZJy-ea-kd4"/>
                         <outlet property="pageThumbnailsCollectionView" destination="cFm-Js-2Cd" id="FtZ-EP-LR7"/>
+                        <outlet property="showBookmarks" destination="xTk-OO-hP2" id="CI0-mI-LwG"/>
                         <outlet property="showThumbnailButton" destination="Six-MP-J21" id="8Nf-ED-qXU"/>
                         <outlet property="topBarTopConstant" destination="dth-a7-A8r" id="YLU-F8-sqN"/>
                         <outlet property="topHideShow" destination="QXQ-UO-4rH" id="lsh-Qu-oqQ"/>
@@ -274,7 +380,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g6w-lt-e9a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8.8000000000000007" y="-304.4977511244378"/>
+            <point key="canvasLocation" x="-84" y="-400.74962518740631"/>
         </scene>
         <!--Page Detail View Controller-->
         <scene sceneID="ZHw-gC-lGQ">
@@ -370,6 +476,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="BookmarkMenu" width="25" height="25"/>
+        <image name="BookmarkMenu_b" width="25" height="25"/>
+        <image name="BookmarkRibbon" width="25" height="25"/>
+        <image name="BookmarkRibbon_B" width="25" height="25"/>
         <image name="info_outline_b" width="25" height="25"/>
         <image name="info_outline_g" width="25" height="25"/>
         <image name="pages-1" width="25" height="25"/>

@@ -65,13 +65,13 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         let aStr = String(format: "%@://%@/search/zoomify/%@/ImageProperties.xml", libraryItem.protocol, libraryItem.stringURL , pagePID)
         
         
-        guard let url = NSURL(string: aStr) else {
+        guard let url = URL(string: aStr) else {
             print("Error: cannot create URL")
             return
         }
         
         
-        let urlRequest = NSURLRequest(url: url as URL)
+        let urlRequest = URLRequest(url: url as URL)
         
         let config = URLSessionConfiguration.default
         let session = Foundation.URLSession(configuration: config)
@@ -211,16 +211,12 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
 }
 
 extension MZKPageDetailViewController: UIScrollViewDelegate {
-    @nonobjc func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    @nonobjc func viewForZoomingInScrollView(_ scrollView: UIScrollView) -> UIView? {
         return imageReaderImageView
     }
 }
 
-extension MZKPageDetailViewController : ITVErrorDelegate {
-    public func errorDidOccur(error: Error) {
-        print("Tiled viewer error delegate")
-    }
-}
+
 
 
 

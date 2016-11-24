@@ -10,28 +10,28 @@ import UIKit
 
 protocol MZKPagesProtocolDelegate: class  {
     // var pageObjects: [MZKPageObject] { get set }
-    func pagesLoaded(pages:[MZKPageObject])
+    func pagesLoaded(_ pages:[MZKPageObject])
 }
 
 protocol PageIndexDelegate: class {
-    
-    /**
-     Called when the number of pages is updated.
-     
-     - parameter tutorialPageViewController: the TutorialPageViewController instance
-     - parameter count: the total number of pages.
-     */
-    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate,
-                                    didUpdatePageCount count: Int)
-    
     /**
      Called when the current index is updated.
      
      - parameter tutorialPageViewController: the TutorialPageViewController instance
      - parameter index: the index of the currently visible page.
      */
-    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate,
-                                    didUpdatePageIndex index: Int)
+    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate, didUpdatePageIndex index: Int)
+    
+    
+//    /**
+//     Called when the number of pages is updated.
+//     
+//     - parameter tutorialPageViewController: the TutorialPageViewController instance
+//     - parameter count: the total number of pages.
+//     */
+//    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate, didUpdatePageCount count: Int)
+    
+
     
 }
 
@@ -39,19 +39,20 @@ protocol PageIndexDelegate: class {
 @objc class MZKPageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, DataLoadedDelegate {
     
     // close can be used for initialize with params ...
-    lazy private var mzkDatasource : MZKDatasource = {
+    lazy fileprivate var mzkDatasource : MZKDatasource = {
         return MZKDatasource()
     }()
     
     // public properties
     var itemPID:String!
     var pages:[MZKPageObject]!
-    public var currentIndex:Int!
+    open var currentIndex:Int!
+    open var currentPagePID:String!
     
     weak var pageIndexDelegate: PageIndexDelegate?
     
     
-    private(set) lazy var orderedViewControllers: [UIViewController] = {
+    fileprivate(set) lazy var orderedViewControllers: [UIViewController] = {
         return []
     }()
     
@@ -128,16 +129,10 @@ protocol PageIndexDelegate: class {
         return orderedViewControllers[previousIndex]
     }
     
-    private var pendingIndex: Int?
+    fileprivate var pendingIndex: Int?
     
-    func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [UIViewController]) {
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         pendingIndex = orderedViewControllers.index(of: orderedViewControllers.first!)
-    }
-    
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if completed {
-            currentIndex = pendingIndex
-        }
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
@@ -148,6 +143,8 @@ protocol PageIndexDelegate: class {
                 let index = orderedViewControllers.index(of: firstViewController) {
                 pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: index+1)
                 currentIndex = pendingIndex
+                let tmpVC = firstViewController as! MZKPageDetailViewController
+                currentPagePID = tmpVC.pagePID
             }
         }
     }
@@ -158,36 +155,38 @@ protocol PageIndexDelegate: class {
         print("Data Loaded");
     }
     
-    public func pagesLoaded(pages: [MZKPageObject]) {
+    open func pagesLoaded(_ pages: [MZKPageObject]) {
         self.pages = pages
-        
-        
-        print(pages.count)
-        
+               
         orderedViewControllers = []
         
         for i in 1...pages.count
         {
-           orderedViewControllers .append(newPageViewController(itemPID: pages[i-1].pid, index: i))
+           orderedViewControllers .append(newPageViewController(pages[i-1].pid, index: i))
         }
         
         DispatchQueue.main.async (execute: { () -> Void in
             
-            if let firstViewController = self.orderedViewControllers.first {
+            if let firstViewController = self.orderedViewControllers.first as? MZKPageDetailViewController {
                 self.setViewControllers([firstViewController],
                                         direction: .forward,
                                         animated: true,
-                                        completion: nil)
+                                        completion: {(_) -> Void in
+                                            self.currentIndex = firstViewController.pageIndex
+                                            self.currentPagePID = firstViewController.pagePID
+                                            
+                })
+
             }
             
         })
     }
     
-    private func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
+    internal func presentationCount(for pageViewController: UIPageViewController) -> Int {
         return orderedViewControllers.count
     }
     
-    private func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
+    internal func presentationIndex(for pageViewController: UIPageViewController) -> Int {
         guard let firstViewController = viewControllers?.first,
             let firstViewControllerIndex = orderedViewControllers.index(of: firstViewController) else {
                 return 0
@@ -196,9 +195,7 @@ protocol PageIndexDelegate: class {
         return firstViewControllerIndex
     }
     
-    
-    
-    private func newPageViewController(itemPID: String, index: Int) -> UIViewController {
+    fileprivate func newPageViewController(_ itemPID: String, index: Int) -> UIViewController {
         
         let pageVC : MZKPageDetailViewController = UIStoryboard(name: "MZKDetail", bundle: nil) .
             instantiateViewController(withIdentifier: "MZKPageDetailViewController") as! MZKPageDetailViewController
@@ -209,14 +206,20 @@ protocol PageIndexDelegate: class {
         return pageVC
     }
     
-    public func goToPage(index: Int) {
+    open func goToPage(_ index: Int) {
         if index < orderedViewControllers.count {
             self.setViewControllers([orderedViewControllers[index]], direction: .forward, animated: true, completion: nil)
             
             if let firstViewController = viewControllers?.first,
                 let index = orderedViewControllers.index(of: firstViewController) {
+                
                 pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: index+1)
+                
                 currentIndex = pendingIndex
+                
+                let tmpVC = firstViewController as! MZKPageDetailViewController
+                currentPagePID = tmpVC.pagePID
+
             }
 
         }
