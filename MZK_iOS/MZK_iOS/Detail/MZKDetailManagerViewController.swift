@@ -188,12 +188,23 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
             
             if(self.bookmarkContainerLeadingConstraint.constant == 0)
             {
+                self.bookmarkContainer.isHidden = false
+            }
+            else
+            {
                 self.bookmarkContainer.isHidden = true
             }
             
         })
         
         
+    }
+    @IBAction func onNextPage(_ sender: Any) {
+        
+        self.childVC.nextPage()
+    }
+    @IBAction func onPreviousPage(_ sender: Any) {
+        self.childVC.previousPage()
     }
     // MARK: - Loading of pages
     
@@ -370,7 +381,8 @@ extension MZKDetailManagerViewController : UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "MZKBookmarkTableViewCell", for: indexPath) as! MZKBookmarkTableViewCell
         let bookmark = bookmarks[indexPath.row]
         
-        cell.bookmarkLabel.text = "Zalozka na strane: \(bookmark.pageIndex)"
+        
+        cell.bookmarkLabel.text = "● \(bookmark.pageIndex!)"
         
         return cell
     }

@@ -133,18 +133,21 @@ protocol PageIndexDelegate: class {
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         pendingIndex = orderedViewControllers.index(of: orderedViewControllers.first!)
+        print("Pending index:\(pendingIndex)")
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
         if finished {
-            
+            print( "Finished animating")
             if let firstViewController = viewControllers?.first,
                 let index = orderedViewControllers.index(of: firstViewController) {
                 pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: index+1)
-                currentIndex = pendingIndex
+               
                 let tmpVC = firstViewController as! MZKPageDetailViewController
-                currentPagePID = tmpVC.pagePID
+                self.currentPagePID = tmpVC.pagePID
+                
+                self.currentIndex = tmpVC.pageIndex
             }
         }
     }
@@ -207,20 +210,69 @@ protocol PageIndexDelegate: class {
     }
     
     open func goToPage(_ index: Int) {
-        if index < orderedViewControllers.count {
-            self.setViewControllers([orderedViewControllers[index]], direction: .forward, animated: true, completion: nil)
+        if index <= orderedViewControllers.count {
             
-            if let firstViewController = viewControllers?.first,
-                let index = orderedViewControllers.index(of: firstViewController) {
+            var direction = UIPageViewControllerNavigationDirection.forward
+          
+            if (index < self.currentIndex) {
+                direction = UIPageViewControllerNavigationDirection.reverse
                 
-                pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: index+1)
-                
-                currentIndex = pendingIndex
-                
-                let tmpVC = firstViewController as! MZKPageDetailViewController
-                currentPagePID = tmpVC.pagePID
-
             }
+
+            self.setViewControllers([orderedViewControllers[index]], direction: direction, animated: true, completion: {(_)->Void in
+                if let firstViewController = self.viewControllers?.first,
+                    let vcIndex = self.orderedViewControllers.index(of: firstViewController) {
+                
+                    let tmpVC = firstViewController as! MZKPageDetailViewController
+                    self.currentIndex = tmpVC.pageIndex
+                    self.currentPagePID = tmpVC.pagePID
+                    
+                    self.pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: vcIndex+1)
+                    
+                }
+            })
+        }
+    }
+    
+    func nextPage() -> Void {
+        let targetIndex = currentIndex!
+        if (currentIndex.advanced(by: 1) <= pages.count) {
+            self.setViewControllers([orderedViewControllers[targetIndex]], direction: .forward, animated: true, completion: {(_)->Void in
+                if let firstViewController = self.viewControllers?.first,
+                    let vcIndex = self.orderedViewControllers.index(of: firstViewController) {
+                    
+                    //print(" ===== Index Changed: \(index)")
+                    
+                    let tmpVC = firstViewController as! MZKPageDetailViewController
+                    self.currentIndex = tmpVC.pageIndex
+                    self.currentPagePID = tmpVC.pagePID
+                    self.pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: vcIndex+1)
+                    
+                }
+            })
+
+            
+            
+        }
+    }
+    
+    func previousPage() -> Void {
+        let targetIndex = currentIndex.advanced(by: -1)
+        
+        if (targetIndex > 0) {
+            // goToPage(targetIndex)
+            self.setViewControllers([orderedViewControllers[targetIndex-1]], direction: .reverse, animated: true, completion: {(_)->Void in
+                if let firstViewController = self.viewControllers?.first,
+                    let vcIndex = self.orderedViewControllers.index(of: firstViewController) {
+            
+                    let tmpVC = firstViewController as! MZKPageDetailViewController
+                    self.currentIndex = tmpVC.pageIndex
+                    self.currentPagePID = tmpVC.pagePID
+                    
+                    self.pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: vcIndex+1)
+                    
+                }
+            })
 
         }
     }
