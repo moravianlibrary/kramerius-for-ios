@@ -18,21 +18,31 @@ class MZKBookmarkDatasource {
         if (!bookmarks.isEmpty) {
             for bookmark in bookmarks {
                 if bookmark.pagePID == bookmarkPagePID {
-                    // bookmarks.remove(object: bookmark)
+                    bookmarks.remove(bookmark)
                     // value removed
                     print("Bookmark removed")
                     break
                 }
             }
             
-            // save array with removed bookmark
-            let defaults = UserDefaults.standard
-            var allBookmarks = defaults.object(forKey: kAllBookmarks) as? [String: [MZKBookmark]] ?? [String: [MZKBookmark]]()
-            allBookmarks[bookmarkParentPID] = bookmarks
             
-            defaults.set(allBookmarks, forKey: kAllBookmarks)
-            defaults.synchronize()
-            
+            if let data = UserDefaults.standard.object(forKey: kAllBookmarks) as? Data {
+                
+                var tmpBookmarks = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: [MZKBookmark]]
+                
+                // unarchived dictionary of bookmarks
+                if (tmpBookmarks != nil) {
+                    
+                    // bookmarks for PID
+                    tmpBookmarks[bookmarkParentPID] = bookmarks
+                }
+                
+                // save array with removed bookmark
+                let data = NSKeyedArchiver.archivedData(withRootObject: tmpBookmarks)
+                
+                UserDefaults.standard.set(data, forKey: kAllBookmarks)
+                UserDefaults.standard.synchronize()
+            }
         }
     }
     
@@ -100,13 +110,14 @@ class MZKBookmarkDatasource {
                     
                     // check if this bookmark already exists
                     
-                    if (!(bookmarksForPid?.contains(withBookmark))!) {
-                        // new bookmark
+                    if !(bookmarksForPid?.contains(where: {$0.pagePID == withBookmark.pagePID!} ))! {
                         bookmarksForPid?.append(withBookmark)
                         print("adding new bookmark")
                     }
-                    
-                    
+                    else
+                    {
+                        print("Already exists...")
+                    }
                 }
                 else
                 {

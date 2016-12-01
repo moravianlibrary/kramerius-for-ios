@@ -45,6 +45,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         
        print(pagePID)
         self .loadImageProperties()
+        self.imageReaderScrollView.delegate = self
         
        // self.zoomifyIIIFReaderScrollView.errorDelegate = self
         
@@ -133,14 +134,16 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         
         let imageStrUrl = String(format: "%@://%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", libraryItem.protocol, libraryItem.stringURL , pagePID, heightScale)
         
-        print(imageStrUrl)
-
         let url = NSURL(string: imageStrUrl)
     
         imageReaderImageView.sd_setImage(with: url as URL!, placeholderImage: nil, options: [.continueInBackground, .progressiveDownload], progress:{[weak self](receivedSize, expectedSize) -> Void in}, completed:{[weak self] (image, data, error, finished)-> Void in
         // body of completion block
             
             self!.activityIndicator.stopAnimating()
+            self!.imageReaderScrollView.maximumZoomScale = 2.0
+            self!.imageReaderScrollView.zoomScale = 1.0
+            self!.imageReaderScrollView.minimumZoomScale = 0.5
+            
         })
         
     }
@@ -164,8 +167,6 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
             print(attributeDict)
             self.imageWidth =  Int(attributeDict["WIDTH"]!)
             self.imageHeight =   Int(attributeDict["HEIGHT"]!)
-            print("Parsing Finished")
-            
         }
     }
     
@@ -179,7 +180,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
             let imageURL = String(format: "%@://%@/search/zoomify/%@/ImageProperties.xml", libraryItem.protocol, libraryItem.stringURL , pagePID)
 
             
-            self.zoomifyIIIFReaderScrollView.loadImage(imageURL)
+            self.zoomifyIIIFReaderScrollView.loadImage(imageURL, api: ITVImageAPI.Unknown)
             
             DispatchQueue.main.async (execute: { () -> Void in
                 
@@ -211,7 +212,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
 }
 
 extension MZKPageDetailViewController: UIScrollViewDelegate {
-    @nonobjc func viewForZoomingInScrollView(_ scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageReaderImageView
     }
 }

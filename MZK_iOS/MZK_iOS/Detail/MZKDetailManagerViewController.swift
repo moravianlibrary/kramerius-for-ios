@@ -55,6 +55,7 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         self.pageSlider.minimumValue = 0
         self.pageSlider.value = 0
         self.loadItem(itemPID)
+        self.bookmarkTableView.delegate = self
         showBookmarks.isEnabled = false
         
         barsVisible = true
@@ -146,7 +147,7 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         let bookmark:MZKBookmark = MZKBookmark()
         bookmark.parentPID = itemPID
         bookmark.pagePID = childVC.currentPagePID
-        bookmark.pageIndex = "\(childVC.currentIndex)"
+        bookmark.pageIndex = "\(childVC.currentIndex!)"
         
         // current date
         let date = Date()
@@ -173,13 +174,14 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         
         if (bookmarkContainerLeadingConstraint.constant == 0)
         {
-            bookmarkContainerLeadingConstraint.constant = -bookmarkContainer.frame.size.width
+            self.bookmarkContainerLeadingConstraint.constant = -bookmarkContainer.frame.size.width
             self.showBookmarks.isSelected = false
         }
         else
         {
             bookmarkContainerLeadingConstraint.constant = 0
             self.showBookmarks.isSelected = true
+            self.bookmarkContainer.isHidden = false
         }
         
         UIView.animate(withDuration: 0.5, animations: {
@@ -273,18 +275,6 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     
     // MARK other methods
     
-    
-    /**
-     Called when the number of pages is updated.
-     
-     - parameter tutorialPageViewController: the TutorialPageViewController instance
-     - parameter count: the total number of pages.
-     */
-    
-    //    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate, didUpdatePageIndex index: Int) {
-    //
-    //    }
-    
     /**
      Called when the current index is updated.
      
@@ -358,7 +348,25 @@ extension MZKDetailManagerViewController : UICollectionViewDataSource
 
 extension MZKDetailManagerViewController : UITableViewDelegate
 {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let bookmarkToDelete = bookmarks[indexPath.row]
+            
+            self.bookmarkDatasource.deleteBookmark(bookmarkToDelete.pagePID, bookmarkParentPID: bookmarkToDelete.parentPID)
+            self.bookmarks = self.bookmarkDatasource.getBookmarks(itemPID)
+            
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.reloadData()
+            tableView.endUpdates()
+           
+        }
+    }
     
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.delete
+    }
 }
 
 extension MZKDetailManagerViewController : UITableViewDataSource
@@ -382,7 +390,12 @@ extension MZKDetailManagerViewController : UITableViewDataSource
         let bookmark = bookmarks[indexPath.row]
         
         
-        cell.bookmarkLabel.text = "● \(bookmark.pageIndex!)"
+        if let a = bookmark.pageIndex {
+            // a is an Int
+            cell.bookmarkLabel.text = "● \(a)"
+
+        }
+        
         
         return cell
     }
