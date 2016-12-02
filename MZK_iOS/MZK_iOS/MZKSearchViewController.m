@@ -15,6 +15,7 @@
 #import "MZKGeneralColletionViewController.h"
 #import "MZKConstants.h"
 #import "MZKSearchTableViewCell.h"
+#import "MZK_iOS-Swift.h"
 
 @interface MZKSearchViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DataLoadedDelegate>
 {
@@ -330,15 +331,15 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // Make sure your segue name in storyboard is the same as this line
-    if ([[segue identifier] isEqualToString:@"OpenDetail"])
+    if ([[segue identifier] isEqualToString:@"OpenReader"])
     {
         // Get reference to the destination view controller
-        MZKDetailViewController *vc = [segue destinationViewController];
+        MZKDetailManagerViewController *vc = [segue destinationViewController];
         
         // Pass any objects to the view controller here, like...
-        [vc setItem:sender];
-    }
-    else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
+        [vc setItemPID:sender];
+        
+    }else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
     {
         MZKMusicViewController *vc = [segue destinationViewController];
         [vc setItem:sender];

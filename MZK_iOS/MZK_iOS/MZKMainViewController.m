@@ -375,16 +375,15 @@ const int kHeaderHeight = 95;
 #pragma mark - segues
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Make sure your segue name in storyboard is the same as this line
-//    if ([[segue identifier] isEqualToString:@"OpenDetail"])
-//    {
-//        // Get reference to the destination view controller
-//        MZKDetailViewController *vc = [segue destinationViewController];
-//        
-//        // Pass any objects to the view controller here, like...
-//        [vc setItem:sender];
-//    }
-    if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
+    if ([[segue identifier] isEqualToString:@"OpenReader"])
+    {
+        // Get reference to the destination view controller
+        MZKDetailManagerViewController *vc = [segue destinationViewController];
+        
+        // Pass any objects to the view controller here, like...
+        [vc setItemPID:((MZKItemResource *)sender).pid];
+        
+    }else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
     {
         MZKMusicViewController *vc = [segue destinationViewController];
         [vc setItem:sender];
@@ -396,16 +395,6 @@ const int kHeaderHeight = 95;
         MZKGeneralColletionViewController *vc =(MZKGeneralColletionViewController *)navVC.topViewController;
         [vc setParentPID:((MZKItemResource *)sender).pid];
         vc.isFirst = YES;
-    }
-    
-    if ([[segue identifier] isEqualToString:@"OpenReader"])
-    {
-        // Get reference to the destination view controller
-        MZKDetailManagerViewController *vc = [segue destinationViewController];
-        
-        // Pass any objects to the view controller here, like...
-        [vc setItemPID:((MZKItemResource *)sender).pid];
-   
     }
 }
 

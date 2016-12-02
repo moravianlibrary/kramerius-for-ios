@@ -14,6 +14,7 @@
 #import "UIImageView+WebCache.h"
 #import "MZKMusicViewController.h"
 #import "MZKDetailViewController.h"
+#import "MZK_iOS-Swift.h"
 
 @interface MZKRecentlyOpenedDocumentsViewController ()
 
@@ -124,15 +125,17 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // Make sure your segue name in storyboard is the same as this line
-    if ([[segue identifier] isEqualToString:@"OpenDetail"])
+    if ([[segue identifier] isEqualToString:@"OpenReader"])
     {
         // Get reference to the destination view controller
-        MZKDetailViewController *vc = [segue destinationViewController];
+        MZKDetailManagerViewController *vc = [segue destinationViewController];
         
         // Pass any objects to the view controller here, like...
-        [vc setItem:sender];
-    }
-    else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
+        MZKItemResource *tmpItem = (MZKItemResource *)sender;
+        
+        [vc setItemPID:tmpItem.pid];
+        
+    }else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
     {
         MZKMusicViewController *vc = [segue destinationViewController];
         [vc setItem:sender];
@@ -157,7 +160,7 @@
 //        
 //    }
     @try {
-        [self performSegueWithIdentifier:@"OpenDetail" sender:item];
+        [self performSegueWithIdentifier:@"OpenReader" sender:item];
     } @catch (NSException *exception) {
         NSLog(@"Exception:%@", exception.debugDescription);
     } @finally {

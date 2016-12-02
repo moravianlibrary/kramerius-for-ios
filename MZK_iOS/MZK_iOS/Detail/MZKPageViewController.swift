@@ -133,13 +133,11 @@ protocol PageIndexDelegate: class {
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         pendingIndex = orderedViewControllers.index(of: orderedViewControllers.first!)
-        print("Pending index:\(pendingIndex)")
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
         if finished {
-            print( "Finished animating")
             if let firstViewController = viewControllers?.first,
                 let index = orderedViewControllers.index(of: firstViewController) {
                 pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: index+1)

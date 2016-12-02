@@ -1,4 +1,4 @@
-//
+ //
 //  MZKDetailManagerViewController.swift
 //  MZK_iOS
 //
@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import iOSTiledViewer
 
 
 
@@ -41,6 +42,7 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         return MZKBookmarkDatasource()
     }()
     
+    var item:MZKItemResource!
     var itemPID:String!
     var pages:[MZKPageObject]!
     var bookmarks:[MZKBookmark]!
@@ -61,8 +63,12 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         barsVisible = true
         bookmarkContainerLeadingConstraint.constant = -bookmarkContainer.frame.size.width
         
-      //  bookmarkTableView.register(MZKBookmarkTableViewCell.self, forCellReuseIdentifier: "MZKBookmarkTableViewCell")
+        let shouldDimmDisplay = UserDefaults.standard.object(forKey: kShouldDimmDisplay) as! NSNumber
         
+        let shouldDimm = shouldDimmDisplay.boolValue
+        
+        //print("Should DIMM:\(shouldDimm)")
+        UIApplication.shared.isIdleTimerDisabled = shouldDimm
     }
     
     override func didReceiveMemoryWarning() {
@@ -101,6 +107,25 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     }
     
     @IBAction func onClose(_ sender: Any) {
+   
+        if item != nil {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            let date = Date()
+            
+            let formatter = DateFormatter()
+            
+            formatter.dateFormat = "dd.MM.yyyy"
+            
+            item.lastOpened = formatter.string(from: date)
+            item.indexLastOpenedPage = childVC.currentIndex as NSNumber!
+            
+            print("Date recently opened:\(formatter.string(from: date))")
+            
+            appDelegate.addRecentlyOpenedDocument(item)
+            
+            UIApplication.shared.isIdleTimerDisabled = false
+        }
         
         self.presentingViewController?.dismiss(animated: true, completion:nil)
     }
@@ -121,8 +146,6 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
             //hide bars
             self.topBarTopConstant.constant = -70
             self.bottomBarBottomConstant.constant = -50
-            
-            
         }
         else
         {
@@ -245,6 +268,8 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     func detail(forItemLoaded item: MZKItemResource!) {
         DispatchQueue.main.async (execute: { () -> Void in
             self.itemTitle.text = item.title
+            
+            self.item = item
             // reuse this item ...
         })
     }
@@ -298,6 +323,11 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         }
     }
 }
+ 
+ extension MZKDetailManagerViewController : ITVScrollViewDelegate
+ {
+    
+ }
 
 extension MZKDetailManagerViewController : UICollectionViewDelegate
 {
@@ -388,15 +418,12 @@ extension MZKDetailManagerViewController : UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "MZKBookmarkTableViewCell", for: indexPath) as! MZKBookmarkTableViewCell
         let bookmark = bookmarks[indexPath.row]
-        
-        
+
         if let a = bookmark.pageIndex {
             // a is an Int
-            cell.bookmarkLabel.text = "● \(a)"
+            cell.bookmarkLabel.text = "● Záložka na straně: \(a)"
 
         }
-        
-        
         return cell
     }
 }
