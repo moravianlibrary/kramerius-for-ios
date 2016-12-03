@@ -104,9 +104,17 @@
     
     if ([error.domain isEqualToString:NSURLErrorDomain]) {
         //NSError Domain Code
-        [self showTsErrorWithNSError:error andConfirmAction:^{
-           // [welf loadDataForController];
-        }];
+        if (error.code != -999) {
+            [self showTsErrorWithNSError:error andConfirmAction:^{
+                // [welf loadDataForController];
+            }];
+
+        }
+        else
+        {
+            NSLog(@"Canceled request");
+        }
+        
         
     }
 
@@ -368,8 +376,9 @@
     // create NSPredicate with correct format
     
     results = [self loadRecentSearches];
+    NSString *keywordWithBackslashedApostrophes = [key stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
     
-    NSPredicate *pred = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"SELF beginswith[c] '%@'", [key lowercaseString]]];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"SELF beginswith[c] '%@'", [keywordWithBackslashedApostrophes lowercaseString]]];
     
     [results filterUsingPredicate:pred];
     

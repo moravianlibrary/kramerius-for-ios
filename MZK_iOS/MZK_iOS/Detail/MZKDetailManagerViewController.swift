@@ -323,11 +323,6 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         }
     }
 }
- 
- extension MZKDetailManagerViewController : ITVScrollViewDelegate
- {
-    
- }
 
 extension MZKDetailManagerViewController : UICollectionViewDelegate
 {
