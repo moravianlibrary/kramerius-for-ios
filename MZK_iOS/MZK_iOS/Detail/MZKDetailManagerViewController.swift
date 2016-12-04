@@ -1,19 +1,20 @@
  //
-//  MZKDetailManagerViewController.swift
-//  MZK_iOS
-//
-//  Created by OndrejVyhlidal on 02/11/2016.
-//  Copyright © 2016 Ondrej Vyhlidal. All rights reserved.
-//
-
-import UIKit
-import iOSTiledViewer
-
-
-
-class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, PageIndexDelegate, UIPageViewControllerDelegate {
+ //  MZKDetailManagerViewController.swift
+ //  MZK_iOS
+ //
+ //  Created by OndrejVyhlidal on 02/11/2016.
+ //  Copyright © 2016 Ondrej Vyhlidal. All rights reserved.
+ //
+ 
+ import UIKit
+ import iOSTiledViewer
+ import TSMessages
+ 
+ 
+ class MZKDetailManagerViewController:UIViewController, DataLoadedDelegate, PageIndexDelegate, UIPageViewControllerDelegate {
     
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var tapGestureRecognizerView: UIView!
     @IBOutlet weak var topBarTopConstant: NSLayoutConstraint!
     @IBOutlet weak var bottomBarBottomConstant: NSLayoutConstraint!
     @IBOutlet weak var onHideShow: UIButton!
@@ -23,6 +24,9 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     @IBOutlet weak var pageSlider: ASValueTrackingSlider!
     @IBOutlet weak var pageThumbnailView: UIView!
     
+    @IBOutlet weak var previousPageButton: UIButton!
+    @IBOutlet weak var nextPageButton: UIButton!
+    @IBOutlet weak var infoButton: UIButton!
     @IBOutlet weak var showThumbnailButton: UIButton!
     @IBOutlet weak var pageThumbnailsCollectionView: UICollectionView!
     // close can be used for initialize with params ...
@@ -71,12 +75,8 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         //print("Should DIMM:\(shouldDimm)")
         UIApplication.shared.isIdleTimerDisabled = shouldDimm
         
-        let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.onShowHideBars(_:)))
-        tapGestureRecognizer.numberOfTapsRequired = 1
-        tapGestureRecognizer.numberOfTapsRequired = 1
+        self.enableUserInteraction(enable: false)
         
-        self.containerView.gestureRecognizers?.append(tapGestureRecognizer)
-    
     }
     
     override func didReceiveMemoryWarning() {
@@ -115,7 +115,7 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     }
     
     @IBAction func onClose(_ sender: Any) {
-   
+        
         if item != nil {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
@@ -140,7 +140,6 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     
     @IBAction func onSliderValueChanged(_ sender: Any) {
         let currentValue = Int((sender as! UISlider).value)
-        print("Hodnota: \(currentValue)")
         childVC.goToPage(currentValue-1)
         
     }
@@ -241,6 +240,17 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     }
     // MARK: - Loading of pages
     
+    @IBAction func onTest(_ sender: Any) {
+        
+        
+        let err = NSError(domain: "ShiploopHttpResponseErrorDomain", code: 401, userInfo: nil)
+        
+        MZKSwiftErrorMessageHandler().showTSMessageTest(viewController: self, error: err, completion: {(_) -> Void in
+            
+            print("++++++ OIUJEEALNSDAIAUSDIUABSDIABSDBAS ++++")
+        })
+    }
+    
     func loadItem(_ pid:String) ->()
     {
         mzkDatasource.delegate = self
@@ -255,7 +265,7 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
     func children(forItemLoaded items: [Any]!) {
         pages = items as! [MZKPageObject]!
         childVC .pagesLoaded(pages)
-        
+            
         DispatchQueue.main.async (execute: { () -> Void in
             self.pageSlider.minimumValue=1
             self.pageSlider.maximumValue = Float(self.pages.count)
@@ -278,7 +288,9 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
             self.itemTitle.text = item.title
             
             self.item = item
-            // reuse this item ...
+            
+            // enable user interaction
+            self.enableUserInteraction(enable: true)
         })
     }
     
@@ -330,19 +342,73 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
             childVC.goToPage(index)
         }
     }
-}
-
-extension MZKDetailManagerViewController : UICollectionViewDelegate
-{
+    
+    func enableUserInteraction(enable:Bool) -> Void {
+        // back button should be always enabled, everything else should be disabled until content is loaded
+        
+        self.createBookmark.isEnabled = enable
+        
+        if(bookmarks != nil)
+        {
+            if (bookmarks.count > 0)
+            {
+                showBookmarks.isEnabled = enable
+            }
+        }
+        
+        self.infoButton.isEnabled = enable
+        self.showThumbnailButton.isEnabled = enable
+        self.pageSlider.isEnabled = enable
+        self.nextPageButton.isEnabled = enable
+        self.previousPageButton.isEnabled = enable
+    }
+    
+    func reloadData () -> Void
+    {
+        if(self.item == nil)
+        {
+            self.loadItem(self.itemPID)
+        }
+        
+        if(self.pages == nil)
+        {
+            self.loadPages(self.itemPID)
+        }
+    }
+ 
+    /**
+     MZKDataLoaded method
+     * argument view controller for presentaion of messages
+     * argument error  - NSError or Error
+     * argument completion - completion block that is invoked when user taps button inside message
+     
+     */
+    
+    func downloadFailedWithError(_ error: Error!) {
+        
+        DispatchQueue.main.async (execute: { () -> Void in
+            
+            MZKSwiftErrorMessageHandler().showTSMessageTest(viewController: self, error: error as NSError, completion: {(_) -> Void in
+                print("Reloading values")
+                self.reloadData()
+            })
+            
+        })
+    }
+    
+ }
+ 
+ extension MZKDetailManagerViewController : UICollectionViewDelegate
+ {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         self.goToPage(indexPath.row)
         self .onShowThumbnails(Any.self)
     }
-}
-
-extension MZKDetailManagerViewController : UICollectionViewDataSource
-{
+ }
+ 
+ extension MZKDetailManagerViewController : UICollectionViewDataSource
+ {
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -377,10 +443,10 @@ extension MZKDetailManagerViewController : UICollectionViewDataSource
         
         return cell
     }
-}
-
-extension MZKDetailManagerViewController : UITableViewDelegate
-{
+ }
+ 
+ extension MZKDetailManagerViewController : UITableViewDelegate
+ {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
@@ -393,7 +459,7 @@ extension MZKDetailManagerViewController : UITableViewDelegate
             tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.reloadData()
             tableView.endUpdates()
-           
+            
         }
     }
     
@@ -410,10 +476,10 @@ extension MZKDetailManagerViewController : UITableViewDelegate
             self .onShowBookmarks(self)
         }
     }
-}
-
-extension MZKDetailManagerViewController : UITableViewDataSource
-{
+ }
+ 
+ extension MZKDetailManagerViewController : UITableViewDataSource
+ {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -431,12 +497,19 @@ extension MZKDetailManagerViewController : UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "MZKBookmarkTableViewCell", for: indexPath) as! MZKBookmarkTableViewCell
         let bookmark = bookmarks[indexPath.row]
-
+        
         if let a = bookmark.pageIndex {
             // a is an Int
             cell.bookmarkLabel.text = "● Záložka na straně: \(a)"
-
+            
         }
         return cell
     }
-}
+ }
+ 
+ extension MZKDetailManagerViewController : MZKUserActivityDelegate
+ {
+    func userDidSingleTapped() {
+        self.onShowHideBars(self)
+    }
+ }

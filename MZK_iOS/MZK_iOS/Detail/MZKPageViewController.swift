@@ -31,8 +31,10 @@ protocol PageIndexDelegate: class {
 //     */
 //    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate, didUpdatePageCount count: Int)
     
-
-    
+    /**
+     Called when user tapps inside ITVScrollview
+     
+     */
 }
 
 
@@ -203,6 +205,7 @@ protocol PageIndexDelegate: class {
         
         pageVC.pagePID = itemPID
         pageVC.pageIndex = index
+        pageVC.userActivityDelegate = self.pageIndexDelegate as! MZKUserActivityDelegate?
         
         return pageVC
     }

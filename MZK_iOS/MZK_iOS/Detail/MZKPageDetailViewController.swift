@@ -10,6 +10,16 @@ import UIKit
 import SDWebImage
 import iOSTiledViewer
 
+protocol MZKUserActivityDelegate :class {
+    
+    
+    /**
+     Method that notifies delegate about user activity - single tap gesture recognizer
+    */
+    
+    func userDidSingleTapped()
+}
+
 
 class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
     
@@ -18,6 +28,8 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
     var imageWidth : Int!
     var imageHeight : Int!
     var pageIndex : Int!
+    
+    weak var userActivityDelegate : MZKUserActivityDelegate?
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -181,6 +193,13 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
 
             
             self.zoomifyIIIFReaderScrollView.loadImage(imageURL, api: ITVImageAPI.Unknown)
+
+            let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.onShowHideBars(_:)))
+            tapGestureRecognizer.numberOfTapsRequired = 1
+            tapGestureRecognizer.cancelsTouchesInView = false
+            
+             self.zoomifyIIIFReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
+
             
             DispatchQueue.main.async (execute: { () -> Void in
                 
@@ -189,6 +208,10 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
                 self.activityIndicator.stopAnimating()
             })
         }
+    }
+    
+    func onShowHideBars(_ sender: UITapGestureRecognizer) -> Void {
+        userActivityDelegate?.userDidSingleTapped()
     }
     
     // MARK : zooming methods
