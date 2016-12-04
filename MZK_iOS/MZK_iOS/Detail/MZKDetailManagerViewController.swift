@@ -13,6 +13,7 @@ import iOSTiledViewer
 
 class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, PageIndexDelegate, UIPageViewControllerDelegate {
     
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var topBarTopConstant: NSLayoutConstraint!
     @IBOutlet weak var bottomBarBottomConstant: NSLayoutConstraint!
     @IBOutlet weak var onHideShow: UIButton!
@@ -69,6 +70,13 @@ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, Page
         
         //print("Should DIMM:\(shouldDimm)")
         UIApplication.shared.isIdleTimerDisabled = shouldDimm
+        
+        let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.onShowHideBars(_:)))
+        tapGestureRecognizer.numberOfTapsRequired = 1
+        tapGestureRecognizer.numberOfTapsRequired = 1
+        
+        self.containerView.gestureRecognizers?.append(tapGestureRecognizer)
+    
     }
     
     override func didReceiveMemoryWarning() {
@@ -391,6 +399,16 @@ extension MZKDetailManagerViewController : UITableViewDelegate
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         return UITableViewCellEditingStyle.delete
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let bookmark = bookmarks[indexPath.row]
+        
+        if let pageIndex = Int(bookmark.pageIndex) {
+            self.childVC.goToPage(pageIndex-1)
+            
+            self .onShowBookmarks(self)
+        }
     }
 }
 
