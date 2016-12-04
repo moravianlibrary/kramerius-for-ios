@@ -215,10 +215,6 @@
                                     <action selector="onPreviousPage:" destination="eva-nw-erY" eventType="touchUpInside" id="Qn8-Ss-b5G"/>
                                 </connections>
                             </button>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gIt-Ke-yUA">
-                                <rect key="frame" x="43" y="74" width="289" height="538"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qk8-mr-fJG" userLabel="page thumbnails view">
                                 <rect key="frame" x="0.0" y="64" width="375" height="553"/>
                                 <subviews>
@@ -323,8 +319,8 @@
                                                                         <constraint firstAttribute="height" constant="35" id="eMq-XQ-a2Y"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4YP-b0-QXF">
-                                                                    <rect key="frame" x="37" y="11.5" width="42" height="21"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="4YP-b0-QXF">
+                                                                    <rect key="frame" x="37" y="12" width="200" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="fiM-Ld-oAs"/>
                                                                     </constraints>
@@ -336,6 +332,7 @@
                                                             <constraints>
                                                                 <constraint firstItem="4YP-b0-QXF" firstAttribute="top" secondItem="nBX-fp-XWu" secondAttribute="bottom" constant="-23.5" id="9FB-1q-4CT"/>
                                                                 <constraint firstAttribute="leadingMargin" secondItem="nBX-fp-XWu" secondAttribute="leading" id="9cT-8l-Bar"/>
+                                                                <constraint firstAttribute="trailingMargin" secondItem="4YP-b0-QXF" secondAttribute="trailing" id="OE3-ZB-G3Y"/>
                                                                 <constraint firstItem="nBX-fp-XWu" firstAttribute="top" secondItem="QnZ-m4-SfG" secondAttribute="topMargin" constant="-8" id="SPK-a0-K5a"/>
                                                                 <constraint firstItem="4YP-b0-QXF" firstAttribute="top" secondItem="QnZ-m4-SfG" secondAttribute="topMargin" constant="3.5" id="ZLm-R7-epb"/>
                                                                 <constraint firstItem="4YP-b0-QXF" firstAttribute="leading" secondItem="QnZ-m4-SfG" secondAttribute="leadingMargin" constant="29" id="kSW-ZG-jwp"/>
@@ -382,10 +379,8 @@
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="yXD-PY-Ez9" secondAttribute="trailing" id="4xI-y1-FZR"/>
-                            <constraint firstItem="iHN-hF-wPK" firstAttribute="top" secondItem="gIt-Ke-yUA" secondAttribute="bottom" constant="-15" id="6C6-xq-bBD"/>
                             <constraint firstItem="qk8-mr-fJG" firstAttribute="leading" secondItem="Ayl-Ng-FwM" secondAttribute="leading" id="80w-jY-C0u"/>
                             <constraint firstItem="a5z-1f-EWi" firstAttribute="top" secondItem="RgJ-Sy-yBb" secondAttribute="bottom" constant="44" id="A4W-N3-Fc4"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="gIt-Ke-yUA" secondAttribute="trailing" constant="27" id="C1g-s1-DZ7"/>
                             <constraint firstItem="iHN-hF-wPK" firstAttribute="top" secondItem="8jG-Ov-QG6" secondAttribute="bottom" constant="8" id="Hap-aB-sqX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="bom-0c-IqJ" secondAttribute="trailing" constant="-16" id="Jr0-d1-MYo"/>
                             <constraint firstAttribute="trailing" secondItem="a5z-1f-EWi" secondAttribute="trailing" id="Kdh-gL-HIf"/>
@@ -401,17 +396,14 @@
                             <constraint firstItem="uIM-ur-Q7B" firstAttribute="leading" secondItem="Ayl-Ng-FwM" secondAttribute="leading" id="ZdL-E1-2gu"/>
                             <constraint firstItem="yXD-PY-Ez9" firstAttribute="top" secondItem="RgJ-Sy-yBb" secondAttribute="bottom" id="ZxZ-S2-Vgb"/>
                             <constraint firstItem="uIM-ur-Q7B" firstAttribute="top" secondItem="RgJ-Sy-yBb" secondAttribute="bottom" constant="-20" id="dth-a7-A8r"/>
-                            <constraint firstItem="gIt-Ke-yUA" firstAttribute="top" secondItem="uIM-ur-Q7B" secondAttribute="bottom" constant="-15" id="hie-1A-HaJ"/>
                             <constraint firstAttribute="trailing" secondItem="iHN-hF-wPK" secondAttribute="trailing" id="j4i-0z-1bO"/>
                             <constraint firstItem="a5z-1f-EWi" firstAttribute="leading" secondItem="Ayl-Ng-FwM" secondAttribute="leading" id="jLv-JO-E68"/>
                             <constraint firstItem="qk8-mr-fJG" firstAttribute="top" secondItem="uIM-ur-Q7B" secondAttribute="bottom" constant="-25" id="lqA-iE-wLq"/>
-                            <constraint firstItem="gIt-Ke-yUA" firstAttribute="leading" secondItem="Ayl-Ng-FwM" secondAttribute="leadingMargin" constant="27" id="sqA-Ev-KK3"/>
                             <constraint firstItem="9hP-yz-8MY" firstAttribute="top" secondItem="a5z-1f-EWi" secondAttribute="bottom" constant="50" id="vkf-j2-U1m"/>
                             <constraint firstAttribute="trailing" secondItem="qk8-mr-fJG" secondAttribute="trailing" id="wNd-fj-tIJ"/>
                             <constraint firstItem="iHN-hF-wPK" firstAttribute="leading" secondItem="Ayl-Ng-FwM" secondAttribute="leading" id="zQS-qg-FEz"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="bookmarkContainer" destination="a5z-1f-EWi" id="8OL-Y2-gFO"/>
                         <outlet property="bookmarkContainerLeadingConstraint" destination="pgX-uk-9AN" id="ugS-Rf-Hly"/>
@@ -430,7 +422,6 @@
                         <outlet property="previousPageButton" destination="8jG-Ov-QG6" id="W2m-Xd-msN"/>
                         <outlet property="showBookmarks" destination="xTk-OO-hP2" id="CI0-mI-LwG"/>
                         <outlet property="showThumbnailButton" destination="Six-MP-J21" id="8Nf-ED-qXU"/>
-                        <outlet property="tapGestureRecognizerView" destination="gIt-Ke-yUA" id="rgb-Fn-esQ"/>
                         <outlet property="topBarTopConstant" destination="dth-a7-A8r" id="YLU-F8-sqN"/>
                         <outlet property="topHideShow" destination="QXQ-UO-4rH" id="lsh-Qu-oqQ"/>
                     </connections>
