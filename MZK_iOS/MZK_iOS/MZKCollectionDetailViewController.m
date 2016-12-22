@@ -11,10 +11,12 @@
 #import "MZKCollectionItemResource.h"
 #import "MZKDatasource.h"
 #import "MZKDetailViewController.h"
-
+#import "MZKMusicViewController.h"
 #import "MZKItemCollectionViewCell.h"
 #import <Google/Analytics.h>
 #import "AppDelegate.h"
+#import "MZK_iOS-Swift.h"
+
 @import SDWebImage;
 
 @interface MZKCollectionDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, DataLoadedDelegate>
@@ -161,7 +163,7 @@
        
         }
         else{
-            [self performSegueWithIdentifier:@"OpenCollectionDetail" sender:nil];
+            [self performSegueWithIdentifier:@"OpenReader" sender:nil];
         }
  
     }
@@ -272,13 +274,13 @@
 {
     
     // Make sure your segue name in storyboard is the same as this line
-    if ([[segue identifier] isEqualToString:@"OpenCollectionDetail"])
+    if ([[segue identifier] isEqualToString:@"OpenReader"])
     {
         // Get reference to the destination view controller
-        MZKDetailViewController *vc = [segue destinationViewController];
+        MZKDetailManagerViewController *vc = [segue destinationViewController];
         
         // Pass any objects to the view controller here, like...
-        [vc setItem:_selectedItem];
+        [vc setItemPID:_selectedItem.pid];
         _selectedItem = nil;
     }
     else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])

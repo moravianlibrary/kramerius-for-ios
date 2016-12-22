@@ -13,7 +13,7 @@
 int const kMinimalRecentSearchesVersion = 3;
 int const kMinimalRecentDocumentsVersion = 2;
 int const kMinimalLibrariesCacheVersionNumber = 1;
-
+int const kMinimalBookmarkVerion = 1;
 
 NSString *const MyFirstConstant = @"FirstConstant";
 NSString *const kDefaultDatasourceName = @"kDefaultDatasourceName";
@@ -31,6 +31,8 @@ NSString *const kRecentSearches = @"kRecentSearches";
 NSString *const kShouldDimmDisplay = @"kShouldDimmDisplay";
 NSString *const kMinimalRecentSearches = @"kMinimalRecentSearches";
 NSString *const kMinimalLibrariesCacheVersion = @"kMinimalLibrariesCacheVersion";
+NSString *const kMinimalBookmarkVersionKey =@"kMinimalBookmarkVersionKey";
+NSString *const kAllBookmarks = @"kAllBookmarks";
 
 #pragma mark - types keys
 

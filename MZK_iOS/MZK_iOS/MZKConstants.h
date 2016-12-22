@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger, MZKModel) {
 extern int const kMinimalRecentSearchesVersion;
 extern int const kMinimalRecentDocumentsVersion;
 extern int const kMinimalLibrariesCacheVersionNumber;
+extern int const kMinimalBookmarkVerion;
 
 #pragma mark - NSUserDefaults keys
 extern NSString *const kDefaultDatasourceName;
@@ -50,8 +51,9 @@ extern NSString *const kRecentlyOpenedDocumentsVersion;
 extern NSString *const kRecentSearches;
 extern NSString *const kShouldDimmDisplay;
 extern NSString *const kMinimalRecentSearches;
-
 extern NSString *const kMinimalLibrariesCacheVersion;
+extern NSString *const kAllBookmarks;
+extern NSString *const kMinimalBookmarkVersionKey;
 
 #pragma mark - types keys
 extern NSString *const kTrack;

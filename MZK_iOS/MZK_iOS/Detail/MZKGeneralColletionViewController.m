@@ -17,6 +17,7 @@
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
 #import "MZKConstants.h"
+#import "MZK_iOS-Swift.h"
 
 @interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 {
@@ -39,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.backButton.title = @"Zpět";
+    self.backButton.title = @"❮";
     
     if (_items) {
         [self._collectionView reloadData];
@@ -216,10 +217,6 @@
             [welf loadDataForController];
         }];
     }
-    
-//    [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
-//        
-//    }];
 }
 
 /*
@@ -321,7 +318,6 @@
     }
     else if (po.datanode) {
         //should dive deeper
-        //  MZKGeneralColletionViewController *nextViewController = [[MZKGeneralColletionViewController alloc] init];
         MZKGeneralColletionViewController *nextViewController = [storyboard instantiateViewControllerWithIdentifier:@"MZKGeneralColletionViewController"];
         [nextViewController setParentPID:po.pid];
         nextViewController.isFirst = NO;
@@ -332,7 +328,9 @@
     if ([po.policy isEqualToString:@"public"]) {
         
         if (po.model == PeriodicalItem || po.model == Manuscript || po.model == Monograph || po.model == Map || po.model == Graphic || po.model == Page || po.model == Article || po.model == Archive || po.model == InternalPart || po.model == Sheetmusic || po.model == Supplement) {
-            MZKDetailViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKDetailViewController"];
+            
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MZKDetail" bundle: nil];
+            MZKDetailManagerViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKDetailManagerViewController"];
             
             // Pass any objects to the view controller here, like...
             [vc setItemPID:po.pid];

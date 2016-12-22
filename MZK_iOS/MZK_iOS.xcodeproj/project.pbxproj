@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		2D009CD51BAAE52E0042021D /* MZKCollectionItemResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D009CD41BAAE52E0042021D /* MZKCollectionItemResource.m */; };
 		2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D02A4611B0624C100D51B0C /* MZKPageObject.m */; };
+		2D0DD5701DD0A0E100C0E3A8 /* HTTPStatusCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DD56E1DD0A0E100C0E3A8 /* HTTPStatusCodes.swift */; };
+		2D0DD5711DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DD56F1DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift */; };
+		2D113CB11DC0D7780042B9ED /* MZKPageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D113CB01DC0D7780042B9ED /* MZKPageDetailViewController.swift */; };
+		2D113CB31DC0DC4A0042B9ED /* MZKPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D113CB21DC0DC4A0042B9ED /* MZKPageViewController.swift */; };
 		2D13D54A1C3E66BD00DB4190 /* inst.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D5471C3E66BD00DB4190 /* inst.sql */; };
 		2D13D54B1C3E66BD00DB4190 /* languages.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D5481C3E66BD00DB4190 /* languages.sql */; };
 		2D13D54C1C3E66BD00DB4190 /* relators.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D5491C3E66BD00DB4190 /* relators.sql */; };
@@ -27,6 +31,8 @@
 		2D2763D91B6B641900CC7E4F /* zoomify.js in Resources */ = {isa = PBXBuildFile; fileRef = 2D2763D61B6B641900CC7E4F /* zoomify.js */; };
 		2D2787C41BF4B92A0007D00E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2787C31BF4B92A0007D00E /* MediaPlayer.framework */; };
 		2D2787C61BF4BB4A0007D00E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2787C51BF4BB4A0007D00E /* AVFoundation.framework */; };
+		2D28FD331DDC61CD00633DE4 /* ASValuePopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D28FD301DDC61CD00633DE4 /* ASValuePopUpView.m */; };
+		2D28FD341DDC61CD00633DE4 /* ASValueTrackingSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D28FD321DDC61CD00633DE4 /* ASValueTrackingSlider.m */; };
 		2D2A64801AF8EF3800D82E04 /* MZKMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2A647F1AF8EF3800D82E04 /* MZKMainViewController.m */; };
 		2D2A64821AF8FC9400D82E04 /* Menu-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D2A64811AF8FC9400D82E04 /* Menu-50.png */; };
 		2D2DA5201BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA51F1BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m */; };
@@ -43,19 +49,21 @@
 		2D44DF3F1CB397EF001EF49F /* MZKTabBarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D44DF3E1CB397EF001EF49F /* MZKTabBarMenuViewController.m */; };
 		2D47472F1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */; };
 		2D4747321D4684BD00D6F5F8 /* MZKSearchHistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4747311D4684BD00D6F5F8 /* MZKSearchHistoryItem.m */; };
+		2D5154C11DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5154C01DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift */; };
 		2D58E8F61BA57BAC000D444C /* MZKCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */; };
 		2D5BB44F1DBA267D001EAB35 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5BB44E1DBA267D001EAB35 /* NSString+MD5.m */; };
 		2D665DBD1B02927500B11765 /* MZKDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBC1B02927500B11765 /* MZKDetailViewController.m */; };
 		2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */; };
+		2D66DACD1DF1DEA200EBC89E /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D66DACC1DF1DEA200EBC89E /* AFNetworking.framework */; };
+		2D782BFE1DC9E4200086323E /* MZKDetailManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */; };
 		2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D78B2961C200DC0004341DA /* MZKAboutViewController.m */; };
 		2D8BB7C71BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D8BB7C61BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m */; };
 		2D9150F21C82F4C200AD380F /* MyURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9150F11C82F4C200AD380F /* MyURLProtocol.m */; };
 		2D91512C1C873D2C00AD380F /* MZKDetailInformationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D91512B1C873D2C00AD380F /* MZKDetailInformationTableViewCell.m */; };
 		2D91D3971CC8A8A000EBE622 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2D91D3991CC8A8A000EBE622 /* Localizable.strings */; };
 		2D93784C1DA29232005B2ED3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D93784B1DA29232005B2ED3 /* Security.framework */; };
-		2D93784E1DA293DF005B2ED3 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D93784D1DA293DF005B2ED3 /* AFNetworking.framework */; };
-		2D93784F1DA293DF005B2ED3 /* AFNetworking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2D93784D1DA293DF005B2ED3 /* AFNetworking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2DA030521C0A002800B7759B /* MZKBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA030511C0A002800B7759B /* MZKBaseViewController.m */; };
+		2DA29B991DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA29B981DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift */; };
 		2DAA60721BA758AB0004A718 /* MZKCollectionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA60711BA758AB0004A718 /* MZKCollectionDetailViewController.m */; };
 		2DAA60751BA7590B0004A718 /* MZKDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA60741BA7590B0004A718 /* MZKDetailCollectionViewCell.m */; };
 		2DAB71A11D802F0000765AF7 /* MZKDetailManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAB71A01D802F0000765AF7 /* MZKDetailManagerViewController.m */; };
@@ -68,6 +76,8 @@
 		2DB8A7A31ACD073400A1BB2E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DB8A7A11ACD073400A1BB2E /* Main.storyboard */; };
 		2DB8A7A51ACD073400A1BB2E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DB8A7A41ACD073400A1BB2E /* Images.xcassets */; };
 		2DB8A7A81ACD073400A1BB2E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DB8A7A61ACD073400A1BB2E /* LaunchScreen.xib */; };
+		2DBE26D61DDEF32F00DE43A0 /* MZKBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBE26D51DDEF32F00DE43A0 /* MZKBookmark.swift */; };
+		2DBE26D81DDEF33D00DE43A0 /* MZKBookmarkDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBE26D71DDEF33D00DE43A0 /* MZKBookmarkDatasource.swift */; };
 		2DCAE25C1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DCAE25B1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m */; };
 		2DD1B9EE1D9D4AE0004011FC /* MZKNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1B9ED1D9D4AE0004011FC /* MZKNavigationViewController.m */; };
 		2DD1B9F11D9E42D4004011FC /* UINavigationBar+CustomHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1B9F01D9E42D4004011FC /* UINavigationBar+CustomHeight.m */; };
@@ -85,7 +95,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2D93784F1DA293DF005B2ED3 /* AFNetworking.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,6 +106,11 @@
 		2D009CD41BAAE52E0042021D /* MZKCollectionItemResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKCollectionItemResource.m; path = ../MZKCollectionItemResource.m; sourceTree = "<group>"; };
 		2D02A4601B0624C100D51B0C /* MZKPageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKPageObject.h; path = ../MZKPageObject.h; sourceTree = "<group>"; };
 		2D02A4611B0624C100D51B0C /* MZKPageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKPageObject.m; path = ../MZKPageObject.m; sourceTree = "<group>"; };
+		2D0DD56E1DD0A0E100C0E3A8 /* HTTPStatusCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatusCodes.swift; sourceTree = "<group>"; };
+		2D0DD56F1DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HTTPStatusCodes+Extensions.swift"; sourceTree = "<group>"; };
+		2D0F65451DD5C5E900CEC252 /* MZK_iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MZK_iOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		2D113CB01DC0D7780042B9ED /* MZKPageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKPageDetailViewController.swift; sourceTree = "<group>"; };
+		2D113CB21DC0DC4A0042B9ED /* MZKPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKPageViewController.swift; sourceTree = "<group>"; };
 		2D13D5471C3E66BD00DB4190 /* inst.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = inst.sql; sourceTree = "<group>"; };
 		2D13D5481C3E66BD00DB4190 /* languages.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = languages.sql; sourceTree = "<group>"; };
 		2D13D5491C3E66BD00DB4190 /* relators.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = relators.sql; sourceTree = "<group>"; };
@@ -123,6 +137,10 @@
 		2D2763D61B6B641900CC7E4F /* zoomify.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = zoomify.js; sourceTree = "<group>"; };
 		2D2787C31BF4B92A0007D00E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		2D2787C51BF4BB4A0007D00E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		2D28FD2F1DDC61CD00633DE4 /* ASValuePopUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASValuePopUpView.h; sourceTree = "<group>"; };
+		2D28FD301DDC61CD00633DE4 /* ASValuePopUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASValuePopUpView.m; sourceTree = "<group>"; };
+		2D28FD311DDC61CD00633DE4 /* ASValueTrackingSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASValueTrackingSlider.h; sourceTree = "<group>"; };
+		2D28FD321DDC61CD00633DE4 /* ASValueTrackingSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASValueTrackingSlider.m; sourceTree = "<group>"; };
 		2D2A647E1AF8EF3800D82E04 /* MZKMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKMainViewController.h; sourceTree = "<group>"; };
 		2D2A647F1AF8EF3800D82E04 /* MZKMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKMainViewController.m; sourceTree = "<group>"; };
 		2D2A64811AF8FC9400D82E04 /* Menu-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-50.png"; sourceTree = "<group>"; };
@@ -154,6 +172,7 @@
 		2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchTableViewCell.m; sourceTree = "<group>"; };
 		2D4747301D4684BD00D6F5F8 /* MZKSearchHistoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKSearchHistoryItem.h; path = ../MZKSearchHistoryItem.h; sourceTree = "<group>"; };
 		2D4747311D4684BD00D6F5F8 /* MZKSearchHistoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKSearchHistoryItem.m; path = ../MZKSearchHistoryItem.m; sourceTree = "<group>"; };
+		2D5154C01DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKBookmarkTableViewCell.swift; sourceTree = "<group>"; };
 		2D58E8F41BA57BAC000D444C /* MZKCollectionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionTableViewCell.h; sourceTree = "<group>"; };
 		2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionTableViewCell.m; sourceTree = "<group>"; };
 		2D5BB44D1DBA267D001EAB35 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
@@ -162,6 +181,8 @@
 		2D665DBC1B02927500B11765 /* MZKDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKDetailViewController.m; path = ../MZKDetailViewController.m; sourceTree = "<group>"; };
 		2D665DBE1B03D98C00B11765 /* MZKCollectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionsViewController.h; sourceTree = "<group>"; };
 		2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionsViewController.m; sourceTree = "<group>"; };
+		2D66DACC1DF1DEA200EBC89E /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = "Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework"; sourceTree = "<group>"; };
+		2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKDetailManagerViewController.swift; sourceTree = "<group>"; };
 		2D78B2951C200DC0004341DA /* MZKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKAboutViewController.h; sourceTree = "<group>"; };
 		2D78B2961C200DC0004341DA /* MZKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKAboutViewController.m; sourceTree = "<group>"; };
 		2D8BB7C51BCE3FC4008E53A1 /* MZKItemCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKItemCollectionViewCell.h; sourceTree = "<group>"; };
@@ -176,9 +197,9 @@
 		2D91D3981CC8A8A000EBE622 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2D91D39A1CC8A8A900EBE622 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2D93784B1DA29232005B2ED3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		2D93784D1DA293DF005B2ED3 /* AFNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AFNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA030501C0A002800B7759B /* MZKBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKBaseViewController.h; sourceTree = "<group>"; };
 		2DA030511C0A002800B7759B /* MZKBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKBaseViewController.m; sourceTree = "<group>"; };
+		2DA29B981DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKSwiftErrorMessageHandler.swift; sourceTree = "<group>"; };
 		2DAA60701BA758AB0004A718 /* MZKCollectionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionDetailViewController.h; sourceTree = "<group>"; };
 		2DAA60711BA758AB0004A718 /* MZKCollectionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionDetailViewController.m; sourceTree = "<group>"; };
 		2DAA60731BA7590B0004A718 /* MZKDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDetailCollectionViewCell.h; sourceTree = "<group>"; };
@@ -199,6 +220,8 @@
 		2DB8A7A41ACD073400A1BB2E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2DB8A7B21ACD073400A1BB2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DB8A7B31ACD073400A1BB2E /* MZK_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MZK_iOSTests.m; sourceTree = "<group>"; };
+		2DBE26D51DDEF32F00DE43A0 /* MZKBookmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKBookmark.swift; sourceTree = "<group>"; };
+		2DBE26D71DDEF33D00DE43A0 /* MZKBookmarkDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKBookmarkDatasource.swift; sourceTree = "<group>"; };
 		2DCAE25A1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSearchBarCollectionReusableView.h; sourceTree = "<group>"; };
 		2DCAE25B1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchBarCollectionReusableView.m; sourceTree = "<group>"; };
 		2DD1B9EC1D9D4AE0004011FC /* MZKNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKNavigationViewController.h; sourceTree = "<group>"; };
@@ -223,8 +246,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D66DACD1DF1DEA200EBC89E /* AFNetworking.framework in Frameworks */,
 				2D93784C1DA29232005B2ED3 /* Security.framework in Frameworks */,
-				2D93784E1DA293DF005B2ED3 /* AFNetworking.framework in Frameworks */,
 				2D41FF011C3BBF970087F22E /* libsqlite3.tbd in Frameworks */,
 				2D2787C61BF4BB4A0007D00E /* AVFoundation.framework in Frameworks */,
 				2D2787C41BF4B92A0007D00E /* MediaPlayer.framework in Frameworks */,
@@ -235,9 +258,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D28FD2E1DDC61CD00633DE4 /* ASValueTrackingSlider */ = {
+			isa = PBXGroup;
+			children = (
+				2D28FD2F1DDC61CD00633DE4 /* ASValuePopUpView.h */,
+				2D28FD301DDC61CD00633DE4 /* ASValuePopUpView.m */,
+				2D28FD311DDC61CD00633DE4 /* ASValueTrackingSlider.h */,
+				2D28FD321DDC61CD00633DE4 /* ASValueTrackingSlider.m */,
+			);
+			path = ASValueTrackingSlider;
+			sourceTree = "<group>";
+		};
 		2D2DA51D1BEF9B3A00423447 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				2DBE26D41DDEF31C00DE43A0 /* MZKBookmarks */,
 				2D91512D1C876C8600AD380F /* Model */,
 				2DE98BCE1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.h */,
 				2DE98BCF1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m */,
@@ -260,6 +295,9 @@
 				2DAB71A21D803A6300765AF7 /* MZKDetailPageViewController.h */,
 				2DAB71A31D803A6300765AF7 /* MZKDetailPageViewController.m */,
 				2DAB71A71D803E2700765AF7 /* MZKDetail.storyboard */,
+				2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */,
+				2D113CB21DC0DC4A0042B9ED /* MZKPageViewController.swift */,
+				2D113CB01DC0D7780042B9ED /* MZKPageDetailViewController.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -366,6 +404,9 @@
 		2DB5E44B1CB25CF300C90D36 /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
+				2D28FD2E1DDC61CD00633DE4 /* ASValueTrackingSlider */,
+				2D0DD56E1DD0A0E100C0E3A8 /* HTTPStatusCodes.swift */,
+				2D0DD56F1DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift */,
 				2DD1B9EF1D9E42D4004011FC /* UINavigationBar+CustomHeight.h */,
 				2DD1B9F01D9E42D4004011FC /* UINavigationBar+CustomHeight.m */,
 				2DB5E44C1CB25CF300C90D36 /* UIImageView+ProgressView.h */,
@@ -377,7 +418,6 @@
 		2DB8A7881ACD073400A1BB2E = {
 			isa = PBXGroup;
 			children = (
-				2D93784D1DA293DF005B2ED3 /* AFNetworking.framework */,
 				2DB8A7931ACD073400A1BB2E /* MZK_iOS */,
 				2DB8A7B01ACD073400A1BB2E /* MZK_iOSTests */,
 				2DB8A7921ACD073400A1BB2E /* Products */,
@@ -397,6 +437,7 @@
 		2DB8A7931ACD073400A1BB2E /* MZK_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2D0F65451DD5C5E900CEC252 /* MZK_iOS-Bridging-Header.h */,
 				2D79665B1DB6B11100891B94 /* Model */,
 				2D44DF3C1CB397BB001EF49F /* Menu */,
 				2DB5E44B1CB25CF300C90D36 /* 3rdParty */,
@@ -409,9 +450,9 @@
 				2DD5839D1B6FA0BA001ED3B3 /* XMLParser */,
 				2D89DB7A1B5E57DA00E69119 /* OpenLayers */,
 				2DB8A7981ACD073400A1BB2E /* AppDelegate.h */,
+				2DB8A7991ACD073400A1BB2E /* AppDelegate.m */,
 				2D5BB44D1DBA267D001EAB35 /* NSString+MD5.h */,
 				2D5BB44E1DBA267D001EAB35 /* NSString+MD5.m */,
-				2DB8A7991ACD073400A1BB2E /* AppDelegate.m */,
 				2DB88C1A1C15B0E900AC7070 /* GoogleService-Info.plist */,
 				2DA030501C0A002800B7759B /* MZKBaseViewController.h */,
 				2DA030511C0A002800B7759B /* MZKBaseViewController.m */,
@@ -443,6 +484,7 @@
 				2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */,
 				2D47472D1D467E4B00D6F5F8 /* MZKSearchTableViewCell.h */,
 				2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */,
+				2DA29B981DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift */,
 			);
 			path = MZK_iOS;
 			sourceTree = "<group>";
@@ -476,6 +518,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		2DBE26D41DDEF31C00DE43A0 /* MZKBookmarks */ = {
+			isa = PBXGroup;
+			children = (
+				2DBE26D51DDEF32F00DE43A0 /* MZKBookmark.swift */,
+				2DBE26D71DDEF33D00DE43A0 /* MZKBookmarkDatasource.swift */,
+				2D5154C01DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift */,
+			);
+			path = MZKBookmarks;
+			sourceTree = "<group>";
+		};
 		2DD5839D1B6FA0BA001ED3B3 /* XMLParser */ = {
 			isa = PBXGroup;
 			children = (
@@ -488,6 +540,7 @@
 		C4864A5EBA3AC6CFFA83C9E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D66DACC1DF1DEA200EBC89E /* AFNetworking.framework */,
 				2D93784B1DA29232005B2ED3 /* Security.framework */,
 				2D41FF001C3BBF970087F22E /* libsqlite3.tbd */,
 				2D2787C51BF4BB4A0007D00E /* AVFoundation.framework */,
@@ -536,13 +589,13 @@
 		2DB8A7891ACD073400A1BB2E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Ondrej Vyhlidal";
 				TargetAttributes = {
 					2DB8A7901ACD073400A1BB2E = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 873S4GA3KJ;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -651,9 +704,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D782BFE1DC9E4200086323E /* MZKDetailManagerViewController.swift in Sources */,
+				2D28FD331DDC61CD00633DE4 /* ASValuePopUpView.m in Sources */,
 				2D009CD51BAAE52E0042021D /* MZKCollectionItemResource.m in Sources */,
 				2DB8A79A1ACD073400A1BB2E /* AppDelegate.m in Sources */,
 				2DE387631AE526AB00A2004E /* MZKDatasource.m in Sources */,
+				2D28FD341DDC61CD00633DE4 /* ASValueTrackingSlider.m in Sources */,
 				2D2A64801AF8EF3800D82E04 /* MZKMainViewController.m in Sources */,
 				2D409B781B8B460E00B49EAD /* MZKDataSourceTableViewCell.m in Sources */,
 				2D44DF3F1CB397EF001EF49F /* MZKTabBarMenuViewController.m in Sources */,
@@ -669,6 +725,8 @@
 				2D41FF051C3BBFE50087F22E /* MZKDatabaseManager.m in Sources */,
 				2D91512C1C873D2C00AD380F /* MZKDetailInformationTableViewCell.m in Sources */,
 				2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */,
+				2D0DD5701DD0A0E100C0E3A8 /* HTTPStatusCodes.swift in Sources */,
+				2D113CB11DC0D7780042B9ED /* MZKPageDetailViewController.swift in Sources */,
 				2DD1B9EE1D9D4AE0004011FC /* MZKNavigationViewController.m in Sources */,
 				2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */,
 				2D409B7B1B8B4C8B00B49EAD /* MZKLibraryItem.m in Sources */,
@@ -678,23 +736,29 @@
 				2D24F0761B74C0A80073FC83 /* MZKCollectionItem.m in Sources */,
 				2D2505CD1AFE73300079F70E /* MZKConstants.m in Sources */,
 				2D3698E41C8ADBF6008FEF3C /* MZKDetailInformationStringModel.m in Sources */,
+				2DA29B991DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift in Sources */,
 				2D47472F1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m in Sources */,
 				2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */,
 				2D2DA5281BF1E03A00423447 /* MZKMusicViewController.m in Sources */,
+				2DBE26D61DDEF32F00DE43A0 /* MZKBookmark.swift in Sources */,
 				2DE98BD01C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m in Sources */,
 				2D8BB7C71BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m in Sources */,
 				2D24F06D1B7378740073FC83 /* MZKSearchViewController.m in Sources */,
 				2D41FEFB1C3B036D0087F22E /* MZKDetailInformationViewController.m in Sources */,
 				2DB5E44E1CB25CF300C90D36 /* UIImageView+ProgressView.m in Sources */,
+				2DBE26D81DDEF33D00DE43A0 /* MZKBookmarkDatasource.swift in Sources */,
 				2DD583A01B6FA0BA001ED3B3 /* XMLReader.m in Sources */,
 				2D24F0701B7387E40073FC83 /* MZKChangeLibraryViewController.m in Sources */,
 				2D13D5671C3FC6AD00DB4190 /* MZKDetailInformationModel.m in Sources */,
+				2D113CB31DC0DC4A0042B9ED /* MZKPageViewController.swift in Sources */,
 				2D5BB44F1DBA267D001EAB35 /* NSString+MD5.m in Sources */,
 				2D33C3571C2819E9002BA7D1 /* MZKSettingsViewController.m in Sources */,
 				2DB8A7971ACD073400A1BB2E /* main.m in Sources */,
 				2D2505C71AFE08C30079F70E /* MZKItemTableViewCell.m in Sources */,
 				2DAB71A11D802F0000765AF7 /* MZKDetailManagerViewController.m in Sources */,
 				2DAB71A51D803A6300765AF7 /* MZKDetailPageViewController.m in Sources */,
+				2D5154C11DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift in Sources */,
+				2D0DD5711DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift in Sources */,
 				2D41FEF81C3B03460087F22E /* MZKDetailInformationDataSource.m in Sources */,
 				2DA030521C0A002800B7759B /* MZKBaseViewController.m in Sources */,
 				2D2505CA1AFE721A0079F70E /* MZKDomainItem.m in Sources */,
@@ -737,6 +801,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -746,8 +811,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -756,6 +823,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -779,6 +847,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -788,8 +857,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -797,6 +868,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -806,6 +878,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -814,16 +887,24 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E2EE3763628F98B9EBD3EA02 /* Pods-MZK_iOS.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Build/Products/Debug-iphoneos/AFNetworking",
+				);
 				INFOPLIST_FILE = MZK_iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cz.mzk.ios.KRAMERIUS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "MZK_iOS/MZK_iOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -833,16 +914,23 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D2068D1D167091E6D27E4E /* Pods-MZK_iOS.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Build/Products/Debug-iphoneos/AFNetworking",
+				);
 				INFOPLIST_FILE = MZK_iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cz.mzk.ios.KRAMERIUS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "MZK_iOS/MZK_iOS-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

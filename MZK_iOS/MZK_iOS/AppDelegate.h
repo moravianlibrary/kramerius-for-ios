@@ -10,8 +10,9 @@
 #import "MZKLibraryItem.h"
 #import "MZKDatabaseManager.h"
 #import "MZKItemResource.h"
-#import "MZKTabBarMenuViewController.h"
 
+
+@class MZKTabBarMenuViewController;
 @class MSDynamicsDrawerViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>

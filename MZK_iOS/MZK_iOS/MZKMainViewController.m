@@ -18,6 +18,8 @@
 #import <Google/Analytics.h>
 #import "MZKLibraryItem.h"
 #import "UINavigationBar+CustomHeight.h"
+#import "MZK_iOS-Swift.h"
+
 
 @import SDWebImage;
 
@@ -373,16 +375,15 @@ const int kHeaderHeight = 95;
 #pragma mark - segues
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Make sure your segue name in storyboard is the same as this line
-    if ([[segue identifier] isEqualToString:@"OpenDetail"])
+    if ([[segue identifier] isEqualToString:@"OpenReader"])
     {
         // Get reference to the destination view controller
-        MZKDetailViewController *vc = [segue destinationViewController];
+        MZKDetailManagerViewController *vc = [segue destinationViewController];
         
         // Pass any objects to the view controller here, like...
-        [vc setItem:sender];
-    }
-    else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
+        [vc setItemPID:((MZKItemResource *)sender).pid];
+        
+    }else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
     {
         MZKMusicViewController *vc = [segue destinationViewController];
         [vc setItem:sender];
@@ -412,7 +413,7 @@ const int kHeaderHeight = 95;
             case InternalPart:
             case Supplement:
             case Sheetmusic:
-            [self performSegueWithIdentifier:@"OpenDetail" sender:item];
+            [self performSegueWithIdentifier:@"OpenReader" sender:item];
             break;
             
             case SoundRecording:

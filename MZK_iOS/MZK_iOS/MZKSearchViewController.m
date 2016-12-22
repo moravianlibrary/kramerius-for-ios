@@ -15,6 +15,7 @@
 #import "MZKGeneralColletionViewController.h"
 #import "MZKConstants.h"
 #import "MZKSearchTableViewCell.h"
+#import "MZK_iOS-Swift.h"
 
 @interface MZKSearchViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DataLoadedDelegate>
 {
@@ -103,9 +104,17 @@
     
     if ([error.domain isEqualToString:NSURLErrorDomain]) {
         //NSError Domain Code
-        [self showTsErrorWithNSError:error andConfirmAction:^{
-           // [welf loadDataForController];
-        }];
+        if (error.code != -999) {
+            [self showTsErrorWithNSError:error andConfirmAction:^{
+                // [welf loadDataForController];
+            }];
+
+        }
+        else
+        {
+            NSLog(@"Canceled request");
+        }
+        
         
     }
 
@@ -330,15 +339,15 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // Make sure your segue name in storyboard is the same as this line
-    if ([[segue identifier] isEqualToString:@"OpenDetail"])
+    if ([[segue identifier] isEqualToString:@"OpenReader"])
     {
         // Get reference to the destination view controller
-        MZKDetailViewController *vc = [segue destinationViewController];
+        MZKDetailManagerViewController *vc = [segue destinationViewController];
         
         // Pass any objects to the view controller here, like...
-        [vc setItem:sender];
-    }
-    else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
+        [vc setItemPID:sender];
+        
+    }else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
     {
         MZKMusicViewController *vc = [segue destinationViewController];
         [vc setItem:sender];
@@ -367,8 +376,9 @@
     // create NSPredicate with correct format
     
     results = [self loadRecentSearches];
+    NSString *keywordWithBackslashedApostrophes = [key stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
     
-    NSPredicate *pred = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"SELF beginswith[c] '%@'", [key lowercaseString]]];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"SELF beginswith[c] '%@'", [keywordWithBackslashedApostrophes lowercaseString]]];
     
     [results filterUsingPredicate:pred];
     

@@ -12,6 +12,7 @@
 #import "MZKChangeLibraryViewController.h"
 #import <Google/Analytics.h>
 #import "AFNetworkActivityIndicatorManager.h"
+#import "MZKTabBarMenuViewController.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong) NSMutableDictionary *recentlyOpenedDocumentsDictionary;
@@ -56,6 +57,23 @@
     {
         NSLog(@"Version is OK! DOCS");
     }
+    
+    
+    NSNumber *versionBookmarks= [defaults objectForKey:kMinimalBookmarkVersionKey];
+    if (!versionBookmarks || [versionBookmarks integerValue] != kMinimalBookmarkVerion) {
+        [self resetDefaults];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kMinimalBookmarkVerion] forKey:kMinimalBookmarkVersionKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    else
+    {
+        NSLog(@"Version is OK! Bookmarks");
+    }
+
+    
+    
+    
 
     
     NSNumber *shouldDimmDisplay = [defaults objectForKey:kShouldDimmDisplay];
@@ -383,9 +401,11 @@
 }
 
 - (void)resetDefaults {
+    // enhancement - split into separated methods (in case that we want to delete just one type of stored data)
     NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
     [defs removeObjectForKey:kRecentlyOpenedDocuments];
     [defs removeObjectForKey:kRecentSearches];
+    [defs removeObjectForKey:kAllBookmarks];
 
     [defs synchronize];
 }
