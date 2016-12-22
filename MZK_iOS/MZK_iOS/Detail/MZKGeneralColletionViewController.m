@@ -40,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.backButton.title = @"Zpět";
+    self.backButton.title = @"❮";
     
     if (_items) {
         [self._collectionView reloadData];
