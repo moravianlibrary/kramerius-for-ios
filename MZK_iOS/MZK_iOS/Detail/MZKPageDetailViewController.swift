@@ -18,6 +18,8 @@ protocol MZKUserActivityDelegate :class {
     */
     
     func userDidSingleTapped()
+    func nextPage()
+    func previousPage()
 }
 
 
@@ -194,7 +196,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
             
             self.zoomifyIIIFReaderScrollView.loadImage(imageURL, api: ITVImageAPI.Unknown)
 
-            let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.onShowHideBars(_:)))
+            let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.didTap(event:)))
             tapGestureRecognizer.numberOfTapsRequired = 1
             tapGestureRecognizer.cancelsTouchesInView = false
             
@@ -210,9 +212,28 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         }
     }
     
+    func didTap(event: UITouch) {
+        let location = event.location(in: self.zoomifyIIIFReaderScrollView)
+        let distanceLeft = self.zoomifyIIIFReaderScrollView.frame.width / 5
+        let distanceRight = self.zoomifyIIIFReaderScrollView.frame.width - distanceLeft
+        if location.x < distanceLeft {
+            
+            //previous page
+            userActivityDelegate?.previousPage()
+        } else if location.x > distanceRight {
+            
+            // next page
+             userActivityDelegate?.nextPage()
+        }
+        else
+        {
+            userActivityDelegate?.userDidSingleTapped()
+        }
+    }
+    
     func onShowHideBars(_ sender: UITapGestureRecognizer) -> Void {
         userActivityDelegate?.userDidSingleTapped()
-    }
+        }
     
     // MARK : zooming methods
     

@@ -18,7 +18,7 @@ class MZKBookmark : NSObject, NSCoding
     override init() {
         
     }
-    
+
     init(parentPID: String, pagePID: String, dateCreated: String, pageIndex: String) {
         self.parentPID = parentPID
         self.pagePID = pagePID

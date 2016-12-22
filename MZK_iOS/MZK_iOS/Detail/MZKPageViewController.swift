@@ -175,6 +175,8 @@ protocol PageIndexDelegate: class {
                                         direction: .forward,
                                         animated: true,
                                         completion: {(_) -> Void in
+                                            
+                                            print("View Controller page index \(firstViewController.pageIndex)")
                                             self.currentIndex = firstViewController.pageIndex
                                             self.currentPagePID = firstViewController.pagePID
                                             
@@ -229,7 +231,7 @@ protocol PageIndexDelegate: class {
                     self.currentPagePID = tmpVC.pagePID
                     
                     self.pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: vcIndex+1)
-                    
+                    print("View Controller page index \(tmpVC.pageIndex)")
                 }
             })
         }
@@ -242,8 +244,6 @@ protocol PageIndexDelegate: class {
                 if let firstViewController = self.viewControllers?.first,
                     let vcIndex = self.orderedViewControllers.index(of: firstViewController) {
                     
-                    //print(" ===== Index Changed: \(index)")
-                    
                     let tmpVC = firstViewController as! MZKPageDetailViewController
                     self.currentIndex = tmpVC.pageIndex
                     self.currentPagePID = tmpVC.pagePID
@@ -251,18 +251,23 @@ protocol PageIndexDelegate: class {
                     
                 }
             })
-
-            
-            
         }
     }
     
     func previousPage() -> Void {
-        let targetIndex = currentIndex.advanced(by: -1)
+        if let firstVc = self.viewControllers?.first  {
+            
+            let tmpVc = firstVc as! MZKPageDetailViewController
+            currentIndex = tmpVc.pageIndex
+            
+        }
         
-        if (targetIndex > 0) {
+        var targetIndex = currentIndex.advanced(by: -1)
+        targetIndex = targetIndex.advanced(by: -1)
+
+        if (targetIndex >= 0) {
             // goToPage(targetIndex)
-            self.setViewControllers([orderedViewControllers[targetIndex-1]], direction: .reverse, animated: true, completion: {(_)->Void in
+            self.setViewControllers([orderedViewControllers[targetIndex]], direction: .reverse, animated: true, completion: {(_)->Void in
                 if let firstViewController = self.viewControllers?.first,
                     let vcIndex = self.orderedViewControllers.index(of: firstViewController) {
             

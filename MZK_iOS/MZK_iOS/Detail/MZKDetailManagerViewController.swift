@@ -29,9 +29,6 @@
     @IBOutlet weak var infoButton: UIButton!
     @IBOutlet weak var showThumbnailButton: UIButton!
     @IBOutlet weak var pageThumbnailsCollectionView: UICollectionView!
-    // close can be used for initialize with params ...
-    @IBOutlet weak var topHideShow: UIButton!
-    @IBOutlet weak var bottomHideShow: UIButton!
     
     @IBOutlet weak var createBookmark: UIButton!
     @IBOutlet weak var showBookmarks: UIButton!
@@ -166,9 +163,7 @@
             self.view.layoutIfNeeded()
         }, completion:  {(_) -> Void in
             self.barsVisible = !self.barsVisible
-            self.bottomHideShow.isSelected = !self.barsVisible
-            self.topHideShow.isSelected = !self.barsVisible
-        })
+            })
     }
     
     @IBAction func onCreateBookmark(_ sender: Any) {
@@ -240,17 +235,6 @@
     }
     // MARK: - Loading of pages
     
-    @IBAction func onTest(_ sender: Any) {
-        
-        
-        let err = NSError(domain: "ShiploopHttpResponseErrorDomain", code: 401, userInfo: nil)
-        
-        MZKSwiftErrorMessageHandler().showTSMessageTest(viewController: self, error: err, completion: {(_) -> Void in
-            
-            print("++++++ OIUJEEALNSDAIAUSDIUABSDIABSDBAS ++++")
-        })
-    }
-    
     func loadItem(_ pid:String) ->()
     {
         mzkDatasource.delegate = self
@@ -271,7 +255,7 @@
             self.pageSlider.maximumValue = Float(self.pages.count)
             self.pageSlider.value = 1
             
-            var startIndex = 1
+            let startIndex = 1
             
             self.currentPageNumber.text = "\(startIndex as Int)/\(self.pages.count)"
             self.pageThumbnailsCollectionView.reloadData()
@@ -511,5 +495,13 @@
  {
     func userDidSingleTapped() {
         self.onShowHideBars(self)
+    }
+    
+    func nextPage() {
+        self.onNextPage(self)
+    }
+    
+    func previousPage() {
+        self.onPreviousPage(self)
     }
  }

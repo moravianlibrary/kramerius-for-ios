@@ -595,7 +595,7 @@
 					2DB8A7901ACD073400A1BB2E = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 873S4GA3KJ;
-						LastSwiftMigration = 0810;
+						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;

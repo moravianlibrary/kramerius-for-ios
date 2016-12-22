@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="eva-nw-erY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="eva-nw-erY">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -47,21 +47,6 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QXQ-UO-4rH">
-                                        <rect key="frame" x="0.0" y="64" width="50" height="25"/>
-                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="ShO-55-A15"/>
-                                            <constraint firstAttribute="height" constant="25" id="dhQ-7K-7sy"/>
-                                        </constraints>
-                                        <state key="normal" image="showBarsDown">
-                                            <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="selected" image="showBarsDown_b"/>
-                                        <connections>
-                                            <action selector="onShowHideBars:" destination="eva-nw-erY" eventType="touchUpInside" id="6j2-ad-MJw"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A6d-ZH-ZtH">
                                         <rect key="frame" x="8" y="20" width="30" height="30"/>
                                         <constraints>
@@ -114,10 +99,8 @@
                                     <constraint firstItem="5xT-Og-VRW" firstAttribute="top" secondItem="uIM-ur-Q7B" secondAttribute="top" id="TjC-oh-0Cf"/>
                                     <constraint firstAttribute="height" constant="89" id="VHu-as-gvx"/>
                                     <constraint firstAttribute="trailing" secondItem="v49-6n-5Pj" secondAttribute="trailing" constant="18" id="Y64-RZ-iJj"/>
-                                    <constraint firstItem="QXQ-UO-4rH" firstAttribute="leading" secondItem="uIM-ur-Q7B" secondAttribute="leading" id="YEg-0P-FeK"/>
                                     <constraint firstItem="ZSY-uK-czU" firstAttribute="leading" secondItem="xTk-OO-hP2" secondAttribute="trailing" constant="8" id="Yv6-Ay-6eb"/>
                                     <constraint firstAttribute="bottom" secondItem="5xT-Og-VRW" secondAttribute="bottom" constant="24" id="dYg-tb-sg4"/>
-                                    <constraint firstItem="QXQ-UO-4rH" firstAttribute="top" secondItem="A6d-ZH-ZtH" secondAttribute="bottom" constant="14" id="gq1-OV-ik0"/>
                                     <constraint firstItem="v49-6n-5Pj" firstAttribute="top" secondItem="uIM-ur-Q7B" secondAttribute="top" constant="24" id="lIu-7r-n6P"/>
                                     <constraint firstItem="Fc6-wI-BVA" firstAttribute="top" secondItem="uIM-ur-Q7B" secondAttribute="top" constant="24" id="mJZ-8y-z3O"/>
                                     <constraint firstAttribute="bottom" secondItem="ZSY-uK-czU" secondAttribute="bottom" constant="30" id="mdr-CJ-fmR"/>
@@ -163,19 +146,6 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m3p-85-X10">
-                                        <rect key="frame" x="0.0" y="-4" width="50" height="25"/>
-                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="8yg-j3-hu1"/>
-                                            <constraint firstAttribute="height" constant="25" id="FUq-pR-Flx"/>
-                                        </constraints>
-                                        <state key="normal" image="showBars"/>
-                                        <state key="selected" image="showBars_b"/>
-                                        <connections>
-                                            <action selector="onShowHideBars:" destination="eva-nw-erY" eventType="touchUpInside" id="OTX-jC-Oje"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="taU-WG-HiH" firstAttribute="top" secondItem="iHN-hF-wPK" secondAttribute="top" constant="34.5" id="26A-u1-FXW"/>
@@ -183,9 +153,7 @@
                                     <constraint firstItem="taU-WG-HiH" firstAttribute="leading" secondItem="12w-dM-yQr" secondAttribute="trailing" constant="8" id="62U-z1-Aq8"/>
                                     <constraint firstAttribute="height" constant="70" id="6BU-dQ-EwB"/>
                                     <constraint firstAttribute="trailing" secondItem="taU-WG-HiH" secondAttribute="trailing" constant="8" id="In5-sZ-0Io"/>
-                                    <constraint firstItem="m3p-85-X10" firstAttribute="top" secondItem="iHN-hF-wPK" secondAttribute="top" constant="-4" id="KJy-6B-MMd"/>
                                     <constraint firstAttribute="bottom" secondItem="12w-dM-yQr" secondAttribute="bottom" constant="10" id="O2p-hM-sme"/>
-                                    <constraint firstItem="m3p-85-X10" firstAttribute="leading" secondItem="iHN-hF-wPK" secondAttribute="leading" id="QGi-LL-fRZ"/>
                                     <constraint firstItem="K34-5U-PAp" firstAttribute="leading" secondItem="iHN-hF-wPK" secondAttribute="leading" id="RcV-V0-aN4"/>
                                     <constraint firstAttribute="bottom" secondItem="Six-MP-J21" secondAttribute="bottom" constant="10" id="STS-NE-uML"/>
                                     <constraint firstAttribute="bottom" secondItem="K34-5U-PAp" secondAttribute="bottom" id="TJH-2O-Mxk"/>
@@ -193,7 +161,7 @@
                                     <constraint firstItem="Six-MP-J21" firstAttribute="leading" secondItem="iHN-hF-wPK" secondAttribute="leading" constant="8" id="o41-7A-mJv"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bom-0c-IqJ">
+                            <button hidden="YES" opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bom-0c-IqJ">
                                 <rect key="frame" x="187.5" y="559" width="187.5" height="30"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -204,7 +172,7 @@
                                     <action selector="onNextPage:" destination="eva-nw-erY" eventType="touchUpInside" id="HhH-nb-5fQ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.34999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jG-Ov-QG6">
+                            <button hidden="YES" opaque="NO" alpha="0.34999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jG-Ov-QG6">
                                 <rect key="frame" x="0.0" y="559" width="187.5" height="30"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -409,7 +377,6 @@
                         <outlet property="bookmarkContainerLeadingConstraint" destination="pgX-uk-9AN" id="ugS-Rf-Hly"/>
                         <outlet property="bookmarkTableView" destination="NUv-9P-xjp" id="337-u6-enf"/>
                         <outlet property="bottomBarBottomConstant" destination="Ln2-B0-YT7" id="hPy-hw-okS"/>
-                        <outlet property="bottomHideShow" destination="m3p-85-X10" id="7Ba-ED-H3T"/>
                         <outlet property="containerView" destination="yXD-PY-Ez9" id="J08-gA-D0T"/>
                         <outlet property="createBookmark" destination="Fc6-wI-BVA" id="j6U-Gp-PXv"/>
                         <outlet property="currentPageNumber" destination="taU-WG-HiH" id="BUH-ob-PEd"/>
@@ -423,12 +390,11 @@
                         <outlet property="showBookmarks" destination="xTk-OO-hP2" id="CI0-mI-LwG"/>
                         <outlet property="showThumbnailButton" destination="Six-MP-J21" id="8Nf-ED-qXU"/>
                         <outlet property="topBarTopConstant" destination="dth-a7-A8r" id="YLU-F8-sqN"/>
-                        <outlet property="topHideShow" destination="QXQ-UO-4rH" id="lsh-Qu-oqQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g6w-lt-e9a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-183.19999999999999" y="-620.23988005997012"/>
+            <point key="canvasLocation" x="-183" y="-611"/>
         </scene>
         <!--Page Detail View Controller-->
         <scene sceneID="ZHw-gC-lGQ">
@@ -521,7 +487,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g1R-oL-XdU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1845.5999999999999" y="-304.4977511244378"/>
+            <point key="canvasLocation" x="1745" y="-611"/>
         </scene>
     </scenes>
     <resources>
@@ -533,9 +499,5 @@
         <image name="info_outline_g" width="25" height="25"/>
         <image name="pages-1" width="25" height="25"/>
         <image name="pages_filled" width="25" height="25"/>
-        <image name="showBars" width="25" height="25"/>
-        <image name="showBarsDown" width="25" height="25"/>
-        <image name="showBarsDown_b" width="25" height="25"/>
-        <image name="showBars_b" width="25" height="25"/>
     </resources>
 </document>

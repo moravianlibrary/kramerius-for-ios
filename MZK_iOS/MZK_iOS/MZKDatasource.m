@@ -33,8 +33,6 @@ enum _downloadOperation{
 };
 typedef enum _downloadOperation downloadOperation;
 
-
-
 @implementation MZKDatasource
 {
     NSURLRequest *_lastRequest;
@@ -165,7 +163,7 @@ typedef enum _downloadOperation downloadOperation;
     //  BOOL showOnlyPublic = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettingsShowOnlyPublicDocuments] boolValue];
     //according to this: https://github.com/moravianlibrary/kramerius-for-ios/issues/110
     // show only public in most recent document ignoring settings
-    NSString *recent = @"/search/api/v5.0/feed/newest?policy=public"; //= showOnlyPublic ? @"/search/api/v5.0/feed/newest?policy=public" : @"/search/api/v5.0/feed/newest";
+    NSString *recent = @"/search/api/v5.0/feed/newest?policy=public";
     
     [self checkAndSetBaseUrl];
     

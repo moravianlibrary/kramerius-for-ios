@@ -37,7 +37,7 @@
 @property (nonatomic, weak) __weak id<DataLoadedDelegate> delegate;
 @property (nonatomic, strong) NSString *baseStringURL;
 
-// get methos
+// get methos, each sends a request to current kramerius backend
 -(void)getItem:(NSString *)pid;
 -(void)getChildrenForItem:(NSString *)pid;
 -(void)getSiblingsForItem:(NSString *)pid;
