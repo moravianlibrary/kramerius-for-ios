@@ -14,3 +14,4 @@
 #import "MZKDetailInformationViewController.h"
 #import "ASValuePopUpView.h"
 #import "ASValueTrackingSlider.h"
+#import <Google/Analytics.h>

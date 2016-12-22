@@ -73,7 +73,17 @@
         UIApplication.shared.isIdleTimerDisabled = shouldDimm
         
         self.enableUserInteraction(enable: false)
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker?.set(kGAIScreenName, value: "MZKDetailViewController")
+        
+        let builder = GAIDictionaryBuilder.createScreenView()
+        tracker!.send(builder!.build() as [NSObject : AnyObject])
     }
     
     override func didReceiveMemoryWarning() {
