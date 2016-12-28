@@ -51,7 +51,7 @@ PODS:
   - GoogleToolboxForMac/NSData+zlib (2.1.0):
     - GoogleToolboxForMac/Defines (= 2.1.0)
   - HexColors (2.3.0)
-  - iOSTiledViewer (0.1.5)
+  - iOSTiledViewer (0.2.0)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
@@ -89,7 +89,7 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
   HexColors: 6ad3947c3447a055a3aa8efa859def096351fe5f
-  iOSTiledViewer: 8b4970e85d40480591b7872f0843e95daadf44b1
+  iOSTiledViewer: a1da185209a196f42112db67b51d7f8b9eecd3a3
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   TSMessages: eb3cf27b6900684a21bad4fe9ea426e287b8c839
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
