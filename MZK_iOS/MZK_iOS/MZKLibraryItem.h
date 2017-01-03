@@ -8,17 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MZKLibraryItem : NSObject
+@interface MZKLibraryItem : NSObject<NSCoding>
 
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *protocol;
-@property (nonatomic, strong) NSString *stringURL;
-@property (nonatomic, strong) NSString *imageName;
-
-@property (nonatomic, strong) NSString *version;
-@property (nonatomic, strong) NSString *libraryURL;
-@property (nonatomic, strong) NSString *url;
-@property (nonatomic, strong) NSString *code;
 @property (atomic) NSUInteger libID;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *nameEN;
+@property (nonatomic, strong) NSString *code;
+@property (nonatomic, strong) NSString *url;
+@property (nonatomic, strong) NSString *version;
+@property (nonatomic, strong) NSString *logoURL;
+@property (nonatomic, strong) NSString *libraryURL;// url for detail info about lib
+
+-(void)encodeWithCoder:(NSCoder *)aCoder;
+- (id)initWithCoder:(NSCoder *)coder;
 
 @end

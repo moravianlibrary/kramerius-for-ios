@@ -19,8 +19,7 @@
 #import "MZKLibraryItem.h"
 #import "UINavigationBar+CustomHeight.h"
 #import "MZK_iOS-Swift.h"
-
-
+@import CocoaLumberjack;
 @import SDWebImage;
 
 const int kHeaderHeight = 95;
@@ -72,8 +71,6 @@ const int kHeaderHeight = 95;
     
     // Do any additional setup after loading the view.
     dialogVisible = NO;
-    datasource = [MZKDatasource new];
-    datasource.delegate = self;
     
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.latest", @"") forSegmentAtIndex:0];
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.interesting", @"") forSegmentAtIndex:1];
@@ -81,17 +78,24 @@ const int kHeaderHeight = 95;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
     
-    [self refreshAllValues];
-    [self initGoogleAnalytics];
-    [self refreshTitle];
+    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    NSLog(@"top = %f, bounds top %f", self.collectionView.frame.origin.y, self.collectionView.bounds.origin.y);
-    NSLog(@"offset y = %f", self.collectionView.contentOffset.y);
-    NSLog(@"height = %f", self.collectionView.contentSize.height);
-    NSLog(@"inset top = %f", self.collectionView.contentInset.top);
-    NSLog(@"inset bottom = %f", self.collectionView.contentInset.bottom);
-    NSLog(@"inset left = %f", self.collectionView.contentInset.left);
-    NSLog(@"inset right = %f", self.collectionView.contentInset.right);
+    if (del.defaultDatasourceItem)
+    {
+        [self refreshAllValues];
+        [self initGoogleAnalytics];
+        [self refreshTitle];
+    }
+    // DDLogInfo(@"There is no default library, wait for DL")
+        
+    //    DDLogInfo(@"Info");
+    //    DDLogInfo(@"top = %f, bounds top %f", self.collectionView.frame.origin.y, self.collectionView.bounds.origin.y);
+    //    DDLogInfo(@"offset y = %f", self.collectionView.contentOffset.y);
+    //    DDLogInfo(@"height = %f", self.collectionView.contentSize.height);
+    //    DDLogInfo(@"inset top = %f", self.collectionView.contentInset.top);
+    //    DDLogInfo(@"inset bottom = %f", self.collectionView.contentInset.bottom);
+    //    DDLogInfo(@"inset left = %f", self.collectionView.contentInset.left);
+    //    DDLogInfo(@"inset right = %f", self.collectionView.contentInset.right);
     
 }
 
@@ -107,8 +111,8 @@ const int kHeaderHeight = 95;
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-     [self.navigationController.navigationBar setHeight:kHeaderHeight];
-     _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+    [self.navigationController.navigationBar setHeight:kHeaderHeight];
+    _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
 }
 
 -(void)viewDidLayoutSubviews
@@ -123,12 +127,12 @@ const int kHeaderHeight = 95;
     //get name of selected library
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *libName = [[del getDatasourceItem] name];
-   _headerTitleLabel.text = libName;
+    _headerTitleLabel.text = libName;
 }
 
 -(void)initGoogleAnalytics
 {
-    NSString *name = [NSString stringWithFormat:@"Pattern~%@", @"MZKMainViewController"];
+    NSString *name = [NSString stringWithFormat:@"Pattern~%@", @"MAIN"];
     
     // The UA-XXXXX-Y tracker ID is loaded automatically from the
     // GoogleService-Info.plist by the `GGLContext` in the AppDelegate.
@@ -147,6 +151,12 @@ const int kHeaderHeight = 95;
         datasource = [MZKDatasource new];
         datasource.delegate = self;
     }
+    
+    // clean old values
+    _recent = [NSArray new];
+    _recommended = [NSArray new];
+    
+    [self.collectionView reloadData];
     
     [datasource getRecommended];
     [datasource getMostRecent];
@@ -248,8 +258,7 @@ const int kHeaderHeight = 95;
         
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
-        NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
-        NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",url, item.pid ];
+        NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",delegate.defaultDatasourceItem.url, item.pid ];
         
         [cell.itemImage sd_setImageWithURL:[NSURL URLWithString:path]
                           placeholderImage:nil];
@@ -402,22 +411,22 @@ const int kHeaderHeight = 95;
 {
     
     switch (item.model) {
-            case Map :
-            case Monograph:
-            case Manuscript:
-            case Graphic:
-            case Page:
-            case PeriodicalItem:
-            case Article:
-            case Archive:
-            case InternalPart:
-            case Supplement:
-            case Sheetmusic:
+        case Map :
+        case Monograph:
+        case Manuscript:
+        case Graphic:
+        case Page:
+        case PeriodicalItem:
+        case Article:
+        case Archive:
+        case InternalPart:
+        case Supplement:
+        case Sheetmusic:
             [self performSegueWithIdentifier:@"OpenReader" sender:item];
             break;
             
-            case SoundRecording:
-            case Periodical:
+        case SoundRecording:
+        case Periodical:
             [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];
             
         default:
@@ -439,9 +448,13 @@ const int kHeaderHeight = 95;
     
     _recent = [NSArray new];
     _recommended = [NSArray new];
+    [self.collectionView reloadData];
     
     [self refreshAllValues];
     [self refreshTitle];
+    
+    [self searchEnded];
+    self.searchBar.text = @"";
 }
 
 #pragma mark - segment controll
@@ -494,7 +507,7 @@ const int kHeaderHeight = 95;
 {
     // shows dimming view and bring the focus to the search bar
     [self.view bringSubviewToFront:self.searchViewContainer];
- 
+    
     self.collectionView.scrollEnabled = NO;
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0]; // indexPath of your header, item must be 0
@@ -505,7 +518,7 @@ const int kHeaderHeight = 95;
     CGFloat sectionInsetY = ((UICollectionViewFlowLayout *)_collectionView.collectionViewLayout).sectionInset.top;
     
     [_collectionView setContentOffset:CGPointMake(_collectionView.contentOffset.x, offsetY - contentInsetY - sectionInsetY) animated:YES];
-
+    
 }
 
 -(void)searchEnded
@@ -535,11 +548,6 @@ const int kHeaderHeight = 95;
         
         [self.view sendSubviewToBack:_searchViewContainer];
     }
-    else
-    {
-        NSLog(@"Already added");
-    }
-    
 }
 
 #pragma mark - rotation handling

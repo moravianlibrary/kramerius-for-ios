@@ -14,8 +14,10 @@ int const kMinimalRecentSearchesVersion = 3;
 int const kMinimalRecentDocumentsVersion = 2;
 int const kMinimalLibrariesCacheVersionNumber = 1;
 int const kMinimalBookmarkVerion = 1;
+int const kLibrariesViewControllerIndex = 3;
 
-NSString *const MyFirstConstant = @"FirstConstant";
+
+NSString *const kDefaultDatasourceItem = @"kDefaultDatasourceItem";
 NSString *const kDefaultDatasourceName = @"kDefaultDatasourceName";
 NSString *const kDefaultDatasourceProtocol = @"kDefaultDatasourceProtocol";
 NSString *const kDefaultDatasourceStringURL = @"kDefaultDatasourceStringURL";

@@ -426,7 +426,7 @@
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let libraryItem : MZKLibraryItem! = appDelegate.getDatasourceItem();
         
-        let thumbURL = String(format:"%@://%@/search/api/v5.0/item/%@/thumb", libraryItem.protocol, libraryItem.stringURL, pageObject.pid)
+        let thumbURL = String(format:"%@/search/api/v5.0/item/%@/thumb", libraryItem.url, pageObject.pid)
         
         
         cell.pageNumber.text = pageObject.title

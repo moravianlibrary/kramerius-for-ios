@@ -13,9 +13,12 @@
 #import <Google/Analytics.h>
 #import "AFNetworkActivityIndicatorManager.h"
 #import "MZKTabBarMenuViewController.h"
+#import "MZKDatasource.h"
 
-@interface AppDelegate ()
-@property (nonatomic, strong) NSMutableDictionary *recentlyOpenedDocumentsDictionary;
+@interface AppDelegate ()<DataLoadedDelegate>
+{
+    MZKDatasource *_datasource;
+}
 
 @end
 
@@ -24,6 +27,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *recent = [defaults objectForKey:kSettingsShowOnlyPublicDocuments];
@@ -44,7 +48,6 @@
         NSLog(@"Version is OK! SEARCHES");
     }
     
-    
     // check version of stored recently opened documents - no version means that it is old app so there is no migratio of data in that case reset
     NSNumber *versionRecentDocuments = [defaults objectForKey:kRecentlyOpenedDocumentsVersion];
     if (!versionRecentDocuments || [versionRecentDocuments integerValue] != kMinimalRecentDocumentsVersion) {
@@ -58,10 +61,11 @@
         NSLog(@"Version is OK! DOCS");
     }
     
-    
     NSNumber *versionBookmarks= [defaults objectForKey:kMinimalBookmarkVersionKey];
     if (!versionBookmarks || [versionBookmarks integerValue] != kMinimalBookmarkVerion) {
-        [self resetDefaults];
+        [defaults removeObjectForKey:kAllBookmarks];
+        
+        [defaults synchronize];
         
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kMinimalBookmarkVerion] forKey:kMinimalBookmarkVersionKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -71,11 +75,6 @@
         NSLog(@"Version is OK! Bookmarks");
     }
 
-    
-    
-    
-
-    
     NSNumber *shouldDimmDisplay = [defaults objectForKey:kShouldDimmDisplay];
     
     if (!shouldDimmDisplay) {
@@ -84,12 +83,32 @@
     }
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+    
+    // check version of stored recently opened documents - no version means that it is old app so there is no migratio of data in that case reset
+    NSNumber *libVersion = [defaults objectForKey:kMinimalLibrariesCacheVersion];
+    if (!libVersion || [libVersion integerValue] != kMinimalLibrariesCacheVersionNumber) {
+       
+        [defaults removeObjectForKey:kMinimalLibrariesCacheVersion];
+        [defaults removeObjectForKey:kDefaultDatasourceItem];
+       
+        [defaults synchronize];
         
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kMinimalLibrariesCacheVersionNumber] forKey:kMinimalLibrariesCacheVersion];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        NSLog(@"Changed Version of Libraries");
+    }
+    else
+    {
+        NSLog(@"Version is OK! Libraries");
+    }    // load data for libraries from regist krameriu
+    
+    self.defaultDatasourceItem = [self loadDatasourceFromUserDefaults];
+    
+    [self downloadLibrariesJsonFromServer];
 
     self.menuTabBar = (MZKTabBarMenuViewController*)self.window.rootViewController;
     
     self.menuTabBar.delegate = self;
-    
     
     // Configure tracker from GoogleService-Info.plist.
     NSError *configureError;
@@ -104,10 +123,7 @@
     // track uncaught exceptions!
     [[GAI sharedInstance] setTrackUncaughtExceptions:YES];
     
-    if (!self.defaultDatasourceItem) {
-        [self setDefaultDatasource];
-    }
-    
+ 
     // init DB manager
     __weak typeof(self) wealf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -124,6 +140,43 @@
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
     return YES;
+}
+
+-(void)downloadLibrariesJsonFromServer
+{    // download json from server
+    // save json
+    _datasource = [[MZKDatasource alloc] initWithoutBaseURL];
+    _datasource.delegate = self;
+    [_datasource getLibraries];
+}
+
+#pragma mark - data loaded delegate methods
+-(void)librariesLoaded:(NSArray *)results
+{
+    UINavigationController *controller = [[((UITabBarController *)self.window.rootViewController) viewControllers] objectAtIndex:kLibrariesViewControllerIndex];
+    MZKChangeLibraryViewController *changeLibVC = [controller.viewControllers objectAtIndex:0];
+    changeLibVC.libraries = results;
+    
+    if (results.count >0) {
+        MZKLibraryItem *libItem = results[0];
+        
+        if (!self.defaultDatasourceItem) {
+            [self saveToUserDefaults:libItem];
+            // send notification about default library
+            [[NSNotificationCenter defaultCenter] postNotificationName:kDatasourceItemChanged object:nil];
+        }
+    }
+}
+
+// error states
+-(void)downloadFailedWithError:(NSError *)error
+{
+    if([error.domain isEqualToString:NSURLErrorDomain])
+    {
+        // load from cache;
+        // inform user that there is problem with connection
+
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -156,15 +209,10 @@
     MZKLibraryItem *item  = [self loadDatasourceFromUserDefaults];
     if (item) {
         self.defaultDatasourceItem = item;
-    }else
+    }
+    else
     {
-        MZKLibraryItem *item1 = [MZKLibraryItem new];
-        item1.name = @"Moravská zemská knihovna";
-        item1.protocol = @"http";
-        item1.stringURL = @"kramerius.mzk.cz";
-        item1.imageName = @"logo_mzk";
-        
-        self.defaultDatasourceItem = item1;
+        // notify user about connection problems, check wifi and try again
     }
     self.recentlyOpenedDocuments = nil;
     
@@ -175,43 +223,39 @@
 
 -(MZKLibraryItem*)loadDatasourceFromUserDefaults
 {
-    MZKLibraryItem *item = [MZKLibraryItem new];
-    item.protocol = [[NSUserDefaults standardUserDefaults] stringForKey:kDefaultDatasourceProtocol];
-    item.name = [[NSUserDefaults standardUserDefaults] stringForKey:kDefaultDatasourceName];
-    item.stringURL = [[NSUserDefaults standardUserDefaults] stringForKey:kDefaultDatasourceStringURL];
-    item.imageName = [[NSUserDefaults standardUserDefaults] stringForKey:kDefaultImageName];
+    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *dataRepresentingDatasource = [currentDefaults objectForKey:kDefaultDatasourceItem];
+    MZKLibraryItem *savedLibrary;
+    if (dataRepresentingDatasource)
+    {
+        savedLibrary = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingDatasource];
+        if (!savedLibrary) {
+            // nothing was saved - save new value!
+        }
+    }
     
-    
-    if (item.protocol && item.stringURL && item.imageName &&item.name) {
-        
-        return item;
-    }else return nil;
+    return savedLibrary;
 }
 
 -(void)saveToUserDefaults:(MZKLibraryItem *)item
 {
     if (![self.defaultDatasourceItem.name isEqualToString:item.name]) {
 
-        self.defaultDatasourceItem  =item;
-        [[NSUserDefaults standardUserDefaults] setObject:item.name forKey:kDefaultDatasourceName];
-        [[NSUserDefaults standardUserDefaults] setObject:item.stringURL forKey:kDefaultDatasourceStringURL];
-        [[NSUserDefaults standardUserDefaults] setObject:item.imageName forKey:kDefaultImageName];
-        [[NSUserDefaults standardUserDefaults] setObject:item.protocol forKey:kDefaultDatasourceProtocol];
+        self.defaultDatasourceItem = item;
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:item] forKey:kDefaultDatasourceItem];
+        
         [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        [self setDefaultDatasource];
-        
+
         [self.menuTabBar setSelectedIndex:0];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDatasourceItemChanged object:nil];
     }
 }
 
 -(MZKLibraryItem *)getDatasourceItem
 {
-    if (!self.defaultDatasourceItem) {
-        [self setDefaultDatasource];
-    }
-    
-    return self.defaultDatasourceItem;
+      return self.defaultDatasourceItem;
 }
 
 -(void)saveLastPlayedMusic:(NSString *)pid
@@ -323,8 +367,7 @@
             savedData = [NSMutableDictionary new];
         }
         
-        NSLog(@"Saving recently opened:%@ %@", self.defaultDatasourceItem.stringURL, _recentlyOpenedDocuments.description);
-        [savedData setObject:_recentlyOpenedDocuments forKey:self.defaultDatasourceItem.stringURL];
+        [savedData setObject:_recentlyOpenedDocuments forKey:self.defaultDatasourceItem.code];
         
         [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:savedData] forKey:kRecentlyOpenedDocuments];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -342,7 +385,7 @@
             savedData = [NSMutableDictionary new];
         }
         
-        NSArray *recentlyOpenedDocumentForLibrary = [savedData objectForKey:self.defaultDatasourceItem.stringURL];
+        NSArray *recentlyOpenedDocumentForLibrary = [savedData objectForKey:self.defaultDatasourceItem.code];
         
         if (recentlyOpenedDocumentForLibrary) {
             _recentlyOpenedDocuments = [[NSMutableArray alloc] initWithArray:recentlyOpenedDocumentForLibrary];
@@ -359,7 +402,6 @@
 
 -(void)addRecentlyOpenedDocument:(MZKItemResource *)item
 {
-    
     _recentlyOpenedDocuments = [self loadRecentlyOpened];
     
     if (_recentlyOpenedDocuments.count>0) {
@@ -370,14 +412,12 @@
         {
             [self updateRecentlyOpenedDocument:item withDate:item.lastOpened];
         }
-        
     }
     else
     {
         [_recentlyOpenedDocuments addObject:item];
     }
-    
-    
+
     [self saveRecentlyOpened];
 }
 
@@ -467,7 +507,6 @@
     if([viewController isKindOfClass:[UINavigationController class]])
     {
     }
-    
 }
 
 

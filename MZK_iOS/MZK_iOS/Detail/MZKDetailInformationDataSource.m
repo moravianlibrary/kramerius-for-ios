@@ -458,7 +458,7 @@
     if (!item) {
         // NSLog(@"Default URL not set!");
     }
-    baseStringURL = [NSString stringWithFormat:@"%@://%@", item.protocol, item.stringURL];
+    baseStringURL = item.url;
 }
 
 

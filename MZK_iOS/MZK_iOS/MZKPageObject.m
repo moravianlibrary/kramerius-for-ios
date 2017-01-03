@@ -16,8 +16,7 @@
 
 -(void)loadPageResolution
 {
-    [self checkAndSetBaseUrl];
-    
+      
     NSString *finalString = [NSString stringWithFormat:@"%@/search/zoomify/%@/ImageProperties.xml",baseURL, _pid];
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
@@ -173,17 +172,5 @@
     }
     return localizedItemType;
 }
-
--(void)checkAndSetBaseUrl
-{
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    MZKLibraryItem *item = appDelegate.getDatasourceItem;
-    if (!item) {
-        // NSLog(@"Default URL not set!");
-    }
-    baseURL = [NSString stringWithFormat:@"%@://%@", item.protocol, item.stringURL];
-}
-
-
 
 @end

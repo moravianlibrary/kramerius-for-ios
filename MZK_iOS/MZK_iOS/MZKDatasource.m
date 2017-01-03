@@ -57,6 +57,20 @@ typedef enum _downloadOperation downloadOperation;
     return self;
 }
 
+-(id)initWithoutBaseURL
+{
+    self = [super init];
+    if (self) {
+        
+    }
+    
+    downloadQ = [NSOperationQueue new];
+    downloadQ.name = @"download";
+    
+    return self;
+
+}
+
 -(void)resendLastRequest
 {
     if (_lastURL && lastOperation) {
@@ -280,10 +294,9 @@ typedef enum _downloadOperation downloadOperation;
 {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MZKLibraryItem *item = appDelegate.getDatasourceItem;
-    _scheme = item.protocol;
-    _host = item.stringURL;
-    
-    self.baseStringURL = [NSString stringWithFormat:@"%@://%@", item.protocol, item.stringURL];
+    if (item) {
+        self.baseStringURL = item.url;
+    }
 }
 
 -(void)downloadFailedWithError:(NSError *)error
@@ -299,11 +312,17 @@ typedef enum _downloadOperation downloadOperation;
 
 -(NSArray *)parseJSONData:(NSData*)data error:(NSError *)error withOperation:(downloadOperation)operation
 {
+    NSString *dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    NSData *theData = [dataStr dataUsingEncoding:NSUTF8StringEncoding];
+
+    
     NSError *localError = nil;
-    NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
+    NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:theData options:0 error:&localError];
     
     if (localError != nil) {
         error = localError;
+        
         return nil;
     }
     
@@ -702,14 +721,12 @@ typedef enum _downloadOperation downloadOperation;
                 item.code = [lib objectForKey:@"code"];
                 item.version = [lib objectForKey:@"version"];
                 item.libraryURL = [lib objectForKey:@"library_url"];
+                item.logoURL = [lib objectForKey:@"logo"];
+                item.nameEN = [lib objectForKey:@"name_en"];
+                item.url = [lib objectForKey:@"url"];
                 [librariesArray addObject:item];
-                NSLog(@"Library added");
             }
-            
-            
-            
         }
-        
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
@@ -767,10 +784,7 @@ typedef enum _downloadOperation downloadOperation;
                 }
             }
         }
-        
-        
     }
-    
     
     [rawData objectForKey:@""];
     
@@ -794,6 +808,9 @@ typedef enum _downloadOperation downloadOperation;
 
 -(void)downloadDataFromURL:(NSURL *)strURL withOperation:(downloadOperation)operation
 {
+    
+    NSLog(@"URL! %@", [strURL description]);
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
     
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];

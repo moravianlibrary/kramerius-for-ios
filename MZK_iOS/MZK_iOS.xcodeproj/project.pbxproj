@@ -23,9 +23,7 @@
 		2D24F0701B7387E40073FC83 /* MZKChangeLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F06F1B7387E40073FC83 /* MZKChangeLibraryViewController.m */; };
 		2D24F0761B74C0A80073FC83 /* MZKCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D24F0751B74C0A80073FC83 /* MZKCollectionItem.m */; };
 		2D2505C71AFE08C30079F70E /* MZKItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505C61AFE08C30079F70E /* MZKItemTableViewCell.m */; };
-		2D2505CA1AFE721A0079F70E /* MZKDomainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505C91AFE721A0079F70E /* MZKDomainItem.m */; };
 		2D2505CD1AFE73300079F70E /* MZKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505CC1AFE73300079F70E /* MZKConstants.m */; };
-		2D2505D01AFE76880079F70E /* MZKDomainHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2505CF1AFE76880079F70E /* MZKDomainHolder.m */; };
 		2D2763D71B6B641900CC7E4F /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 2D2763D41B6B641900CC7E4F /* index.html */; };
 		2D2763D81B6B641900CC7E4F /* ol.js in Resources */ = {isa = PBXBuildFile; fileRef = 2D2763D51B6B641900CC7E4F /* ol.js */; };
 		2D2763D91B6B641900CC7E4F /* zoomify.js in Resources */ = {isa = PBXBuildFile; fileRef = 2D2763D61B6B641900CC7E4F /* zoomify.js */; };
@@ -126,12 +124,8 @@
 		2D24F0751B74C0A80073FC83 /* MZKCollectionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKCollectionItem.m; path = ../MZKCollectionItem.m; sourceTree = "<group>"; };
 		2D2505C51AFE08C30079F70E /* MZKItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKItemTableViewCell.h; sourceTree = "<group>"; };
 		2D2505C61AFE08C30079F70E /* MZKItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKItemTableViewCell.m; sourceTree = "<group>"; };
-		2D2505C81AFE721A0079F70E /* MZKDomainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKDomainItem.h; path = ../MZKDomainItem.h; sourceTree = "<group>"; };
-		2D2505C91AFE721A0079F70E /* MZKDomainItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKDomainItem.m; path = ../MZKDomainItem.m; sourceTree = "<group>"; };
 		2D2505CB1AFE73300079F70E /* MZKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKConstants.h; sourceTree = "<group>"; };
 		2D2505CC1AFE73300079F70E /* MZKConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKConstants.m; sourceTree = "<group>"; };
-		2D2505CE1AFE76880079F70E /* MZKDomainHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKDomainHolder.h; path = ../MZKDomainHolder.h; sourceTree = "<group>"; };
-		2D2505CF1AFE76880079F70E /* MZKDomainHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKDomainHolder.m; path = ../MZKDomainHolder.m; sourceTree = "<group>"; };
 		2D2763D41B6B641900CC7E4F /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		2D2763D51B6B641900CC7E4F /* ol.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ol.js; sourceTree = "<group>"; };
 		2D2763D61B6B641900CC7E4F /* zoomify.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = zoomify.js; sourceTree = "<group>"; };
@@ -335,10 +329,6 @@
 				2D409B7A1B8B4C8B00B49EAD /* MZKLibraryItem.m */,
 				2DE3875E1AE523B400A2004E /* MZKItemResource.h */,
 				2DE3875F1AE523B400A2004E /* MZKItemResource.m */,
-				2D2505C81AFE721A0079F70E /* MZKDomainItem.h */,
-				2D2505C91AFE721A0079F70E /* MZKDomainItem.m */,
-				2D2505CE1AFE76880079F70E /* MZKDomainHolder.h */,
-				2D2505CF1AFE76880079F70E /* MZKDomainHolder.m */,
 				2D02A4601B0624C100D51B0C /* MZKPageObject.h */,
 				2D02A4611B0624C100D51B0C /* MZKPageObject.m */,
 				2D4747301D4684BD00D6F5F8 /* MZKSearchHistoryItem.h */,
@@ -719,7 +709,6 @@
 				2DE387601AE523B400A2004E /* MZKItemResource.m in Sources */,
 				2D58E8F61BA57BAC000D444C /* MZKCollectionTableViewCell.m in Sources */,
 				2DD1B9F11D9E42D4004011FC /* UINavigationBar+CustomHeight.m in Sources */,
-				2D2505D01AFE76880079F70E /* MZKDomainHolder.m in Sources */,
 				2D2DA52E1BF2356900423447 /* MZKGeneralColletionViewController.m in Sources */,
 				2D2DA5201BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m in Sources */,
 				2D41FF051C3BBFE50087F22E /* MZKDatabaseManager.m in Sources */,
@@ -761,7 +750,6 @@
 				2D0DD5711DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift in Sources */,
 				2D41FEF81C3B03460087F22E /* MZKDetailInformationDataSource.m in Sources */,
 				2DA030521C0A002800B7759B /* MZKBaseViewController.m in Sources */,
-				2D2505CA1AFE721A0079F70E /* MZKDomainItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -168,7 +168,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    NSString *queryString = [NSString stringWithFormat:@"?url=%@://%@/search/zoomify/%@/&width=%f&height=%f",delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL, url, width, height];
+    NSString *queryString = [NSString stringWithFormat:@"?url=%@/search/zoomify/%@/&width=%f&height=%f",delegate.defaultDatasourceItem.url, url, width, height];
     
     NSString *absoluteURLwithQueryString = [theAbsoluteURLString stringByAppendingString: queryString];
     
@@ -208,7 +208,7 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     self.scrollView.minimumZoomScale = 1;
     self.scrollView.maximumZoomScale = 3;
     self.scrollView.zoomScale = 1;
-    NSString *load = [NSString stringWithFormat:@"%@://%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL, page.pid, [NSString stringWithFormat:@"%d", height]];
+    NSString *load = [NSString stringWithFormat:@"%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", delegate.defaultDatasourceItem.url, page.pid, [NSString stringWithFormat:@"%d", height]];
     
     NSURL *finalURL = [NSURL URLWithString:load];
     
@@ -661,21 +661,17 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
         
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
-        NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
-        NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",url, page.pid ];
+        NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",delegate.defaultDatasourceItem.url, page.pid ];
         
         cell.pageNumber.text = page.title;
         
         [cell.pageThumbnail sd_setImageWithURL:[NSURL URLWithString:path]
                               placeholderImage:nil];
         cell.page = page;
-        
     }
     
     return cell;
 }
-
-
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -137,10 +137,8 @@
     
     AppDelegate *del = (AppDelegate* )[[UIApplication sharedApplication] delegate];
     MZKLibraryItem *resItem = del.getDatasourceItem;
-    
-    NSString*url = [NSString stringWithFormat:@"%@://%@", resItem.protocol, resItem.stringURL];
-    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",url, item.pid ];
-    
+
+    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",resItem.url, item.pid ];
     
     [newCell.itemImage sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
 

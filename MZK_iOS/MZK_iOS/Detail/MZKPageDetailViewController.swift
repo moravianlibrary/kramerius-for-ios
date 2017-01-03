@@ -77,7 +77,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let libraryItem : MZKLibraryItem! = appDelegate.getDatasourceItem();
         
-        let aStr = String(format: "%@://%@/search/zoomify/%@/ImageProperties.xml", libraryItem.protocol, libraryItem.stringURL , pagePID)
+        let aStr = String(format: "%@/search/zoomify/%@/ImageProperties.xml", libraryItem.url , pagePID)
         
         
         guard let url = URL(string: aStr) else {
@@ -146,7 +146,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         let libraryItem : MZKLibraryItem! = appDelegate.getDatasourceItem();
         let heightScale = String(describing: Int(self.view.bounds.size.height*2))
         
-        let imageStrUrl = String(format: "%@://%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", libraryItem.protocol, libraryItem.stringURL , pagePID, heightScale)
+        let imageStrUrl = String(format: "%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", libraryItem.url , pagePID, heightScale)
         
         let url = NSURL(string: imageStrUrl)
     
@@ -191,7 +191,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let libraryItem : MZKLibraryItem! = appDelegate.getDatasourceItem();
             
-            let imageURL = String(format: "%@://%@/search/zoomify/%@/ImageProperties.xml", libraryItem.protocol, libraryItem.stringURL , pagePID)
+            let imageURL = String(format: "%@/search/zoomify/%@/ImageProperties.xml", libraryItem.url , pagePID)
 
             
             self.zoomifyIIIFReaderScrollView.loadImage(imageURL, api: ITVImageAPI.Unknown)

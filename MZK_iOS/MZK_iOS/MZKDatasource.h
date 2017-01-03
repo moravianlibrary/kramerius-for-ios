@@ -56,5 +56,5 @@
 -(void)getLibraries;
 
 -(id)init;
-
+-(id)initWithoutBaseURL;
 @end

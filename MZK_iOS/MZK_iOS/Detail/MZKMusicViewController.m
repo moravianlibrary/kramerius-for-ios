@@ -309,9 +309,7 @@ static MZKMusicViewController *sharedInstance;
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    NSString*strUrl = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
-    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/streams/MP3",strUrl, pid];
-    
+    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/streams/MP3",delegate.defaultDatasourceItem.url, pid];
     
     if (_player) {
         // stop playback
@@ -323,7 +321,6 @@ static MZKMusicViewController *sharedInstance;
         _playerItem = nil;
         [self prepareSlider];
     }
-    
     
     AVPlayer *player = [[AVPlayer alloc]initWithURL:[NSURL URLWithString:path]];
     _player = player;
@@ -399,8 +396,7 @@ static MZKMusicViewController *sharedInstance;
         NSMutableDictionary *songInfo = [[NSMutableDictionary alloc] init];
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
-        NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
-        NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",url, _currentItem.pid ];
+        NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",delegate.defaultDatasourceItem.url, _currentItem.pid ];
         
         
         [_artWork sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
@@ -810,8 +806,7 @@ static MZKMusicViewController *sharedInstance;
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
-    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",url, itemPID ];
+    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",delegate.defaultDatasourceItem.url, itemPID ];
     
     [_blurryImage sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
     [self addBlurEffect];
@@ -821,9 +816,8 @@ static MZKMusicViewController *sharedInstance;
 -(void)loadThumbnailImageForItem:(NSString *)itemPID
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    NSString*url = [NSString stringWithFormat:@"%@://%@", delegate.defaultDatasourceItem.protocol, delegate.defaultDatasourceItem.stringURL];
-    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",url, itemPID ];
+
+    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",delegate.defaultDatasourceItem.url, itemPID ];
     
     [_artWork sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
 }

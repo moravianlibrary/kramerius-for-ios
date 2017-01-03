@@ -11,4 +11,6 @@
 
 @interface MZKChangeLibraryViewController : UIViewController
 
+@property (nonatomic, strong) NSArray *libraries;
+
 @end

@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSArray *dbLangInfo;
 @property (nonatomic, strong) NSMutableArray *recentlyOpenedDocuments;
 @property (nonatomic, strong) MZKTabBarMenuViewController *menuTabBar;
+@property (nonatomic, strong) NSMutableDictionary *recentlyOpenedDocumentsDictionary;
 
 
 -(void)saveToUserDefaults:(MZKLibraryItem *)item;
