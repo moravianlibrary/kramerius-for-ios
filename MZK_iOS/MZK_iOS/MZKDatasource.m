@@ -40,8 +40,6 @@ typedef enum _downloadOperation downloadOperation;
     downloadOperation lastOperation;
     NSOperationQueue *downloadQ;
     AFHTTPRequestOperation *currentOperation;
-    NSString *_scheme;
-    NSString *_host;
 }
 
 -(id)init
@@ -210,15 +208,17 @@ typedef enum _downloadOperation downloadOperation;
     if (recent) {
         visible= [recent boolValue];
     }
+    
     [self checkAndSetBaseUrl];
     
+    NSURL *tmpURL = [NSURL URLWithString:self.baseStringURL];
+    
     NSURLComponents *components = [[NSURLComponents alloc] init];
-    components.scheme = _scheme;
-    components.host = _host;
+    components.scheme = tmpURL.scheme;
+    components.host = tmpURL.host;
     components.path = @"/search/api/v5.0/search/";
     components.query = [NSString stringWithFormat:@"fl=dc.title&q=dc.title:%@*+AND+%@(fedora.model:monograph^4+OR+fedora.model:periodical^4+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)+AND+(dostupnost:public^3+OR+dostupnost:private)&rows=20", [searchString lowercaseString], visible?@"dostupnost:*public*+AND+":@""];
     
-    //  NSLog(@"Hints:%@",[components URL]) ;
     NSURL *url = components.URL;
     [self downloadDataFromURL:url withOperation:searchHints];
 }
@@ -234,10 +234,11 @@ typedef enum _downloadOperation downloadOperation;
     }
     
     [self checkAndSetBaseUrl];
+    NSURL *tmpURL = [NSURL URLWithString:self.baseStringURL];
     
     NSURLComponents *components = [[NSURLComponents alloc] init];
-    components.scheme = _scheme;
-    components.host = _host;
+    components.scheme = tmpURL.scheme;
+    components.host = tmpURL.host;
     components.path = @"/search/api/v5.0/search/";
     components.query = [NSString stringWithFormat:@"q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString],visible?@"dostupnost:*public*+AND+":@""];
     
@@ -262,10 +263,11 @@ typedef enum _downloadOperation downloadOperation;
     //    NSString *sq1 = [NSString stringWithFormat: @"/search/api/v5.0/search/?fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=%@*AND%@(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [[searchString lowercaseString] URLEncodedString_ch], visible?@"dostupnost:*public*+AND+":@""];
     //
     [self checkAndSetBaseUrl];
+    NSURL *tmpURL = [NSURL URLWithString:self.baseStringURL];
     
     NSURLComponents *components = [[NSURLComponents alloc] init];
-    components.scheme = _scheme;
-    components.host = _host;
+    components.scheme = tmpURL.scheme;
+    components.host = tmpURL.host;
     components.path = @"/search/api/v5.0/search/";
     components.query = [NSString stringWithFormat:@"fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:soundrecording+OR+fedora.model:map+OR+fedora.model:graphic+OR+fedora.model:sheetmusic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
     

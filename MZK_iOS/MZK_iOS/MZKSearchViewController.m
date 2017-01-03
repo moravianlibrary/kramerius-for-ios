@@ -85,9 +85,7 @@
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
     }
-    
-    //[_datasource getFullSearchResults:_stringItem];
-    
+
 }
 
 -(void)downloadFailedWithError:(NSError *)error
@@ -114,8 +112,7 @@
         {
             NSLog(@"Canceled request");
         }
-        
-        
+
     }
 
 }

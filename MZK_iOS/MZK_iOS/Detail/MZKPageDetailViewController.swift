@@ -158,6 +158,12 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
             self!.imageReaderScrollView.zoomScale = 1.0
             self!.imageReaderScrollView.minimumZoomScale = 0.5
             
+            
+            let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self!.didTap(event:)))
+            tapGestureRecognizer.numberOfTapsRequired = 1
+            tapGestureRecognizer.cancelsTouchesInView = false
+            
+            self!.imageReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
         })
         
     }
@@ -200,8 +206,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
             tapGestureRecognizer.numberOfTapsRequired = 1
             tapGestureRecognizer.cancelsTouchesInView = false
             
-             self.zoomifyIIIFReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
-
+            self.zoomifyIIIFReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
             
             DispatchQueue.main.async (execute: { () -> Void in
                 
