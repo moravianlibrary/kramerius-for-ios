@@ -855,44 +855,5 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 }
     
    
-//    CGSize imgViewSize = _imageZoomView.frame.size;
-//    CGSize imageSize = _imageZoomView.image.size;
-//    
-//    CGSize realImgSize;
-//    if(imageSize.width / imageSize.height > imgViewSize.width / imgViewSize.height) {
-//        realImgSize = CGSizeMake(imgViewSize.width, imgViewSize.width / imageSize.width * imageSize.height);
-//    }
-//    else {
-//        realImgSize = CGSizeMake(imgViewSize.height / imageSize.height * imageSize.width, imgViewSize.height);
-//    }
-//    
-//    CGRect fr = CGRectMake(0, 0, 0, 0);
-//    fr.size = realImgSize;
-//    _imageZoomView.frame = fr;
-//    
-//    CGSize scrSize = scrollView.frame.size;
-//    float offx = (scrSize.width > realImgSize.width ? (scrSize.width - realImgSize.width) / 2 : 0);
-//    float offy = (scrSize.height > realImgSize.height ? (scrSize.height - realImgSize.height) / 2 : 0);
-//    
-//    // don't animate the change.
-//    scrollView.contentInset = UIEdgeInsetsMake(offy, offx, offy, offx);
-
-
-#pragma mark -
-
-
-
-//private func updateConstraintsForSize(size: CGSize) {
-//    
-//    let yOffset = max(0, (size.height - imageView.frame.height) / 2)
-//    imageViewTopConstraint.constant = yOffset
-//    imageViewBottomConstraint.constant = yOffset
-//    
-//    let xOffset = max(0, (size.width - imageView.frame.width) / 2)
-//    imageViewLeadingConstraint.constant = xOffset
-//    imageViewTrailingConstraint.constant = xOffset
-//    
-//    view.layoutIfNeeded()
-//}
 
 @end

@@ -15,7 +15,7 @@ protocol MZKUserActivityDelegate :class {
     
     /**
      Method that notifies delegate about user activity - single tap gesture recognizer
-    */
+     */
     
     func userDidSingleTapped()
     func nextPage()
@@ -30,6 +30,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
     var imageWidth : Int!
     var imageHeight : Int!
     var pageIndex : Int!
+    var pdfURL : String!
     
     weak var userActivityDelegate : MZKUserActivityDelegate?
     
@@ -47,24 +48,34 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
     @IBOutlet weak var imageReaderViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var zoomifyIIIFReaderScrollView: ITVScrollView!
     
+    @IBOutlet weak var pdfReaderViewContainer: UIView!
+    @IBOutlet weak var pdfWebView: UIWebView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        
-        
         // load page resolution for current PID
         
-       print(pagePID)
         self .loadImageProperties()
         self.imageReaderScrollView.delegate = self
         
-       // self.zoomifyIIIFReaderScrollView.errorDelegate = self
-        
+       // self.zoomifyIIIFReaderScrollView.ITVScrollViewDelegate = self
     }
+    
+    
+    func showPDFFile(item:MZKItemResource) -> Void {
+        self.pdfURL = item.pdfUrl
+        self.zoomifyIIFContainerView.isHidden = true
+        self.imageReaderContainerView.isHidden = true
+        self.pdfReaderViewContainer.isHidden = false
+        
+        let targetURL = URL(string:self.pdfURL )
+        let request = URLRequest(url:targetURL!)
+        self.pdfWebView.delegate = self
+        self.pdfWebView.loadRequest(request)
 
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -101,7 +112,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
                 
                 switch errorCode {
                     // ugly hack as hell!!!!
-                    // status 500 means that we should display resource as JPG instead of ZOOMify or IIIF protocol ... WTF?!
+                // status 500 means that we should display resource as JPG instead of ZOOMify or IIIF protocol ... WTF?!
                 case HTTPStatusCode.internalServerError:
                     self.imagePropertiesFailedToDownload()
                     break
@@ -109,7 +120,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
                 default: break
                     
                 }
-
+                
                 if error != nil {
                     print(error!.localizedDescription)
                     self.imagePropertiesFailedToDownload()
@@ -128,12 +139,12 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
                     self.xmlParser.parse()
                     
                 }
-
+                
             }
         })
         
         task.resume()
-
+        
     }
     
     func imagePropertiesFailedToDownload()
@@ -149,9 +160,11 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         let imageStrUrl = String(format: "%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", libraryItem.url , pagePID, heightScale)
         
         let url = NSURL(string: imageStrUrl)
-    
+        
         imageReaderImageView.sd_setImage(with: url as URL!, placeholderImage: nil, options: [.continueInBackground, .progressiveDownload], progress:{[weak self](receivedSize, expectedSize) -> Void in}, completed:{[weak self] (image, data, error, finished)-> Void in
-        // body of completion block
+            // body of completion block
+            
+            // IF there is no IMAGE! -> PDF file
             
             self!.activityIndicator.stopAnimating()
             self!.imageReaderScrollView.maximumZoomScale = 2.0
@@ -167,7 +180,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         })
         
     }
-   
+    
     // MARK: xml parser delegate methods
     
     func parserDidStartDocument(_ parser: XMLParser)
@@ -198,10 +211,10 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
             let libraryItem : MZKLibraryItem! = appDelegate.getDatasourceItem();
             
             let imageURL = String(format: "%@/search/zoomify/%@/ImageProperties.xml", libraryItem.url , pagePID)
-
+            
             
             self.zoomifyIIIFReaderScrollView.loadImage(imageURL, api: ITVImageAPI.Unknown)
-
+            
             let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.didTap(event:)))
             tapGestureRecognizer.numberOfTapsRequired = 1
             tapGestureRecognizer.cancelsTouchesInView = false
@@ -210,8 +223,8 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
             
             DispatchQueue.main.async (execute: { () -> Void in
                 
-               self.imageReaderContainerView.isHidden = true
-               self.zoomifyIIFContainerView.isHidden = false
+                self.imageReaderContainerView.isHidden = true
+                self.zoomifyIIFContainerView.isHidden = false
                 self.activityIndicator.stopAnimating()
             })
         }
@@ -228,7 +241,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         } else if location.x > distanceRight {
             
             // next page
-             userActivityDelegate?.nextPage()
+            userActivityDelegate?.nextPage()
         }
         else
         {
@@ -238,7 +251,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
     
     func onShowHideBars(_ sender: UITapGestureRecognizer) -> Void {
         userActivityDelegate?.userDidSingleTapped()
-        }
+    }
     
     // MARK : zooming methods
     
@@ -263,6 +276,19 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
 extension MZKPageDetailViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageReaderImageView
+    }
+}
+
+extension MZKPageDetailViewController : UIWebViewDelegate
+{
+    func webViewDidFinishLoad(_ webView: UIWebView)
+    {
+        self.activityIndicator.stopAnimating()
+    }
+    
+    func webViewDidStartLoad(_ webView: UIWebView) {
+        self.activityIndicator.isHidden = false
+        self.activityIndicator.startAnimating()
     }
 }
 

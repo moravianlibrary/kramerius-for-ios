@@ -380,6 +380,7 @@
                         <outlet property="bookmarkContainerLeadingConstraint" destination="pgX-uk-9AN" id="ugS-Rf-Hly"/>
                         <outlet property="bookmarkTableView" destination="NUv-9P-xjp" id="337-u6-enf"/>
                         <outlet property="bottomBarBottomConstant" destination="Ln2-B0-YT7" id="hPy-hw-okS"/>
+                        <outlet property="bottomBarView" destination="iHN-hF-wPK" id="2LK-Tx-Grh"/>
                         <outlet property="containerView" destination="yXD-PY-Ez9" id="J08-gA-D0T"/>
                         <outlet property="createBookmark" destination="Fc6-wI-BVA" id="j6U-Gp-PXv"/>
                         <outlet property="currentPageNumber" destination="taU-WG-HiH" id="BUH-ob-PEd"/>
@@ -456,6 +457,23 @@
                                     <constraint firstItem="Bo8-iD-q6z" firstAttribute="leading" secondItem="k6v-C6-Vpm" secondAttribute="leading" id="lHL-Oe-shS"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RDi-CD-ecB">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                <subviews>
+                                    <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nyi-Pi-wns">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <dataDetectorType key="dataDetectorTypes"/>
+                                    </webView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="nyi-Pi-wns" firstAttribute="top" secondItem="RDi-CD-ecB" secondAttribute="top" id="1LH-Cl-3gU"/>
+                                    <constraint firstAttribute="bottom" secondItem="nyi-Pi-wns" secondAttribute="bottom" id="OOb-ux-abU"/>
+                                    <constraint firstItem="nyi-Pi-wns" firstAttribute="leading" secondItem="RDi-CD-ecB" secondAttribute="leading" id="f9a-5x-YuE"/>
+                                    <constraint firstAttribute="trailing" secondItem="nyi-Pi-wns" secondAttribute="trailing" id="hBQ-pH-yfZ"/>
+                                </constraints>
+                            </view>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="cTB-kj-E6c">
                                 <rect key="frame" x="177" y="313.5" width="20" height="20"/>
                                 <color key="color" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -466,13 +484,17 @@
                             <constraint firstAttribute="trailing" secondItem="k6v-C6-Vpm" secondAttribute="trailing" id="4Ht-J3-ggH"/>
                             <constraint firstItem="cTB-kj-E6c" firstAttribute="centerY" secondItem="GQW-AD-IxE" secondAttribute="centerY" id="5cy-mr-0qp"/>
                             <constraint firstItem="cTB-kj-E6c" firstAttribute="centerX" secondItem="GQW-AD-IxE" secondAttribute="centerX" id="9sS-d7-Xft"/>
+                            <constraint firstAttribute="trailing" secondItem="RDi-CD-ecB" secondAttribute="trailing" id="ChD-ER-QVG"/>
                             <constraint firstItem="ZsY-cN-QHo" firstAttribute="top" secondItem="k6v-C6-Vpm" secondAttribute="bottom" id="PcY-de-MaK"/>
                             <constraint firstItem="qY8-NO-Hn2" firstAttribute="leading" secondItem="k6v-C6-Vpm" secondAttribute="leading" id="SCh-0N-sv6"/>
                             <constraint firstItem="k6v-C6-Vpm" firstAttribute="top" secondItem="eSp-es-a6V" secondAttribute="bottom" id="afV-E2-vUG"/>
                             <constraint firstItem="qY8-NO-Hn2" firstAttribute="top" secondItem="k6v-C6-Vpm" secondAttribute="top" id="bcO-Hc-Zqf"/>
                             <constraint firstItem="qY8-NO-Hn2" firstAttribute="bottom" secondItem="ZsY-cN-QHo" secondAttribute="top" id="gfc-Ti-OdS"/>
+                            <constraint firstItem="RDi-CD-ecB" firstAttribute="top" secondItem="eSp-es-a6V" secondAttribute="bottom" id="p6t-AC-4lb"/>
+                            <constraint firstItem="RDi-CD-ecB" firstAttribute="leading" secondItem="GQW-AD-IxE" secondAttribute="leading" id="qpu-g6-h8O"/>
                             <constraint firstItem="k6v-C6-Vpm" firstAttribute="leading" secondItem="GQW-AD-IxE" secondAttribute="leading" id="rEV-4R-cG7"/>
                             <constraint firstItem="qY8-NO-Hn2" firstAttribute="trailing" secondItem="k6v-C6-Vpm" secondAttribute="trailing" id="wHb-vQ-3Wr"/>
+                            <constraint firstItem="ZsY-cN-QHo" firstAttribute="top" secondItem="RDi-CD-ecB" secondAttribute="bottom" id="yLX-6b-mrR"/>
                         </constraints>
                     </view>
                     <connections>
@@ -484,13 +506,15 @@
                         <outlet property="imageReaderViewLeadingConstraint" destination="zGc-R0-EWs" id="vuA-wO-XbZ"/>
                         <outlet property="imageReaderViewTopConstraint" destination="4Sq-IZ-Res" id="9b1-T1-1ww"/>
                         <outlet property="imageReaderViewTrailingConstraint" destination="tY5-UF-bSA" id="i8e-uS-Twp"/>
+                        <outlet property="pdfReaderViewContainer" destination="RDi-CD-ecB" id="Efn-PT-Tt0"/>
+                        <outlet property="pdfWebView" destination="nyi-Pi-wns" id="Ruy-AC-rRX"/>
                         <outlet property="zoomifyIIFContainerView" destination="qY8-NO-Hn2" id="qjk-Uw-iXE"/>
                         <outlet property="zoomifyIIIFReaderScrollView" destination="42k-Th-dRT" id="xz7-8e-pXF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g1R-oL-XdU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1745" y="-611"/>
+            <point key="canvasLocation" x="1744.8" y="-611.24437781109452"/>
         </scene>
     </scenes>
     <resources>

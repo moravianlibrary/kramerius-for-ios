@@ -36,6 +36,7 @@
     @IBOutlet weak var bookmarkTableView: UITableView!
     @IBOutlet weak var bookmarkContainerLeadingConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var bottomBarView: UIView!
     lazy fileprivate var mzkDatasource : MZKDatasource = {
         return MZKDatasource()
     }()
@@ -55,7 +56,7 @@
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.loadPages(itemPID)
+       
         self.pageSlider.minimumValue = 0
         self.pageSlider.value = 0
         self.loadItem(itemPID)
@@ -97,6 +98,7 @@
         {
             if let destinationVC = segue.destination as? MZKPageViewController {
                 destinationVC.itemPID = self.itemPID
+                destinationVC.item = self.item
                 childVC = destinationVC
                 childVC.pageIndexDelegate = self
                 self.addChildViewController(destinationVC)
@@ -206,7 +208,6 @@
     @IBAction func onShowBookmarks(_ sender: Any) {
         self.bookmarkTableView.reloadData()
         
-        
         if (bookmarkContainerLeadingConstraint.constant == 0)
         {
             self.bookmarkContainerLeadingConstraint.constant = -bookmarkContainer.frame.size.width
@@ -233,9 +234,8 @@
             }
             
         })
-        
-        
     }
+    
     @IBAction func onNextPage(_ sender: Any) {
         
         self.childVC.nextPage()
@@ -243,6 +243,7 @@
     @IBAction func onPreviousPage(_ sender: Any) {
         self.childVC.previousPage()
     }
+    
     // MARK: - Loading of pages
     
     func loadItem(_ pid:String) ->()
@@ -285,6 +286,15 @@
             
             // enable user interaction
             self.enableUserInteraction(enable: true)
+            
+            self.loadPages(self.itemPID)
+            
+            if (item.pdfUrl != nil)
+            {
+                self.childVC.item = item
+                self.childVC.setUpForPDF(item: item)
+                self.bottomBarView.isHidden = true
+            }
         })
     }
     
@@ -309,7 +319,6 @@
                 showBookmarks.isEnabled = true
             }
         }
-        
     }
     
     // MARK other methods
@@ -386,10 +395,8 @@
                 print("Reloading values")
                 self.reloadData()
             })
-            
         })
     }
-    
  }
  
  extension MZKDetailManagerViewController : UICollectionViewDelegate

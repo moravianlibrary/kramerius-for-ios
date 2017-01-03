@@ -752,6 +752,12 @@ typedef enum _downloadOperation downloadOperation;
     
     newItem.rootPid = [rawData objectForKey:@"root_pid"];
     
+    if ([rawData objectForKey:@"pdf"]) {
+        if ([[rawData objectForKey:@"pdf"] objectForKey:@"url"]) {
+            newItem.pdfUrl = [[rawData objectForKey:@"pdf"] objectForKey:@"url"];
+        }
+    }
+    
     if ([[rawData objectForKey:@"title"] isKindOfClass:[NSString class]]) {
         newItem.title = [rawData objectForKey:@"title"];
     }

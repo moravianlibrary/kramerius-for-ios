@@ -24,7 +24,7 @@
 @property (atomic, readwrite) BOOL datanode;
 
 @property (nonatomic, strong) NSDictionary *zoom;
-@property (nonatomic, strong) NSURL *pdfUrl;
+@property (nonatomic, strong) NSString *pdfUrl;
 @property (nonatomic, strong) NSString *issn;
 @property (nonatomic, strong) NSString *policy;
 @property (nonatomic, strong) NSString *datumStr;

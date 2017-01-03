@@ -46,13 +46,14 @@ protocol PageIndexDelegate: class {
     }()
     
     // public properties
-    var itemPID:String!
-    var pages:[MZKPageObject]!
+    open var itemPID:String!
+    open var item:MZKItemResource!
+    open var pages:[MZKPageObject]!
     open var currentIndex:Int!
     open var currentPagePID:String!
     
     weak var pageIndexDelegate: PageIndexDelegate?
-    
+    fileprivate var pendingIndex: Int?
     
     fileprivate(set) lazy var orderedViewControllers: [UIViewController] = {
         return []
@@ -131,7 +132,7 @@ protocol PageIndexDelegate: class {
         return orderedViewControllers[previousIndex]
     }
     
-    fileprivate var pendingIndex: Int?
+   
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         pendingIndex = orderedViewControllers.index(of: orderedViewControllers.first!)
@@ -155,10 +156,10 @@ protocol PageIndexDelegate: class {
     // MARK: - DataLoaded Delegate methods
     
     func dataLoaded(_ data: [Any]!, withKey key: String!) {
-        print("Data Loaded");
+       
     }
     
-    open func pagesLoaded(_ pages: [MZKPageObject]) {
+    func pagesLoaded(_ pages: [MZKPageObject]) {
         self.pages = pages
                
         orderedViewControllers = []
@@ -176,9 +177,14 @@ protocol PageIndexDelegate: class {
                                         animated: true,
                                         completion: {(_) -> Void in
                                             
-                                            print("View Controller page index \(firstViewController.pageIndex)")
                                             self.currentIndex = firstViewController.pageIndex
                                             self.currentPagePID = firstViewController.pagePID
+                                            
+                                            if (self.item != nil)
+                                            {
+                                                firstViewController.showPDFFile(item: self.item)
+                                                
+                                            }
                                             
                 })
 
@@ -205,6 +211,7 @@ protocol PageIndexDelegate: class {
         let pageVC : MZKPageDetailViewController = UIStoryboard(name: "MZKDetail", bundle: nil) .
             instantiateViewController(withIdentifier: "MZKPageDetailViewController") as! MZKPageDetailViewController
         
+           
         pageVC.pagePID = itemPID
         pageVC.pageIndex = index
         pageVC.userActivityDelegate = self.pageIndexDelegate as! MZKUserActivityDelegate?
@@ -231,7 +238,6 @@ protocol PageIndexDelegate: class {
                     self.currentPagePID = tmpVC.pagePID
                     
                     self.pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: vcIndex+1)
-                    print("View Controller page index \(tmpVC.pageIndex)")
                 }
             })
         }
@@ -281,6 +287,16 @@ protocol PageIndexDelegate: class {
             })
 
         }
+    }
+    
+    func setUpForPDF(item:MZKItemResource) -> Void {
+        
+        if let firstViewController = self.orderedViewControllers.first {
+            let tmpVC = firstViewController as! MZKPageDetailViewController
+            tmpVC.pdfURL = item.pdfUrl
+            tmpVC.showPDFFile(item: item)
+        }
+        
     }
 
     
