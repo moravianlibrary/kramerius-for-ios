@@ -115,7 +115,23 @@
     
     MZKLibraryItem *tmpItem = [_libraries objectAtIndex:indexPath.row];
     
-    cell.libraryName.text = tmpItem.name;
+    
+    NSString *libName;
+    
+    NSArray *supportedLanguages = [NSLocale preferredLanguages];
+    if(supportedLanguages.count >0)
+    {
+        NSString *selectedLang = supportedLanguages[0];
+        if ([selectedLang containsString:@"cs"]) {
+            libName = [tmpItem name];
+        }
+        else
+        {
+            libName = [tmpItem nameEN];
+        }
+    }
+
+    cell.libraryName.text = libName;
     cell.libraryURL.text = tmpItem.url;
     
     [cell.libraryIcon sd_setImageWithURL:[NSURL URLWithString:tmpItem.logoURL]

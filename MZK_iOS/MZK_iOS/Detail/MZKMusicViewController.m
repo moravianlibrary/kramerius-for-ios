@@ -785,6 +785,11 @@ static MZKMusicViewController *sharedInstance;
     _elapsedTime.text =[NSString stringWithFormat:@"%02d:%02d:%02d", currentHour, currenctMin, currentSecs];
     _remainningTime.text = [NSString stringWithFormat:@"%02d:%02d:%02d", hour, mins, secs];
     _timeSlider.maximumValue = timeInterval;
+    
+    if (!_timeSlider.maximumValue) {
+        _timeSlider.maximumValue = 0;
+    }
+    
     _timeSlider.minimumValue = 0;
     if (!isSeeking) {
         _timeSlider.value = currentTime;

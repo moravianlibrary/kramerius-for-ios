@@ -126,7 +126,21 @@ const int kHeaderHeight = 95;
 {
     //get name of selected library
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSString *libName = [[del getDatasourceItem] name];
+    NSString *libName;
+    
+    NSArray *supportedLanguages = [NSLocale preferredLanguages];
+    if(supportedLanguages.count >0)
+    {
+        NSString *selectedLang = supportedLanguages[0];
+        if ([selectedLang containsString:@"cs"]) {
+             libName = [[del getDatasourceItem] name];
+        }
+        else
+        {
+            libName = [[del getDatasourceItem] nameEN];
+        }
+    }
+    
     _headerTitleLabel.text = libName;
 }
 
