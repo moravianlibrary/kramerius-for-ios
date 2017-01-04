@@ -21,10 +21,25 @@
 "mzk.mainPage.interesting" = "Zajímavé";
 
 "mzk.type.book" = "Kniha";
-"mzk.type.map" = "Mapa";
 "mzk.type.graphics" = "Grafika";
-"mzk.type.periodical" = "Periodical";
-"mzk.type." = "";
+"mzk.type.periodical" = "Noviny a časopisy";
+"mzk.type.monograph" = "Kniha";
+"mzk.type.periodicalItem" = "Číslo periodika";
+"mzk.type.periodicalVolume" = "Ročník periodika";
+"mzk.type.documentPage" = "Stránka";
+"mzk.type.manuscript" = "Rukopis";
+"mzk.type.monograph" = "Kniha";
+"mzk.type.soundRecording" = "Zvukové nahrávky";
+"mzk.type.soundUnit" = "Zvukový nosič";
+"mzk.type.track" = "Nahrávka";
+"mzk.type.map" = "Mapa";
+"mzk.type.sheetmusic" = "Hudebniny";
+"mzk.type.archive" = "Archiválie";
+"mzk.type.unknown" = "Neznámý typ";
+"mzk.type.article" = "Článek";
+"mzk.type.supplement" = "Příloha";
+"mzk.type.internalpart" = "Vnitřní část";
+
 
 "mzk.searchResults" = "Výsledky hledání";
 
@@ -38,6 +53,5 @@
 "mzk.error.unableToConnect" = "Nelze se připojit, zkontrolujte prosím připojení";
 "mzk.error.retry" = "Opakovat";
 "mzk.error.cancel" = "Zrušit";
-
 "mzk.error.coulNotFind" = "Nenalezeno";
 "mzk.error.noRecordsFound" = "Vašemu dotazu neodpovídá žádný titul";

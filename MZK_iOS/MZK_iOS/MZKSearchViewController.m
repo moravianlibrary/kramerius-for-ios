@@ -53,6 +53,26 @@
     _recentMutableSearches = [self loadRecentSearches];
     
     self.searchResultsTableView.tableFooterView = [[UIView alloc] init];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDatasourceChanged:) name:kDatasourceItemChanged object:nil];
+    
+}
+
+-(void)onDatasourceChanged:(NSNotification *)notf
+{
+    
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf onDatasourceChanged:notf];
+        });
+        return;
+    }    
+    _searchHints = [NSArray new];
+    _searchResults = [NSArray new];
+    _filteredRecentSearches = [NSArray new];
+    _searchBar.text = @"";
 }
 
 -(void)initGoogleAnalytics
@@ -235,9 +255,12 @@
         return cell;
     }
     
-    // no recent searches
-    cell.searchHintLabel.text = [_searchHints objectAtIndex:indexPath.row-_filteredRecentSearches.count];
-    cell.searchTypeIcon.image = [UIImage imageNamed:@"zoomSearchIcon"];
+    if (_searchHints.count !=0 ) {
+        // no recent searches
+        cell.searchHintLabel.text = [_searchHints objectAtIndex:indexPath.row-_filteredRecentSearches.count];
+        cell.searchTypeIcon.image = [UIImage imageNamed:@"zoomSearchIcon"];
+
+    }
     
     return cell;
 }

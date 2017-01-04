@@ -145,29 +145,28 @@ class MZKSwiftErrorMessageHandler: NSObject {
                                    buttonCallback:completion,
                                    at: TSMessageNotificationPosition.top,
                                    canBeDismissedByUser: true)
-        
-        
-//        TSMessage.showNotification(in: <#T##UIViewController!#>, title: <#T##String!#>, subtitle: <#T##String!#>, type: <#T##TSMessageNotificationType#>, duration: <#T##TimeInterval#>, canBeDismissedByUser: <#T##Bool#>)
-//        
-//        TSMessage.showNotification(in: <#T##UIViewController!#>, title: <#T##String!#>, subtitle: <#T##String!#>, type: <#T##TSMessageNotificationType#>, duration: <#T##TimeInterval#>, canBeDismissedByUser: <#T##Bool#>)
-//        
-//        
-//        
-//        TSMessage.showNotificationInViewController:TSMessage.defaultViewController()
-//            title:title
-//            subtitle:subtitle
-//            image:nil
-//            type:TSMessageNotificationTypeError
-//            duration:duration
-//            callback:nil
-//            buttonTitle:buttonTitle
-//            buttonCallback:^{
-//            print("User tapped the button");
-//            completion();
-//            }
-//            atPosition:
-//            canBeDismissedByUser:true];
     }
+    
+    public func showTSMessage(viewController:UIViewController, title: String, subtitle: String, completion:(() -> Void)?) -> Void {
+        
+        var buttonTitle:String!
+        
+        buttonTitle = "Retry".localizedWithComment(comment: "Retry")
+        
+        
+        TSMessage.showNotification(in: viewController,
+                                   title: title,
+                                   subtitle: subtitle,
+                                   image: nil,
+                                   type: TSMessageNotificationType.error,
+                                   duration: 150, //TimeInterval(TSMessageNotificationDuration.endless.rawValue),
+            callback: nil,
+            buttonTitle: buttonTitle,
+            buttonCallback:completion,
+            at: TSMessageNotificationPosition.top,
+            canBeDismissedByUser: true)
+    }
+
 
 }
 

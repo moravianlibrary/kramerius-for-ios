@@ -111,7 +111,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
                 let errorCode:HTTPStatusCode = HTTPStatusCode(rawValue: httpResponse.statusCode)!
                 
                 switch errorCode {
-                    // ugly hack as hell!!!!
+                // ugly hack as hell!!!!
                 // status 500 means that we should display resource as JPG instead of ZOOMify or IIIF protocol ... WTF?!
                 case HTTPStatusCode.internalServerError:
                     self.imagePropertiesFailedToDownload()
@@ -290,6 +290,37 @@ extension MZKPageDetailViewController : UIWebViewDelegate
         self.activityIndicator.isHidden = false
         self.activityIndicator.startAnimating()
     }
+}
+
+extension MZKPageDetailViewController : ITVScrollViewDelegate
+{
+    func didFinishLoading(error: NSError?)
+    {
+        self.activityIndicator.stopAnimating()
+        if (error != nil) {
+            DispatchQueue.main.async (execute: { () -> Void in
+                
+                MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "When error occures"), subtitle: "mzk.error.checkYourInternetConnection".localizedWithComment(comment: ""), completion: {(_) -> Void in
+                 
+                })
+            })
+
+        }
+        
+    }
+    
+    func errorDidOccur(error: NSError)
+    {
+        DispatchQueue.main.async (execute: { () -> Void in
+            
+            MZKSwiftErrorMessageHandler().showTSMessageTest(viewController: self, error: error as NSError, completion: {(_) -> Void in
+                
+               
+            })
+        })
+
+    }
+    
 }
 
 
