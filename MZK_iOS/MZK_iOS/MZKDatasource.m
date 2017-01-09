@@ -259,9 +259,7 @@ typedef enum _downloadOperation downloadOperation;
     if (recent) {
         visible= [recent boolValue];
     }
-    //
-    //    NSString *sq1 = [NSString stringWithFormat: @"/search/api/v5.0/search/?fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=%@*AND%@(fedora.model:monograph OR fedora.model:periodical OR fedora.model:soundrecording OR fedora.model:map OR fedora.model:graphic OR fedora.model:sheetmusic OR fedora.model:archive OR fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [[searchString lowercaseString] URLEncodedString_ch], visible?@"dostupnost:*public*+AND+":@""];
-    //
+
     [self checkAndSetBaseUrl];
     NSURL *tmpURL = [NSURL URLWithString:self.baseStringURL];
     
@@ -269,11 +267,9 @@ typedef enum _downloadOperation downloadOperation;
     components.scheme = tmpURL.scheme;
     components.host = tmpURL.host;
     components.path = @"/search/api/v5.0/search/";
-    components.query = [NSString stringWithFormat:@"fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:soundrecording+OR+fedora.model:map+OR+fedora.model:graphic+OR+fedora.model:sheetmusic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
+    components.query = [NSString stringWithFormat:@"fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=\"%@\"*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:soundrecording+OR+fedora.model:map+OR+fedora.model:graphic+OR+fedora.model:sheetmusic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
     
-    NSLog(@"Percent encoded:%@",[components URL]) ;
     NSURL *url = components.URL;
-    
     
     [self downloadDataFromURL:url withOperation:search];
 }
