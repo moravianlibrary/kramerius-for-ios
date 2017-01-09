@@ -62,6 +62,10 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
        // self.zoomifyIIIFReaderScrollView.ITVScrollViewDelegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.zoomifyIIIFReaderScrollView.zoomToScale(1.0, animated: false)
+    }
+    
     
     func showPDFFile(item:MZKItemResource) -> Void {
         self.pdfURL = item.pdfUrl
