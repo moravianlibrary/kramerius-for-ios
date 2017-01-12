@@ -168,10 +168,7 @@
     
 }
 
--(void)showTSErrorWithCancelActionAndTitle:(NSString *)title subtitle:(NSString *)subtitle withCompletion:(void (^)())actionBlock
-{
-    
-}
+
 
 -(void)showTsErrorWithNSError:(NSError *)error andConfirmAction:(void (^)())actionBlock
 {

@@ -28,6 +28,7 @@
 
 // error states
 -(void)downloadFailedWithError:(NSError *)error;
+-(void)downloadFailedWithError:(NSString *)title subtitle:(NSString *)subtitle;
 @end
 
 @interface MZKDatasource : NSObject

@@ -66,7 +66,7 @@ typedef enum _downloadOperation downloadOperation;
     downloadQ.name = @"download";
     
     return self;
-
+    
 }
 
 -(void)resendLastRequest
@@ -157,10 +157,6 @@ typedef enum _downloadOperation downloadOperation;
     [self downloadDataFromURL:url withOperation:downloadCollectionItems];
 }
 
--(void)getSiblingsForItem:(NSString *)pid
-{
-    
-}
 
 -(void)getImagePropertiesForPageItem:(NSString *)pid
 {
@@ -259,7 +255,7 @@ typedef enum _downloadOperation downloadOperation;
     if (recent) {
         visible= [recent boolValue];
     }
-
+    
     [self checkAndSetBaseUrl];
     NSURL *tmpURL = [NSURL URLWithString:self.baseStringURL];
     
@@ -313,7 +309,7 @@ typedef enum _downloadOperation downloadOperation;
     NSString *dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
     NSData *theData = [dataStr dataUsingEncoding:NSUTF8StringEncoding];
-
+    
     
     NSError *localError = nil;
     NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:theData options:0 error:&localError];
@@ -324,33 +320,56 @@ typedef enum _downloadOperation downloadOperation;
         return nil;
     }
     
-    NSArray *tmpObjects = [parsedObject objectForKey:@"data"];
+    localError = nil;
     
-    NSMutableArray *results = [NSMutableArray new];
-    
-    for (int i =0; i<tmpObjects.count; i++) {
+    if ([self checkResponseForKrameriusError:parsedObject andError:&localError]) {
         
-        NSDictionary *tmpDataObject = [tmpObjects objectAtIndex:i];
-        if (![[tmpDataObject allKeys] containsObject:@"exception"]) {
-            [results addObject:[self parseObjectFromDictionary:tmpDataObject]];
+        if (localError) {
+            if([localError.domain isEqualToString:@"MZK"])
+            {
+                if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
+                    NSError *err = [NSError errorWithDomain:@"MZK" code:404 userInfo:@{
+                                                                                       NSLocalizedDescriptionKey:NSLocalizedString(@"mzk.error.kramerius", @"generic kramerius error")
+                                                                                       }];
+                    [self.delegate downloadFailedWithError:err];
+                }
+            }
         }
     }
-    
-    switch (operation) {
-        case downloadMostRecent:
-            [self.delegate dataLoaded:results withKey:kRecent];
-            break;
-        case downloadRecommended:
-            [self.delegate dataLoaded:results withKey:kRecommended];
-            break;
+    else
+    {
+        
+        NSArray *tmpObjects = [parsedObject objectForKey:@"data"];
+        
+        NSMutableArray *results = [NSMutableArray new];
+        
+        for (int i =0; i<tmpObjects.count; i++) {
             
-        default:
-            break;
+            NSDictionary *tmpDataObject = [tmpObjects objectAtIndex:i];
+            if (![[tmpDataObject allKeys] containsObject:@"exception"]) {
+                [results addObject:[self parseObjectFromDictionary:tmpDataObject]];
+            }
+        }
+        
+        switch (operation) {
+            case downloadMostRecent:
+                [self.delegate dataLoaded:results withKey:kRecent];
+                break;
+            case downloadRecommended:
+                [self.delegate dataLoaded:results withKey:kRecommended];
+                break;
+                
+            default:
+                break;
+        }
+        
+        
+        return results;
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
-    return results;
+    return nil;
 }
 
 -(void)parseJSONDataForDetail:(NSData*)data error:(NSError *)error
@@ -367,9 +386,31 @@ typedef enum _downloadOperation downloadOperation;
         
         return;
     }
-    MZKItemResource *resItem = [self parseObjectFromDictionary:parsedObject];
-    if ([self.delegate respondsToSelector:@selector(detailForItemLoaded:)]) {
-        [self.delegate detailForItemLoaded:resItem];
+    
+    
+    localError = nil;
+    
+    if ([self checkResponseForKrameriusError:parsedObject andError:&localError]) {
+        
+        if (localError) {
+            if([localError.domain isEqualToString:@"MZK"])
+            {
+                if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
+                    NSError *err = [NSError errorWithDomain:@"MZK" code:404 userInfo:@{
+                                                                                       NSLocalizedDescriptionKey:NSLocalizedString(@"mzk.error.kramerius", @"generic kramerius error")
+                                                                                       }];
+                    [self.delegate downloadFailedWithError:err];
+                }
+            }
+        }
+    }
+    else
+    {
+        
+        MZKItemResource *resItem = [self parseObjectFromDictionary:parsedObject];
+        if ([self.delegate respondsToSelector:@selector(detailForItemLoaded:)]) {
+            [self.delegate detailForItemLoaded:resItem];
+        }
     }
 }
 
@@ -487,6 +528,7 @@ typedef enum _downloadOperation downloadOperation;
         error = localError;
         return nil;
     }
+    
     NSMutableArray *results = [[NSMutableArray alloc] init];
     
     for (int i = 0; i<parsedObject.count; i++) {
@@ -520,58 +562,86 @@ typedef enum _downloadOperation downloadOperation;
         error = localError;
         return nil;
     }
-    NSMutableArray *results = [[NSMutableArray alloc] init];
     
-    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
-    NSLog(@"Number of Results for Collections: %ld", (long)numberOfResults);
-    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
+    localError = nil;
     
-    NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
-    
-    
-    for (int i = 0; i<parsedObject.count; i++) {
+    if ([self checkResponseForKrameriusError:response andError:&localError]) {
         
-        MZKCollectionItemResource *cItem = [MZKCollectionItemResource new];
-        NSDictionary *itemDict =[parsedObject objectAtIndex:i];
-        
-        NSString *model = [itemDict objectForKey:@"fedora.model"];
-        
-        cItem.model = [MZKConstants stringToModel:model];
-        cItem.numFound = numberOfResults;
-        cItem.start = start;
-        cItem.pid = [itemDict objectForKey:@"PID"];
-        cItem.datumStr = [itemDict objectForKey:@"datum_str"];
-        
-        NSMutableString *authors = [NSMutableString new];
-        if ([[itemDict objectForKey:@"dc.creator"] isKindOfClass:[NSArray class]]) {
-            for (NSString *name in [itemDict objectForKey:@"dc.creator"]) {
-                [authors appendString:name];
-                
+        if (localError) {
+            if([localError.domain isEqualToString:@"MZK"])
+            {
+                if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
+                    NSError *err = [NSError errorWithDomain:@"MZK" code:404 userInfo:@{
+                                                                                       NSLocalizedDescriptionKey:NSLocalizedString(@"mzk.error.kramerius", @"generic kramerius error")
+                                                                                       }];
+                    [self.delegate downloadFailedWithError:err];
+                }
             }
         }
-        else
-        {
-            authors = [itemDict objectForKey:@"dc.creator"];
+    }
+    else
+    {
+        
+        
+        
+        
+        
+        NSMutableArray *results = [[NSMutableArray alloc] init];
+        
+        NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
+        NSLog(@"Number of Results for Collections: %ld", (long)numberOfResults);
+        NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
+        
+        NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
+        
+        
+        for (int i = 0; i<parsedObject.count; i++) {
+            
+            MZKCollectionItemResource *cItem = [MZKCollectionItemResource new];
+            NSDictionary *itemDict =[parsedObject objectAtIndex:i];
+            
+            NSString *model = [itemDict objectForKey:@"fedora.model"];
+            
+            cItem.model = [MZKConstants stringToModel:model];
+            cItem.numFound = numberOfResults;
+            cItem.start = start;
+            cItem.pid = [itemDict objectForKey:@"PID"];
+            cItem.datumStr = [itemDict objectForKey:@"datum_str"];
+            
+            NSMutableString *authors = [NSMutableString new];
+            if ([[itemDict objectForKey:@"dc.creator"] isKindOfClass:[NSArray class]]) {
+                for (NSString *name in [itemDict objectForKey:@"dc.creator"]) {
+                    [authors appendString:name];
+                    
+                }
+            }
+            else
+            {
+                authors = [itemDict objectForKey:@"dc.creator"];
+            }
+            
+            cItem.documentCreator = [authors copy];
+            cItem.title = [itemDict objectForKey:@"dc.title"];
+            cItem.rootPid = [itemDict objectForKey:@"root_pid"] ;
+            cItem.rootTitle =[itemDict objectForKey:@"root_title"];
+            cItem.policy = [itemDict objectForKey:@"dostupnost"];
+            
+            [results addObject:cItem];
+            
         }
         
-        cItem.documentCreator = [authors copy];
-        cItem.title = [itemDict objectForKey:@"dc.title"];
-        cItem.rootPid = [itemDict objectForKey:@"root_pid"] ;
-        cItem.rootTitle =[itemDict objectForKey:@"root_title"];
-        cItem.policy = [itemDict objectForKey:@"dostupnost"];
-        
-        [results addObject:cItem];
-        
+        if ([self.delegate respondsToSelector:@selector(collectionItemsLoaded:)]) {
+            [self.delegate collectionItemsLoaded:[results copy]];
+            
+        }
+        return results;
     }
     
-    if ([self.delegate respondsToSelector:@selector(collectionItemsLoaded:)]) {
-        [self.delegate collectionItemsLoaded:[results copy]];
-        
-    }
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     
+    return nil;
     
-    return results;
 }
 
 
@@ -579,8 +649,6 @@ typedef enum _downloadOperation downloadOperation;
 -(NSArray *)parseJSONDataForHints:(NSDictionary*)response error:(NSError *)error
 {
     // paging not used for hints!
-    //    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
-    //    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
     if ([response objectForKey:@"message"] && [response objectForKey:@"status"]) {
         NSLog(@"Message: %@ and Status:%@", [response objectForKey:@"message"],[response objectForKey:@"status"] );
         
@@ -813,8 +881,6 @@ typedef enum _downloadOperation downloadOperation;
 -(void)downloadDataFromURL:(NSURL *)strURL withOperation:(downloadOperation)operation
 {
     
-    NSLog(@"URL! %@", [strURL description]);
-    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
     
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
@@ -830,9 +896,6 @@ typedef enum _downloadOperation downloadOperation;
         [self downloadSearchHintsWithRequest:req withOperation:operation];
         return;
     }
-    
-    
-    
     __weak typeof(self) wealf = self;
     
     [NSURLConnection sendAsynchronousRequest:[req copy] queue:downloadQ completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
@@ -893,6 +956,28 @@ typedef enum _downloadOperation downloadOperation;
         }
     }];
     
+    
+}
+
+-(BOOL)checkResponseForKrameriusError:(NSDictionary *)responseDictionary andError:(NSError **)error
+{
+    if ([responseDictionary objectForKey:@"status"]) {
+        NSNumber *errorNumber = [responseDictionary objectForKey:@"status"];
+        NSString *errorDescription = [responseDictionary objectForKey:@"message"];
+        
+        if (errorNumber.integerValue && errorNumber.integerValue >=400) {
+            if (errorDescription) {
+                NSMutableDictionary* details = [NSMutableDictionary dictionary];
+                [details setValue:errorDescription forKey:NSLocalizedDescriptionKey];
+                
+                // chyba
+                *error = [NSError errorWithDomain:@"MZK" code:errorNumber.integerValue userInfo:details];
+            }
+            return YES;
+        }
+    }
+    
+    return NO;
     
 }
 

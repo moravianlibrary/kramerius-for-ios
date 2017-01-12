@@ -231,6 +231,22 @@ const int kHeaderHeight = 95;
         }];
         
     }
+    else if([error.domain isEqualToString:@"MZK"])
+    {
+        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
+             [welf refreshAllValues];
+            
+        }];
+        
+    }
+    else
+    {
+        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error") confirmAction:^{
+             [welf refreshAllValues];
+            
+        }];
+    }
+    
     
     [self hideLoadingIndicator];
     

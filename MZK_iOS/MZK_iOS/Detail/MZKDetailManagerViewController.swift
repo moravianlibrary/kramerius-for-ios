@@ -56,10 +56,10 @@
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-       
+        
         self.pageSlider.minimumValue = 0
         self.pageSlider.value = 0
-        self.loadItem(itemPID)
+        self.loadItem("asadasdas")
         self.bookmarkTableView.delegate = self
         showBookmarks.isEnabled = false
         
@@ -74,7 +74,7 @@
         UIApplication.shared.isIdleTimerDisabled = shouldDimm
         
         self.enableUserInteraction(enable: false)
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -175,7 +175,7 @@
             self.view.layoutIfNeeded()
         }, completion:  {(_) -> Void in
             self.barsVisible = !self.barsVisible
-            })
+        })
     }
     
     @IBAction func onCreateBookmark(_ sender: Any) {
@@ -249,18 +249,18 @@
     func loadItem(_ pid:String) ->()
     {
         mzkDatasource.delegate = self
-        mzkDatasource.getItem(pid)
+        mzkDatasource.getItem(self.itemPID)
     }
     
     func loadPages(_ pid:String) -> () {
         mzkDatasource.delegate = self
-        mzkDatasource .getChildrenForItem(pid)
+        mzkDatasource .getChildrenForItem(self.itemPID)
     }
     
     func children(forItemLoaded items: [Any]!) {
         pages = items as! [MZKPageObject]!
         childVC .pagesLoaded(pages)
-            
+        
         DispatchQueue.main.async (execute: { () -> Void in
             self.pageSlider.minimumValue=1
             self.pageSlider.maximumValue = Float(self.pages.count)
@@ -378,7 +378,7 @@
             self.loadPages(self.itemPID)
         }
     }
- 
+    
     /**
      MZKDataLoaded method
      * argument view controller for presentaion of messages
@@ -389,12 +389,25 @@
     
     func downloadFailedWithError(_ error: Error!) {
         
+        
+        let error = error as NSError!
+        
         DispatchQueue.main.async (execute: { () -> Void in
             
-            MZKSwiftErrorMessageHandler().showTSMessageTest(viewController: self, error: error as NSError, completion: {(_) -> Void in
-                print("Reloading values")
-                self.reloadData()
-            })
+            if(error?.domain == "MZK")
+            {
+                MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "Error title of message box"), subtitle: "Something went wrong".localizedWithComment(comment: "Generic kramerius error"), completion: {
+                    self.reloadData()
+                })
+            }
+            else
+            {
+                MZKSwiftErrorMessageHandler().showTSMessageTest(viewController: self, error: error! as NSError, completion: {(_) -> Void in
+                    print("Reloading values")
+                    self.reloadData()
+                })
+                
+            }
         })
     }
  }

@@ -127,11 +127,21 @@ class MZKSwiftErrorMessageHandler: NSObject {
             break
         }
     
+        
+        if (title == nil) {
+            title = "Error".localizedWithComment(comment: "Error title of message box")
+        }
+        
+        if subtitle == nil {
+            subtitle = "Unknown error occured".localizedWithComment(comment:"Unknown error")
+        }
+        
+        if buttonTitle == nil {
+             buttonTitle = "Retry".localizedWithComment(comment: "Retry")
+        }
     
-    title = "Error".localizedWithComment(comment: "Error title of message box")
-    subtitle = "Unknown error occured".localizedWithComment(comment:"Unknown error")
-    duration = TSMessageNotificationDuration.endless
-    buttonTitle = "Retry".localizedWithComment(comment: "Retry")
+        duration = TSMessageNotificationDuration.endless
+   
 
     
         TSMessage.showNotification(in: viewController,

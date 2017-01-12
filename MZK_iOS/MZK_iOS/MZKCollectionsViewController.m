@@ -118,6 +118,13 @@
         }];
         
     }
+    else if([error.domain isEqualToString:@"MZK"])
+    {
+        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
+            [welf loadDataForController];
+        }];
+      
+    }
     else
     {
         [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{

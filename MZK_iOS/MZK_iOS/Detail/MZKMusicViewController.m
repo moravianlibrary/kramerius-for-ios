@@ -190,13 +190,18 @@ static MZKMusicViewController *sharedInstance;
         [self showTsErrorWithNSError:error andConfirmAction:^{
             [welf loadDataForController];
         }];
+    }else if([error.domain isEqualToString:@"MZK"])
+    {
+        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
+             [welf loadDataForController];
+            
+        }];
+        
     }
     else
     {
-        
-        [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
+        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error") confirmAction:^{
             [welf loadDataForController];
-            
         }];
     }
 }

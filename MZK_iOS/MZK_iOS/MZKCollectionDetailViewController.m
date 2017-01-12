@@ -99,11 +99,24 @@
         });
         return;
     }
+    
     //[self hideLoadingIndicator];
     if ([error.domain isEqualToString:NSURLErrorDomain]) {
         //NSError Domain Code
         [self showTsErrorWithNSError:error andConfirmAction:^{
 
+            [welf loadDataForController];
+        }];
+    }else if([error.domain isEqualToString:@"MZK"])
+    {
+        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
+            [welf loadDataForController];
+        }];
+        
+    }
+    else
+    {
+        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error") confirmAction:^{
             [welf loadDataForController];
         }];
     }

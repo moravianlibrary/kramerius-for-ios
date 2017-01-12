@@ -39,5 +39,7 @@
 "mzk.error.retry" = "Retry";
 "mzk.error.cancel" = "Cancel";
 
+"mzk.error.kramerius" = "Something went wrong";
+
 "mzk.error.coulNotFind" = "Could not find";
 "mzk.error.noRecordsFound" = "No search results found";
