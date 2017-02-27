@@ -13,6 +13,7 @@
 @interface MZKDetailInformationViewController : UIViewController
 @property (nonatomic, strong) NSString *item;
 @property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSString *rootPID;
 @property (weak, nonatomic) IBOutlet UILabel *model;
 @property (weak, nonatomic) IBOutlet UILabel *mainTitle;
 @property (weak, nonatomic) IBOutlet UILabel *language;

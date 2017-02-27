@@ -21,7 +21,10 @@
 }
 @property (weak, nonatomic) IBOutlet UILabel *itemTitle;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@property (weak, nonatomic) IBOutlet UIStackView *verticalStackView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
+@property (weak, nonatomic) IBOutlet UIView *verticalStackViewContainer;
+@property (strong, nonatomic) NSMutableArray *generatedViews;
 @end
 
 @implementation MZKDetailInformationViewController
@@ -31,11 +34,21 @@
     _detailInformation = [NSMutableArray new];
     // Do any additional setup after loading the view.
     if (_item) {
-        [self loadDataForItem:_item];
+        
+        if (_rootPID) {
+             [self loadDataForItem:_rootPID];
+        }
+        else
+        {
+             [self loadDataForItem:_item];
+        }
     }
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+  //  NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[left]-[right]-|" options:nil metrics:nil views:(nonnull NSDictionary<NSString *,id> *)
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -200,7 +213,6 @@
 
     }
     
-    
     if (info.title) {
         
         MZKDetailInformationStringModel *modelTitle = [MZKDetailInformationStringModel new];
@@ -247,10 +259,17 @@
         [infoArray addObject:model];
         
         MZKDetailInformationStringModel *strModel = [MZKDetailInformationStringModel new];
-        strModel.title = @"Místo uložení:";
-        [strModel setInfo:info.physicalLocation];
+      //  strModel.title = @"Místo uložení:";
         
-        [infoArray addObject:strModel];
+        for (NSString *text in info.physicalLocation) {
+             MZKDetailInformationStringModel *strModel = [MZKDetailInformationStringModel new];
+            [strModel setInfo:text];
+            [infoArray addObject:strModel];
+        }
+        
+        //[strModel setInfo:info.physicalLocation];
+        
+        //[infoArray addObject:strModel];
         
         if (info.shelfLocation) {
              MZKDetailInformationStringModel *model = [MZKDetailInformationStringModel new];
@@ -270,6 +289,33 @@
         [infoArray addObject:model];
 
     }
+    
+    
+    if (info.identifiersInfo) {
+        
+        MZKDetailInformationStringModel *model = [MZKDetailInformationStringModel new];
+        
+        if (info.identifiersInfo.isbn) {
+            
+        }
+        if (info.identifiersInfo.sysno) {
+            
+        }
+        if (info.identifiersInfo.isbn) {
+            
+        }
+        if (info.identifiersInfo.isbn) {
+            
+        }
+        if (info.identifiersInfo.isbn) {
+            
+        }
+        if (info.identifiersInfo.isbn) {
+            
+        }
+        
+    }
+    
     
     return [infoArray copy];
     

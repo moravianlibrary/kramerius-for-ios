@@ -72,7 +72,7 @@
 @end
 
 @interface MZKDetailLocationInfo : NSObject
-@property (nonatomic, strong) NSString *physicalLocation;
+@property (nonatomic, strong) NSArray *physicalLocation;
 @property (nonatomic, strong) NSArray *shelfLocations;
 -(NSString *)getShelfLocationsStringRepresentation;
 
@@ -102,7 +102,7 @@
 
 @property (nonatomic, strong) NSArray *originInfos;
 @property (nonatomic, strong) NSString *shelfLocation;
-@property (nonatomic, strong) NSString *physicalLocation;
+@property (nonatomic, strong) NSMutableArray *physicalLocation;
 @property (nonatomic, strong) MZKDetailIdentifierInfo *identifiersInfo;
 @property (nonatomic, strong) MZKDetailOriginInfo *placeInfo;
 @property (nonatomic, strong) NSArray *publishersInfo;

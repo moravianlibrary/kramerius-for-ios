@@ -113,7 +113,14 @@
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "MZKDetailInformationViewController") as! MZKDetailInformationViewController
-        controller.item = self.itemPID
+        
+        
+        if((self.item.rootPid) != nil)
+        {
+            controller.rootPID = self.item.rootPid
+        }
+            controller.item = self.itemPID
+       // controller.type = MZKConstants.modelType(toString: self.item.model)
         
         self.present(controller, animated: true, completion: nil)
     }

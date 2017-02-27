@@ -115,32 +115,34 @@
                 physicalLocationArray = [location objectForKey:@"physicalLocation"];
             }
             
+            
             for (NSDictionary *tmpLocDict in physicalLocationArray) {
                 
-                
-                NSDictionary *physicalLoc = [tmpLocDict objectForKey:@"physicalLocation"];
-                NSDictionary *shelfLoc = [tmpLocDict objectForKey:@"shelfLocator"];
-                if (physicalLoc) {
-                    
-                    detailModel.physicalLocation = [physicalLoc objectForKey:@"text"];
-                    
-                    detailModel.physicalLocation = [((AppDelegate *)[[UIApplication sharedApplication] delegate]) getLocationFromCode:detailModel.physicalLocation];
+                if (!detailModel.physicalLocation) {
+                    detailModel.physicalLocation = [NSMutableArray new];
                 }
                 
-                if (shelfLoc) {
-                    detailModel.shelfLocation = [physicalLoc objectForKey:@"text"];
+                NSString *physicalLoc = [tmpLocDict objectForKey:@"text"];
+              
+                [detailModel.physicalLocation addObject:[((AppDelegate *)[[UIApplication sharedApplication] delegate]) getLocationFromCode:physicalLoc]];
+                
                 }
-                
-                
-            }
             
+        
+            // shelf location
+            NSDictionary *shelfLoc = [location objectForKey:@"shelfLocator"];
+            if (shelfLoc) {
+                detailModel.shelfLocation = [shelfLoc objectForKey:@"text"];
+            }
+    
+ 
         } @catch (NSException *exception) {
             NSLog(@"Location Parsing error!");
             
         } @finally {
             
         }
-        
+
     }
     
     //name
@@ -163,42 +165,39 @@
     }
     
     //origin info
-    
-    //    detailModel.placeInfo = [self parseOriginInfoFrom:[mods objectForKey:@"originInfo"]];
-    //
-    //    // physical description
-    //    if ([mods objectForKey:@"physicalDescription"]) {
-    //        detailModel.physicalDescription = [[[mods objectForKey:@"physicalDescription"] objectForKey:@"extent"] objectForKey:@"text"];
-    //    }
-    //
-    //    // lang info
-    //
-    //    NSDictionary *languageOfCataloging = [[[mods objectForKey:@"recordInfo"] objectForKey:@"languageOfCataloging"] objectForKey:@"languageTerm"];
-    //
-    //    detailModel.languageAuthority = [languageOfCataloging objectForKey:@"authority"]? [languageOfCataloging objectForKey:@"authority"] :nil;
-    //    detailModel.languageNme = [languageOfCataloging objectForKey:@"text"]? [languageOfCataloging objectForKey:@"text"] :nil;
-    //    detailModel.languageID = [languageOfCataloging objectForKey:@"text"]? [languageOfCataloging objectForKey:@"text"] :nil;
-    //
-    //    // record change dates info
-    //    detailModel.recordChangeDates = [self parseRecordChangedDatesFrom:[[mods objectForKey:@"recordInfo"] objectForKey:@"recordChangeDate"]];
-    //
-    //    detailModel.recordContentSourceCode = [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordContentSource"] objectForKey:@"text"];
-    //
-    //    detailModel.recordCreationDates = [self parseRecordChangedDatesFrom:[[mods objectForKey:@"recordInfo"] objectForKey:@"recordCreationDate"]];
-    //
-    //    // record indentifier
-    //
-    //    detailModel.recordSourceIdentifier = [[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] ? [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] objectForKey:@"source"] : nil;
-    //
-    //    detailModel.recordSourceTextIdentifier = [[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] ? [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] objectForKey:@"text"] : nil;
+//    
+//        detailModel.placeInfo = [self parseOriginInfoFrom:[mods objectForKey:@"originInfo"]];
+//    
+//        // physical description
+//        if ([mods objectForKey:@"physicalDescription"]) {
+//            detailModel.physicalDescription = [[[mods objectForKey:@"physicalDescription"] objectForKey:@"extent"] objectForKey:@"text"];
+//        }
+//    
+//        // lang info
+//    
+//        NSDictionary *languageOfCataloging = [[[mods objectForKey:@"recordInfo"] objectForKey:@"languageOfCataloging"] objectForKey:@"languageTerm"];
+//    
+//        detailModel.languageAuthority = [languageOfCataloging objectForKey:@"authority"]? [languageOfCataloging objectForKey:@"authority"] :nil;
+//        detailModel.languageNme = [languageOfCataloging objectForKey:@"text"]? [languageOfCataloging objectForKey:@"text"] :nil;
+//        detailModel.languageID = [languageOfCataloging objectForKey:@"text"]? [languageOfCataloging objectForKey:@"text"] :nil;
+//    
+//        // record change dates info
+//        detailModel.recordChangeDates = [self parseRecordChangedDatesFrom:[[mods objectForKey:@"recordInfo"] objectForKey:@"recordChangeDate"]];
+//    
+//        detailModel.recordContentSourceCode = [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordContentSource"] objectForKey:@"text"];
+//    
+//        detailModel.recordCreationDates = [self parseRecordChangedDatesFrom:[[mods objectForKey:@"recordInfo"] objectForKey:@"recordCreationDate"]];
+//    
+//        // record indentifier
+//    
+//        detailModel.recordSourceIdentifier = [[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] ? [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] objectForKey:@"source"] : nil;
+//    
+//        detailModel.recordSourceTextIdentifier = [[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] ? [[[mods objectForKey:@"recordInfo"] objectForKey:@"recordIdentifier"] objectForKey:@"text"] : nil;
     
     
     if ([self.delegate respondsToSelector:@selector(detailInformationLoaded:)]) {
         [self.delegate detailInformationLoaded: detailModel];
     }
-    
-    
-    
 }
 
 -(NSArray *)parseRecordChangedDatesFrom:(NSArray *)records
