@@ -619,7 +619,7 @@ typedef enum _downloadOperation downloadOperation;
             {
                 authors = [itemDict objectForKey:@"dc.creator"];
             }
-            
+            cItem.authors = authors;
             cItem.documentCreator = [authors copy];
             cItem.title = [itemDict objectForKey:@"dc.title"];
             cItem.rootPid = [itemDict objectForKey:@"root_pid"] ;

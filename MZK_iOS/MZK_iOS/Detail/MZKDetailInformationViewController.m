@@ -279,7 +279,6 @@
         }
         
     }
-    
     // language info
     
     if (info.languageNme) {
@@ -316,12 +315,8 @@
         
     }
     
-    
     return [infoArray copy];
     
 }
-
-
-
 
 @end
