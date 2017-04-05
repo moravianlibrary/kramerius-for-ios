@@ -17,7 +17,7 @@
 #import "MyURLProtocol.h"
 #import "MZKConstants.h"
 
-#import "UIImageView+ProgressView.h"
+
 @import SDWebImage;
 
 NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
@@ -212,21 +212,18 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
     
     NSURL *finalURL = [NSURL URLWithString:load];
     
-    [_imageZoomView sd_setImageWithURL:finalURL placeholderImage:nil options:nil progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        
-    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)  {
-        
-        
+    [_imageZoomView sd_setImageWithURL:finalURL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         _scrollView.contentSize = image.size;
         _imageZoomView.frame = CGRectMake(_scrollView.frame.size.width/2 - image.size.width/2, 0, image.size.width, image.size.height);
         
-      self.scrollView.contentInset = UIEdgeInsetsZero;
+        self.scrollView.contentInset = UIEdgeInsetsZero;
         
         NSLog(@"Image Loaded resolution: %f, %f", image.size.height, image.size.width);
         NSLog(@"Scrollview size:%@", _scrollView.description);
-    } usingProgressView:nil];
-
-}
+ 
+    }];
+    
+    }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

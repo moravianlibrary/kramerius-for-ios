@@ -165,23 +165,56 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         
         let url = NSURL(string: imageStrUrl)
         
-        imageReaderImageView.sd_setImage(with: url as URL!, placeholderImage: nil, options: [.continueInBackground, .progressiveDownload], progress:{[weak self](receivedSize, expectedSize) -> Void in}, completed:{[weak self] (image, data, error, finished)-> Void in
-            // body of completion block
-            
-            // IF there is no IMAGE! -> PDF file
-            
-            self!.activityIndicator.stopAnimating()
-            self!.imageReaderScrollView.maximumZoomScale = 2.0
-            self!.imageReaderScrollView.zoomScale = 1.0
-            self!.imageReaderScrollView.minimumZoomScale = 0.5
-            
-            
-            let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self!.didTap(event:)))
-            tapGestureRecognizer.numberOfTapsRequired = 1
-            tapGestureRecognizer.cancelsTouchesInView = false
-            
-            self!.imageReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
+//        imageReaderImageView.sd_setImage(with: url as URL!, placeholderImage: nil, options: [.continueInBackground, .progressiveDownload]) { (image, error, , <#URL?#>) in
+//            
+//        }
+//        
+//        imageReaderImageView.sd_setImage(with: url as URL!) { (nil, error, , url) in
+//            // IF there is no IMAGE! -> PDF file
+//            
+//           
+//        }
+        
+        
+        SDWebImageManager.shared().imageDownloader?.downloadImage(with: url as URL!, options: SDWebImageDownloaderOptions.allowInvalidSSLCertificates, progress: { (min, max, url) in
+            print("loading……")
+        }, completed: { (image, data, error, finished) in
+            if image != nil {
+                self.activityIndicator.stopAnimating()
+                self.imageReaderScrollView.maximumZoomScale = 2.0
+                self.imageReaderScrollView.zoomScale = 1.0
+                self.imageReaderScrollView.minimumZoomScale = 0.5
+                
+                
+                let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.didTap(event:)))
+                tapGestureRecognizer.numberOfTapsRequired = 1
+                tapGestureRecognizer.cancelsTouchesInView = false
+                
+                self.imageReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
+
+            } else {
+                print("wrong")
+            }
         })
+        
+        
+//        imageReaderImageView.sd_setImage(with: url as URL!, placeholderImage: nil, options: [.continueInBackground, .progressiveDownload], progress:{[weak self](receivedSize, expectedSize) -> Void in}, completed:{[(image, data, error, finished)-> Void in
+//            // body of completion block
+//            
+//            // IF there is no IMAGE! -> PDF file
+//            
+//            self!.activityIndicator.stopAnimating()
+//            self!.imageReaderScrollView.maximumZoomScale = 2.0
+//            self!.imageReaderScrollView.zoomScale = 1.0
+//            self!.imageReaderScrollView.minimumZoomScale = 0.5
+//            
+//            
+//            let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self!.didTap(event:)))
+//            tapGestureRecognizer.numberOfTapsRequired = 1
+//            tapGestureRecognizer.cancelsTouchesInView = false
+//            
+//            self!.imageReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
+//        })
         
     }
     
