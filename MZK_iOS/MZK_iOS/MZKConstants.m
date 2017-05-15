@@ -16,6 +16,7 @@ int const kMinimalLibrariesCacheVersionNumber = 1;
 int const kMinimalBookmarkVerion = 1;
 int const kLibrariesViewControllerIndex = 3;
 
+NSString *const kConnectionRestoredNotification = @"kConnectionRestoredNotification";
 
 NSString *const kDefaultDatasourceItem = @"kDefaultDatasourceItem";
 NSString *const kDefaultDatasourceName = @"kDefaultDatasourceName";

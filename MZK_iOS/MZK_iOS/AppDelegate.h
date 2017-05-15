@@ -28,6 +28,8 @@
 @property (nonatomic, strong) NSMutableDictionary *recentlyOpenedDocumentsDictionary;
 
 
++(BOOL)connected;
+
 -(void)saveToUserDefaults:(MZKLibraryItem *)item;
 -(MZKLibraryItem *)getDatasourceItem;
 -(void)saveLastPlayedMusic:(NSString *)pid;

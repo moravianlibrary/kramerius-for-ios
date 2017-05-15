@@ -12,21 +12,33 @@
 #import "MZKChangeLibraryViewController.h"
 #import <Google/Analytics.h>
 #import "AFNetworkActivityIndicatorManager.h"
+#import "AFNetworkReachabilityManager.h"
 #import "MZKTabBarMenuViewController.h"
 #import "MZKDatasource.h"
 
 @interface AppDelegate ()<DataLoadedDelegate>
 {
     MZKDatasource *_datasource;
+    
 }
+
 
 @end
 
 @implementation AppDelegate
 
+//Use the return value to check the Internet connection
++(BOOL)connected {
+    
+    return [AFNetworkReachabilityManager sharedManager].reachable;
+}
+
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -197,6 +209,15 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    if([AppDelegate connected])
+    {
+        NSLog(@" ==== Connected to Internet ====");
+    }
+    else
+    {
+        NSLog(@" ==== Not connected to internet! ====");
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

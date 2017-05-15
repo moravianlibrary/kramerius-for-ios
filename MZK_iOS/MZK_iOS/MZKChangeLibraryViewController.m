@@ -54,6 +54,11 @@
 
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    
+}
+
 -(void)initGoogleAnalytics
 {
     NSString *name = @"ChangeLibrary";

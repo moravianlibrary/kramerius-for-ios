@@ -37,6 +37,8 @@ extern int const kMinimalLibrariesCacheVersionNumber;
 extern int const kMinimalBookmarkVerion;
 extern int const kLibrariesViewControllerIndex;
 
+extern NSString *const kConnectionRestoredNotification;
+
 #pragma mark - NSUserDefaults keys
 extern NSString *const kDefaultDatasourceItem;
 extern NSString *const kDefaultDatasourceName;

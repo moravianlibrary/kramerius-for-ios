@@ -63,7 +63,12 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.zoomifyIIIFReaderScrollView.zoomToScale(1.0, animated: false)
+        
+        if(!self.zoomifyIIIFReaderScrollView.isHidden)
+        {
+            //self.zoomifyIIIFReaderScrollView.zoomToScale(1.0, animated: false)
+            self.zoomifyIIIFReaderScrollView.refreshTiles()
+        }
     }
     
     
@@ -84,6 +89,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
     func loadImageProperties() {
         
