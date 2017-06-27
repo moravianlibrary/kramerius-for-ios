@@ -298,9 +298,6 @@ protocol PageIndexDelegate: class {
         }
         
     }
-
-    
-        
 }
 
 

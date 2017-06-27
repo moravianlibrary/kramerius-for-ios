@@ -112,8 +112,8 @@
 		2D13D5481C3E66BD00DB4190 /* languages.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = languages.sql; sourceTree = "<group>"; };
 		2D13D5491C3E66BD00DB4190 /* relators.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = relators.sql; sourceTree = "<group>"; };
 		2D13D54D1C3E8B8C00DB4190 /* values.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = values.sql; sourceTree = "<group>"; };
-		2D13D5651C3FC6AD00DB4190 /* MZKDetailInformationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKDetailInformationModel.h; path = ../MZKDetailInformationModel.h; sourceTree = "<group>"; };
-		2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKDetailInformationModel.m; path = ../MZKDetailInformationModel.m; sourceTree = "<group>"; };
+		2D13D5651C3FC6AD00DB4190 /* MZKDetailInformationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKDetailInformationModel.h; path = ../Detail/MZKDetailInformationModel.h; sourceTree = "<group>"; };
+		2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKDetailInformationModel.m; path = ../Detail/MZKDetailInformationModel.m; sourceTree = "<group>"; };
 		2D1FD91F1CAC15A700408166 /* libraries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = libraries.json; sourceTree = "<group>"; };
 		2D24F06B1B7378740073FC83 /* MZKSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSearchViewController.h; sourceTree = "<group>"; };
 		2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchViewController.m; sourceTree = "<group>"; };
@@ -145,8 +145,8 @@
 		2D2DA52D1BF2356900423447 /* MZKGeneralColletionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKGeneralColletionViewController.m; sourceTree = "<group>"; };
 		2D33C3551C2819E9002BA7D1 /* MZKSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSettingsViewController.h; sourceTree = "<group>"; };
 		2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSettingsViewController.m; sourceTree = "<group>"; };
-		2D3698E21C8ADBF6008FEF3C /* MZKDetailInformationStringModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDetailInformationStringModel.h; sourceTree = "<group>"; };
-		2D3698E31C8ADBF6008FEF3C /* MZKDetailInformationStringModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDetailInformationStringModel.m; sourceTree = "<group>"; };
+		2D3698E21C8ADBF6008FEF3C /* MZKDetailInformationStringModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKDetailInformationStringModel.h; path = ../Detail/Model/MZKDetailInformationStringModel.h; sourceTree = "<group>"; };
+		2D3698E31C8ADBF6008FEF3C /* MZKDetailInformationStringModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKDetailInformationStringModel.m; path = ../Detail/Model/MZKDetailInformationStringModel.m; sourceTree = "<group>"; };
 		2D3A0B441C204734008E4B47 /* MZK_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MZK_iOS.entitlements; sourceTree = "<group>"; };
 		2D409B761B8B460E00B49EAD /* MZKDataSourceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDataSourceTableViewCell.h; sourceTree = "<group>"; };
 		2D409B771B8B460E00B49EAD /* MZKDataSourceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDataSourceTableViewCell.m; sourceTree = "<group>"; };
@@ -211,7 +211,7 @@
 		2DB8A7A41ACD073400A1BB2E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2DB8A7B21ACD073400A1BB2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DB8A7B31ACD073400A1BB2E /* MZK_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MZK_iOSTests.m; sourceTree = "<group>"; };
-		2DBE26D51DDEF32F00DE43A0 /* MZKBookmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKBookmark.swift; sourceTree = "<group>"; };
+		2DBE26D51DDEF32F00DE43A0 /* MZKBookmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MZKBookmark.swift; path = ../Detail/MZKBookmarks/MZKBookmark.swift; sourceTree = "<group>"; };
 		2DBE26D71DDEF33D00DE43A0 /* MZKBookmarkDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKBookmarkDatasource.swift; sourceTree = "<group>"; };
 		2DCAE25A1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSearchBarCollectionReusableView.h; sourceTree = "<group>"; };
 		2DCAE25B1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchBarCollectionReusableView.m; sourceTree = "<group>"; };
@@ -264,7 +264,6 @@
 			isa = PBXGroup;
 			children = (
 				2DBE26D41DDEF31C00DE43A0 /* MZKBookmarks */,
-				2D91512D1C876C8600AD380F /* Model */,
 				2DE98BCE1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.h */,
 				2DE98BCF1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m */,
 				2D665DBB1B02927500B11765 /* MZKDetailViewController.h */,
@@ -318,6 +317,11 @@
 		2D79665B1DB6B11100891B94 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2DBE26D51DDEF32F00DE43A0 /* MZKBookmark.swift */,
+				2D13D5651C3FC6AD00DB4190 /* MZKDetailInformationModel.h */,
+				2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */,
+				2D3698E21C8ADBF6008FEF3C /* MZKDetailInformationStringModel.h */,
+				2D3698E31C8ADBF6008FEF3C /* MZKDetailInformationStringModel.m */,
 				2D24F0741B74C0A80073FC83 /* MZKCollectionItem.h */,
 				2D24F0751B74C0A80073FC83 /* MZKCollectionItem.m */,
 				2D009CD31BAAE52E0042021D /* MZKCollectionItemResource.h */,
@@ -358,17 +362,6 @@
 			children = (
 			);
 			path = ZoomifyReader;
-			sourceTree = "<group>";
-		};
-		2D91512D1C876C8600AD380F /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				2D13D5651C3FC6AD00DB4190 /* MZKDetailInformationModel.h */,
-				2D13D5661C3FC6AD00DB4190 /* MZKDetailInformationModel.m */,
-				2D3698E21C8ADBF6008FEF3C /* MZKDetailInformationStringModel.h */,
-				2D3698E31C8ADBF6008FEF3C /* MZKDetailInformationStringModel.m */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		2DAA60761BA759350004A718 /* Collections */ = {
@@ -506,7 +499,6 @@
 		2DBE26D41DDEF31C00DE43A0 /* MZKBookmarks */ = {
 			isa = PBXGroup;
 			children = (
-				2DBE26D51DDEF32F00DE43A0 /* MZKBookmark.swift */,
 				2DBE26D71DDEF33D00DE43A0 /* MZKBookmarkDatasource.swift */,
 				2D5154C01DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift */,
 			);
