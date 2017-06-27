@@ -174,6 +174,7 @@
        
         }
         else{
+            
             [self performSegueWithIdentifier:@"OpenReader" sender:nil];
         }
  
@@ -283,6 +284,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    NSLog(@"Prepare for segue");
     
     // Make sure your segue name in storyboard is the same as this line
     if ([[segue identifier] isEqualToString:@"OpenReader"])

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="FMf-Ze-ON2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="FMf-Ze-ON2">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1225,6 +1225,7 @@
                     <connections>
                         <outlet property="collectionView" destination="E9e-kf-V8U" id="0GG-Yu-TVd"/>
                         <segue destination="s6h-by-1vs" kind="show" identifier="OpenSoundDetail" id="X8j-sX-hEs"/>
+                        <segue destination="zaD-uN-nX7" kind="presentation" identifier="OpenReader" id="Q6h-WJ-e8D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QGv-IN-9oW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2269,9 +2270,9 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
         <image name="settings_outline_g" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="X8j-sX-hEs"/>
-        <segue reference="H21-Ix-YLX"/>
-        <segue reference="Mqf-r2-ldD"/>
         <segue reference="pB0-yE-dEK"/>
+        <segue reference="X8j-sX-hEs"/>
+        <segue reference="Q6h-WJ-e8D"/>
+        <segue reference="H21-Ix-YLX"/>
     </inferredMetricsTieBreakers>
 </document>

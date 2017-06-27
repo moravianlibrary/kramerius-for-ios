@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/MZKCollectionDetailViewController.m"
-            timestampString = "505906207.353978"
+            timestampString = "520241932.858169"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
             landmarkName = "-prepareForSegue:sender:"
             landmarkType = "7">
          </BreakpointContent>
@@ -52,11 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/MZKCollectionDetailViewController.m"
-            timestampString = "505906207.353978"
+            timestampString = "520241932.858169"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288"
+            startingLineNumber = "290"
+            endingLineNumber = "290"
             landmarkName = "-prepareForSegue:sender:"
             landmarkType = "7">
          </BreakpointContent>
@@ -84,11 +84,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/MZKCollectionDetailViewController.m"
-            timestampString = "505906207.353978"
+            timestampString = "520241932.858169"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "299"
-            endingLineNumber = "299"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
             landmarkName = "-prepareForSegue:sender:"
             landmarkType = "7">
          </BreakpointContent>
@@ -523,38 +523,6 @@
             endingLineNumber = "359"
             landmarkName = "errorDidOccur(error:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MZK_iOS.MZKPageDetailViewController.(errorDidOccur (error : __ObjC.NSError) -&gt; ()).(closure #1)"
-                  moduleName = "MZK_iOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/Detail/MZKPageDetailViewController.swift"
-                  timestampString = "515139300.441068"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "359"
-                  endingLineNumber = "359"
-                  offsetFromSymbolStart = "16">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MZK_iOS.MZKPageDetailViewController.(errorDidOccur (error : __ObjC.NSError) -&gt; ()).(closure #1).(closure #1)"
-                  moduleName = "MZK_iOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/Detail/MZKPageDetailViewController.swift"
-                  timestampString = "515139300.442541"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "362"
-                  endingLineNumber = "362"
-                  offsetFromSymbolStart = "4">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -580,12 +548,12 @@
                   moduleName = "MZK_iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/Detail/MZKPageDetailViewController.swift"
-                  timestampString = "515139300.447465"
+                  timestampString = "520241951.06829"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "348"
                   endingLineNumber = "348"
-                  offsetFromSymbolStart = "322">
+                  offsetFromSymbolStart = "320">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -595,12 +563,12 @@
                   moduleName = "MZK_iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/Detail/MZKPageDetailViewController.swift"
-                  timestampString = "515139300.449894"
+                  timestampString = "520241951.069602"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "348"
                   endingLineNumber = "348"
-                  offsetFromSymbolStart = "4">
+                  offsetFromSymbolStart = "0">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -619,38 +587,6 @@
             endingLineNumber = "346"
             landmarkName = "didFinishLoading(error:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MZK_iOS.MZKPageDetailViewController.(didFinishLoading (error : Swift.Optional&lt;__ObjC.NSError&gt;) -&gt; ()).(closure #1)"
-                  moduleName = "MZK_iOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/Detail/MZKPageDetailViewController.swift"
-                  timestampString = "515139300.465586"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "346"
-                  endingLineNumber = "346"
-                  offsetFromSymbolStart = "15">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MZK_iOS.MZKPageDetailViewController.(didFinishLoading (error : Swift.Optional&lt;__ObjC.NSError&gt;) -&gt; ()).(closure #1).(closure #1)"
-                  moduleName = "MZK_iOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/Detail/MZKPageDetailViewController.swift"
-                  timestampString = "515139300.467536"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "348"
-                  endingLineNumber = "348"
-                  offsetFromSymbolStart = "4">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -676,12 +612,12 @@
                   moduleName = "MZK_iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/MZKCollectionsViewController.m"
-                  timestampString = "515139300.474163"
+                  timestampString = "520241951.075544"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "123"
                   endingLineNumber = "123"
-                  offsetFromSymbolStart = "889">
+                  offsetFromSymbolStart = "740">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -691,12 +627,12 @@
                   moduleName = "MZK_iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/MZKCollectionsViewController.m"
-                  timestampString = "515139300.476919"
+                  timestampString = "520241951.077023"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "124"
                   endingLineNumber = "124"
-                  offsetFromSymbolStart = "16">
+                  offsetFromSymbolStart = "20">
                </Location>
             </Locations>
          </BreakpointContent>
