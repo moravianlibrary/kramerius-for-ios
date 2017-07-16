@@ -308,11 +308,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/Detail/MZKPageDetailViewController.swift"
-            timestampString = "513606294.87939"
+            timestampString = "521885158.869646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "imagePropertiesFailedToDownload()"
             landmarkType = "7">
          </BreakpointContent>
@@ -435,134 +435,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/Detail/MZKPageDetailViewController.swift"
-            timestampString = "513606294.87939"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
-            landmarkName = "imagePropertiesFailedToDownload()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/Detail/MZKPageDetailViewController.swift"
-            timestampString = "513606294.87939"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
-            landmarkName = "imagePropertiesFailedToDownload()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/Detail/MZKPageDetailViewController.swift"
-            timestampString = "513606294.87939"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
-            landmarkName = "imagePropertiesFailedToDownload()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/Detail/MZKPageDetailViewController.swift"
-            timestampString = "513606294.87939"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "359"
-            endingLineNumber = "359"
-            landmarkName = "errorDidOccur(error:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/Detail/MZKPageDetailViewController.swift"
-            timestampString = "513606294.87939"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "347"
-            endingLineNumber = "347"
-            landmarkName = "didFinishLoading(error:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MZK_iOS.MZKPageDetailViewController.(didFinishLoading (error : Swift.Optional&lt;__ObjC.NSError&gt;) -&gt; ()).(closure #1)"
-                  moduleName = "MZK_iOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/Detail/MZKPageDetailViewController.swift"
-                  timestampString = "520243501.363822"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "348"
-                  endingLineNumber = "348"
-                  offsetFromSymbolStart = "320">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MZK_iOS.MZKPageDetailViewController.(didFinishLoading (error : Swift.Optional&lt;__ObjC.NSError&gt;) -&gt; ()).(closure #1).(closure #1)"
-                  moduleName = "MZK_iOS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/Detail/MZKPageDetailViewController.swift"
-                  timestampString = "520243501.365127"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "348"
-                  endingLineNumber = "348"
-                  offsetFromSymbolStart = "0">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MZK_iOS/Detail/MZKPageDetailViewController.swift"
-            timestampString = "513606294.87939"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "346"
-            endingLineNumber = "346"
-            landmarkName = "didFinishLoading(error:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "MZK_iOS/MZKCollectionsViewController.m"
             timestampString = "505901593.978529"
             startingColumnNumber = "9223372036854775807"
@@ -580,12 +452,12 @@
                   moduleName = "MZK_iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/MZKCollectionsViewController.m"
-                  timestampString = "520243501.370652"
+                  timestampString = "521895822.690045"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "123"
                   endingLineNumber = "123"
-                  offsetFromSymbolStart = "740">
+                  offsetFromSymbolStart = "889">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -595,12 +467,12 @@
                   moduleName = "MZK_iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/MZKCollectionsViewController.m"
-                  timestampString = "520243501.371869"
+                  timestampString = "521895822.691396"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "124"
                   endingLineNumber = "124"
-                  offsetFromSymbolStart = "20">
+                  offsetFromSymbolStart = "16">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -848,7 +720,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/AppDelegate.m"
@@ -864,7 +736,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MZK_iOS/AppDelegate.m"
@@ -906,6 +778,86 @@
             startingLineNumber = "59"
             endingLineNumber = "59"
             landmarkName = "-viewWillAppear:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MZK_iOS/Detail/MZKPageDetailViewController.swift"
+            timestampString = "521891909.920364"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
+            landmarkName = "didTap(event:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MZK_iOS/Detail/MZKPageDetailViewController.swift"
+            timestampString = "521891912.224079"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
+            landmarkName = "didTap(type:location:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MZK_iOS/Detail/MZKDetailManagerViewController.swift"
+            timestampString = "521892284.529933"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
+            landmarkName = "onNextPage(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MZK_iOS/Detail/MZKDetailManagerViewController.swift"
+            timestampString = "521892286.226414"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "onPreviousPage(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MZK_iOS/Detail/MZKDetailManagerViewController.swift"
+            timestampString = "521892317.839133"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "353"
+            endingLineNumber = "353"
+            landmarkName = "goToPage(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

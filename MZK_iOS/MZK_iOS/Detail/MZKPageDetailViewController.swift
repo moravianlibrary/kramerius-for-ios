@@ -23,7 +23,7 @@ protocol MZKUserActivityDelegate :class {
 }
 
 
-class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
+class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrollViewGestureDelegate {
     
     var pagePID : String!
     var xmlParser : XMLParser!
@@ -46,6 +46,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
     @IBOutlet weak var imageReaderViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageReaderViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageReaderViewTrailingConstraint: NSLayoutConstraint!
+    // this should be refactored with xcode 9 - lower versions cannot do swift refactors
     @IBOutlet weak var zoomifyIIIFReaderScrollView: ITVScrollView!
     
     @IBOutlet weak var pdfReaderViewContainer: UIView!
@@ -58,8 +59,8 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         
         self .loadImageProperties()
         self.imageReaderScrollView.delegate = self
+        zoomifyIIIFReaderScrollView.itvGestureDelegate = self
         
-       // self.zoomifyIIIFReaderScrollView.ITVScrollViewDelegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -171,16 +172,6 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         
         let url = NSURL(string: imageStrUrl)
         
-//        imageReaderImageView.sd_setImage(with: url as URL!, placeholderImage: nil, options: [.continueInBackground, .progressiveDownload]) { (image, error, , <#URL?#>) in
-//            
-//        }
-//        
-//        imageReaderImageView.sd_setImage(with: url as URL!) { (nil, error, , url) in
-//            // IF there is no IMAGE! -> PDF file
-//            
-//           
-//        }
-        
         
         SDWebImageManager.shared().imageDownloader?.downloadImage(with: url as URL!, options: SDWebImageDownloaderOptions.allowInvalidSSLCertificates, progress: { (min, max, url) in
             print("loading……")
@@ -202,26 +193,6 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
                 print("wrong")
             }
         })
-        
-        
-//        imageReaderImageView.sd_setImage(with: url as URL!, placeholderImage: nil, options: [.continueInBackground, .progressiveDownload], progress:{[weak self](receivedSize, expectedSize) -> Void in}, completed:{[(image, data, error, finished)-> Void in
-//            // body of completion block
-//            
-//            // IF there is no IMAGE! -> PDF file
-//            
-//            self!.activityIndicator.stopAnimating()
-//            self!.imageReaderScrollView.maximumZoomScale = 2.0
-//            self!.imageReaderScrollView.zoomScale = 1.0
-//            self!.imageReaderScrollView.minimumZoomScale = 0.5
-//            
-//            
-//            let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self!.didTap(event:)))
-//            tapGestureRecognizer.numberOfTapsRequired = 1
-//            tapGestureRecognizer.cancelsTouchesInView = false
-//            
-//            self!.imageReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
-//        })
-        
     }
     
     // MARK: xml parser delegate methods
@@ -258,12 +229,8 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
             
             self.zoomifyIIIFReaderScrollView.loadImage(imageURL, api: ITVImageAPI.Unknown)
             
-            let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.didTap(event:)))
-            tapGestureRecognizer.numberOfTapsRequired = 1
-            tapGestureRecognizer.cancelsTouchesInView = false
-            
-            self.zoomifyIIIFReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
-            
+            // tap gesture -> moved to ITVScrollViewGestureDelegate
+    
             DispatchQueue.main.async (execute: { () -> Void in
                 
                 self.imageReaderContainerView.isHidden = true
@@ -273,24 +240,6 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         }
     }
     
-    func didTap(event: UITouch) {
-        let location = event.location(in: self.zoomifyIIIFReaderScrollView)
-        let distanceLeft = self.zoomifyIIIFReaderScrollView.frame.width / 5
-        let distanceRight = self.zoomifyIIIFReaderScrollView.frame.width - distanceLeft
-        if location.x < distanceLeft {
-            
-            //previous page
-            userActivityDelegate?.previousPage()
-        } else if location.x > distanceRight {
-            
-            // next page
-            userActivityDelegate?.nextPage()
-        }
-        else
-        {
-            userActivityDelegate?.userDidSingleTapped()
-        }
-    }
     
     func onShowHideBars(_ sender: UITapGestureRecognizer) -> Void {
         userActivityDelegate?.userDidSingleTapped()
@@ -314,7 +263,46 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate {
         updateMinZoomScaleForSize(size: view.bounds.size)
     }
     
+    func didTap(event: UITouch) {
+        let location = event.location(in: self.zoomifyIIIFReaderScrollView)
+        let distanceLeft = self.zoomifyIIIFReaderScrollView.frame.width / 5
+        let distanceRight = self.zoomifyIIIFReaderScrollView.frame.width - distanceLeft
+        if location.x < distanceLeft {
+            //previous page
+            userActivityDelegate?.previousPage()
+        } else if location.x > distanceRight {
+            
+            // next page
+            userActivityDelegate?.nextPage()
+        }
+        else
+        {
+            userActivityDelegate?.userDidSingleTapped()
+        }
+    }
+    
+    func didTap(type: ITVGestureEventType, location: CGPoint) {
+        print(type)
+        print(location)
+        if type == ITVGestureEventType.singleTap {
+            let distanceLeft = self.zoomifyIIIFReaderScrollView.frame.width / 5
+            let distanceRight = self.zoomifyIIIFReaderScrollView.frame.width - distanceLeft
+            if location.x < distanceLeft {
+                //previous page
+               // userActivityDelegate?.previousPage()
+            } else if location.x > distanceRight {
+                
+                // next page
+                //userActivityDelegate?.nextPage()
+            }
+            else
+            {
+                userActivityDelegate?.userDidSingleTapped()
+            }
+        }
+    }
 }
+
 
 extension MZKPageDetailViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -363,7 +351,6 @@ extension MZKPageDetailViewController : ITVScrollViewDelegate
         })
 
     }
-    
 }
 
 
