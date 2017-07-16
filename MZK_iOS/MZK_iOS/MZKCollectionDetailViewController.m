@@ -10,7 +10,7 @@
 #import "MZKDetailCollectionViewCell.h"
 #import "MZKCollectionItemResource.h"
 #import "MZKDatasource.h"
-#import "MZKDetailViewController.h"
+
 #import "MZKMusicViewController.h"
 #import "MZKItemCollectionViewCell.h"
 #import <Google/Analytics.h>

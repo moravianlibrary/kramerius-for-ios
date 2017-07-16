@@ -13,7 +13,7 @@
 #import "AppDelegate.h"
 #import "UIImageView+WebCache.h"
 #import "MZKMusicViewController.h"
-#import "MZKDetailViewController.h"
+
 #import "MZK_iOS-Swift.h"
 
 @interface MZKRecentlyOpenedDocumentsViewController ()

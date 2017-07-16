@@ -8,7 +8,6 @@
 
 #import "MZKMainViewController.h"
 #import "MZKDatasource.h"
-#import "MZKDetailViewController.h"
 #import "MZKConstants.h"
 #import "AppDelegate.h"
 #import "MZKItemCollectionViewCell.h"
