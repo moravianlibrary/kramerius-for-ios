@@ -258,7 +258,7 @@
         [model setTitle:@"Místo uložení"];
         [infoArray addObject:model];
         
-        MZKDetailInformationStringModel *strModel = [MZKDetailInformationStringModel new];
+    //    MZKDetailInformationStringModel *strModel = [MZKDetailInformationStringModel new];
       //  strModel.title = @"Místo uložení:";
         
         for (NSString *text in info.physicalLocation) {
@@ -292,7 +292,7 @@
     
     if (info.identifiersInfo) {
         
-        MZKDetailInformationStringModel *model = [MZKDetailInformationStringModel new];
+      //  MZKDetailInformationStringModel *model = [MZKDetailInformationStringModel new];
         
         if (info.identifiersInfo.isbn) {
             

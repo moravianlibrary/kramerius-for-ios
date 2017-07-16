@@ -1013,7 +1013,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tMb-Xe-YGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="999" y="-118"/>
+            <point key="canvasLocation" x="967" y="-351"/>
         </scene>
         <!--Kolekce-->
         <scene sceneID="WLA-Ih-Zyf">
@@ -1807,6 +1807,91 @@
             </objects>
             <point key="canvasLocation" x="364" y="1213"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="c0C-Od-VRf">
+            <objects>
+                <viewController id="zfN-bU-Ynz" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tig-Qe-njm"/>
+                        <viewControllerLayoutGuide type="bottom" id="scu-lm-JQR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GEF-18-wlz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FtH-eg-a1P">
+                                <rect key="frame" x="0.0" y="637" width="375" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Upřesnit výsledky hledání">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="&lt;                       Výsledky hledání" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nic-yV-wCT">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Screenshot 2017-07-15 18.37.09.png" translatesAutoresizingMaskIntoConstraints="NO" id="VEB-DE-rsT">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="638"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kvo-JJ-ZW3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3490" y="-287"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="XZc-GX-KoN">
+            <objects>
+                <viewController id="asf-k0-EtH" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wBR-zV-e4B"/>
+                        <viewControllerLayoutGuide type="bottom" id="3Aj-5O-5JQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="73H-R2-Plo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Screenshot 2017-07-15 18.37.09.png" translatesAutoresizingMaskIntoConstraints="NO" id="ZdL-zy-Z6U">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Nastavení filtrů" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="htn-sv-oVs">
+                                <rect key="frame" x="118" y="34" width="152" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.96466344594955444" green="0.96473532915115356" blue="0.96850043535232544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AndroidFiltrz.png" translatesAutoresizingMaskIntoConstraints="NO" id="ami-hp-lFk">
+                                <rect key="frame" x="16" y="77" width="343" height="608"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bxa-4g-c5K">
+                                <rect key="frame" x="0.0" y="637" width="375" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.80392156859999997" green="0.80392156859999997" blue="0.80392156859999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Zpět na výsledky hledání">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4CS-HF-yXV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4192.8000000000002" y="-284.70764617691157"/>
+        </scene>
         <!--MZKDetailManagerViewController-->
         <scene sceneID="ket-v5-FtW">
             <objects>
@@ -2247,6 +2332,8 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
         </scene>
     </scenes>
     <resources>
+        <image name="AndroidFiltrz.png" width="606" height="866"/>
+        <image name="Screenshot 2017-07-15 18.37.09.png" width="559" height="944"/>
         <image name="audioFF" width="60" height="60"/>
         <image name="audioPlay" width="60" height="60"/>
         <image name="audioRW" width="60" height="60"/>
@@ -2270,9 +2357,9 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
         <image name="settings_outline_g" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pB0-yE-dEK"/>
         <segue reference="X8j-sX-hEs"/>
-        <segue reference="Q6h-WJ-e8D"/>
+        <segue reference="Mqf-r2-ldD"/>
         <segue reference="H21-Ix-YLX"/>
+        <segue reference="pB0-yE-dEK"/>
     </inferredMetricsTieBreakers>
 </document>

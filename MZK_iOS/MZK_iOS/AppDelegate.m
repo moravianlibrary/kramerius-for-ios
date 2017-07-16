@@ -505,19 +505,17 @@
     [self.menuTabBar setSelectedIndex:4];
     
     if ([[self.menuTabBar.viewControllers objectAtIndex:4] isKindOfClass:[UINavigationController class]]) {
-        
-        NSArray *vc =self.menuTabBar.viewControllers;
-        
+      
         NSArray *morecontrollers = [self.menuTabBar.moreNavigationController viewControllers];
         if (morecontrollers.count >1) {
             MZKMusicViewController *tmpMusicVC = [morecontrollers objectAtIndex:1];
             [tmpMusicVC setItemPID:pid];
-            tmpMusicVC.view;
+            [tmpMusicVC view];
         }else{
             UINavigationController *tmpNav = [self.menuTabBar.viewControllers objectAtIndex:4];
             MZKMusicViewController *tmpMusicVC = tmpNav.viewControllers[0];
             [tmpMusicVC setItemPID:pid];
-            tmpMusicVC.view;
+            [tmpMusicVC view];
         }
     }
     

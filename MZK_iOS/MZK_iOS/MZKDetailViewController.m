@@ -17,12 +17,16 @@
 #import "MyURLProtocol.h"
 #import "MZKConstants.h"
 
+/**
+ * This class should be removed, it si replaced by its Swift implementation, clean this during next cleanup run 
+ */
+
 
 @import SDWebImage;
 
 NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
-@interface MZKDetailViewController ()<DataLoadedDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, PageResolutionLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
+@interface MZKDetailViewController ()<DataLoadedDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, PageResolutionLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, ITVScrollViewDelegate>
 {
     MZKDatasource *detailDatasource;
     MZKItemResource *loadedItem;
@@ -63,7 +67,6 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
 
 - (IBAction)onNextPage:(id)sender;
 - (IBAction)onPreviousPage:(id)sender;
-- (IBAction)onShowPages:(id)sender;
 
 @end
 
@@ -152,10 +155,10 @@ NSString *const kCellIdentificator = @"MZKPageDetailCollectionViewCell";
                       ofType:@"html"];
     
     NSURL *targetURL = [NSURL fileURLWithPath:path];
-    NSError *error;
+   // NSError *error;
     
-    NSMutableString *indexString = [[NSString stringWithContentsOfURL:targetURL encoding:NSUTF8StringEncoding error:&error] mutableCopy];
-    float scale = [self calculateInitialScaleForResource:page];
+   // NSMutableString *indexString = [[NSString stringWithContentsOfURL:targetURL encoding:NSUTF8StringEncoding error:&error] mutableCopy];
+   // float scale = [self calculateInitialScaleForResource:page];
     
     
     NSString *theAbsoluteURLString = [targetURL absoluteString];

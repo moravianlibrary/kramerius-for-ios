@@ -53,6 +53,8 @@
 		2D665DBD1B02927500B11765 /* MZKDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBC1B02927500B11765 /* MZKDetailViewController.m */; };
 		2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */; };
 		2D66DACD1DF1DEA200EBC89E /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D66DACC1DF1DEA200EBC89E /* AFNetworking.framework */; };
+		2D73DFEC1F1A7CE4007247F4 /* Screenshot 2017-07-15 18.37.09.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D73DFEB1F1A7CE4007247F4 /* Screenshot 2017-07-15 18.37.09.png */; };
+		2D73DFEE1F1A7E66007247F4 /* AndroidFiltrz.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D73DFED1F1A7E66007247F4 /* AndroidFiltrz.png */; };
 		2D782BFE1DC9E4200086323E /* MZKDetailManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */; };
 		2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D78B2961C200DC0004341DA /* MZKAboutViewController.m */; };
 		2D8BB7C71BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D8BB7C61BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m */; };
@@ -175,6 +177,8 @@
 		2D665DBE1B03D98C00B11765 /* MZKCollectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionsViewController.h; sourceTree = "<group>"; };
 		2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionsViewController.m; sourceTree = "<group>"; };
 		2D66DACC1DF1DEA200EBC89E /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = "Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework"; sourceTree = "<group>"; };
+		2D73DFEB1F1A7CE4007247F4 /* Screenshot 2017-07-15 18.37.09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2017-07-15 18.37.09.png"; sourceTree = "<group>"; };
+		2D73DFED1F1A7E66007247F4 /* AndroidFiltrz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AndroidFiltrz.png; sourceTree = "<group>"; };
 		2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKDetailManagerViewController.swift; sourceTree = "<group>"; };
 		2D78B2951C200DC0004341DA /* MZKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKAboutViewController.h; sourceTree = "<group>"; };
 		2D78B2961C200DC0004341DA /* MZKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKAboutViewController.m; sourceTree = "<group>"; };
@@ -314,6 +318,15 @@
 			path = Menu;
 			sourceTree = "<group>";
 		};
+		2D73DFEA1F1A7CC1007247F4 /* MockupImages */ = {
+			isa = PBXGroup;
+			children = (
+				2D73DFED1F1A7E66007247F4 /* AndroidFiltrz.png */,
+				2D73DFEB1F1A7CE4007247F4 /* Screenshot 2017-07-15 18.37.09.png */,
+			);
+			path = MockupImages;
+			sourceTree = "<group>";
+		};
 		2D79665B1DB6B11100891B94 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +428,7 @@
 		2DB8A7931ACD073400A1BB2E /* MZK_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2D73DFEA1F1A7CC1007247F4 /* MockupImages */,
 				2D0F65451DD5C5E900CEC252 /* MZK_iOS-Bridging-Header.h */,
 				2D79665B1DB6B11100891B94 /* Model */,
 				2D44DF3C1CB397BB001EF49F /* Menu */,
@@ -422,11 +436,11 @@
 				2D9150F41C849E7F00AD380F /* ZoomifyReader */,
 				2D9150EF1C82F4C200AD380F /* NSURLRequest */,
 				2D3A0B441C204734008E4B47 /* MZK_iOS.entitlements */,
-				2D41FF021C3BBFC90087F22E /* Database */,
 				2D2DA51D1BEF9B3A00423447 /* Detail */,
 				2DAA60761BA759350004A718 /* Collections */,
 				2DD5839D1B6FA0BA001ED3B3 /* XMLParser */,
 				2D89DB7A1B5E57DA00E69119 /* OpenLayers */,
+				2D41FF021C3BBFC90087F22E /* Database */,
 				2DB8A7981ACD073400A1BB2E /* AppDelegate.h */,
 				2DB8A7991ACD073400A1BB2E /* AppDelegate.m */,
 				2D5BB44D1DBA267D001EAB35 /* NSString+MD5.h */,
@@ -620,8 +634,10 @@
 				2D1FD9201CAC15A700408166 /* libraries.json in Resources */,
 				2D13D54E1C3E8B8C00DB4190 /* values.sql in Resources */,
 				2D2763D81B6B641900CC7E4F /* ol.js in Resources */,
+				2D73DFEC1F1A7CE4007247F4 /* Screenshot 2017-07-15 18.37.09.png in Resources */,
 				2DAB71A81D803E2700765AF7 /* MZKDetail.storyboard in Resources */,
 				2D13D54C1C3E66BD00DB4190 /* relators.sql in Resources */,
+				2D73DFEE1F1A7E66007247F4 /* AndroidFiltrz.png in Resources */,
 				2D13D54B1C3E66BD00DB4190 /* languages.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

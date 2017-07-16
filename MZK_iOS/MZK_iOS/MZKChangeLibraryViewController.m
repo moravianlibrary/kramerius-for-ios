@@ -88,7 +88,7 @@
     }
     
     
-    for (int i =0; i<_libraries.count; i++) {
+    for (int i =0; i <_libraries.count; i++) {
         if ([((MZKLibraryItem *)_libraries[i]).name caseInsensitiveCompare:_selectedLibrary.name] == NSOrderedSame) {
             index = i;
             break;

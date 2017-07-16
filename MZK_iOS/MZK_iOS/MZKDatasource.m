@@ -701,11 +701,11 @@ typedef enum _downloadOperation downloadOperation;
         }
     }
     
-    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
-    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
+//    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
+//    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
     
     NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
-    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
+//    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
     NSMutableArray *resultsArray = [NSMutableArray new];
     
     for (int i = 0; i<parsedObject.count; i++) {
@@ -731,9 +731,9 @@ typedef enum _downloadOperation downloadOperation;
         error = localError;
         return nil;
     }
-    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
-    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
-    
+//    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
+//    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
+//    
     NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
     NSMutableArray *results = [[NSMutableArray alloc] init];
     

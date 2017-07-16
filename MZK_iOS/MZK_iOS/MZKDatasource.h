@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "MZKLibraryItem.h"
+#warning Add documentation to methods
+/// TODO: Add documentation
 
 @class MZKItemResource;
 
@@ -41,7 +43,8 @@
 // get methos, each sends a request to current kramerius backend
 -(void)getItem:(NSString *)pid;
 -(void)getChildrenForItem:(NSString *)pid;
--(void)getSiblingsForItem:(NSString *)pid;
+// Get siblings is not implemented - probably it will not be implemeted - It is not needed. 
+//-(void)getSiblingsForItem:(NSString *)pid;
 -(void)getImagePropertiesForPageItem:(NSString *)pid;
 
 -(void)getMostRecent;
@@ -49,8 +52,11 @@
 
 -(void)getInfoAboutCollections;
 -(void)getCollectionItems:(NSString *)collectionPID;
--(void)getCollectionItems:(NSString *)collectionPID withRangeFrom:(NSInteger)from to:(NSInteger)to;
+
+//-(void)getCollectionItems:(NSString *)collectionPID withRangeFrom:(NSInteger)from to:(NSInteger)to;
+
 -(void)getCollectionItems:(NSString *)collectionPID withRangeFrom:(NSInteger)from numberOfItems:(NSInteger)numberOfItems;
+
 -(void)getSearchResults:(NSString *)searchString;
 -(void)getSearchResultsAsHints:(NSString *)searchString;
 -(void)getFullSearchResults:(NSString *)searchString;
