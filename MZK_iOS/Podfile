@@ -12,5 +12,6 @@ pod 'CocoaLumberjack'
 pod 'TTTAttributedLabel'
 pod 'TSMessages', :git => 'https://github.com/KrauseFx/TSMessages.git'
 pod 'iOSTiledViewer'
+pod 'Alamofire', '~> 4.4'
 end
 

@@ -60,7 +60,8 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
         self .loadImageProperties()
         self.imageReaderScrollView.delegate = self
         zoomifyIIIFReaderScrollView.itvGestureDelegate = self
-        
+        zoomifyIIIFReaderScrollView.canCancelContentTouches = false
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -242,6 +243,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     
     
     func onShowHideBars(_ sender: UITapGestureRecognizer) -> Void {
+
         userActivityDelegate?.userDidSingleTapped()
     }
     
@@ -264,42 +266,60 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     }
     
     func didTap(event: UITouch) {
-        let location = event.location(in: self.zoomifyIIIFReaderScrollView)
-        let distanceLeft = self.zoomifyIIIFReaderScrollView.frame.width / 5
-        let distanceRight = self.zoomifyIIIFReaderScrollView.frame.width - distanceLeft
-        if location.x < distanceLeft {
-            //previous page
-            userActivityDelegate?.previousPage()
-        } else if location.x > distanceRight {
-            
-            // next page
-            userActivityDelegate?.nextPage()
-        }
-        else
-        {
-            userActivityDelegate?.userDidSingleTapped()
-        }
+//        let location = event.location(in: self.zoomifyIIIFReaderScrollView)
+//        let distanceLeft = self.zoomifyIIIFReaderScrollView.frame.width / 5
+//        let distanceRight = self.zoomifyIIIFReaderScrollView.frame.width - distanceLeft
+//        if location.x < distanceLeft {
+//            //previous page
+//            userActivityDelegate?.previousPage()
+//        } else if location.x > distanceRight {
+//            
+//            // next page
+//            userActivityDelegate?.nextPage()
+//        }
+//        else
+//        {
+//            userActivityDelegate?.userDidSingleTapped()
+//        }
     }
     
     func didTap(type: ITVGestureEventType, location: CGPoint) {
-        print(type)
-        print(location)
+       print(type.rawValue)
         if type == ITVGestureEventType.singleTap {
-            let distanceLeft = self.zoomifyIIIFReaderScrollView.frame.width / 5
-            let distanceRight = self.zoomifyIIIFReaderScrollView.frame.width - distanceLeft
-            if location.x < distanceLeft {
-                //previous page
-               // userActivityDelegate?.previousPage()
-            } else if location.x > distanceRight {
+            
+            print("Location: ", location)
+            var approximatedX = location.x
+//            if(self.zoomifyIIIFReaderScrollView.zoomScale > 2)
+//            {
+//                approximatedX = approximatedX / (zoomifyIIIFReaderScrollView.zoomScale/2)
+//            }
+            
+            print( "width: ", self.view.bounds.width)
+            
+            let leftBandWidth  = self.view.bounds.width / 4
+            let rightBandOffset = self.view.bounds.width - leftBandWidth
+            
+            print("Left: ", leftBandWidth, "Right: ", rightBandOffset, "ApproximatedX: ", approximatedX)
+            
+            if self.zoomifyIIIFReaderScrollView.zoomScale > 2 {
                 
-                // next page
-                //userActivityDelegate?.nextPage()
-            }
-            else
-            {
-                userActivityDelegate?.userDidSingleTapped()
+                if approximatedX <= leftBandWidth {
+                    print ("left, previous page")
+                    //previous page
+                    userActivityDelegate?.previousPage()
+                } else if approximatedX >= rightBandOffset {
+                    print("right, next page")
+                    // next page
+                     userActivityDelegate?.nextPage()
+                }
+                else
+                {
+                    print ("single tap, middle = show/hide bars")
+                    userActivityDelegate?.userDidSingleTapped()
+                }
             }
         }
+        
     }
 }
 

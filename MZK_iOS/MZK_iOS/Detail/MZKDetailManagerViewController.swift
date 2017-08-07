@@ -371,8 +371,9 @@
         self.infoButton.isEnabled = enable
         self.showThumbnailButton.isEnabled = enable
         self.pageSlider.isEnabled = enable
-        self.nextPageButton.isEnabled = enable
-        self.previousPageButton.isEnabled = enable
+        
+      self.nextPageButton.isEnabled = enable
+       self.previousPageButton.isEnabled = enable
     }
     
     func reloadData () -> Void

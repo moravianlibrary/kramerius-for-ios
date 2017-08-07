@@ -173,7 +173,7 @@
                                     <constraint firstItem="Six-MP-J21" firstAttribute="leading" secondItem="iHN-hF-wPK" secondAttribute="leading" constant="8" id="o41-7A-mJv"/>
                                 </constraints>
                             </view>
-                            <button hidden="YES" opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bom-0c-IqJ">
+                            <button hidden="YES" opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bom-0c-IqJ">
                                 <rect key="frame" x="187.5" y="559" width="187.5" height="30"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -184,7 +184,7 @@
                                     <action selector="onNextPage:" destination="eva-nw-erY" eventType="touchUpInside" id="HhH-nb-5fQ"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" alpha="0.34999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jG-Ov-QG6">
+                            <button hidden="YES" opaque="NO" alpha="0.34999999999999998" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jG-Ov-QG6">
                                 <rect key="frame" x="0.0" y="559" width="187.5" height="30"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>

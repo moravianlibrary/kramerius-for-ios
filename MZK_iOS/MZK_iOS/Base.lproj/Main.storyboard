@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="FMf-Ze-ON2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="FMf-Ze-ON2">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -17,7 +17,7 @@
                     <tabBarItem key="tabBarItem" title="Knihovna" image="book_outline_g" selectedImage="book_outline_b" id="PYG-m1-SxV">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tsw-lH-46i">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Tsw-lH-46i">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
@@ -41,7 +41,7 @@
             <objects>
                 <navigationController extendedLayoutIncludesOpaqueBars="YES" id="sPD-gN-784" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" tag="1" title="Kolekce" image="collection_outline_g" selectedImage="collection_outline_b" id="H5K-s7-7aW"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" translucent="NO" id="lmQ-2k-oNX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" translucent="NO" id="lmQ-2k-oNX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="1" green="0.41024560869999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1715,7 +1715,7 @@
             <objects>
                 <navigationController extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="EM1-5M-jM2" customClass="OpenGeneralList" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6Wb-Xo-UtI">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="6Wb-Xo-UtI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1898,7 +1898,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="I7O-Sd-CBI" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Historie" image="history_outline_g" selectedImage="history_outline_b" id="OXj-9w-Gvk"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0KZ-Qr-xt4">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="0KZ-Qr-xt4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1936,7 +1936,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vYQ-qL-IC7" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Knihovna" image="lib_outline_g" selectedImage="lib_outline_b" id="Rkr-MF-3kM"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="x1V-S3-Dvo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="x1V-S3-Dvo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1955,7 +1955,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Fcx-XV-T0L" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Nastavení" image="settings_outline_g" selectedImage="settings_outline_b" id="MS8-UP-8dE"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mAZ-Vw-WxL">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="mAZ-Vw-WxL">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

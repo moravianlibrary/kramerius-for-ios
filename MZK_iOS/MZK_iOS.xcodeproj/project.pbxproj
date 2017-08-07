@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2D009CD51BAAE52E0042021D /* MZKCollectionItemResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D009CD41BAAE52E0042021D /* MZKCollectionItemResource.m */; };
 		2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D02A4611B0624C100D51B0C /* MZKPageObject.m */; };
+		2D07BE261F27873B0046F06E /* MZKFiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D07BE251F27873B0046F06E /* MZKFiltersViewController.swift */; };
 		2D0DD5701DD0A0E100C0E3A8 /* HTTPStatusCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DD56E1DD0A0E100C0E3A8 /* HTTPStatusCodes.swift */; };
 		2D0DD5711DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DD56F1DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift */; };
 		2D113CB11DC0D7780042B9ED /* MZKPageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D113CB01DC0D7780042B9ED /* MZKPageDetailViewController.swift */; };
@@ -68,6 +69,7 @@
 		2DAB71A11D802F0000765AF7 /* MZKDetailManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAB71A01D802F0000765AF7 /* MZKDetailManagerViewController.m */; };
 		2DAB71A51D803A6300765AF7 /* MZKDetailPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAB71A31D803A6300765AF7 /* MZKDetailPageViewController.m */; };
 		2DAB71A81D803E2700765AF7 /* MZKDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DAB71A71D803E2700765AF7 /* MZKDetail.storyboard */; };
+		2DB1D9C91F2F171900BD5832 /* MZKFilterQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB1D9C81F2F171900BD5832 /* MZKFilterQuery.swift */; };
 		2DB88C1B1C15B0E900AC7070 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DB88C1A1C15B0E900AC7070 /* GoogleService-Info.plist */; };
 		2DB8A7971ACD073400A1BB2E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8A7961ACD073400A1BB2E /* main.m */; };
 		2DB8A79A1ACD073400A1BB2E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8A7991ACD073400A1BB2E /* AppDelegate.m */; };
@@ -104,6 +106,7 @@
 		2D009CD41BAAE52E0042021D /* MZKCollectionItemResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKCollectionItemResource.m; path = ../MZKCollectionItemResource.m; sourceTree = "<group>"; };
 		2D02A4601B0624C100D51B0C /* MZKPageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKPageObject.h; path = ../MZKPageObject.h; sourceTree = "<group>"; };
 		2D02A4611B0624C100D51B0C /* MZKPageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKPageObject.m; path = ../MZKPageObject.m; sourceTree = "<group>"; };
+		2D07BE251F27873B0046F06E /* MZKFiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKFiltersViewController.swift; sourceTree = "<group>"; };
 		2D0DD56E1DD0A0E100C0E3A8 /* HTTPStatusCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatusCodes.swift; sourceTree = "<group>"; };
 		2D0DD56F1DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HTTPStatusCodes+Extensions.swift"; sourceTree = "<group>"; };
 		2D0F65451DD5C5E900CEC252 /* MZK_iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MZK_iOS-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -203,6 +206,7 @@
 		2DAB71A21D803A6300765AF7 /* MZKDetailPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDetailPageViewController.h; sourceTree = "<group>"; };
 		2DAB71A31D803A6300765AF7 /* MZKDetailPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDetailPageViewController.m; sourceTree = "<group>"; };
 		2DAB71A71D803E2700765AF7 /* MZKDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MZKDetail.storyboard; sourceTree = "<group>"; };
+		2DB1D9C81F2F171900BD5832 /* MZKFilterQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKFilterQuery.swift; sourceTree = "<group>"; };
 		2DB88C1A1C15B0E900AC7070 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2DB8A7911ACD073400A1BB2E /* MZK_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MZK_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DB8A7951ACD073400A1BB2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -287,6 +291,7 @@
 				2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */,
 				2D113CB21DC0DC4A0042B9ED /* MZKPageViewController.swift */,
 				2D113CB01DC0D7780042B9ED /* MZKPageDetailViewController.swift */,
+				2D07BE251F27873B0046F06E /* MZKFiltersViewController.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -342,6 +347,7 @@
 				2D02A4611B0624C100D51B0C /* MZKPageObject.m */,
 				2D4747301D4684BD00D6F5F8 /* MZKSearchHistoryItem.h */,
 				2D4747311D4684BD00D6F5F8 /* MZKSearchHistoryItem.m */,
+				2DB1D9C81F2F171900BD5832 /* MZKFilterQuery.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -700,6 +706,7 @@
 				2D28FD341DDC61CD00633DE4 /* ASValueTrackingSlider.m in Sources */,
 				2D2A64801AF8EF3800D82E04 /* MZKMainViewController.m in Sources */,
 				2D409B781B8B460E00B49EAD /* MZKDataSourceTableViewCell.m in Sources */,
+				2D07BE261F27873B0046F06E /* MZKFiltersViewController.swift in Sources */,
 				2D44DF3F1CB397EF001EF49F /* MZKTabBarMenuViewController.m in Sources */,
 				2D9150F21C82F4C200AD380F /* MyURLProtocol.m in Sources */,
 				2DAA60751BA7590B0004A718 /* MZKDetailCollectionViewCell.m in Sources */,
@@ -736,6 +743,7 @@
 				2D24F0701B7387E40073FC83 /* MZKChangeLibraryViewController.m in Sources */,
 				2D13D5671C3FC6AD00DB4190 /* MZKDetailInformationModel.m in Sources */,
 				2D113CB31DC0DC4A0042B9ED /* MZKPageViewController.swift in Sources */,
+				2DB1D9C91F2F171900BD5832 /* MZKFilterQuery.swift in Sources */,
 				2D5BB44F1DBA267D001EAB35 /* NSString+MD5.m in Sources */,
 				2D33C3571C2819E9002BA7D1 /* MZKSettingsViewController.m in Sources */,
 				2DB8A7971ACD073400A1BB2E /* main.m in Sources */,
