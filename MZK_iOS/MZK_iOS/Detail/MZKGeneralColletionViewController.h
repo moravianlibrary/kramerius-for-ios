@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString *parentPID;
 @property (nonatomic, readwrite) BOOL isFirst;
 @property (nonatomic, readwrite) BOOL shouldShowSearchBar;
+@property (nonatomic, readwrite) BOOL shouldDisplayFilters;
 
 -(void)setItems:(NSArray *)items;
 -(void)setParentObject:(MZKItemResource *)parentObject;

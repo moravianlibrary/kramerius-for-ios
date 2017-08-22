@@ -26,12 +26,14 @@
     MZKSearchBarCollectionReusableView *_searchBarView;
     NSDictionary *_searchResults;
 }
-@property (weak, nonatomic) IBOutlet UICollectionView *_collectionView;
+
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 @property (weak, nonatomic) IBOutlet UIView *dimmingView;
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContainerView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UITableView *searchResultsTableView;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *filterButton;
 
 @end
 
@@ -43,7 +45,7 @@
     self.backButton.title = @"❮";
     
     if (_items) {
-        [self._collectionView reloadData];
+        [self.collectionView reloadData];
     }
     
     [self hideDimmingView];
@@ -52,13 +54,22 @@
     _searchResults = [NSDictionary new];
     
     
-    NSLog(@"top = %f, bounds top %f", self._collectionView.frame.origin.y, self._collectionView.bounds.origin.y);
-    NSLog(@"offset y = %f", self._collectionView.contentOffset.y);
-    NSLog(@"height = %f", self._collectionView.contentSize.height);
-    NSLog(@"inset top = %f", self._collectionView.contentInset.top);
-    NSLog(@"inset bottom = %f", self._collectionView.contentInset.bottom);
-    NSLog(@"inset left = %f", self._collectionView.contentInset.left);
-    NSLog(@"inset right = %f", self._collectionView.contentInset.right);
+    NSLog(@"top = %f, bounds top %f", self.collectionView.frame.origin.y, self.collectionView.bounds.origin.y);
+    NSLog(@"offset y = %f", self.collectionView.contentOffset.y);
+    NSLog(@"height = %f", self.collectionView.contentSize.height);
+    NSLog(@"inset top = %f", self.collectionView.contentInset.top);
+    NSLog(@"inset bottom = %f", self.collectionView.contentInset.bottom);
+    NSLog(@"inset left = %f", self.collectionView.contentInset.left);
+    NSLog(@"inset right = %f", self.collectionView.contentInset.right);
+    
+    // should display search icon in header bar
+    if (_shouldDisplayFilters) {
+        [self showBarButtonItem:self.filterButton];
+    }
+    else{
+        [self hideBarButtonItem:self.filterButton];
+    }
+
     
 }
 
@@ -135,6 +146,20 @@
         NSLog(@"There is no usable title! Using default instead!");
         self.navigationItem.title = parentItemResource.title;
     }
+    
+    // should display search icon in header bar
+    if (_shouldDisplayFilters) {
+        [self showBarButtonItem:self.filterButton];
+    }
+    else{
+        [self hideBarButtonItem:self.filterButton];
+    }
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.collectionView setContentOffset:CGPointMake(0, -50) animated:false];
 }
 
 -(IBAction)onClose:(id)sender
@@ -402,7 +427,7 @@
 
 -(float)calculateCellWidthFromScreenWidth:(float)width
 {
-    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self._collectionView.collectionViewLayout;
+    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     int numberOfItemsPerRow = 0;
     int kMinCellWidth = 304;
     float collectionViewWidth = width;
@@ -426,7 +451,7 @@
 
 - (void)updateCollectionViewLayoutWithSize:(CGSize)size {
     
-    UICollectionViewFlowLayout *flowLayout = (id)self._collectionView.collectionViewLayout;
+    UICollectionViewFlowLayout *flowLayout = (id)self.collectionView.collectionViewLayout;
     float desiredWidth = [self calculateCellWidthFromScreenWidth:size.width];
     
     CGSize sizeOfCell = CGSizeMake(desiredWidth, 140);
@@ -453,7 +478,7 @@
     
     _items = items;
     
-    [self._collectionView reloadData];
+    [self.collectionView reloadData];
     [self hideLoadingIndicator];
     
 }
@@ -574,4 +599,33 @@
     _searchResultsTableView.hidden = YES;
     _searchBarView.searchBar.text = @"";
 }
+
+#pragma MARK - Filters
+- (IBAction)onFilterButton:(id)sender {
+}
+
+
+-(void) hideBarButtonItem :(UIBarButtonItem *)myButton {
+    // Get the reference to the current toolbar buttons
+    NSMutableArray *navBarBtns = [self.navigationItem.rightBarButtonItems mutableCopy];
+    
+    // This is how you remove the button from the toolbar and animate it
+    [navBarBtns removeObject:myButton];
+    [self.navigationItem setRightBarButtonItems:navBarBtns animated:YES];
+}
+
+
+-(void) showBarButtonItem :(UIBarButtonItem *)myButton {
+    // Get the reference to the current toolbar buttons
+    NSMutableArray *navBarBtns = [self.navigationItem.rightBarButtonItems mutableCopy];
+    
+    // This is how you add the button to the toolbar and animate it
+    if (![navBarBtns containsObject:myButton]) {
+        [navBarBtns addObject:myButton];
+        [self.navigationItem setRightBarButtonItems:navBarBtns animated:YES];
+    }
+}
+
+
+
 @end

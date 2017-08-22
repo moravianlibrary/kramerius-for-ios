@@ -17,7 +17,7 @@
                     <tabBarItem key="tabBarItem" title="Knihovna" image="book_outline_g" selectedImage="book_outline_b" id="PYG-m1-SxV">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Tsw-lH-46i">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tsw-lH-46i">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
@@ -41,7 +41,7 @@
             <objects>
                 <navigationController extendedLayoutIncludesOpaqueBars="YES" id="sPD-gN-784" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" tag="1" title="Kolekce" image="collection_outline_g" selectedImage="collection_outline_b" id="H5K-s7-7aW"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" translucent="NO" id="lmQ-2k-oNX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" translucent="NO" id="lmQ-2k-oNX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="1" green="0.41024560869999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -561,14 +561,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view hidden="YES" alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ME-my-YeG">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CkO-b4-zQy" userLabel="activity indicator container view">
-                                <rect key="frame" x="0.0" y="20" width="375" height="646"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="602"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="OMN-iq-8oH">
-                                        <rect key="frame" x="177.5" y="313" width="20" height="20"/>
+                                        <rect key="frame" x="177.5" y="291" width="20" height="20"/>
                                         <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -579,7 +579,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="40" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="KOE-ho-4Sy">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MZKSearchTableViewCell2" id="O1D-dK-Sg5" customClass="MZKSearchTableViewCell">
@@ -639,6 +639,9 @@
                             <constraint firstAttribute="bottom" secondItem="CkO-b4-zQy" secondAttribute="bottom" constant="1" id="y9l-3v-zRg"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="PAF-51-qPp">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="6pj-T0-f6a"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="OMN-iq-8oH" id="kk9-X4-gId"/>
                         <outlet property="activityIndicatorContainerView" destination="CkO-b4-zQy" id="nOH-Gc-Qvg"/>
@@ -651,7 +654,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tMb-Xe-YGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="967" y="-351"/>
+            <point key="canvasLocation" x="1900" y="-377.36131934032989"/>
         </scene>
         <!--Kolekce-->
         <scene sceneID="WLA-Ih-Zyf">
@@ -1146,11 +1149,11 @@
                     <navigationItem key="navigationItem" id="PDC-nJ-INK">
                         <nil key="title"/>
                         <view key="titleView" contentMode="scaleToFill" id="utW-ch-djL">
-                            <rect key="frame" x="12" y="-13" width="576" height="70"/>
+                            <rect key="frame" x="19" y="-13" width="521" height="70"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69C-wH-ld0">
-                                    <rect key="frame" x="8" y="0.0" width="560" height="29"/>
+                                    <rect key="frame" x="8" y="0.0" width="505" height="29"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="29" id="ilR-c2-qZ6"/>
                                     </constraints>
@@ -1159,7 +1162,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="e9e-bE-9mg">
-                                    <rect key="frame" x="182.5" y="33" width="211" height="29"/>
+                                    <rect key="frame" x="155" y="33" width="211" height="29"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="211" id="0VK-bs-ybQ"/>
                                     </constraints>
@@ -1198,7 +1201,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O5f-h5-pAJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-299" y="-2581"/>
+            <point key="canvasLocation" x="-299.19999999999999" y="-2581.7091454272863"/>
         </scene>
         <!--General Colletion View Controller-->
         <scene sceneID="4pq-7Q-SkS">
@@ -1213,7 +1216,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="J4g-JT-3W9">
-                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="20" id="cCe-NJ-EAb">
                                     <size key="itemSize" width="304" height="140"/>
@@ -1362,11 +1365,11 @@
                                 </connections>
                             </collectionView>
                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83V-3o-Yhi">
-                                <rect key="frame" x="0.0" y="127" width="600" height="473"/>
+                                <rect key="frame" x="0.0" y="127" width="600" height="424"/>
                                 <color key="backgroundColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cGW-8E-0Dy">
-                                <rect key="frame" x="0.0" y="127" width="600" height="473"/>
+                                <rect key="frame" x="0.0" y="127" width="600" height="424"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchHintCell" editingAccessoryType="detailButton" id="hGE-wO-bNZ">
@@ -1385,10 +1388,10 @@
                                 </connections>
                             </tableView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hHM-1h-gyp" userLabel="activity indicator container view">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="5Dx-Co-u6I">
-                                        <rect key="frame" x="290" y="258" width="20" height="20"/>
+                                        <rect key="frame" x="290" y="233.5" width="20" height="20"/>
                                         <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -1425,6 +1428,13 @@
                                 <action selector="onClose:" destination="NLu-4t-yZx" id="rar-Fg-R4F"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="filter" style="plain" id="D4b-KS-wdu">
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onFilterButton:" destination="NLu-4t-yZx" id="QX8-mI-CDw"/>
+                                <segue destination="FTc-We-yDh" kind="show" id="Z71-2m-VRy"/>
+                            </connections>
+                        </barButtonItem>
                         <connections>
                             <outlet property="leftBarButtonItem" destination="C5d-P9-gIK" id="hL9-Hc-9EY"/>
                         </connections>
@@ -1437,6 +1447,7 @@
                         <outlet property="activityIndicatorContainerView" destination="hHM-1h-gyp" id="PNJ-J5-hue"/>
                         <outlet property="backButton" destination="C5d-P9-gIK" id="nYm-n3-yNU"/>
                         <outlet property="dimmingView" destination="83V-3o-Yhi" id="KiX-Zv-43D"/>
+                        <outlet property="filterButton" destination="D4b-KS-wdu" id="hvS-nf-Jk4"/>
                         <outlet property="searchResultsTableView" destination="cGW-8E-0Dy" id="SHl-u6-SSl"/>
                         <segue destination="zaD-uN-nX7" kind="presentation" identifier="OpenReader" id="W3i-pO-fpE"/>
                     </connections>
@@ -1444,6 +1455,46 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cZa-Er-9fk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="364" y="1213"/>
+        </scene>
+        <!--Filters View Controller-->
+        <scene sceneID="EpZ-FW-XYB">
+            <objects>
+                <viewController id="FTc-We-yDh" customClass="MZKFiltersViewController" customModule="MZK_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="opH-zt-DjF"/>
+                        <viewControllerLayoutGuide type="bottom" id="tcb-3k-wZ8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="iRp-UV-27r">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yDN-HV-qiY">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="OLW-cJ-o1a">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OLW-cJ-o1a" id="UTE-dm-nKk">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="tcb-3k-wZ8" firstAttribute="top" secondItem="yDN-HV-qiY" secondAttribute="bottom" id="43m-7x-FAz"/>
+                            <constraint firstAttribute="trailing" secondItem="yDN-HV-qiY" secondAttribute="trailing" id="cJz-fA-sgB"/>
+                            <constraint firstItem="yDN-HV-qiY" firstAttribute="leading" secondItem="iRp-UV-27r" secondAttribute="leading" id="eiD-mg-IeN"/>
+                            <constraint firstItem="yDN-HV-qiY" firstAttribute="top" secondItem="opH-zt-DjF" secondAttribute="bottom" id="tPL-Dz-9UP"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vA8-1g-VHa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2180.8000000000002" y="1234.1829085457273"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="c0C-Od-VRf">
@@ -1484,7 +1535,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kvo-JJ-ZW3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3490" y="-287"/>
+            <point key="canvasLocation" x="4428" y="-287.40629685157421"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="XZc-GX-KoN">
@@ -1528,7 +1579,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4CS-HF-yXV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4192.8000000000002" y="-284.70764617691157"/>
+            <point key="canvasLocation" x="5132" y="-284.70764617691157"/>
         </scene>
         <!--MZKDetailManagerViewController-->
         <scene sceneID="ket-v5-FtW">
@@ -1536,7 +1587,7 @@
                 <viewControllerPlaceholder storyboardName="MZKDetail" referencedIdentifier="MZKDetailManagerViewController" id="zaD-uN-nX7" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fNg-Bf-LyC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2626" y="-119"/>
+            <point key="canvasLocation" x="3564.8000000000002" y="-119.64017991004499"/>
         </scene>
         <!--Recently Opened Documents View Controller-->
         <scene sceneID="L1M-ph-AMm">
@@ -1715,7 +1766,7 @@
             <objects>
                 <navigationController extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="EM1-5M-jM2" customClass="OpenGeneralList" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="6Wb-Xo-UtI">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6Wb-Xo-UtI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1898,7 +1949,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="I7O-Sd-CBI" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Historie" image="history_outline_g" selectedImage="history_outline_b" id="OXj-9w-Gvk"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="0KZ-Qr-xt4">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0KZ-Qr-xt4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1936,7 +1987,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vYQ-qL-IC7" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Knihovna" image="lib_outline_g" selectedImage="lib_outline_b" id="Rkr-MF-3kM"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="x1V-S3-Dvo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="x1V-S3-Dvo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1955,7 +2006,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Fcx-XV-T0L" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Nastavení" image="settings_outline_g" selectedImage="settings_outline_b" id="MS8-UP-8dE"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="mAZ-Vw-WxL">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mAZ-Vw-WxL">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1968,6 +2019,24 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
             </objects>
             <point key="canvasLocation" x="-1335" y="-4068"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hOT-Oo-ZJm">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oG4-jO-Smt" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XUx-jX-fSl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="An6-WR-1u7" kind="relationship" relationship="rootViewController" id="jpF-bZ-hHy"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eCk-Eg-WH8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="960.79999999999995" y="-377.36131934032989"/>
+        </scene>
     </scenes>
     <resources>
         <image name="AndroidFiltrz.png" width="606" height="866"/>
@@ -1979,6 +2048,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
         <image name="book_outline_g" width="25" height="25"/>
         <image name="collection_outline_b" width="25" height="25"/>
         <image name="collection_outline_g" width="25" height="25"/>
+        <image name="filter" width="25" height="25"/>
         <image name="history_outline_b" width="25" height="25"/>
         <image name="history_outline_g" width="25" height="25"/>
         <image name="ic_book_green" width="128" height="128"/>
@@ -1994,8 +2064,8 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
         <image name="settings_outline_g" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="wpv-e5-UGR"/>
+        <segue reference="W3i-pO-fpE"/>
         <segue reference="X8j-sX-hEs"/>
-        <segue reference="Mqf-r2-ldD"/>
-        <segue reference="H21-Ix-YLX"/>
     </inferredMetricsTieBreakers>
 </document>

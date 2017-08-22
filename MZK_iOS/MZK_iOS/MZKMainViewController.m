@@ -547,7 +547,6 @@ const int kHeaderHeight = 95;
     CGFloat sectionInsetY = ((UICollectionViewFlowLayout *)_collectionView.collectionViewLayout).sectionInset.top;
     
     [_collectionView setContentOffset:CGPointMake(_collectionView.contentOffset.x, offsetY - contentInsetY - sectionInsetY) animated:YES];
-    
 }
 
 -(void)searchEnded
@@ -570,6 +569,16 @@ const int kHeaderHeight = 95;
         _searchViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         _searchViewController.view.translatesAutoresizingMaskIntoConstraints = YES;
         _searchViewController.delegate = self;
+        
+        UIBarButtonItem *right =
+        [[UIBarButtonItem alloc] initWithTitle:@"Right"
+                                         style:UIBarButtonItemStylePlain
+                                        target:self
+                                        action:@selector(buttonPressed:)];
+        [right setBackgroundImage:[UIImage imageNamed:@"ShowBars"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [_searchViewController.navigationItem setRightBarButtonItem:right];
+
+
         [self addChildViewController:_searchViewController];
         
         _searchBarContainerView.searchBar.delegate = _searchViewController;

@@ -41,7 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = NSLocalizedString(@"mzk.searchResults", @"Search VC title");
+  //  self.title = NSLocalizedString(@"mzk.searchResults", @"Search VC title");
     
     [_searchResultsTableView registerClass:[MZKSearchTableViewCell class] forCellReuseIdentifier:@"MZKSearchTableViewCell"];
     
@@ -54,9 +54,36 @@
     
     self.searchResultsTableView.tableFooterView = [[UIView alloc] init];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDatasourceChanged:) name:kDatasourceItemChanged object:nil];
+#warning Do CLEANUP!
     
+//    NSLog(@"Navigation items: %@", self.navigationItem.rightBarButtonItem.description);
+//    
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDatasourceChanged:) name:kDatasourceItemChanged object:nil];
+//    
+////    UIBarButtonItem *right =
+////    [[UIBarButtonItem alloc] initWithTitle:@"Right"
+////                                     style:UIBarButtonItemStylePlain
+////                                    target:self
+////                                    action:@selector(buttonPressed:)];
+////    [right setBackgroundImage:[UIImage imageNamed:@"ShowBars"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+////    [self.navigationItem setRightBarButtonItem:right];
+//    
+//    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+//                                                                    style:UIBarButtonItemStyleDone target:nil action:nil];
+//    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"Title"];
+//    item.rightBarButtonItem = rightButton;
+//    item.hidesBackButton = YES;
+//   
+//    self.navigationItem.rightBarButtonItem = rightButton;
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.searchResultsTableView setContentOffset:CGPointMake(0, -50) animated:false];
+}
+
 
 -(void)onDatasourceChanged:(NSNotification *)notf
 {
@@ -396,7 +423,8 @@
         vc.isFirst = YES;
         vc.shouldShowSearchBar = NO;
         vc.items = _searchResults;
-        
+        vc.shouldDisplayFilters = YES;
+    
         _searchBar.text = @"";
         [self hideDimmingView];
     }
