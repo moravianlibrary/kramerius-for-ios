@@ -20,6 +20,12 @@ struct MZKFilterConstants {
 
 }
 
+/**
+ * Helper class that can create queries based on input. Queries should be used furter in new datasource, that is beeing rewriten under 
+ * Swift version 4. Queries represents filters that can be added to make search more concrete. 
+ *
+ */
+
 class MZKFilterQuery {
     
 
