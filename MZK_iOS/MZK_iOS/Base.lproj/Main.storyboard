@@ -1468,29 +1468,68 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yDN-HV-qiY">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="yDN-HV-qiY">
+                                <rect key="frame" x="0.0" y="119" width="600" height="432"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="OLW-cJ-o1a">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FilterCell" id="OLW-cJ-o1a" customClass="MZKFilterTableViewCell" customModule="MZK_iOS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="56" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OLW-cJ-o1a" id="UTE-dm-nKk">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G1C-Ja-ZuS">
+                                                    <rect key="frame" x="8" y="12" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ALJ-Iv-SxY">
+                                                    <rect key="frame" x="58" y="7" width="534" height="30"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ALJ-Iv-SxY" firstAttribute="top" secondItem="UTE-dm-nKk" secondAttribute="top" constant="7" id="ApO-1J-LNd"/>
+                                                <constraint firstItem="ALJ-Iv-SxY" firstAttribute="leading" secondItem="G1C-Ja-ZuS" secondAttribute="trailing" constant="8" id="WTR-K8-IY7"/>
+                                                <constraint firstAttribute="bottom" secondItem="G1C-Ja-ZuS" secondAttribute="bottom" constant="11" id="dse-Yp-f5n"/>
+                                                <constraint firstAttribute="bottom" secondItem="ALJ-Iv-SxY" secondAttribute="bottom" constant="7" id="h8H-Is-sVS"/>
+                                                <constraint firstItem="ALJ-Iv-SxY" firstAttribute="leading" secondItem="G1C-Ja-ZuS" secondAttribute="trailing" constant="8" id="nTS-x4-WCC"/>
+                                                <constraint firstItem="G1C-Ja-ZuS" firstAttribute="top" secondItem="UTE-dm-nKk" secondAttribute="top" constant="12" id="sP6-nI-ghs"/>
+                                                <constraint firstItem="G1C-Ja-ZuS" firstAttribute="leading" secondItem="UTE-dm-nKk" secondAttribute="leading" constant="8" id="siA-7w-if9"/>
+                                                <constraint firstAttribute="trailing" secondItem="ALJ-Iv-SxY" secondAttribute="trailing" constant="8" id="u15-Im-oIv"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="filterTextField" destination="ALJ-Iv-SxY" id="WW0-y5-Wjm"/>
+                                            <outlet property="filterTitleLabel" destination="G1C-Ja-ZuS" id="9JM-uh-Kwq"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="245-0z-Pnn">
+                                <rect key="frame" x="8" y="64" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="onTest:" destination="FTc-We-yDh" eventType="touchUpInside" id="Kqi-Na-3Zc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="tcb-3k-wZ8" firstAttribute="top" secondItem="yDN-HV-qiY" secondAttribute="bottom" id="43m-7x-FAz"/>
                             <constraint firstAttribute="trailing" secondItem="yDN-HV-qiY" secondAttribute="trailing" id="cJz-fA-sgB"/>
                             <constraint firstItem="yDN-HV-qiY" firstAttribute="leading" secondItem="iRp-UV-27r" secondAttribute="leading" id="eiD-mg-IeN"/>
-                            <constraint firstItem="yDN-HV-qiY" firstAttribute="top" secondItem="opH-zt-DjF" secondAttribute="bottom" id="tPL-Dz-9UP"/>
+                            <constraint firstItem="yDN-HV-qiY" firstAttribute="top" secondItem="opH-zt-DjF" secondAttribute="bottom" constant="55" id="tPL-Dz-9UP"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="filtersTableView" destination="yDN-HV-qiY" id="hJz-5H-iRt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vA8-1g-VHa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

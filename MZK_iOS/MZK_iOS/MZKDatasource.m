@@ -7,7 +7,6 @@
 //
 
 #import "XMLReader.h"
-#import <CoreGraphics/CoreGraphics.h>
 #import "MZKDatasource.h"
 #import "MZKItemResource.h"
 #import "MZKPageObject.h"
@@ -66,7 +65,6 @@ typedef enum _downloadOperation downloadOperation;
     downloadQ.name = @"download";
     
     return self;
-    
 }
 
 -(void)resendLastRequest
@@ -128,8 +126,6 @@ typedef enum _downloadOperation downloadOperation;
     {
         [self getCollectionItems:collectionPID];
     }
-    
-    
 }
 
 -(void)getCollectionItems:(NSString *)collectionPID
@@ -284,7 +280,7 @@ typedef enum _downloadOperation downloadOperation;
 }
 
 #pragma mark - privateMethods
--(void)checkAndSetBaseUrl
+-(void) checkAndSetBaseUrl
 {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MZKLibraryItem *item = appDelegate.getDatasourceItem;

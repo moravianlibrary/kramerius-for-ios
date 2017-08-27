@@ -22,7 +22,7 @@ struct MZKFilterConstants {
 
 /**
  * Helper class that can create queries based on input. Queries should be used furter in new datasource, that is beeing rewriten under 
- * Swift version 4. Queries represents filters that can be added to make search more concrete. 
+ * Swift version 4. Queries represents filters that can be added to make search more concrete.
  *
  */
 
@@ -43,8 +43,10 @@ class MZKFilterQuery {
     
     static let TOP_LEVEL_RESTRICTION = "(fedora.model:monograph^4 OR fedora.model:periodical^4 OR fedora.model:map OR fedora.model:soundrecording OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:sheetmusic)";
 
-    
-    init(query : String, collection : String, publicOnly:Bool) {
+    /**
+    default constructor others are convinience
+     */
+    init(query: String, publicOnly:Bool) {
         // query is non optional - it has to be set.
         if (query.isEmpty) {
             self.query = nil
@@ -53,6 +55,19 @@ class MZKFilterQuery {
         {
             self.query = query
         }
+        
+        if(publicOnly) {
+            accessibility = "public";
+        } else {
+            accessibility = "all";
+        }
+
+    }
+    
+    
+    convenience init(query : String, collection : String, publicOnly:Bool) {
+       self.init(query: query, publicOnly: publicOnly)
+        // query for collection - not used yet
         
     }
     

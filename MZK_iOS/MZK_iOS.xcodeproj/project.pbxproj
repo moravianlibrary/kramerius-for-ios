@@ -48,6 +48,8 @@
 		2D44DF3F1CB397EF001EF49F /* MZKTabBarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D44DF3E1CB397EF001EF49F /* MZKTabBarMenuViewController.m */; };
 		2D47472F1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */; };
 		2D4747321D4684BD00D6F5F8 /* MZKSearchHistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4747311D4684BD00D6F5F8 /* MZKSearchHistoryItem.m */; };
+		2D511C601F50376D0039550A /* MZKFilterFacet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D511C5F1F50376D0039550A /* MZKFilterFacet.swift */; };
+		2D511C621F5302C20039550A /* MZKFilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D511C611F5302C20039550A /* MZKFilterTableViewCell.swift */; };
 		2D5154C11DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5154C01DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift */; };
 		2D58E8F61BA57BAC000D444C /* MZKCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */; };
 		2D5BB44F1DBA267D001EAB35 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5BB44E1DBA267D001EAB35 /* NSString+MD5.m */; };
@@ -170,6 +172,8 @@
 		2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchTableViewCell.m; sourceTree = "<group>"; };
 		2D4747301D4684BD00D6F5F8 /* MZKSearchHistoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKSearchHistoryItem.h; path = ../MZKSearchHistoryItem.h; sourceTree = "<group>"; };
 		2D4747311D4684BD00D6F5F8 /* MZKSearchHistoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKSearchHistoryItem.m; path = ../MZKSearchHistoryItem.m; sourceTree = "<group>"; };
+		2D511C5F1F50376D0039550A /* MZKFilterFacet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKFilterFacet.swift; sourceTree = "<group>"; };
+		2D511C611F5302C20039550A /* MZKFilterTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKFilterTableViewCell.swift; sourceTree = "<group>"; };
 		2D5154C01DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKBookmarkTableViewCell.swift; sourceTree = "<group>"; };
 		2D58E8F41BA57BAC000D444C /* MZKCollectionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionTableViewCell.h; sourceTree = "<group>"; };
 		2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionTableViewCell.m; sourceTree = "<group>"; };
@@ -351,6 +355,8 @@
 				2D4747311D4684BD00D6F5F8 /* MZKSearchHistoryItem.m */,
 				2DB1D9C81F2F171900BD5832 /* MZKFilterQuery.swift */,
 				2D63D7771F4C7318009F2924 /* MZKDatasourceS.swift */,
+				2D511C5F1F50376D0039550A /* MZKFilterFacet.swift */,
+				2D511C611F5302C20039550A /* MZKFilterTableViewCell.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -705,6 +711,7 @@
 				2D28FD331DDC61CD00633DE4 /* ASValuePopUpView.m in Sources */,
 				2D009CD51BAAE52E0042021D /* MZKCollectionItemResource.m in Sources */,
 				2DB8A79A1ACD073400A1BB2E /* AppDelegate.m in Sources */,
+				2D511C621F5302C20039550A /* MZKFilterTableViewCell.swift in Sources */,
 				2DE387631AE526AB00A2004E /* MZKDatasource.m in Sources */,
 				2D28FD341DDC61CD00633DE4 /* ASValueTrackingSlider.m in Sources */,
 				2D2A64801AF8EF3800D82E04 /* MZKMainViewController.m in Sources */,
@@ -731,6 +738,7 @@
 				2DCAE25C1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m in Sources */,
 				2D24F0761B74C0A80073FC83 /* MZKCollectionItem.m in Sources */,
 				2D2505CD1AFE73300079F70E /* MZKConstants.m in Sources */,
+				2D511C601F50376D0039550A /* MZKFilterFacet.swift in Sources */,
 				2D3698E41C8ADBF6008FEF3C /* MZKDetailInformationStringModel.m in Sources */,
 				2D63D7781F4C7318009F2924 /* MZKDatasourceS.swift in Sources */,
 				2DA29B991DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift in Sources */,
