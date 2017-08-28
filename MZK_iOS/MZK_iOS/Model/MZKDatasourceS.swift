@@ -9,7 +9,7 @@
 
 import UIKit
 import Alamofire
-import ObjectMapper
+import AlamofireObjectMapper
 
 struct MZKKrameriusAPI {
     
@@ -59,7 +59,7 @@ class MZKDatasourceS: NSObject {
      */
     
     fileprivate func getSearchFacetPath(facet : String) -> String {
-        let query = MZKFilterQuery.init(query: "", publicOnly: true)
+        let query = MZKFilterQuery.init(query: "noviny", publicOnly: true)
         var buildedQuery = query.buildFacetQuery(facet: facet)
         
         // facet search - facet field are required
@@ -87,29 +87,45 @@ class MZKDatasourceS: NSObject {
     func makeRequestForFacets(query : String, facet : String) -> Void {
         //headers
         let headers = ["Accept": "application/json"]
+        let parameters: Parameters = ["q":query]
         
         // get base url
         var strUrl = getBaseURL()
         // append search
         strUrl.append("/\(MZKKrameriusAPI.search)")
-        strUrl.append("?q="+query)
-        // url encoding?
         
-        Alamofire.request(strUrl, headers: headers)
+        let postRequest = Alamofire.request(
+            strUrl,
+            method: .get,
+            parameters: parameters,
+            encoding: URLEncoding.queryString,
+            headers: headers)
             .validate(statusCode: 200..<300)
             .validate(contentType: ["application/json"])
-            .responseJSON { response in
+            .debugLog()
+            .responseObject { (response: DataResponse<MZKFilterFacet>) in
+                
                 switch response.result {
                 case .success:
                     print("Validation Successful")
                     // add object mapper
                     
-                    let str = NSString(data: response.data!, encoding: String.Encoding.utf8.rawValue)
-                    print(str)
+                    let facetResponse = response.result.value
                     
-                    //  let filterFacet = MZKFilterFacet(map: str)
-                    // add delegate calls
-                //  delegate?.facetSearchDataLoaded(facet: facet, filterFacets: filterFacet)
+                    if let numfound = facetResponse?.numFound
+                    {
+                        // just for testing - delegate should handle all situations - even when there is 0 facet fields returned
+                        if(numfound == 0)
+                        {
+                            print("Zero facet fields returned")
+                        }
+                        else
+                        {    //add delegate calls
+                            print("We are golden!")
+                            self.delegate?.facetSearchDataLoaded(facet: facet, filterFacets: facetResponse!)
+                        }
+                    }
+                    
                 case .failure(let error):
                     // notify delegate about error
                     print(error)
@@ -129,6 +145,16 @@ class MZKDatasourceS: NSObject {
         return appDelegate.defaultDatasourceItem.url + "/search/api/"+MZKKrameriusAPI.apiVersion
     }
     
+    /**
+     sends facet search request with selected order.
+     - returns:
+     */
+    
+    func facetSearchWithOrder() -> Void {
+        
+    }
+    
+    
     func test() -> Void {
         
         let url = "http://kramerius.mzk.cz/search/api/v5.0/search?q=%22noviny%22%20AND%20(fedora.model%3Amonograph%5E4%20OR%20fedora.model%3Aperiodical%5E4%20OR%20fedora.model%3Amap%20OR%20fedora.model%3Asoundrecording%20OR%20fedora.model%3Agraphic%20OR%20fedora.model%3Aarchive%20OR%20fedora.model%3Amanuscript%20OR%20fedora.model%3Asheetmusic)&facet=true&facet.field=dostupnost&facet.limit=15&rows=0&facet.mincount=1"
@@ -136,4 +162,13 @@ class MZKDatasourceS: NSObject {
     }
     
     
+}
+
+extension Request {
+    public func debugLog() -> Self {
+        //  #if DEBUG
+        debugPrint(self)
+        //  #endif
+        return self
+    }
 }

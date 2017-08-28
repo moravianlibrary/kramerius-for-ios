@@ -13,6 +13,7 @@ pod 'TTTAttributedLabel'
 pod 'TSMessages', :git => 'https://github.com/KrauseFx/TSMessages.git'
 pod 'iOSTiledViewer'
 pod 'Alamofire', '~> 4.4'
+pod 'AlamofireObjectMapper', '~> 4.0'
 pod 'ObjectMapper', '~> 2.2'
 end
 

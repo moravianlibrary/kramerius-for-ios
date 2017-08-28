@@ -16,15 +16,16 @@ class MZKFilterFacet: Mappable {
     
     var facet_name : String?
     var facet_fields : [String]?
+    var numFound : Int?
     
     required init?(map : Map) {
         
     }
     
     func mapping(map : Map){
-    
         facet_name      <- map["facet_name"]
         facet_fields    <- map["facet_fields"]
+        numFound        <- map["numFound"]
     }
     
 }

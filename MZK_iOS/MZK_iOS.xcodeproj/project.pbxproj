@@ -574,6 +574,7 @@
 				984A690BA1CBE454FD910EBD /* [CP] Embed Pods Frameworks */,
 				699878298BFBE6F5DCFE5F9F /* [CP] Copy Pods Resources */,
 				2D9378501DA293DF005B2ED3 /* Embed Frameworks */,
+				2D511C641F54A9910039550A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -669,6 +670,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		2D511C641F54A9910039550A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
 		};
 		699878298BFBE6F5DCFE5F9F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

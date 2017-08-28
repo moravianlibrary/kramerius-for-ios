@@ -69,7 +69,7 @@ class MZKBookmarkDatasource {
             if (tmpBookmarks != nil) {
                 
                 // bookmarks for PID
-                var bookmarksForPid = tmpBookmarks[withBookmark.parentPID]
+                var bookmarksForPid = tmpBookmarks[withBookmark.parentPID!]
                 
                 if (bookmarksForPid != nil) {
                     
@@ -91,7 +91,7 @@ class MZKBookmarkDatasource {
                 }
                 
                 // save to datastructure that later will be stored back to user defaults
-                tmpBookmarks[withBookmark.parentPID] = bookmarksForPid
+                tmpBookmarks[withBookmark.parentPID!] = bookmarksForPid
                 
             }
             
@@ -104,7 +104,7 @@ class MZKBookmarkDatasource {
         else
         {
             // no data structure for bookmarks found - create one with current bookmark
-            let newBookmarks = [withBookmark.parentPID: [withBookmark]]
+            let newBookmarks : [String : Any] = [withBookmark.parentPID!: [withBookmark]]
             
             let data = NSKeyedArchiver.archivedData(withRootObject: newBookmarks)
             
@@ -158,7 +158,7 @@ class MZKBookmarkDatasource {
         bookmark3.parentPID = "Parent 1"
         bookmark3.pagePID = "Page 2"
         
-        let bookmarksDict = [bookmark1.parentPID: [bookmark1, bookmark3], bookmark2.parentPID:[bookmark2]]
+        let bookmarksDict : [String : Any] = [bookmark1.parentPID!: [bookmark1, bookmark3], bookmark2.parentPID!:[bookmark2]]
         
         // save data
         print("Data to save:\(bookmarksDict)")

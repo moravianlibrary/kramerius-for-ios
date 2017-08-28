@@ -32,6 +32,7 @@ class MZKFiltersViewController: UIViewController {
     let languages = ["cestina","klingonstina", "tak urcite"]
     let headerTitles = ["Keywords", "Authors", "Doc types", "Languages"]
     
+    // TODO: add constructor with text - add it to the query... 
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,19 +46,18 @@ class MZKFiltersViewController: UIViewController {
         filtersTableView.reloadData()
         
         
-        // for each facet we should load active filters 
+        // for each facet we should load active filters
         
         mzkFiltersDatasource?.getFacetSearchResults(facet: MZKFilterConstants.author_facet)
         
-        mzkFiltersDatasource?.getFacetSearchResults(facet: MZKFilterConstants.language)
+        //    mzkFiltersDatasource?.getFacetSearchResults(facet: MZKFilterConstants.language)
         
     }
-
+    
     @IBAction func onTest(_ sender: Any) {
         
-     var tmpDatasource = MZKDatasourceS()
+        var tmpDatasource = MZKDatasourceS()
         tmpDatasource.test()
-    
     }
 }
 //MARK: UITableViewDatasource
@@ -83,7 +83,7 @@ extension MZKFiltersViewController : UITableViewDataSource
         case FilterSections.languages.rawValue:
             return languages.count
         default:
-                return 0
+            return 0
         }
     }
     
@@ -94,7 +94,7 @@ extension MZKFiltersViewController : UITableViewDataSource
         switch indexPath.section {
         case FilterSections.keywords.rawValue:
             cell.filterTitleLabel?.text = keywords[indexPath.row]
-           break
+            break
             
         case FilterSections.authors.rawValue:
             cell.filterTitleLabel?.text = authors[indexPath.row]
@@ -114,7 +114,7 @@ extension MZKFiltersViewController : UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
-    {        
+    {
         return headerTitles[section]
     }
     
@@ -124,7 +124,6 @@ extension MZKFiltersViewController : UITableViewDataSource
 extension MZKFiltersViewController : UITableViewDelegate
 {
     // there is no need to handle any table view cell selections
-    
 }
 
 //MARK: MZKDataLoadedDelegate
