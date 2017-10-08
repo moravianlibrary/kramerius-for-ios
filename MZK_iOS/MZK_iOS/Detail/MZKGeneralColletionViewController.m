@@ -53,15 +53,6 @@
     [self initGoogleAnalytics];
     _searchResults = [NSDictionary new];
     
-    
-    NSLog(@"top = %f, bounds top %f", self.collectionView.frame.origin.y, self.collectionView.bounds.origin.y);
-    NSLog(@"offset y = %f", self.collectionView.contentOffset.y);
-    NSLog(@"height = %f", self.collectionView.contentSize.height);
-    NSLog(@"inset top = %f", self.collectionView.contentInset.top);
-    NSLog(@"inset bottom = %f", self.collectionView.contentInset.bottom);
-    NSLog(@"inset left = %f", self.collectionView.contentInset.left);
-    NSLog(@"inset right = %f", self.collectionView.contentInset.right);
-    
     // should display search icon in header bar
     if (_shouldDisplayFilters) {
         [self showBarButtonItem:self.filterButton];
@@ -602,6 +593,8 @@
 
 #pragma MARK - Filters
 - (IBAction)onFilterButton:(id)sender {
+    
+    //FiltersSegue
 }
 
 
@@ -623,6 +616,20 @@
     if (![navBarBtns containsObject:myButton]) {
         [navBarBtns addObject:myButton];
         [self.navigationItem setRightBarButtonItems:navBarBtns animated:YES];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier  isEqual: @"FiltersSegue"]) {
+        //
+        
+        MZKFiltersViewController *destination = [segue destinationViewController];
+     //   destination.setSearchTerm:
+        [destination setSearchTerm: _searchTerm];
+        
     }
 }
 

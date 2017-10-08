@@ -28,7 +28,6 @@ struct MZKFilterConstants {
 
 class MZKFilterQuery {
     
-
     private var query : String?
     public var authors : [String] = []
     public var keywords : [String] = []
@@ -63,7 +62,6 @@ class MZKFilterQuery {
         }
 
     }
-    
     
     convenience init(query : String, collection : String, publicOnly:Bool) {
        self.init(query: query, publicOnly: publicOnly)
@@ -132,7 +130,6 @@ class MZKFilterQuery {
             query += " AND " + "keywords" + ":" + join(list: keywords)
         }
         
-        
         if !doctypes.isEmpty {
             query += " AND " + "fedora.model" + ":" + join(list: doctypes)
         }
@@ -194,9 +191,6 @@ class MZKFilterQuery {
         
         return query
     }
-    
-    
-    
     
     /**
      Join method for creating valid queries
@@ -317,9 +311,7 @@ class MZKFilterQuery {
         default:
             return false
         }
-
     }
-    
     
     /**
     Switch value - change value of filter with values send as parameter

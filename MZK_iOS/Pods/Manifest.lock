@@ -24,12 +24,6 @@ PODS:
   - AlamofireObjectMapper (4.1.0):
     - Alamofire (~> 4.1)
     - ObjectMapper (~> 2.0)
-  - CocoaLumberjack (3.2.0):
-    - CocoaLumberjack/Default (= 3.2.0)
-    - CocoaLumberjack/Extensions (= 3.2.0)
-  - CocoaLumberjack/Default (3.2.0)
-  - CocoaLumberjack/Extensions (3.2.0):
-    - CocoaLumberjack/Default
   - FirebaseAnalytics (3.9.0):
     - FirebaseCore (~> 3.6)
     - FirebaseInstanceID (~> 1.0)
@@ -61,7 +55,6 @@ DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - Alamofire (~> 4.4)
   - AlamofireObjectMapper (~> 4.0)
-  - CocoaLumberjack
   - Google/Analytics
   - iOSTiledViewer
   - ObjectMapper (~> 2.2)
@@ -82,7 +75,6 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   AlamofireObjectMapper: 435adc82f5b367679bd9e71c4974a54efd0b2521
-  CocoaLumberjack: 9b4aed7073d242f29cc2f62068d995faf67f703a
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
   FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
   FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
@@ -96,6 +88,6 @@ SPEC CHECKSUMS:
   TSMessages: eb3cf27b6900684a21bad4fe9ea426e287b8c839
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: 0bdb5835e2ed266c68a74a713dabd4730c168215
+PODFILE CHECKSUM: d58bce97dcd318b8b8c23236fa9a2f6ae7fc93ba
 
 COCOAPODS: 1.2.1

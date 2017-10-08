@@ -21,12 +21,20 @@ struct MZKKrameriusAPI {
     let headers: HTTPHeaders = [
         "Accept": "application/json"
     ]
+    
+    static let facet = "facet"
+    static let facetLimit = "facet.limit"
+    static let rows = "rows"
+    static let facetMinCount = "facet.mincount"
+    static let facetField = "facet.field"
 }
 
 // class limits protocol adoption to classes only.
 protocol MZKDataLoadedDelegate : class{
-    
-    func facetSearchDataLoaded(facet : String, filterFacets : MZKFilterFacet) -> Void
+    /**
+     Replace delegate with closure :)
+     */
+    func facetSearchDataLoaded(facet : String, filterFacets : [MZKFilterFacetItem]) -> Void
 }
 
 class MZKDatasourceS: NSObject {
@@ -43,11 +51,15 @@ class MZKDatasourceS: NSObject {
         
     }
     
-    func getFacetSearchResults(facet:String) -> Void {
+    func getFacetSearchResults(facet: String, query: String) -> MZKFilterQuery {
         
-        let q = getSearchFacetPath(facet: facet)
+        let query = MZKFilterQuery.init(query: query, publicOnly: true)
+        
+        let q = getSearchFacetPath(facet: facet, queryObject: query)
         
         makeRequestForFacets(query: q, facet: facet)
+        
+        return query
     }
     
     
@@ -58,22 +70,9 @@ class MZKDatasourceS: NSObject {
      
      */
     
-    fileprivate func getSearchFacetPath(facet : String) -> String {
-        let query = MZKFilterQuery.init(query: "noviny", publicOnly: true)
-        var buildedQuery = query.buildFacetQuery(facet: facet)
-        
-        // facet search - facet field are required
-        buildedQuery.append("&facet=true")
-        
-        buildedQuery.append("&facet.field=\(facet)")
-        
-        buildedQuery.append("&facet.limit=15")
-        
-        buildedQuery.append("&rows=0")
-        
-        buildedQuery.append("&facet.mincount=1")
-        
-        return buildedQuery
+    fileprivate func getSearchFacetPath(facet : String, queryObject: MZKFilterQuery) -> String {
+       
+        return queryObject.buildFacetQuery(facet: facet)
     }
     
     
@@ -87,7 +86,12 @@ class MZKDatasourceS: NSObject {
     func makeRequestForFacets(query : String, facet : String) -> Void {
         //headers
         let headers = ["Accept": "application/json"]
-        let parameters: Parameters = ["q":query]
+        
+        let parameters: Parameters = ["q":query,
+                                      MZKKrameriusAPI.facet: "true",
+                                      MZKKrameriusAPI.facetField: facet,
+                                      MZKKrameriusAPI.facetLimit: 15,
+                                      MZKKrameriusAPI.facetMinCount: 1]
         
         // get base url
         var strUrl = getBaseURL()
@@ -103,34 +107,45 @@ class MZKDatasourceS: NSObject {
             .validate(statusCode: 200..<300)
             .validate(contentType: ["application/json"])
             .debugLog()
-            .responseObject { (response: DataResponse<MZKFilterFacet>) in
+            .responseJSON { response in
+                
+                if let json = response.result.value as? [String: Any] {
+                    // ...
+                    
+                    if let facetCounts = json["facet_counts"] as? [String: Any]
+                    {
+                        if let facetFields = facetCounts["facet_fields"] as? [String: Any] {
+                            
+                            if let facetData = facetFields[facet] as? [Any]
+                            {
+                                var items : [MZKFilterFacetItem] = [MZKFilterFacetItem]()
+                                for index in stride(from: 0, to: facetData.count, by: 2) {
+                                    let item = MZKFilterFacetItem()
+                                    item?.filterName = facetData[index] as? String
+                                    item?.count = Int(facetData[index+1] as! Int)
+                                    
+                                    print("Item name: \(item?.filterName) and count: \(item?.count)")
+                                    items.append(item!)
+                                }
+                                self.delegate?.facetSearchDataLoaded(facet: facet, filterFacets: items)
+                                
+                                
+                            }
+                        }
+                    }
+                }
                 
                 switch response.result {
                 case .success:
                     print("Validation Successful")
-                    // add object mapper
-                    
-                    let facetResponse = response.result.value
-                    
-                    if let numfound = facetResponse?.numFound
-                    {
-                        // just for testing - delegate should handle all situations - even when there is 0 facet fields returned
-                        if(numfound == 0)
-                        {
-                            print("Zero facet fields returned")
-                        }
-                        else
-                        {    //add delegate calls
-                            print("We are golden!")
-                            self.delegate?.facetSearchDataLoaded(facet: facet, filterFacets: facetResponse!)
-                        }
-                    }
-                    
+                // add object mapper
                 case .failure(let error):
                     // notify delegate about error
                     print(error)
                 }
         }
+        
+        print(postRequest.debugDescription)
     }
     
     /**
@@ -157,7 +172,7 @@ class MZKDatasourceS: NSObject {
     
     func test() -> Void {
         
-        let url = "http://kramerius.mzk.cz/search/api/v5.0/search?q=%22noviny%22%20AND%20(fedora.model%3Amonograph%5E4%20OR%20fedora.model%3Aperiodical%5E4%20OR%20fedora.model%3Amap%20OR%20fedora.model%3Asoundrecording%20OR%20fedora.model%3Agraphic%20OR%20fedora.model%3Aarchive%20OR%20fedora.model%3Amanuscript%20OR%20fedora.model%3Asheetmusic)&facet=true&facet.field=dostupnost&facet.limit=15&rows=0&facet.mincount=1"
+        let url = "http://kramerius.mzk.cz/search/api/v5.0/search?q=noviny%22%20AND%20(fedora.model%3Amonograph%5E4%20OR%20fedora.model%3Aperiodical%5E4%20OR%20fedora.model%3Amap%20OR%20fedora.model%3Asoundrecording%20OR%20fedora.model%3Agraphic%20OR%20fedora.model%3Aarchive%20OR%20fedora.model%3Amanuscript%20OR%20fedora.model%3Asheetmusic)&facet=true&facet.field=dostupnost&facet.limit=15&rows=0&facet.mincount=1"
         
     }
     

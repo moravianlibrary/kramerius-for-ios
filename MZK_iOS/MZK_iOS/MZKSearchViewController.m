@@ -424,6 +424,7 @@
         vc.shouldShowSearchBar = NO;
         vc.items = _searchResults;
         vc.shouldDisplayFilters = YES;
+        vc.searchTerm = _searchBar.text;
     
         _searchBar.text = @"";
         [self hideDimmingView];
