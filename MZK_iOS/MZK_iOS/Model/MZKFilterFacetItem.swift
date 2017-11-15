@@ -11,15 +11,16 @@ import ObjectMapper
 
 class MZKFilterFacetItem {
     
-public  var count : Int?
-public  var filterName : String?
-       
-        required init?() {
+    public  var count : Int?
+    public  var filterName : String?
+    public var facetName : String?
     
-        }
+    required init?() {
+        
+    }
     
-        func mapping(map: Map) {
-            count             <- map["PID"]
-            filterName       <- map["parent_pid"]
-        }
+    func mapping(map: Map) {
+        count             <- map["PID"]
+        filterName       <- map["parent_pid"]
+    }
 }

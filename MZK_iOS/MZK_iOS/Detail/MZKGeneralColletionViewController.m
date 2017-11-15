@@ -19,12 +19,16 @@
 #import "MZKConstants.h"
 #import "MZK_iOS-Swift.h"
 
-@interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
+
+@interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, MZKDataLoadedDelegateObjc>
 {
     MZKDatasource *_datasource;
+    MZKDatasourceS *s_datasource;
     MZKItemResource *parentItemResource;
     MZKSearchBarCollectionReusableView *_searchBarView;
+    MZKFilterQuery *filterQuery;
     NSDictionary *_searchResults;
+    MZKFiltersViewController *_filtersVC;
 }
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -34,6 +38,11 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UITableView *searchResultsTableView;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *filterButton;
+@property (weak, nonatomic) IBOutlet UIView *activeFiltersContainerView;
+@property (weak, nonatomic) IBOutlet UIStackView *activeFiltersStackView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *activeFiltersHeightConstraint;
+@property (weak, nonatomic) IBOutlet UIView *filtersViewControllerContainerView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *filtersContainerViewTopConstraint;
 
 @end
 
@@ -60,8 +69,8 @@
     else{
         [self hideBarButtonItem:self.filterButton];
     }
-
     
+    _filtersContainerViewTopConstraint.constant = self.view.frame.size.height;
 }
 
 -(void)initGoogleAnalytics
@@ -237,7 +246,7 @@
         [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
             [welf showLoadingIndicator];
             [welf loadDataForController];
-
+            
         }];
         
     }
@@ -245,8 +254,8 @@
     {
         [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error") confirmAction:^{
             [welf showLoadingIndicator];
-             [welf loadDataForController];
-
+            [welf loadDataForController];
+            
         }];
     }
 }
@@ -324,7 +333,7 @@
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
         NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",delegate.defaultDatasourceItem.url, item.pid ];
-                
+        
         [cell.itemImage sd_setImageWithURL:[NSURL URLWithString:path]
                           placeholderImage:nil];
     }
@@ -452,8 +461,6 @@
     [flowLayout invalidateLayout];
     
 }
-
-
 
 #pragma mark - Data Loaded delegate and Datasource methods
 -(void)childrenForItemLoaded:(NSArray *)items
@@ -593,10 +600,31 @@
 
 #pragma MARK - Filters
 - (IBAction)onFilterButton:(id)sender {
+
+  _filtersContainerViewTopConstraint.constant = (_filtersContainerViewTopConstraint.constant == 0) ? self.view.frame.size.height : 0;
     
-    //FiltersSegue
+    [UIView animateWithDuration:0.25 animations:^{
+        [self.view layoutIfNeeded];
+    }];
 }
 
+-(void) refreshFiltersWithQuery:(MZKFilterQuery *)query {
+    if  (!s_datasource) {
+        s_datasource = [[MZKDatasourceS alloc] init];
+    }
+    
+    // set delegate
+    [s_datasource setDelegate:self];
+    
+    // refresh Search Results with selected filter facet
+    [s_datasource getSearchResultsFrom:_searchTerm WithQuery:query facet:@""];
+    
+    //save query
+    filterQuery = query;
+    
+    // refresh filter facets
+    [self setupActiveFilters: [filterQuery getAllActiveFilters]];
+}
 
 -(void) hideBarButtonItem :(UIBarButtonItem *)myButton {
     // Get the reference to the current toolbar buttons
@@ -624,15 +652,73 @@
     // Pass the selected object to the new view controller.
     
     if ([segue.identifier  isEqual: @"FiltersSegue"]) {
-        //
+        // filter segue
+        if (!_filtersVC) {
+            _filtersVC = [segue destinationViewController] ;
+        }
         
-        MZKFiltersViewController *destination = [segue destinationViewController];
-     //   destination.setSearchTerm:
-        [destination setSearchTerm: _searchTerm];
+        if(!filterQuery) {
+            filterQuery = [[MZKFilterQuery alloc] initWithQuery:_searchTerm publicOnly:YES];
+        }
         
+        _filtersVC.currentQuery = filterQuery;
+        [_filtersVC setSearchTerm: _searchTerm];
+        __weak typeof(self) welf = self;
+        _filtersVC.onFilterChanged = ^(MZKFilterQuery * _Nonnull query) {
+            if (query) {
+                //  _datasource
+                [welf refreshFiltersWithQuery:query];
+            }
+        };
     }
 }
 
+/**
+ Data loaded swift version
+ */
+- (void)searchFilterDataLoadedWithResults:(NSArray * _Nonnull)results {
+    // set new items
+    self.items = results;
+    
+    // reload table views, move this to view will appear - on smaller devices there is no need to refresh data - collection view is not visible ...
+    [self.collectionView reloadData];
+    
+    // refresh filters -
+}
 
+/**
+ * method that setup views representing active filters
+ */
+
+-(void)setupActiveFilters:(NSArray *)filters {
+    
+    // check if array contains any values?
+    if (filters.count > 0) {
+        
+        // clean views
+        for (UIView * filterView in _activeFiltersStackView.subviews) {
+            [_activeFiltersStackView removeArrangedSubview:filterView];
+        }
+        // for each filter create UIView ...
+        for (NSString *filter in filters) {
+            MZKPillLabel * filterLabel = [[MZKPillLabel alloc] init];
+            filterLabel.textColor = [UIColor whiteColor];
+            filterLabel.numberOfLines = 0;
+            filterLabel.text = filter;
+            
+            filterLabel.backgroundColor = [UIColor colorWithRed:0.0f green:0.22f blue:122.0/255.0 alpha:1.0f];
+            filterLabel.font = [UIFont fontWithName:filterLabel.font.fontName size:15.0];
+            filterLabel.translatesAutoresizingMaskIntoConstraints = false;
+            
+            //[UIColor colorWithRed:70.0 green:122.0 blue:21.0 alpha:1.0];
+            [_activeFiltersStackView addArrangedSubview:filterLabel];
+        }
+    } else {
+        // if not -> hide filters view
+        // change height of filter container to 0, constraint for height defined -> change to 0
+        _activeFiltersHeightConstraint.constant = 0.0;
+        
+    }
+}
 
 @end

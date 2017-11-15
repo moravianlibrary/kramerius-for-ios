@@ -165,6 +165,14 @@
 #pragma mark - data loaded delegate methods
 -(void)librariesLoaded:(NSArray *)results
 {
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf librariesLoaded:results];
+        });
+    }
+    
     UINavigationController *controller = [[((UITabBarController *)self.window.rootViewController) viewControllers] objectAtIndex:kLibrariesViewControllerIndex];
     MZKChangeLibraryViewController *changeLibVC = [controller.viewControllers objectAtIndex:0];
     changeLibVC.libraries = results;

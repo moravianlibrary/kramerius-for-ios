@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct MZKFilterConstants {
+public struct MZKFilterConstants {
     static let policyPublic = "public"
     static let policy = "dostupnost"
     static let author_facet = "facet_autor"
@@ -25,8 +25,7 @@ struct MZKFilterConstants {
  * Swift version 4. Queries represents filters that can be added to make search more concrete.
  *
  */
-
-class MZKFilterQuery {
+@objc class MZKFilterQuery : NSObject {
     
     private var query : String?
     public var authors : [String] = []
@@ -38,6 +37,7 @@ class MZKFilterQuery {
     private let accessibilityAll : String = "all"
     
     /**
+     top level restriction
     */
     
     static let TOP_LEVEL_RESTRICTION = "(fedora.model:monograph^4 OR fedora.model:periodical^4 OR fedora.model:map OR fedora.model:soundrecording OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:sheetmusic)";
@@ -145,6 +145,37 @@ class MZKFilterQuery {
         return query
     }
     
+    func buildFacetQueryBody () -> String {
+        var query = MZKFilterQuery.TOP_LEVEL_RESTRICTION
+        
+        if(accessibility == MZKFilterConstants.policyPublic)
+        {
+            query += " AND " + "dostupnost" + ":" + accessibility;
+        }
+        
+        if !authors.isEmpty {
+            query += " AND " + "facet_autor" + ":" + join(list: authors);
+        }
+        
+        if !keywords.isEmpty {
+            query += " AND " + "keywords" + ":" + join(list: keywords)
+        }
+        
+        if !doctypes.isEmpty {
+            query += " AND " + "fedora.model" + ":" + join(list: doctypes)
+        }
+        
+        if !languages.isEmpty {
+            query += " AND " + "language" + ":" + join(list: languages)
+        }
+        
+        if !collections.isEmpty {
+            query += " AND " + "collection" + ":" + join(list: collections)
+        }
+        
+        return query
+    }
+    
     /**
      Build facet query
      - parameters:
@@ -153,7 +184,7 @@ class MZKFilterQuery {
      
      */
     
-    func buildFacetQuery(facet : String) -> String{
+    func buildFacetQuery(facet : String) -> String {
         
         var query : String = ""
         
@@ -224,7 +255,6 @@ class MZKFilterQuery {
     
     /**
      Function that escapes all chars
-     
     */
     
     func escapeChars(s : String) -> String {
@@ -269,7 +299,6 @@ class MZKFilterQuery {
      - returns:
      Returns boolean value of change
      */
-    
     func change(code : String, value: String) -> Bool {
         
         if ("q" == code) && hasQuery() {
@@ -321,7 +350,6 @@ class MZKFilterQuery {
             - list: List in which change should be made
             - value: actual value, that is going to switch to list
     */
-
     func switchValue(list: [String], value: String) -> [String] {
         var tmpList = list // could be solved by using inout
         if tmpList.contains(value) {
@@ -333,5 +361,55 @@ class MZKFilterQuery {
         }
         
         return tmpList
+    }
+    
+    /**
+     * remove active filter
+     */
+    
+    /**
+     Get String Array representing active filters
+     */
+    @objc (getAllActiveFilters)
+    func getAllActiveFilters() -> [String] {
+        var filters = [String]()
+        
+        filters.append(contentsOf: authors)
+        filters.append(contentsOf: keywords)
+        filters.append(contentsOf: doctypes)
+        // TODO: Language code mapping!
+        filters.append(contentsOf: languages)
+        filters.append(contentsOf: collections)
+        
+        return filters
+    }
+    
+    /**
+     Get String Array representing active filters
+     */
+    @objc (getActiveFilters)
+    func getActiveFilters() -> [String: [String]] {
+        var activeFilters = [String : [String]]()
+        
+        if !authors.isEmpty {
+            activeFilters[MZKFilterConstants.author_facet] = authors
+        }
+        
+        if !keywords.isEmpty {
+            activeFilters[MZKFilterConstants.keywords] = keywords
+        }
+        
+        if !doctypes.isEmpty {
+            activeFilters[MZKFilterConstants.model] = doctypes
+        }
+        if !languages.isEmpty {
+            activeFilters[MZKFilterConstants.language] = languages
+        }
+        
+        if !collections.isEmpty {
+            activeFilters[MZKFilterConstants.collection] = collections
+        }
+        
+        return activeFilters
     }
 }

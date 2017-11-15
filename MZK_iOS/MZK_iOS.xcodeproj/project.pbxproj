@@ -51,9 +51,12 @@
 		2D5154C11DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5154C01DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift */; };
 		2D58E8F61BA57BAC000D444C /* MZKCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */; };
 		2D5BB44F1DBA267D001EAB35 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5BB44E1DBA267D001EAB35 /* NSString+MD5.m */; };
+		2D5D4D6A1FAB427E0034D6FF /* MZKAuthorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5D4D691FAB427E0034D6FF /* MZKAuthorModel.swift */; };
+		2D5D4D6C1FAB56420034D6FF /* MZKItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5D4D6B1FAB56420034D6FF /* MZKItemModel.swift */; };
 		2D63D7781F4C7318009F2924 /* MZKDatasourceS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D63D7771F4C7318009F2924 /* MZKDatasourceS.swift */; };
 		2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */; };
 		2D66DACD1DF1DEA200EBC89E /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D66DACC1DF1DEA200EBC89E /* AFNetworking.framework */; };
+		2D6EA1231FB34AF800706085 /* MZKPillLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6EA1221FB34AF800706085 /* MZKPillLabel.swift */; };
 		2D73DFEC1F1A7CE4007247F4 /* Screenshot 2017-07-15 18.37.09.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D73DFEB1F1A7CE4007247F4 /* Screenshot 2017-07-15 18.37.09.png */; };
 		2D73DFEE1F1A7E66007247F4 /* AndroidFiltrz.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D73DFED1F1A7E66007247F4 /* AndroidFiltrz.png */; };
 		2D782BFE1DC9E4200086323E /* MZKDetailManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */; };
@@ -177,10 +180,13 @@
 		2D58E8F51BA57BAC000D444C /* MZKCollectionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionTableViewCell.m; sourceTree = "<group>"; };
 		2D5BB44D1DBA267D001EAB35 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		2D5BB44E1DBA267D001EAB35 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
+		2D5D4D691FAB427E0034D6FF /* MZKAuthorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZKAuthorModel.swift; sourceTree = "<group>"; };
+		2D5D4D6B1FAB56420034D6FF /* MZKItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZKItemModel.swift; sourceTree = "<group>"; };
 		2D63D7771F4C7318009F2924 /* MZKDatasourceS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKDatasourceS.swift; sourceTree = "<group>"; };
 		2D665DBE1B03D98C00B11765 /* MZKCollectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionsViewController.h; sourceTree = "<group>"; };
 		2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionsViewController.m; sourceTree = "<group>"; };
 		2D66DACC1DF1DEA200EBC89E /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = "Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework"; sourceTree = "<group>"; };
+		2D6EA1221FB34AF800706085 /* MZKPillLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZKPillLabel.swift; sourceTree = "<group>"; };
 		2D73DFEB1F1A7CE4007247F4 /* Screenshot 2017-07-15 18.37.09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2017-07-15 18.37.09.png"; sourceTree = "<group>"; };
 		2D73DFED1F1A7E66007247F4 /* AndroidFiltrz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AndroidFiltrz.png; sourceTree = "<group>"; };
 		2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKDetailManagerViewController.swift; sourceTree = "<group>"; };
@@ -357,6 +363,8 @@
 				2DB1D9C81F2F171900BD5832 /* MZKFilterQuery.swift */,
 				2D63D7771F4C7318009F2924 /* MZKDatasourceS.swift */,
 				2D854DD61F7A8B1F00344F82 /* MZKFilterFacetItem.swift */,
+				2D5D4D691FAB427E0034D6FF /* MZKAuthorModel.swift */,
+				2D5D4D6B1FAB56420034D6FF /* MZKItemModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -487,6 +495,7 @@
 				2D47472D1D467E4B00D6F5F8 /* MZKSearchTableViewCell.h */,
 				2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */,
 				2DA29B981DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift */,
+				2D6EA1221FB34AF800706085 /* MZKPillLabel.swift */,
 			);
 			path = MZK_iOS;
 			sourceTree = "<group>";
@@ -742,15 +751,18 @@
 				2D91512C1C873D2C00AD380F /* MZKDetailInformationTableViewCell.m in Sources */,
 				2D02A4621B0624C100D51B0C /* MZKPageObject.m in Sources */,
 				2D0DD5701DD0A0E100C0E3A8 /* HTTPStatusCodes.swift in Sources */,
+				2D5D4D6A1FAB427E0034D6FF /* MZKAuthorModel.swift in Sources */,
 				2D113CB11DC0D7780042B9ED /* MZKPageDetailViewController.swift in Sources */,
 				2DD1B9EE1D9D4AE0004011FC /* MZKNavigationViewController.m in Sources */,
 				2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */,
 				2D409B7B1B8B4C8B00B49EAD /* MZKLibraryItem.m in Sources */,
 				2D4747321D4684BD00D6F5F8 /* MZKSearchHistoryItem.m in Sources */,
 				2DAA60721BA758AB0004A718 /* MZKCollectionDetailViewController.m in Sources */,
+				2D6EA1231FB34AF800706085 /* MZKPillLabel.swift in Sources */,
 				2DCAE25C1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m in Sources */,
 				2D24F0761B74C0A80073FC83 /* MZKCollectionItem.m in Sources */,
 				2D2505CD1AFE73300079F70E /* MZKConstants.m in Sources */,
+				2D5D4D6C1FAB56420034D6FF /* MZKItemModel.swift in Sources */,
 				2D3698E41C8ADBF6008FEF3C /* MZKDetailInformationStringModel.m in Sources */,
 				2D8966661F83C3DB00278ADD /* MZKFilterTableViewCell.swift in Sources */,
 				2D63D7781F4C7318009F2924 /* MZKDatasourceS.swift in Sources */,
@@ -854,7 +866,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -893,7 +905,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -916,7 +928,7 @@
 					"$(PROJECT_DIR)/Build/Products/Debug-iphoneos/AFNetworking",
 				);
 				INFOPLIST_FILE = MZK_iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cz.mzk.ios.KRAMERIUS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -943,7 +955,7 @@
 					"$(PROJECT_DIR)/Build/Products/Debug-iphoneos/AFNetworking",
 				);
 				INFOPLIST_FILE = MZK_iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cz.mzk.ios.KRAMERIUS;
 				PRODUCT_NAME = "$(TARGET_NAME)";

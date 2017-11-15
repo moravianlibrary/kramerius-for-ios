@@ -53,29 +53,6 @@
     _recentMutableSearches = [self loadRecentSearches];
     
     self.searchResultsTableView.tableFooterView = [[UIView alloc] init];
-    
-#warning Do CLEANUP!
-    
-//    NSLog(@"Navigation items: %@", self.navigationItem.rightBarButtonItem.description);
-//    
-//    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDatasourceChanged:) name:kDatasourceItemChanged object:nil];
-//    
-////    UIBarButtonItem *right =
-////    [[UIBarButtonItem alloc] initWithTitle:@"Right"
-////                                     style:UIBarButtonItemStylePlain
-////                                    target:self
-////                                    action:@selector(buttonPressed:)];
-////    [right setBackgroundImage:[UIImage imageNamed:@"ShowBars"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-////    [self.navigationItem setRightBarButtonItem:right];
-//    
-//    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
-//                                                                    style:UIBarButtonItemStyleDone target:nil action:nil];
-//    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"Title"];
-//    item.rightBarButtonItem = rightButton;
-//    item.hidesBackButton = YES;
-//   
-//    self.navigationItem.rightBarButtonItem = rightButton;
 }
 
 -(void)viewWillAppear:(BOOL)animated

@@ -129,8 +129,8 @@ typedef enum _downloadOperation downloadOperation;
 }
 
 -(void)getCollectionItems:(NSString *)collectionPID
-{
-    NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/search?q=collection:\"%@\" AND dostupnost:*public* AND (fedora.model:monograph OR fedora.model:periodical OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:map OR fedora.model:sheetmusic OR fedora.model:soundrecording)&rows=30", collectionPID];
+{   //TODO: FIX collection public/private restrictions!!!
+    NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/search?q=collection:\"%@\" AND (fedora.model:monograph OR fedora.model:periodical OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:map OR fedora.model:sheetmusic OR fedora.model:soundrecording)&rows=30", collectionPID];
     
     [self checkAndSetBaseUrl];
     
@@ -215,34 +215,6 @@ typedef enum _downloadOperation downloadOperation;
     [self downloadDataFromURL:url withOperation:searchHints];
 }
 
--(void)getFullSearchResults:(NSString *)searchString
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *recent = [defaults objectForKey:kSettingsShowOnlyPublicDocuments];
-    
-    BOOL visible = NO;
-    if (recent) {
-        visible= [recent boolValue];
-    }
-    
-    [self checkAndSetBaseUrl];
-    NSURL *tmpURL = [NSURL URLWithString:self.baseStringURL];
-    
-    NSURLComponents *components = [[NSURLComponents alloc] init];
-    components.scheme = tmpURL.scheme;
-    components.host = tmpURL.host;
-    components.path = @"/search/api/v5.0/search/";
-    components.query = [NSString stringWithFormat:@"q=dc.title:%@*+AND+%@(fedora.model:monograph+OR+fedora.model:periodical+OR+fedora.model:map+OR+fedora.model:soundrecording+OR+fedora.model:graphic+OR+fedora.model:archive+OR+fedora.model:manuscript)&rows=30", [searchString lowercaseString],visible?@"dostupnost:*public*+AND+":@""];
-    
-    NSLog(@"Percent encoded:%@",[components percentEncodedQuery]) ;
-    NSURL *url = components.URL;
-    
-    
-    [self downloadDataFromURL:url withOperation:searchFullResults];
-}
-
-
-
 -(void)getSearchResults:(NSString *)searchString
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -292,7 +264,7 @@ typedef enum _downloadOperation downloadOperation;
 -(void)downloadFailedWithError:(NSError *)error
 {
     NSLog(@"Download Failed with error");
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    [self hideLoadingIndicator];
     
     if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
         [self.delegate downloadFailedWithError:error];
@@ -350,9 +322,11 @@ typedef enum _downloadOperation downloadOperation;
         switch (operation) {
             case downloadMostRecent:
                 [self.delegate dataLoaded:results withKey:kRecent];
+                 [self hideLoadingIndicator];
                 break;
             case downloadRecommended:
                 [self.delegate dataLoaded:results withKey:kRecommended];
+                 [self hideLoadingIndicator];
                 break;
                 
             default:
@@ -363,7 +337,7 @@ typedef enum _downloadOperation downloadOperation;
         return results;
     }
     
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    [self hideLoadingIndicator];
     
     return nil;
 }
@@ -510,7 +484,7 @@ typedef enum _downloadOperation downloadOperation;
         
     }
     
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    [self hideLoadingIndicator];
     
     return pages;
 }
@@ -545,7 +519,7 @@ typedef enum _downloadOperation downloadOperation;
         NSLog(@"Collections count:%lu", (unsigned long)results.count);
     }
     
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    [self hideLoadingIndicator];
     return results;
 }
 
@@ -633,11 +607,9 @@ typedef enum _downloadOperation downloadOperation;
         return results;
     }
     
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    [self hideLoadingIndicator];
     
     return nil;
-    
 }
 
 
@@ -671,7 +643,7 @@ typedef enum _downloadOperation downloadOperation;
         [self.delegate searchHintsLoaded:[resultsArray copy]];
     }
     
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    [self hideLoadingIndicator];
     return [resultsArray copy];
 }
 
@@ -697,11 +669,11 @@ typedef enum _downloadOperation downloadOperation;
         }
     }
     
-//    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
-//    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
+    //    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
+    //    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
     
     NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
-//    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
+    //    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
     NSMutableArray *resultsArray = [NSMutableArray new];
     
     for (int i = 0; i<parsedObject.count; i++) {
@@ -714,7 +686,7 @@ typedef enum _downloadOperation downloadOperation;
     if ([self.delegate respondsToSelector:@selector(searchHintsLoaded:)]) {
         [self.delegate searchHintsLoaded:[resultsArray copy]];
     }
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    [self hideLoadingIndicator];
     return [resultsArray copy];
 }
 
@@ -727,9 +699,9 @@ typedef enum _downloadOperation downloadOperation;
         error = localError;
         return nil;
     }
-//    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
-//    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
-//    
+    //    NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
+    //    NSInteger start =[[[response objectForKey:@"response"] objectForKey:@"start"] integerValue];
+    //
     NSArray *parsedObject = [ [response objectForKey:@"response"] objectForKey:@"docs"];
     NSMutableArray *results = [[NSMutableArray alloc] init];
     
@@ -757,8 +729,7 @@ typedef enum _downloadOperation downloadOperation;
         [self.delegate searchResultsLoaded:[results copy]];
     }
     
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    [self hideLoadingIndicator];
     
     return [results copy];
 }
@@ -791,11 +762,10 @@ typedef enum _downloadOperation downloadOperation;
         }
     }
     
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
-    
     if ([self.delegate respondsToSelector:@selector(librariesLoaded:)]) {
         [self.delegate librariesLoaded:[librariesArray copy]];
     }
+    [self hideLoadingIndicator];
     
 }
 
@@ -1010,4 +980,17 @@ typedef enum _downloadOperation downloadOperation;
     [currentOperation start];
     
 }
+
+// loading indicator
+
+-(void)hideLoadingIndicator {
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+        });
+    }
+}
+
 @end

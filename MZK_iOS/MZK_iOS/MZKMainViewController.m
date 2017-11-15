@@ -85,6 +85,14 @@ const int kHeaderHeight = 95;
         [self initGoogleAnalytics];
         [self refreshTitle];
     }
+    
+    if(@available(iOS 11, *)) {
+        [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor clearColor]} forState:UIControlStateNormal];
+        [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor clearColor]} forState:UIControlStateHighlighted];
+        
+    } else {
+      //  [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(-60, -60) forBarMetrics:UIBarMetricsDefault];
+    }
     // DDLogInfo(@"There is no default library, wait for DL")
         
     //    DDLogInfo(@"Info");
