@@ -62,8 +62,11 @@
     [self initGoogleAnalytics];
     _searchResults = [NSDictionary new];
     
+     _activeFiltersHeightConstraint.constant = 0.0;
+    
     // should display search icon in header bar
     if (_shouldDisplayFilters) {
+        self.navigationItem.title = NSLocalizedString(@"mzk.searchResults", @"titulek obrazovky");
         [self showBarButtonItem:self.filterButton];
     }
     else{
@@ -600,9 +603,20 @@
 
 #pragma MARK - Filters
 - (IBAction)onFilterButton:(id)sender {
-
-  _filtersContainerViewTopConstraint.constant = (_filtersContainerViewTopConstraint.constant == 0) ? self.view.frame.size.height : 0;
     
+    // change constraints
+    
+    if (_filtersContainerViewTopConstraint.constant == 0) {
+        
+        _filtersContainerViewTopConstraint.constant = self.view.frame.size.height;
+        // change page title
+        self.navigationItem.title = NSLocalizedString(@"mzk.searchResults", @"titulek obrazovky");
+    } else {
+        _filtersContainerViewTopConstraint.constant = 0;
+        self.navigationItem.title = NSLocalizedString(@"mzk.filters", @"titulek obrazovky");
+    }
+    
+    // animate change
     [UIView animateWithDuration:0.25 animations:^{
         [self.view layoutIfNeeded];
     }];
@@ -684,12 +698,12 @@
     [self.collectionView reloadData];
     
     // refresh filters -
+    
 }
 
 /**
  * method that setup views representing active filters
  */
-
 -(void)setupActiveFilters:(NSArray *)filters {
     
     // check if array contains any values?

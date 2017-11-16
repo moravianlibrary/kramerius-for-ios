@@ -169,9 +169,20 @@ extension MZKFiltersViewController : UITableViewDataSource
         case FilterSections.activeFilters.rawValue:
             let filterItem = activeFacets[indexPath.row]
             
-            cell.filterTitleLabel?.text = filterItem.filterName
-            cell.filterCountLabel?.text = filterItem.count?.stringValue
-            
+            if (filterItem.facetName == MZKFilterConstants.language) {
+                let languageID = filterItem.filterName!
+                
+                // get a reference to the app delegate
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let langName = appDelegate.getLanguageFromCode(languageID)
+                
+                cell.filterTitleLabel?.text = langName?[1] as! String
+            } else {
+                
+                cell.filterTitleLabel?.text = filterItem.filterName
+                cell.filterCountLabel?.text = filterItem.count?.stringValue
+            }
+           
             break
             
         case FilterSections.accesibility.rawValue:
@@ -220,7 +231,15 @@ extension MZKFiltersViewController : UITableViewDataSource
             // get languages names from info
             
             let filterItem =  languages[indexPath.row]
-            cell.filterTitleLabel?.text = filterItem.filterName
+            let languageID = filterItem.filterName!
+            
+            // get a reference to the app delegate
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let langName = appDelegate.getLanguageFromCode(languageID)
+            
+            cell.filterTitleLabel?.text = langName?[1] as! String
+            
+
             cell.filterCountLabel?.text = filterItem.count?.stringValue
             
             if (currentQuery?.isActive(code: MZKFilterConstants.language, value: filterItem.filterName!))! {
@@ -280,13 +299,21 @@ extension MZKFiltersViewController : UITableViewDelegate
         case FilterSections.activeFilters.rawValue:
             // remove filter
             // disable filters
+            filtersTableView.beginUpdates()
+            
+            // animate deletion of facet
+            filtersTableView.deleteRows(at: [indexPath], with: .fade)
+            // remove facet from active fields
+            
             let filterItem = activeFacets[indexPath.row]
             
             if(currentQuery?.change(code: filterItem.facetName!, value: filterItem.filterName!))! {
-                
+                activeFacets.remove(at: indexPath.row)
             }
+            filtersTableView.endUpdates()
             
             self.onFilterChanged?(_: currentQuery! )
+                        
             break
             
         case FilterSections.accesibility.rawValue:
