@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MZKHeaderView">
+            <connections>
+                <outlet property="contentView" destination="5bw-L3-wIq" id="WE9-0i-lJ7"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="5bw-L3-wIq">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="76"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3b-xq-7Sf">
+                    <rect key="frame" x="166" y="11.5" width="42" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xRO-34-cMy">
+                    <rect key="frame" x="127" y="40" width="121" height="28"/>
+                    <segments>
+                        <segment title="First"/>
+                        <segment title="Second"/>
+                    </segments>
+                </segmentedControl>
+            </subviews>
+            <color key="backgroundColor" red="0.074509803920000006" green="0.52156862749999999" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="c3b-xq-7Sf" firstAttribute="centerX" secondItem="5bw-L3-wIq" secondAttribute="centerX" id="0B8-Ju-FAa"/>
+                <constraint firstItem="xRO-34-cMy" firstAttribute="centerX" secondItem="5bw-L3-wIq" secondAttribute="centerX" id="WZF-8l-B7U"/>
+                <constraint firstItem="DOy-Bk-O4a" firstAttribute="top" secondItem="c3b-xq-7Sf" secondAttribute="bottom" constant="-32" id="Wuo-fv-6ux"/>
+                <constraint firstItem="DOy-Bk-O4a" firstAttribute="bottom" secondItem="xRO-34-cMy" secondAttribute="bottom" constant="9" id="iOZ-2R-pg4"/>
+                <constraint firstItem="xRO-34-cMy" firstAttribute="top" secondItem="c3b-xq-7Sf" secondAttribute="bottom" constant="8" id="qd7-a1-lcG"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="DOy-Bk-O4a"/>
+            <point key="canvasLocation" x="25.5" y="-977"/>
+        </view>
+    </objects>
+</document>

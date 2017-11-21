@@ -135,7 +135,15 @@
     // track uncaught exceptions!
     [[GAI sharedInstance] setTrackUncaughtExceptions:YES];
     
- 
+ [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    
+    [self loadSQL];
+
+    return YES;
+}
+
+-(void)loadSQL
+{
     // init DB manager
     __weak typeof(self) wealf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -148,10 +156,6 @@
         [wealf loadDataForRelations];
         
     });
-    
-    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
-    
-    return YES;
 }
 
 -(void)downloadLibrariesJsonFromServer
@@ -170,7 +174,9 @@
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             [welf librariesLoaded:results];
+            
         });
+        return;
     }
     
     UINavigationController *controller = [[((UITabBarController *)self.window.rootViewController) viewControllers] objectAtIndex:kLibrariesViewControllerIndex];

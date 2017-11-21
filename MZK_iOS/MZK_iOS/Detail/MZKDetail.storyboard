@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="eva-nw-erY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="eva-nw-erY">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -293,14 +293,14 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nBX-fp-XWu">
-                                                                    <rect key="frame" x="8" y="0.0" width="21" height="35"/>
+                                                                    <rect key="frame" x="15" y="2.5" width="21" height="35"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="21" id="DQA-1R-mfV"/>
                                                                         <constraint firstAttribute="height" constant="35" id="eMq-XQ-a2Y"/>
                                                                     </constraints>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="4YP-b0-QXF">
-                                                                    <rect key="frame" x="37" y="12" width="200" height="21"/>
+                                                                    <rect key="frame" x="44" y="14.5" width="186" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="fiM-Ld-oAs"/>
                                                                     </constraints>
@@ -313,7 +313,6 @@
                                                                 <constraint firstItem="4YP-b0-QXF" firstAttribute="top" secondItem="nBX-fp-XWu" secondAttribute="bottom" constant="-23.5" id="9FB-1q-4CT"/>
                                                                 <constraint firstAttribute="leadingMargin" secondItem="nBX-fp-XWu" secondAttribute="leading" id="9cT-8l-Bar"/>
                                                                 <constraint firstAttribute="trailingMargin" secondItem="4YP-b0-QXF" secondAttribute="trailing" id="OE3-ZB-G3Y"/>
-                                                                <constraint firstItem="nBX-fp-XWu" firstAttribute="top" secondItem="QnZ-m4-SfG" secondAttribute="topMargin" constant="-8" id="SPK-a0-K5a"/>
                                                                 <constraint firstItem="4YP-b0-QXF" firstAttribute="top" secondItem="QnZ-m4-SfG" secondAttribute="topMargin" constant="3.5" id="ZLm-R7-epb"/>
                                                                 <constraint firstItem="4YP-b0-QXF" firstAttribute="leading" secondItem="QnZ-m4-SfG" secondAttribute="leadingMargin" constant="29" id="kSW-ZG-jwp"/>
                                                             </constraints>
@@ -414,10 +413,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qY8-NO-Hn2">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="627"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="42k-Th-dRT" customClass="ITVScrollView" customModule="iOSTiledViewer">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="627"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </scrollView>
                                 </subviews>
@@ -430,13 +429,13 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k6v-C6-Vpm">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="627"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bo8-iD-q6z">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="627"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZIu-Co-eAh">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="627"/>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -459,10 +458,10 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RDi-CD-ecB">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="627"/>
                                 <subviews>
                                     <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nyi-Pi-wns">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="627"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <dataDetectorType key="dataDetectorTypes"/>
                                     </webView>

@@ -70,6 +70,8 @@
 		2D93784C1DA29232005B2ED3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D93784B1DA29232005B2ED3 /* Security.framework */; };
 		2DA030521C0A002800B7759B /* MZKBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA030511C0A002800B7759B /* MZKBaseViewController.m */; };
 		2DA29B991DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA29B981DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift */; };
+		2DA364D21FBDE87600F62149 /* MZKHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DA364D11FBDE87600F62149 /* MZKHeaderView.xib */; };
+		2DA364D51FBDEA2400F62149 /* MZKHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA364D41FBDEA2400F62149 /* MZKHeaderView.m */; };
 		2DAA60721BA758AB0004A718 /* MZKCollectionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA60711BA758AB0004A718 /* MZKCollectionDetailViewController.m */; };
 		2DAA60751BA7590B0004A718 /* MZKDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAA60741BA7590B0004A718 /* MZKDetailCollectionViewCell.m */; };
 		2DAB71A11D802F0000765AF7 /* MZKDetailManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DAB71A01D802F0000765AF7 /* MZKDetailManagerViewController.m */; };
@@ -209,6 +211,9 @@
 		2DA030501C0A002800B7759B /* MZKBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKBaseViewController.h; sourceTree = "<group>"; };
 		2DA030511C0A002800B7759B /* MZKBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKBaseViewController.m; sourceTree = "<group>"; };
 		2DA29B981DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKSwiftErrorMessageHandler.swift; sourceTree = "<group>"; };
+		2DA364D11FBDE87600F62149 /* MZKHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MZKHeaderView.xib; sourceTree = "<group>"; };
+		2DA364D31FBDEA2400F62149 /* MZKHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MZKHeaderView.h; sourceTree = "<group>"; };
+		2DA364D41FBDEA2400F62149 /* MZKHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MZKHeaderView.m; sourceTree = "<group>"; };
 		2DAA60701BA758AB0004A718 /* MZKCollectionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionDetailViewController.h; sourceTree = "<group>"; };
 		2DAA60711BA758AB0004A718 /* MZKCollectionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionDetailViewController.m; sourceTree = "<group>"; };
 		2DAA60731BA7590B0004A718 /* MZKDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDetailCollectionViewCell.h; sourceTree = "<group>"; };
@@ -496,6 +501,9 @@
 				2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */,
 				2DA29B981DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift */,
 				2D6EA1221FB34AF800706085 /* MZKPillLabel.swift */,
+				2DA364D11FBDE87600F62149 /* MZKHeaderView.xib */,
+				2DA364D31FBDEA2400F62149 /* MZKHeaderView.h */,
+				2DA364D41FBDEA2400F62149 /* MZKHeaderView.m */,
 			);
 			path = MZK_iOS;
 			sourceTree = "<group>";
@@ -652,6 +660,7 @@
 				2DB8A7A51ACD073400A1BB2E /* Images.xcassets in Resources */,
 				2DB88C1B1C15B0E900AC7070 /* GoogleService-Info.plist in Resources */,
 				2D1FD9201CAC15A700408166 /* libraries.json in Resources */,
+				2DA364D21FBDE87600F62149 /* MZKHeaderView.xib in Resources */,
 				2D13D54E1C3E8B8C00DB4190 /* values.sql in Resources */,
 				2D2763D81B6B641900CC7E4F /* ol.js in Resources */,
 				2D73DFEC1F1A7CE4007247F4 /* Screenshot 2017-07-15 18.37.09.png in Resources */,
@@ -758,6 +767,7 @@
 				2D409B7B1B8B4C8B00B49EAD /* MZKLibraryItem.m in Sources */,
 				2D4747321D4684BD00D6F5F8 /* MZKSearchHistoryItem.m in Sources */,
 				2DAA60721BA758AB0004A718 /* MZKCollectionDetailViewController.m in Sources */,
+				2DA364D51FBDEA2400F62149 /* MZKHeaderView.m in Sources */,
 				2D6EA1231FB34AF800706085 /* MZKPillLabel.swift in Sources */,
 				2DCAE25C1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m in Sources */,
 				2D24F0761B74C0A80073FC83 /* MZKCollectionItem.m in Sources */,

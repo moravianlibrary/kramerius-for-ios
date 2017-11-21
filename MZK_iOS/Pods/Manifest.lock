@@ -20,7 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Alamofire (4.5.0)
+  - Alamofire (4.5.1)
   - AlamofireObjectMapper (4.1.0):
     - Alamofire (~> 4.1)
     - ObjectMapper (~> 2.0)
@@ -38,15 +38,16 @@ PODS:
   - Google/Core (3.1.0):
     - FirebaseAnalytics (~> 3.2)
   - GoogleAnalytics (3.17.0)
-  - GoogleToolboxForMac/Defines (2.1.1)
-  - GoogleToolboxForMac/NSData+zlib (2.1.1):
-    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/Defines (2.1.3)
+  - GoogleToolboxForMac/NSData+zlib (2.1.3):
+    - GoogleToolboxForMac/Defines (= 2.1.3)
   - HexColors (2.3.0)
   - iOSTiledViewer (0.2.5)
-  - ObjectMapper (2.2.8)
-  - SDWebImage (4.0.0):
-    - SDWebImage/Core (= 4.0.0)
-  - SDWebImage/Core (4.0.0)
+  - ObjectMapper (2.2.9)
+  - SDWebImage (4.2.2):
+    - SDWebImage/Core (= 4.2.2)
+  - SDWebImage/Core (4.2.2)
+  - SWXMLHash (4.0.0)
   - TSMessages (0.9.13):
     - HexColors (~> 2.3.0)
   - TTTAttributedLabel (2.0.0)
@@ -59,6 +60,7 @@ DEPENDENCIES:
   - iOSTiledViewer
   - ObjectMapper (~> 2.2)
   - SDWebImage
+  - SWXMLHash (~> 4.0.0)
   - TSMessages (from `https://github.com/KrauseFx/TSMessages.git`)
   - TTTAttributedLabel
 
@@ -68,26 +70,27 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   TSMessages:
-    :commit: dd843df9a04a756210b2ed51caf1f2b9aafee508
+    :commit: 63eee79f93f93aa0ce8a4fd24458fb91fce3e859
     :git: https://github.com/KrauseFx/TSMessages.git
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   AlamofireObjectMapper: 435adc82f5b367679bd9e71c4974a54efd0b2521
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
   FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
   FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
   Google: 98da4b1a60ed0beb80a290387a28333406a1eb90
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
-  GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
+  GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   HexColors: 6ad3947c3447a055a3aa8efa859def096351fe5f
   iOSTiledViewer: c3c2a5ddde2d3b343214b54add0bcb76a04cb1a2
-  ObjectMapper: 3d571bb5af471c779e1160828cd9ad5c4ef90958
-  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
+  ObjectMapper: 63cfe41bc6f8e7c8f44344c49901b8ae7de14c52
+  SDWebImage: 89a9d32cd520bbb46eb14e541d5109b3564af198
+  SWXMLHash: 6bbc0bf72975a18ceda469fb7d6a886a26d81694
   TSMessages: eb3cf27b6900684a21bad4fe9ea426e287b8c839
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: d58bce97dcd318b8b8c23236fa9a2f6ae7fc93ba
+PODFILE CHECKSUM: 931f0386fcb48f8aca8c7c400b0a655ce3073ecb
 
 COCOAPODS: 1.2.1

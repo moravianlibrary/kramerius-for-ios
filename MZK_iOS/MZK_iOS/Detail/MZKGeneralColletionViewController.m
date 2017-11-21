@@ -62,7 +62,7 @@
     [self initGoogleAnalytics];
     _searchResults = [NSDictionary new];
     
-     _activeFiltersHeightConstraint.constant = 0.0;
+    _activeFiltersHeightConstraint.constant = 0.0;
     
     // should display search icon in header bar
     if (_shouldDisplayFilters) {
@@ -665,25 +665,27 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    if ([segue.identifier  isEqual: @"FiltersSegue"]) {
-        // filter segue
-        if (!_filtersVC) {
-            _filtersVC = [segue destinationViewController] ;
-        }
-        
-        if(!filterQuery) {
-            filterQuery = [[MZKFilterQuery alloc] initWithQuery:_searchTerm publicOnly:YES];
-        }
-        
-        _filtersVC.currentQuery = filterQuery;
-        [_filtersVC setSearchTerm: _searchTerm];
-        __weak typeof(self) welf = self;
-        _filtersVC.onFilterChanged = ^(MZKFilterQuery * _Nonnull query) {
-            if (query) {
-                //  _datasource
-                [welf refreshFiltersWithQuery:query];
+    if ([segue.identifier isEqual: @"FiltersSegue"]) {
+        if  (_shouldDisplayFilters){
+            // filter segue
+            if (!_filtersVC) {
+                _filtersVC = [segue destinationViewController] ;
             }
-        };
+            
+            if(!filterQuery) {
+                filterQuery = [[MZKFilterQuery alloc] initWithQuery:_searchTerm publicOnly:YES];
+            }
+            
+            _filtersVC.currentQuery = filterQuery;
+            [_filtersVC setSearchTerm: _searchTerm];
+            __weak typeof(self) welf = self;
+            _filtersVC.onFilterChanged = ^(MZKFilterQuery * _Nonnull query) {
+                if (query) {
+                    //  _datasource
+                    [welf refreshFiltersWithQuery:query];
+                }
+            };
+        }
     }
 }
 

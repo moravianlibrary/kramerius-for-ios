@@ -86,40 +86,40 @@ const int kHeaderHeight = 95;
         [self refreshTitle];
     }
     
-    if(@available(iOS 11, *)) {
-        [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor clearColor]} forState:UIControlStateNormal];
-        [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor clearColor]} forState:UIControlStateHighlighted];
-        
-    } else {
-      //  [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(-60, -60) forBarMetrics:UIBarMetricsDefault];
-    }
-    // DDLogInfo(@"There is no default library, wait for DL")
-        
-    //    DDLogInfo(@"Info");
-    //    DDLogInfo(@"top = %f, bounds top %f", self.collectionView.frame.origin.y, self.collectionView.bounds.origin.y);
-    //    DDLogInfo(@"offset y = %f", self.collectionView.contentOffset.y);
-    //    DDLogInfo(@"height = %f", self.collectionView.contentSize.height);
-    //    DDLogInfo(@"inset top = %f", self.collectionView.contentInset.top);
-    //    DDLogInfo(@"inset bottom = %f", self.collectionView.contentInset.bottom);
-    //    DDLogInfo(@"inset left = %f", self.collectionView.contentInset.left);
-    //    DDLogInfo(@"inset right = %f", self.collectionView.contentInset.right);
     
+    if (@available(iOS 11.0, *)) {
+        self.navigationController.navigationBar.prefersLargeTitles = true;
+    } else {
+        // Fallback on earlier versions
+    }
+    
+    // load header view
+   
 }
 
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar setHeight:kHeaderHeight];
+    //[self.navigationController.navigationBar setHeight:100];
     
-    _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+  //  _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.navigationController.navigationBar setHeight:kHeaderHeight];
-    _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+  //  [self.navigationController.navigationBar setHeight:kHeaderHeight];
+  //  _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+  //   [self.navigationController.navigationBar setHeight:100];
+    
+    self.navigationController.navigationBar.frame = CGRectMake(self.navigationController.navigationBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y, self.navigationController.navigationBar.frame.size.width, 200);
+    
+    if (self.navigationController) {
+        if (self.navigationController.navigationBar) {
+            NSLog(@"%@", self.navigationController.navigationBar.description);
+        }
+    }
 }
 
 -(void)viewDidLayoutSubviews
@@ -610,7 +610,7 @@ const int kHeaderHeight = 95;
     [coordinator animateAlongsideTransition:^(id  _Nonnull context) {
         
         // will execute during rotation
-        _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+      //  _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
         
     } completion:^(id  _Nonnull context) {
         
