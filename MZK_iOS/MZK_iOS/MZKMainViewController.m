@@ -50,75 +50,53 @@ const int kHeaderHeight = 95;
 @property (weak, nonatomic) IBOutlet UIView *searchBarContainer;
 @property (weak, nonatomic) IBOutlet UIView *searchViewContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewContainerTopConstraint;
-@property (weak, nonatomic) IBOutlet UILabel *headerTitleLabel;
+@property (strong, nonatomic) UILabel *headerTitleLabel;
 @property (weak, nonatomic) IBOutlet UIView *navigationItemContainerView;
 
 @end
 
 @implementation MZKMainViewController
-- (id)initWithCoder:(NSCoder *)decoder {
-    
-    self = [super initWithCoder:decoder];
-    if (self) {
-        self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.home", @"Home button title");
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view.
-    dialogVisible = NO;
+    //prepare header
+    _headerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, _segmentControll.frame.origin.x - 16, 40)];
+    _headerTitleLabel.backgroundColor = [UIColor clearColor];
+    _headerTitleLabel.numberOfLines = 0;
+    _headerTitleLabel.textAlignment = NSTextAlignmentCenter;
     
+    // set bold font
+    UIFontDescriptor * fontD = [_headerTitleLabel.font.fontDescriptor
+                                fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+    
+    _headerTitleLabel.font = [UIFont fontWithDescriptor:fontD size:0];
+
+    self.navigationItem.titleView = _headerTitleLabel;
+    
+    dialogVisible = NO;
+
+    // segment controll
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.latest", @"") forSegmentAtIndex:0];
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.interesting", @"") forSegmentAtIndex:1];
-    
-    
+
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
-    
+
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
+
     if (del.defaultDatasourceItem)
     {
         [self refreshAllValues];
         [self initGoogleAnalytics];
         [self refreshTitle];
     }
-    
-    
+
+
     if (@available(iOS 11.0, *)) {
         self.navigationController.navigationBar.prefersLargeTitles = true;
     } else {
         // Fallback on earlier versions
-    }
-    
-    // load header view
-   
-}
-
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    //[self.navigationController.navigationBar setHeight:100];
-    
-  //  _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-  //  [self.navigationController.navigationBar setHeight:kHeaderHeight];
-  //  _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
-  //   [self.navigationController.navigationBar setHeight:100];
-    
-    self.navigationController.navigationBar.frame = CGRectMake(self.navigationController.navigationBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y, self.navigationController.navigationBar.frame.size.width, 200);
-    
-    if (self.navigationController) {
-        if (self.navigationController.navigationBar) {
-            NSLog(@"%@", self.navigationController.navigationBar.description);
-        }
     }
 }
 
@@ -147,7 +125,6 @@ const int kHeaderHeight = 95;
             libName = [[del getDatasourceItem] nameEN];
         }
     }
-    
     _headerTitleLabel.text = libName;
 }
 
@@ -253,8 +230,6 @@ const int kHeaderHeight = 95;
             
         }];
     }
-    
-    
     [self hideLoadingIndicator];
     
 }

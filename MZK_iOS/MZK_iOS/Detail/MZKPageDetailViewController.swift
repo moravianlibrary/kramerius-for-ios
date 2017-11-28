@@ -49,7 +49,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     @IBOutlet weak var imageReaderViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageReaderViewTrailingConstraint: NSLayoutConstraint!
     // this should be refactored with xcode 9 - lower versions cannot do swift refactors
-    @IBOutlet weak var zoomifyIIIFReaderScrollView: ITVScrollView!
+    @IBOutlet weak var iTVReaderView: ITVScrollView!
     
     @IBOutlet weak var pdfReaderViewContainer: UIView!
     @IBOutlet weak var pdfWebView: UIWebView!
@@ -59,18 +59,20 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
         super.viewDidLoad()
         // load page resolution for current PID
         self.imageReaderScrollView.delegate = self
-        zoomifyIIIFReaderScrollView.itvGestureDelegate = self
-        zoomifyIIIFReaderScrollView.canCancelContentTouches = false
+        self.iTVReaderView.itvDelegate = self
+        iTVReaderView.itvGestureDelegate = self
+        iTVReaderView.canCancelContentTouches = false
         
-        self .loadImageProperties()
+        // self .loadImageProperties()
+        self.imageSizeLoaded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if(!self.zoomifyIIIFReaderScrollView.isHidden)
+        if(!self.iTVReaderView.isHidden)
         {
             //self.zoomifyIIIFReaderScrollView.zoomToScale(1.0, animated: false)
-            self.zoomifyIIIFReaderScrollView.refreshTiles()
+            self.iTVReaderView.refreshTiles()
         }
     }
     
@@ -156,36 +158,36 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     }
     
     func imageLoaded() {
-        self.activityIndicator.stopAnimating()
-        self.imageReaderScrollView.maximumZoomScale = 2.0
-        self.imageReaderScrollView.zoomScale = 1.0
-        self.imageReaderScrollView.minimumZoomScale = 0.5
-        
-        let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.didTap(event:)))
-        tapGestureRecognizer.numberOfTapsRequired = 1
-        tapGestureRecognizer.cancelsTouchesInView = false
-        
-        self.imageReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
+//        self.activityIndicator.stopAnimating()
+//        self.imageReaderScrollView.maximumZoomScale = 2.0
+//        self.imageReaderScrollView.zoomScale = 1.0
+//        self.imageReaderScrollView.minimumZoomScale = 0.5
+//
+//        let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.didTap(event:)))
+//        tapGestureRecognizer.numberOfTapsRequired = 1
+//        tapGestureRecognizer.cancelsTouchesInView = false
+//
+//        self.imageReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
     }
     
     func imageSizeLoaded() {
-    
-        if ((self.imageWidth != nil) && (self.imageHeight != nil)) {
+        
+        //  if ((self.imageWidth != nil) && (self.imageHeight != nil)) {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let libraryItem : MZKLibraryItem! = appDelegate.getDatasourceItem();
+        
+        let imageURL = String(format: "%@/search/zoomify/%@/ImageProperties.xml", libraryItem.url , pagePID)
+        
+        iTVReaderView.loadImage(imageURL, api: ITVImageAPI.Raw)
+        
+        DispatchQueue.main.async (execute: { () -> Void in
             
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let libraryItem : MZKLibraryItem! = appDelegate.getDatasourceItem();
-            
-            let imageURL = String(format: "%@/search/zoomify/%@/ImageProperties.xml", libraryItem.url , pagePID)
-            
-            self.zoomifyIIIFReaderScrollView.loadImage(imageURL, api: ITVImageAPI.Unknown)
-            
-            DispatchQueue.main.async (execute: { () -> Void in
-                
-                self.imageReaderContainerView.isHidden = true
-                self.zoomifyIIFContainerView.isHidden = false
-                self.activityIndicator.stopAnimating()
-            })
-        }
+            self.imageReaderContainerView.isHidden = true
+            self.zoomifyIIFContainerView.isHidden = false
+            self.activityIndicator.stopAnimating()
+        })
+        // }
     }
     
     
@@ -212,9 +214,9 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     }
     
     func didTap(event: UITouch) {
-        let location = event.location(in: self.zoomifyIIIFReaderScrollView)
-        let distanceLeft = self.zoomifyIIIFReaderScrollView.frame.width / 5
-        let distanceRight = self.zoomifyIIIFReaderScrollView.frame.width - distanceLeft
+        let location = event.location(in: self.iTVReaderView)
+        let distanceLeft = self.iTVReaderView.frame.width / 5
+        let distanceRight = self.iTVReaderView.frame.width - distanceLeft
         if location.x < distanceLeft {
             //previous page
             // userActivityDelegate?.previousPage()
@@ -247,7 +249,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
             
             print("Left: ", leftBandWidth, "Right: ", rightBandOffset, "ApproximatedX: ", approximatedX)
             
-            if self.zoomifyIIIFReaderScrollView.zoomScale > 2 {
+            if self.iTVReaderView.zoomScale > 2 {
                 
                 if approximatedX <= leftBandWidth {
                     print ("left, previous page")
@@ -296,6 +298,7 @@ extension MZKPageDetailViewController : ITVScrollViewDelegate
         if (error != nil) {
             DispatchQueue.main.async (execute: { () -> Void in
                 
+                print(error?.description)
                 MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "When error occures"), subtitle: "mzk.error.checkYourInternetConnection".localizedWithComment(comment: ""), completion: {(_) -> Void in
                 })
             })

@@ -73,7 +73,12 @@
         [self hideBarButtonItem:self.filterButton];
     }
     
-    _filtersContainerViewTopConstraint.constant = self.view.frame.size.height;
+    // ipad device
+    if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad)
+    {   // debugPrint("ipad show")
+        
+        _filtersContainerViewTopConstraint.constant = self.view.frame.size.height;
+    }
 }
 
 -(void)initGoogleAnalytics
@@ -432,11 +437,11 @@
 {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     int numberOfItemsPerRow = 0;
-    int kMinCellWidth = 304;
+    int kMinCellWidth = 250;
     float collectionViewWidth = width;
     float collectionViewInsetsL = flowLayout.sectionInset.left;
     float collectionViewInsetsR = flowLayout.sectionInset.right;
-    int calculatedWidth = 304;
+    int calculatedWidth = 250;
     
     float minCellSpacing = flowLayout.minimumInteritemSpacing;
     
@@ -604,22 +609,29 @@
 #pragma MARK - Filters
 - (IBAction)onFilterButton:(id)sender {
     
-    // change constraints
     
-    if (_filtersContainerViewTopConstraint.constant == 0) {
+    // change constraints
+    // ipad device
+    if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad)
+    {   // debugPrint("ipad show")
+        if (_filtersContainerViewTopConstraint.constant == 0) {
+            
+            _filtersContainerViewTopConstraint.constant = self.view.frame.size.height;
+            // change page title
+            self.navigationItem.title = NSLocalizedString(@"mzk.searchResults", @"titulek obrazovky");
+        } else {
+            _filtersContainerViewTopConstraint.constant = 0;
+            self.navigationItem.title = NSLocalizedString(@"mzk.filters", @"titulek obrazovky");
+        }
         
-        _filtersContainerViewTopConstraint.constant = self.view.frame.size.height;
-        // change page title
-        self.navigationItem.title = NSLocalizedString(@"mzk.searchResults", @"titulek obrazovky");
-    } else {
-        _filtersContainerViewTopConstraint.constant = 0;
-        self.navigationItem.title = NSLocalizedString(@"mzk.filters", @"titulek obrazovky");
+        // animate change
+        [UIView animateWithDuration:0.25 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+        
     }
     
-    // animate change
-    [UIView animateWithDuration:0.25 animations:^{
-        [self.view layoutIfNeeded];
-    }];
+    
 }
 
 -(void) refreshFiltersWithQuery:(MZKFilterQuery *)query {
