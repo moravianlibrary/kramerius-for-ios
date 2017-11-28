@@ -986,7 +986,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fjP-d0-Em0">
-                                <rect key="frame" x="0.0" y="84" width="600" height="516"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="20" id="ewx-4A-sBW">
                                     <size key="itemSize" width="304" height="140"/>
@@ -1138,7 +1138,7 @@
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="fjP-d0-Em0" secondAttribute="trailing" id="5Zi-A5-bHC"/>
-                            <constraint firstItem="fjP-d0-Em0" firstAttribute="top" secondItem="whU-le-pIx" secondAttribute="bottom" constant="20" id="5qK-Bh-rUd"/>
+                            <constraint firstItem="fjP-d0-Em0" firstAttribute="top" secondItem="whU-le-pIx" secondAttribute="bottom" id="5qK-Bh-rUd"/>
                             <constraint firstItem="XHC-Mt-3HX" firstAttribute="top" secondItem="whU-le-pIx" secondAttribute="bottom" constant="50" id="Ffd-dR-9cq"/>
                             <constraint firstItem="fjP-d0-Em0" firstAttribute="leading" secondItem="mKO-fe-v1C" secondAttribute="leading" id="G8K-9z-NM2"/>
                             <constraint firstItem="5ER-K2-Nqj" firstAttribute="leading" secondItem="mKO-fe-v1C" secondAttribute="leading" id="XgU-69-3cf"/>
