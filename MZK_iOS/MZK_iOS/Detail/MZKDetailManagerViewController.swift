@@ -204,7 +204,7 @@
         
         bookmarkDatasource.addBookmark(bookmark)
         
-        bookmarks = bookmarkDatasource.getBookmarks(bookmark.parentPID)
+        bookmarks = bookmarkDatasource.getBookmarks(bookmark.parentPID!)
         
         print("Bookmarks count: \(bookmarks.count)")
         
@@ -371,8 +371,9 @@
         self.infoButton.isEnabled = enable
         self.showThumbnailButton.isEnabled = enable
         self.pageSlider.isEnabled = enable
-        self.nextPageButton.isEnabled = enable
-        self.previousPageButton.isEnabled = enable
+        
+      self.nextPageButton.isEnabled = enable
+       self.previousPageButton.isEnabled = enable
     }
     
     func reloadData () -> Void
@@ -475,7 +476,7 @@
             
             let bookmarkToDelete = bookmarks[indexPath.row]
             
-            self.bookmarkDatasource.deleteBookmark(bookmarkToDelete.pagePID, bookmarkParentPID: bookmarkToDelete.parentPID)
+            self.bookmarkDatasource.deleteBookmark(bookmarkToDelete.pagePID!, bookmarkParentPID: bookmarkToDelete.parentPID!)
             self.bookmarks = self.bookmarkDatasource.getBookmarks(itemPID)
             
             tableView.beginUpdates()
@@ -493,7 +494,7 @@
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let bookmark = bookmarks[indexPath.row]
         
-        if let pageIndex = Int(bookmark.pageIndex) {
+        if let pageIndex = Int(bookmark.pageIndex!) {
             self.childVC.goToPage(pageIndex-1)
             
             self .onShowBookmarks(self)

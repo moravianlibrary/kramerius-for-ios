@@ -19,19 +19,30 @@
 #import "MZKConstants.h"
 #import "MZK_iOS-Swift.h"
 
-@interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
+
+@interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, MZKDataLoadedDelegateObjc>
 {
     MZKDatasource *_datasource;
+    MZKDatasourceS *s_datasource;
     MZKItemResource *parentItemResource;
     MZKSearchBarCollectionReusableView *_searchBarView;
+    MZKFilterQuery *filterQuery;
     NSDictionary *_searchResults;
+    MZKFiltersViewController *_filtersVC;
 }
-@property (weak, nonatomic) IBOutlet UICollectionView *_collectionView;
+
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 @property (weak, nonatomic) IBOutlet UIView *dimmingView;
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContainerView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UITableView *searchResultsTableView;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *filterButton;
+@property (weak, nonatomic) IBOutlet UIView *activeFiltersContainerView;
+@property (weak, nonatomic) IBOutlet UIStackView *activeFiltersStackView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *activeFiltersHeightConstraint;
+@property (weak, nonatomic) IBOutlet UIView *filtersViewControllerContainerView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *filtersContainerViewTopConstraint;
 
 @end
 
@@ -43,7 +54,7 @@
     self.backButton.title = @"❮";
     
     if (_items) {
-        [self._collectionView reloadData];
+        [self.collectionView reloadData];
     }
     
     [self hideDimmingView];
@@ -51,15 +62,23 @@
     [self initGoogleAnalytics];
     _searchResults = [NSDictionary new];
     
+    _activeFiltersHeightConstraint.constant = 0.0;
     
-    NSLog(@"top = %f, bounds top %f", self._collectionView.frame.origin.y, self._collectionView.bounds.origin.y);
-    NSLog(@"offset y = %f", self._collectionView.contentOffset.y);
-    NSLog(@"height = %f", self._collectionView.contentSize.height);
-    NSLog(@"inset top = %f", self._collectionView.contentInset.top);
-    NSLog(@"inset bottom = %f", self._collectionView.contentInset.bottom);
-    NSLog(@"inset left = %f", self._collectionView.contentInset.left);
-    NSLog(@"inset right = %f", self._collectionView.contentInset.right);
+    // should display search icon in header bar
+    if (_shouldDisplayFilters) {
+        self.navigationItem.title = NSLocalizedString(@"mzk.searchResults", @"titulek obrazovky");
+        [self showBarButtonItem:self.filterButton];
+    }
+    else{
+        [self hideBarButtonItem:self.filterButton];
+    }
     
+    // ipad device
+    if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad)
+    {   // debugPrint("ipad show")
+        
+        _filtersContainerViewTopConstraint.constant = self.view.frame.size.height;
+    }
 }
 
 -(void)initGoogleAnalytics
@@ -135,6 +154,20 @@
         NSLog(@"There is no usable title! Using default instead!");
         self.navigationItem.title = parentItemResource.title;
     }
+    
+    // should display search icon in header bar
+    if (_shouldDisplayFilters) {
+        [self showBarButtonItem:self.filterButton];
+    }
+    else{
+        [self hideBarButtonItem:self.filterButton];
+    }
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.collectionView setContentOffset:CGPointMake(0, -50) animated:false];
 }
 
 -(IBAction)onClose:(id)sender
@@ -221,7 +254,7 @@
         [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
             [welf showLoadingIndicator];
             [welf loadDataForController];
-
+            
         }];
         
     }
@@ -229,8 +262,8 @@
     {
         [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error") confirmAction:^{
             [welf showLoadingIndicator];
-             [welf loadDataForController];
-
+            [welf loadDataForController];
+            
         }];
     }
 }
@@ -308,7 +341,7 @@
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
         NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",delegate.defaultDatasourceItem.url, item.pid ];
-                
+        
         [cell.itemImage sd_setImageWithURL:[NSURL URLWithString:path]
                           placeholderImage:nil];
     }
@@ -402,13 +435,13 @@
 
 -(float)calculateCellWidthFromScreenWidth:(float)width
 {
-    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self._collectionView.collectionViewLayout;
+    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     int numberOfItemsPerRow = 0;
-    int kMinCellWidth = 304;
+    int kMinCellWidth = 250;
     float collectionViewWidth = width;
     float collectionViewInsetsL = flowLayout.sectionInset.left;
     float collectionViewInsetsR = flowLayout.sectionInset.right;
-    int calculatedWidth = 304;
+    int calculatedWidth = 250;
     
     float minCellSpacing = flowLayout.minimumInteritemSpacing;
     
@@ -426,7 +459,7 @@
 
 - (void)updateCollectionViewLayoutWithSize:(CGSize)size {
     
-    UICollectionViewFlowLayout *flowLayout = (id)self._collectionView.collectionViewLayout;
+    UICollectionViewFlowLayout *flowLayout = (id)self.collectionView.collectionViewLayout;
     float desiredWidth = [self calculateCellWidthFromScreenWidth:size.width];
     
     CGSize sizeOfCell = CGSizeMake(desiredWidth, 140);
@@ -436,8 +469,6 @@
     [flowLayout invalidateLayout];
     
 }
-
-
 
 #pragma mark - Data Loaded delegate and Datasource methods
 -(void)childrenForItemLoaded:(NSArray *)items
@@ -453,7 +484,7 @@
     
     _items = items;
     
-    [self._collectionView reloadData];
+    [self.collectionView reloadData];
     [self hideLoadingIndicator];
     
 }
@@ -574,4 +605,147 @@
     _searchResultsTableView.hidden = YES;
     _searchBarView.searchBar.text = @"";
 }
+
+#pragma MARK - Filters
+- (IBAction)onFilterButton:(id)sender {
+    
+    // change constraints
+    // ipad device
+    if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad)
+    {   // debugPrint("ipad show")
+        if (_filtersContainerViewTopConstraint.constant == 0) {
+            
+            _filtersContainerViewTopConstraint.constant = self.view.frame.size.height;
+            // change page title
+            self.navigationItem.title = NSLocalizedString(@"mzk.searchResults", @"titulek obrazovky");
+        } else {
+            _filtersContainerViewTopConstraint.constant = 0;
+            self.navigationItem.title = NSLocalizedString(@"mzk.filters", @"titulek obrazovky");
+        }
+        
+        // animate change
+        [UIView animateWithDuration:0.25 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+        
+    }
+    
+    
+}
+
+-(void) refreshFiltersWithQuery:(MZKFilterQuery *)query {
+    if  (!s_datasource) {
+        s_datasource = [[MZKDatasourceS alloc] init];
+    }
+    
+    // set delegate
+    [s_datasource setDelegate:self];
+    
+    // refresh Search Results with selected filter facet
+    [s_datasource getSearchResultsFrom:_searchTerm WithQuery:query facet:@""];
+    
+    //save query
+    filterQuery = query;
+    
+    // refresh filter facets
+    [self setupActiveFilters: [filterQuery getAllActiveFilters]];
+}
+
+-(void) hideBarButtonItem :(UIBarButtonItem *)myButton {
+    // Get the reference to the current toolbar buttons
+    NSMutableArray *navBarBtns = [self.navigationItem.rightBarButtonItems mutableCopy];
+    
+    // This is how you remove the button from the toolbar and animate it
+    [navBarBtns removeObject:myButton];
+    [self.navigationItem setRightBarButtonItems:navBarBtns animated:YES];
+}
+
+
+-(void) showBarButtonItem :(UIBarButtonItem *)myButton {
+    // Get the reference to the current toolbar buttons
+    NSMutableArray *navBarBtns = [self.navigationItem.rightBarButtonItems mutableCopy];
+    
+    // This is how you add the button to the toolbar and animate it
+    if (![navBarBtns containsObject:myButton]) {
+        [navBarBtns addObject:myButton];
+        [self.navigationItem setRightBarButtonItems:navBarBtns animated:YES];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqual: @"FiltersSegue"]) {
+        if  (_shouldDisplayFilters){
+            // filter segue
+            if (!_filtersVC) {
+                _filtersVC = [segue destinationViewController] ;
+            }
+            
+            if(!filterQuery) {
+                filterQuery = [[MZKFilterQuery alloc] initWithQuery:_searchTerm publicOnly:YES];
+            }
+            
+            _filtersVC.currentQuery = filterQuery;
+            [_filtersVC setSearchTerm: _searchTerm];
+            __weak typeof(self) welf = self;
+            _filtersVC.onFilterChanged = ^(MZKFilterQuery * _Nonnull query) {
+                if (query) {
+                    //  _datasource
+                    [welf refreshFiltersWithQuery:query];
+                }
+            };
+        }
+    }
+}
+
+/**
+ Data loaded swift version
+ */
+- (void)searchFilterDataLoadedWithResults:(NSArray * _Nonnull)results {
+    // set new items
+    self.items = results;
+    
+    // reload table views, move this to view will appear - on smaller devices there is no need to refresh data - collection view is not visible ...
+    [self.collectionView reloadData];
+    
+    // refresh filters -
+    
+}
+
+/**
+ * method that setup views representing active filters
+ */
+-(void)setupActiveFilters:(NSArray *)filters {
+    
+    // check if array contains any values?
+    if (filters.count > 0) {
+        
+        // clean views
+        for (UIView * filterView in _activeFiltersStackView.subviews) {
+            [_activeFiltersStackView removeArrangedSubview:filterView];
+        }
+        // for each filter create UIView ...
+        for (NSString *filter in filters) {
+            MZKPillLabel * filterLabel = [[MZKPillLabel alloc] init];
+            filterLabel.textColor = [UIColor whiteColor];
+            filterLabel.numberOfLines = 0;
+            filterLabel.text = filter;
+            
+            filterLabel.backgroundColor = [UIColor colorWithRed:0.0f green:0.22f blue:122.0/255.0 alpha:1.0f];
+            filterLabel.font = [UIFont fontWithName:filterLabel.font.fontName size:15.0];
+            filterLabel.translatesAutoresizingMaskIntoConstraints = false;
+            
+            //[UIColor colorWithRed:70.0 green:122.0 blue:21.0 alpha:1.0];
+            [_activeFiltersStackView addArrangedSubview:filterLabel];
+        }
+    } else {
+        // if not -> hide filters view
+        // change height of filter container to 0, constraint for height defined -> change to 0
+        _activeFiltersHeightConstraint.constant = 0.0;
+        
+    }
+}
+
 @end

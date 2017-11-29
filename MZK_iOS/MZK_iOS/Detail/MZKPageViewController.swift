@@ -65,7 +65,6 @@ protocol PageIndexDelegate: class {
         dataSource = self
         // dataSource = self set up from SB?
          delegate = self
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -185,11 +184,8 @@ protocol PageIndexDelegate: class {
                                                 firstViewController.showPDFFile(item: self.item)
                                                 
                                             }
-                                            
                 })
-
             }
-            
         })
     }
     

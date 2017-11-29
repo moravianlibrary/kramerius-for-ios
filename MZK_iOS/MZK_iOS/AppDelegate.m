@@ -135,7 +135,15 @@
     // track uncaught exceptions!
     [[GAI sharedInstance] setTrackUncaughtExceptions:YES];
     
- 
+ [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    
+    [self loadSQL];
+
+    return YES;
+}
+
+-(void)loadSQL
+{
     // init DB manager
     __weak typeof(self) wealf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -148,10 +156,6 @@
         [wealf loadDataForRelations];
         
     });
-    
-    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
-    
-    return YES;
 }
 
 -(void)downloadLibrariesJsonFromServer
@@ -165,6 +169,16 @@
 #pragma mark - data loaded delegate methods
 -(void)librariesLoaded:(NSArray *)results
 {
+    __weak typeof(self) welf = self;
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf librariesLoaded:results];
+            
+        });
+        return;
+    }
+    
     UINavigationController *controller = [[((UITabBarController *)self.window.rootViewController) viewControllers] objectAtIndex:kLibrariesViewControllerIndex];
     MZKChangeLibraryViewController *changeLibVC = [controller.viewControllers objectAtIndex:0];
     changeLibVC.libraries = results;

@@ -41,7 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = NSLocalizedString(@"mzk.searchResults", @"Search VC title");
+  //  self.title = NSLocalizedString(@"mzk.searchResults", @"Search VC title");
     
     [_searchResultsTableView registerClass:[MZKSearchTableViewCell class] forCellReuseIdentifier:@"MZKSearchTableViewCell"];
     
@@ -53,10 +53,14 @@
     _recentMutableSearches = [self loadRecentSearches];
     
     self.searchResultsTableView.tableFooterView = [[UIView alloc] init];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDatasourceChanged:) name:kDatasourceItemChanged object:nil];
-    
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.searchResultsTableView setContentOffset:CGPointMake(0, -50) animated:false];
+}
+
 
 -(void)onDatasourceChanged:(NSNotification *)notf
 {
@@ -396,7 +400,9 @@
         vc.isFirst = YES;
         vc.shouldShowSearchBar = NO;
         vc.items = _searchResults;
-        
+        vc.shouldDisplayFilters = YES;
+        vc.searchTerm = _searchBar.text;
+    
         _searchBar.text = @"";
         [self hideDimmingView];
     }

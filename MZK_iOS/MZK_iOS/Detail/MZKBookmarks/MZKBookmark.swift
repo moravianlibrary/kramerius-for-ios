@@ -8,16 +8,13 @@
 
 import Foundation
 
-class MZKBookmark : NSObject, NSCoding
-{
-    open var parentPID:String!
-    open var pagePID:String!
-    open var dateCreated:String!
-    open var pageIndex:String!
+class MZKBookmark : NSObject, NSCoding{
+    open var parentPID : String?
+    open var pagePID : String?
+    open var dateCreated : String?
+    open var pageIndex:String?
     
-    override init() {
-        
-    }
+    override init() { }
 
     init(parentPID: String, pagePID: String, dateCreated: String, pageIndex: String) {
         self.parentPID = parentPID

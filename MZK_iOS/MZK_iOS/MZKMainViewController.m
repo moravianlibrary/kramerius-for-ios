@@ -18,7 +18,7 @@
 #import "MZKLibraryItem.h"
 #import "UINavigationBar+CustomHeight.h"
 #import "MZK_iOS-Swift.h"
-@import CocoaLumberjack;
+
 @import SDWebImage;
 
 const int kHeaderHeight = 95;
@@ -50,68 +50,54 @@ const int kHeaderHeight = 95;
 @property (weak, nonatomic) IBOutlet UIView *searchBarContainer;
 @property (weak, nonatomic) IBOutlet UIView *searchViewContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewContainerTopConstraint;
-@property (weak, nonatomic) IBOutlet UILabel *headerTitleLabel;
+@property (strong, nonatomic) UILabel *headerTitleLabel;
 @property (weak, nonatomic) IBOutlet UIView *navigationItemContainerView;
 
 @end
 
 @implementation MZKMainViewController
-- (id)initWithCoder:(NSCoder *)decoder {
-    
-    self = [super initWithCoder:decoder];
-    if (self) {
-        self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.home", @"Home button title");
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view.
-    dialogVisible = NO;
+    //prepare header
+    _headerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, _segmentControll.frame.origin.x - 16, 40)];
+    _headerTitleLabel.backgroundColor = [UIColor clearColor];
+    _headerTitleLabel.numberOfLines = 0;
+    _headerTitleLabel.textAlignment = NSTextAlignmentCenter;
     
+    // set bold font
+    UIFontDescriptor * fontD = [_headerTitleLabel.font.fontDescriptor
+                                fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+    
+    _headerTitleLabel.font = [UIFont fontWithDescriptor:fontD size:0];
+
+    self.navigationItem.titleView = _headerTitleLabel;
+    
+    dialogVisible = NO;
+
+    // segment controll
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.latest", @"") forSegmentAtIndex:0];
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.interesting", @"") forSegmentAtIndex:1];
-    
-    
+
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultDatasourceChangedNotification:) name:kDatasourceItemChanged object:nil];
-    
+
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
+
     if (del.defaultDatasourceItem)
     {
         [self refreshAllValues];
         [self initGoogleAnalytics];
         [self refreshTitle];
     }
-    // DDLogInfo(@"There is no default library, wait for DL")
-        
-    //    DDLogInfo(@"Info");
-    //    DDLogInfo(@"top = %f, bounds top %f", self.collectionView.frame.origin.y, self.collectionView.bounds.origin.y);
-    //    DDLogInfo(@"offset y = %f", self.collectionView.contentOffset.y);
-    //    DDLogInfo(@"height = %f", self.collectionView.contentSize.height);
-    //    DDLogInfo(@"inset top = %f", self.collectionView.contentInset.top);
-    //    DDLogInfo(@"inset bottom = %f", self.collectionView.contentInset.bottom);
-    //    DDLogInfo(@"inset left = %f", self.collectionView.contentInset.left);
-    //    DDLogInfo(@"inset right = %f", self.collectionView.contentInset.right);
-    
-}
 
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.navigationController.navigationBar setHeight:kHeaderHeight];
-    
-    _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self.navigationController.navigationBar setHeight:kHeaderHeight];
-    _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+    if (@available(iOS 11.0, *)) {
+        self.navigationController.navigationBar.prefersLargeTitles = true;
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 -(void)viewDidLayoutSubviews
@@ -139,7 +125,6 @@ const int kHeaderHeight = 95;
             libName = [[del getDatasourceItem] nameEN];
         }
     }
-    
     _headerTitleLabel.text = libName;
 }
 
@@ -245,8 +230,6 @@ const int kHeaderHeight = 95;
             
         }];
     }
-    
-    
     [self hideLoadingIndicator];
     
 }
@@ -547,7 +530,6 @@ const int kHeaderHeight = 95;
     CGFloat sectionInsetY = ((UICollectionViewFlowLayout *)_collectionView.collectionViewLayout).sectionInset.top;
     
     [_collectionView setContentOffset:CGPointMake(_collectionView.contentOffset.x, offsetY - contentInsetY - sectionInsetY) animated:YES];
-    
 }
 
 -(void)searchEnded
@@ -570,6 +552,16 @@ const int kHeaderHeight = 95;
         _searchViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         _searchViewController.view.translatesAutoresizingMaskIntoConstraints = YES;
         _searchViewController.delegate = self;
+        
+        UIBarButtonItem *right =
+        [[UIBarButtonItem alloc] initWithTitle:@"Right"
+                                         style:UIBarButtonItemStylePlain
+                                        target:self
+                                        action:@selector(buttonPressed:)];
+        [right setBackgroundImage:[UIImage imageNamed:@"ShowBars"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [_searchViewController.navigationItem setRightBarButtonItem:right];
+
+
         [self addChildViewController:_searchViewController];
         
         _searchBarContainerView.searchBar.delegate = _searchViewController;
@@ -593,7 +585,7 @@ const int kHeaderHeight = 95;
     [coordinator animateAlongsideTransition:^(id  _Nonnull context) {
         
         // will execute during rotation
-        _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
+      //  _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
         
     } completion:^(id  _Nonnull context) {
         

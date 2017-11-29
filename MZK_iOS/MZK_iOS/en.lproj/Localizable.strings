@@ -27,6 +27,7 @@
 "mzk.type." = "";
 
 "mzk.searchResults" = "Search Results";
+"mzk.filters" = "Filters";
 
 "mzk.error" = "Error";
 "mzk.error.url.unknown" = "Unknown error occured";
@@ -43,3 +44,4 @@
 
 "mzk.error.coulNotFind" = "Could not find";
 "mzk.error.noRecordsFound" = "No search results found";
+

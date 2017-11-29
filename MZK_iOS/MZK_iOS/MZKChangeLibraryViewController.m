@@ -216,9 +216,9 @@
 #pragma mark - data loaded delegate methods
 -(void)librariesLoaded:(NSArray *)results
 {
+     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
     _libraries = results;
     [self.tableView reloadData];
-    
 }
 
 // error states

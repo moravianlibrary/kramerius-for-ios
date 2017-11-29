@@ -42,6 +42,7 @@
 
 
 "mzk.searchResults" = "Výsledky hledání";
+"mzk.filters" = "Filtry";
 
 "mzk.error" = "Chyba";
 "mzk.error.url.unknown" = "Neznámá chyba.";

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MZKLibraryItem.h"
+
 #warning Add documentation to methods
 /// TODO: Add documentation
 
@@ -64,4 +65,9 @@
 
 -(id)init;
 -(id)initWithoutBaseURL;
+
+/**
+ * perform facet search
+ */
+//-(void)performFacetSearchWithQuery(MZKFilterQuery *)query
 @end
