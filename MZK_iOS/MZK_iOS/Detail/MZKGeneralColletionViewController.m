@@ -609,7 +609,6 @@
 #pragma MARK - Filters
 - (IBAction)onFilterButton:(id)sender {
     
-    
     // change constraints
     // ipad device
     if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad)
