@@ -94,7 +94,7 @@
 		2DE387601AE523B400A2004E /* MZKItemResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE3875F1AE523B400A2004E /* MZKItemResource.m */; };
 		2DE387631AE526AB00A2004E /* MZKDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE387621AE526AA00A2004E /* MZKDatasource.m */; };
 		2DE98BD01C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE98BCF1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m */; };
-		759A7DECF30310912FD01D8D /* Pods_MZK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C90D7A1AB48D0E0C75DD57 /* Pods_MZK_iOS.framework */; };
+		50814DD4F226211FD6B4CA78 /* Pods_MZK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F98EC6C188CBDBEFAC30DEA9 /* Pods_MZK_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -251,9 +251,9 @@
 		2DE387621AE526AA00A2004E /* MZKDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDatasource.m; sourceTree = "<group>"; };
 		2DE98BCE1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKRecentlyOpenedDocumentsViewController.h; path = ../MZKRecentlyOpenedDocumentsViewController.h; sourceTree = "<group>"; };
 		2DE98BCF1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKRecentlyOpenedDocumentsViewController.m; path = ../MZKRecentlyOpenedDocumentsViewController.m; sourceTree = "<group>"; };
-		49C90D7A1AB48D0E0C75DD57 /* Pods_MZK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MZK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0D2068D1D167091E6D27E4E /* Pods-MZK_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.release.xcconfig"; sourceTree = "<group>"; };
-		E2EE3763628F98B9EBD3EA02 /* Pods-MZK_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		52FFCFFC9D2213E9F4C91546 /* Pods-MZK_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		CCD533F784C44D21A7FB8AC1 /* Pods-MZK_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.release.xcconfig"; sourceTree = "<group>"; };
+		F98EC6C188CBDBEFAC30DEA9 /* Pods_MZK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MZK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,7 +266,7 @@
 				2D41FF011C3BBF970087F22E /* libsqlite3.tbd in Frameworks */,
 				2D2787C61BF4BB4A0007D00E /* AVFoundation.framework in Frameworks */,
 				2D2787C41BF4B92A0007D00E /* MediaPlayer.framework in Frameworks */,
-				759A7DECF30310912FD01D8D /* Pods_MZK_iOS.framework in Frameworks */,
+				50814DD4F226211FD6B4CA78 /* Pods_MZK_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,7 +438,7 @@
 				2DB8A7B01ACD073400A1BB2E /* MZK_iOSTests */,
 				2DB8A7921ACD073400A1BB2E /* Products */,
 				C4864A5EBA3AC6CFFA83C9E9 /* Frameworks */,
-				F0891C109A607E2006DBF6AC /* Pods */,
+				CFFDDD1717BA745FFDC2C501 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -566,16 +566,16 @@
 				2D41FF001C3BBF970087F22E /* libsqlite3.tbd */,
 				2D2787C51BF4BB4A0007D00E /* AVFoundation.framework */,
 				2D2787C31BF4B92A0007D00E /* MediaPlayer.framework */,
-				49C90D7A1AB48D0E0C75DD57 /* Pods_MZK_iOS.framework */,
+				F98EC6C188CBDBEFAC30DEA9 /* Pods_MZK_iOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F0891C109A607E2006DBF6AC /* Pods */ = {
+		CFFDDD1717BA745FFDC2C501 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E2EE3763628F98B9EBD3EA02 /* Pods-MZK_iOS.debug.xcconfig */,
-				D0D2068D1D167091E6D27E4E /* Pods-MZK_iOS.release.xcconfig */,
+				52FFCFFC9D2213E9F4C91546 /* Pods-MZK_iOS.debug.xcconfig */,
+				CCD533F784C44D21A7FB8AC1 /* Pods-MZK_iOS.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -587,14 +587,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2DB8A7B71ACD073400A1BB2E /* Build configuration list for PBXNativeTarget "MZK_iOS" */;
 			buildPhases = (
-				0C88C74CE63D2AAC1EB1E09E /* [CP] Check Pods Manifest.lock */,
+				9B64C5A3C209EC80EB67BF2A /* [CP] Check Pods Manifest.lock */,
 				2DB8A78D1ACD073400A1BB2E /* Sources */,
 				2DB8A78E1ACD073400A1BB2E /* Frameworks */,
 				2DB8A78F1ACD073400A1BB2E /* Resources */,
-				984A690BA1CBE454FD910EBD /* [CP] Embed Pods Frameworks */,
-				699878298BFBE6F5DCFE5F9F /* [CP] Copy Pods Resources */,
 				2D9378501DA293DF005B2ED3 /* Embed Frameworks */,
 				2D511C641F54A9910039550A /* ShellScript */,
+				CE323C44E08A21483E7A576A /* [CP] Embed Pods Frameworks */,
+				4052712D0DCE29C1D69DB9F9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -677,21 +677,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0C88C74CE63D2AAC1EB1E09E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
 		2D511C641F54A9910039550A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -705,7 +690,7 @@
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
 		};
-		699878298BFBE6F5DCFE5F9F /* [CP] Copy Pods Resources */ = {
+		4052712D0DCE29C1D69DB9F9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -720,15 +705,58 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		984A690BA1CBE454FD910EBD /* [CP] Embed Pods Frameworks */ = {
+		9B64C5A3C209EC80EB67BF2A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MZK_iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CE323C44E08A21483E7A576A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireObjectMapper/AlamofireObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/HexColors/HexColors.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
+				"${BUILT_PRODUCTS_DIR}/TSMessages/TSMessages.framework",
+				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/iOSTiledViewer/iOSTiledViewer.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HexColors.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TSMessages.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSTiledViewer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -929,7 +957,7 @@
 		};
 		2DB8A7B81ACD073400A1BB2E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E2EE3763628F98B9EBD3EA02 /* Pods-MZK_iOS.debug.xcconfig */;
+			baseConfigurationReference = 52FFCFFC9D2213E9F4C91546 /* Pods-MZK_iOS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -940,6 +968,18 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Build/Products/Debug-iphoneos/AFNetworking",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_ROOT}/Google/Headers",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"\"${PODS_ROOT}/Headers/Public/Google\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"$(PROJECT_TEMP_DIR)/../UninstalledProducts/include",
+					"\"$(SOURCE_ROOT)/SDWebImage\"",
 				);
 				INFOPLIST_FILE = MZK_iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -956,7 +996,7 @@
 		};
 		2DB8A7B91ACD073400A1BB2E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D2068D1D167091E6D27E4E /* Pods-MZK_iOS.release.xcconfig */;
+			baseConfigurationReference = CCD533F784C44D21A7FB8AC1 /* Pods-MZK_iOS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -967,6 +1007,18 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Build/Products/Debug-iphoneos/AFNetworking",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_ROOT}/Google/Headers",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"\"${PODS_ROOT}/Headers/Public/Google\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"$(PROJECT_TEMP_DIR)/../UninstalledProducts/include",
+					"\"$(SOURCE_ROOT)/SDWebImage\"",
 				);
 				INFOPLIST_FILE = MZK_iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

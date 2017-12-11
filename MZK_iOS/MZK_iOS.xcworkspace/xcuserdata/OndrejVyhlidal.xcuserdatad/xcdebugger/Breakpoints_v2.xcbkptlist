@@ -377,13 +377,13 @@
                   symbolName = "-[MZKCollectionsViewController downloadFailedWithError:]"
                   moduleName = "MZK_iOS"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/MZKCollectionsViewController.m"
-                  timestampString = "533642979.379037"
+                  urlString = "file:///Users/ondrejvyhlidal/Projects/Private/Kramerius/MZK_iOS/MZK_iOS/MZKCollectionsViewController.m"
+                  timestampString = "534698063.366151"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "123"
                   endingLineNumber = "123"
-                  offsetFromSymbolStart = "889">
+                  offsetFromSymbolStart = "740">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -392,13 +392,13 @@
                   symbolName = "__56-[MZKCollectionsViewController downloadFailedWithError:]_block_invoke.97"
                   moduleName = "MZK_iOS"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/OndrejVyhlidal/kramerius-for-ios/MZK_iOS/MZK_iOS/MZKCollectionsViewController.m"
-                  timestampString = "533642979.380791"
+                  urlString = "file:///Users/ondrejvyhlidal/Projects/Private/Kramerius/MZK_iOS/MZK_iOS/MZKCollectionsViewController.m"
+                  timestampString = "534698063.36737"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "124"
                   endingLineNumber = "124"
-                  offsetFromSymbolStart = "16">
+                  offsetFromSymbolStart = "20">
                </Location>
             </Locations>
          </BreakpointContent>
