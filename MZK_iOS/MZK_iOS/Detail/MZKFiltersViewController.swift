@@ -236,7 +236,8 @@ extension MZKFiltersViewController : UITableViewDataSource
             // get a reference to the app delegate
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let langName = appDelegate.getLanguageFromCode(languageID)
-            
+
+            // TODO: FIX ME!
             cell.filterTitleLabel?.text = langName?[1] as! String
             
 
