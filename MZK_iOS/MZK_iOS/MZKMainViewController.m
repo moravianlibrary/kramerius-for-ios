@@ -59,20 +59,25 @@ const int kHeaderHeight = 95;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+
+    self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.library", @"mzk title");
     //prepare header
-    _headerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, _segmentControll.frame.origin.x - 16, 40)];
+    _headerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, 3, _segmentControll.frame.origin.x - 6, 40)];
     _headerTitleLabel.backgroundColor = [UIColor clearColor];
     _headerTitleLabel.numberOfLines = 0;
     _headerTitleLabel.textAlignment = NSTextAlignmentCenter;
-    
+
     // set bold font
     UIFontDescriptor * fontD = [_headerTitleLabel.font.fontDescriptor
                                 fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
     
     _headerTitleLabel.font = [UIFont fontWithDescriptor:fontD size:0];
 
+    [_headerTitleLabel setMinimumScaleFactor:0.5];
     self.navigationItem.titleView = _headerTitleLabel;
+
+    _headerTitleLabel.adjustsFontSizeToFitWidth = YES;
     
     dialogVisible = NO;
 

@@ -57,3 +57,6 @@
 "mzk.error.coulNotFind" = "Nenalezeno";
 "mzk.error.noRecordsFound" = "Vašemu dotazu neodpovídá žádný titul";
 "mzk.error.kramerius" = "Získání dat se nezdařilo.";
+
+"public" = "Veřejný";
+"private" = "Neveřejný";

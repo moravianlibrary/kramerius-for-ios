@@ -188,12 +188,22 @@ extension MZKFiltersViewController : UITableViewDataSource
         case FilterSections.accesibility.rawValue:
             
             let filterItem = policy[indexPath.row]
-            
-            cell.filterTitleLabel?.text = filterItem.filterName
-            cell.filterCountLabel?.text = filterItem.count?.stringValue
-            if (currentQuery?.isActive(code: MZKFilterConstants.policy, value: filterItem.filterName!))! {
-                
+
+            // translate filter name!
+
+            if let filterName = filterItem.filterName {
+
+                title = NSLocalizedString(filterName, comment: "filter name")
+
+                cell.filterTitleLabel?.text = title
+
+                cell.filterCountLabel?.text = filterItem.count?.stringValue
+                if (currentQuery?.isActive(code: MZKFilterConstants.policy, value: filterItem.filterName!))! {
+
+                }
             }
+
+
             break
             
         case FilterSections.keywords.rawValue:
@@ -235,14 +245,15 @@ extension MZKFiltersViewController : UITableViewDataSource
             
             // get a reference to the app delegate
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let langName = appDelegate.getLanguageFromCode(languageID)
-
-            // TODO: FIX ME!
-            cell.filterTitleLabel?.text = langName?[1] as! String
-            
+            let langNameDict = appDelegate.getLanguageFromCode(languageID)
 
             cell.filterCountLabel?.text = filterItem.count?.stringValue
-            
+
+            // TODO: FIX ME!
+            if let langName = langNameDict?[1] as? String {
+                 cell.filterTitleLabel?.text = langName
+            }
+
             if (currentQuery?.isActive(code: MZKFilterConstants.language, value: filterItem.filterName!))! {
                 
             }
@@ -258,7 +269,6 @@ extension MZKFiltersViewController : UITableViewDataSource
     {
         return headerTitles[section]
     }
-    
 }
 
 //MARK: UITableViewDelegate

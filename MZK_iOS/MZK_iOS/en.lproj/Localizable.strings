@@ -45,3 +45,6 @@
 "mzk.error.coulNotFind" = "Could not find";
 "mzk.error.noRecordsFound" = "No search results found";
 
+"public" = "Public";
+"private" = "Private";
+

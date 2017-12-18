@@ -486,15 +486,19 @@
 }
 
 
+/**
+ Method gets language from code
+
+ @param languageCode String describing language code
+ @return array containing data read from DB
+ */
 -(NSArray *)getLanguageFromCode:(NSString *)languageCode
 {
-    // for
     for (NSArray *array in _dbLangInfo) {
         
-        if ([array[0] caseInsensitiveCompare:languageCode] ==NSOrderedSame && ([array[2] caseInsensitiveCompare:@"cs"] ==NSOrderedSame)) {
+        if ([array[0] caseInsensitiveCompare:languageCode] == NSOrderedSame && ([array[2] caseInsensitiveCompare:@"cs"] ==NSOrderedSame)) {
             return array;
         }
-        
     }
     
     return nil;

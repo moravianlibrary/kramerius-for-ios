@@ -79,6 +79,10 @@
         
         _filtersContainerViewTopConstraint.constant = self.view.frame.size.height;
     }
+    else {
+        _filterButton.enabled = false;
+        _filterButton.tintColor = [UIColor clearColor];
+    }
 }
 
 -(void)initGoogleAnalytics

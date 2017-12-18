@@ -218,10 +218,18 @@ extension MZKPageDetailViewController : ITVScrollViewDelegate
         self.activityIndicator.stopAnimating()
         if (error != nil) {
             DispatchQueue.main.async (execute: { () -> Void in
-                
-                print(error?.description)
-                MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "When error occures"), subtitle: "mzk.error.checkYourInternetConnection".localizedWithComment(comment: ""), completion: {(_) -> Void in
-                })
+
+                guard let errCode = error?.code else { return }
+
+                if errCode == ITVError.unsupportedZoomify.rawValue {
+                    // not able to load image - SDWebImageLoad?
+
+                } else {
+
+                    print(error?.description)
+                    MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "When error occures"), subtitle: "mzk.error.checkYourInternetConnection".localizedWithComment(comment: ""), completion: {(_) -> Void in
+                    })
+                }
             })
         }
     }
