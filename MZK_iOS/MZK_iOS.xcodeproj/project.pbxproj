@@ -395,13 +395,6 @@
 			path = NSURLRequest;
 			sourceTree = "<group>";
 		};
-		2D9150F41C849E7F00AD380F /* ZoomifyReader */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ZoomifyReader;
-			sourceTree = "<group>";
-		};
 		2DAA60761BA759350004A718 /* Collections */ = {
 			isa = PBXGroup;
 			children = (
@@ -458,7 +451,6 @@
 				2D79665B1DB6B11100891B94 /* Model */,
 				2D44DF3C1CB397BB001EF49F /* Menu */,
 				2DB5E44B1CB25CF300C90D36 /* 3rdParty */,
-				2D9150F41C849E7F00AD380F /* ZoomifyReader */,
 				2D9150EF1C82F4C200AD380F /* NSURLRequest */,
 				2D3A0B441C204734008E4B47 /* MZK_iOS.entitlements */,
 				2D2DA51D1BEF9B3A00423447 /* Detail */,

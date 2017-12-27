@@ -137,6 +137,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
         let location = event.location(in: self.iTVReaderView)
         let distanceLeft = self.iTVReaderView.frame.width / 5
         let distanceRight = self.iTVReaderView.frame.width - distanceLeft
+
         if location.x < distanceLeft {
             //previous page
             // userActivityDelegate?.previousPage()
@@ -152,7 +153,6 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     }
     
     func didTap(type: ITVGestureEventType, location: CGPoint) {
-        print(type.rawValue)
         if type == ITVGestureEventType.singleTap {
             
             print("Location: ", location)
@@ -169,7 +169,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
             
             print("Left: ", leftBandWidth, "Right: ", rightBandOffset, "ApproximatedX: ", approximatedX)
             
-            if self.iTVReaderView.zoomScale > 2 {
+          //  if self.iTVReaderView.zoomScale > 2 {
                 
                 if approximatedX <= leftBandWidth {
                     print ("left, previous page")
@@ -185,7 +185,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
                     print ("single tap, middle = show/hide bars")
                     userActivityDelegate?.userDidSingleTapped()
                 }
-            }
+           // }
         }
         
     }
@@ -216,24 +216,48 @@ extension MZKPageDetailViewController : ITVScrollViewDelegate
     func didFinishLoading(error: NSError?)
     {
         self.activityIndicator.stopAnimating()
-        if (error != nil) {
-            DispatchQueue.main.async (execute: { () -> Void in
+
+        if error?.code == ITVError.unsupportedRaw.rawValue {
+
+//            DispatchQueue.main.async (execute: { [weak self] in
+//
+//                guard let strongSelf = self else { return }
 
                 guard let errCode = error?.code else { return }
-
-                if errCode == ITVError.unsupportedZoomify.rawValue {
                     // not able to load image - SDWebImageLoad?
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let libraryItem : MZKLibraryItem! = appDelegate.getDatasourceItem();
 
-                } else {
+                    guard let pagePID = self.pagePID else { return }
+                    let height = String(describing: Int(self.view.bounds.size.height*2))
 
-                    print(error?.description)
-                    MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "When error occures"), subtitle: "mzk.error.checkYourInternetConnection".localizedWithComment(comment: ""), completion: {(_) -> Void in
-                    })
-                }
+                    let imageStrUrl = String(format: "%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", libraryItem.url , pagePID, height)
+
+                   iTVReaderView.loadImage(imageStrUrl, api: .Raw)
+//                        let url = URL(string: imageStrUrl)
+
+
+//            self.imageReaderImageView.sd_setImage(with: url, placeholderImage: nil, options: SDWebImageOptions.continueInBackground , completed: { (image, error, cache, url) in
+//                 // self.iTVReaderView.isHidden = true
+//
+//                let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.didTap(event:)))
+//                tapGestureRecognizer.numberOfTapsRequired = 1
+//                tapGestureRecognizer.cancelsTouchesInView = false
+//
+//                self.imageReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
+//            })
+
+          //  })
+        } else {
+            if error != nil {
+            print(error?.description)
+            MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "When error occures"), subtitle: "mzk.error.checkYourInternetConnection".localizedWithComment(comment: ""), completion: {(_) -> Void in
             })
         }
+        }
+
     }
-    
+
     func errorDidOccur(error: NSError)
     {
         DispatchQueue.main.async (execute: { () -> Void in

@@ -62,8 +62,7 @@ static MZKMusicViewController *sharedInstance;
 
 @implementation MZKMusicViewController
 
-+(instancetype)sharedInstance
-{
++(instancetype)sharedInstance {
     static dispatch_once_t once;
     dispatch_once(&once, ^{
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
@@ -115,16 +114,19 @@ static MZKMusicViewController *sharedInstance;
         [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     }
     self.title =  self.navigationController.tabBarItem.title;
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@"View will appear!");
+
+}
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     
 }
 
-- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
-{
-    
-}
-
--(void)initGoogleAnalytics
-{
+-(void)initGoogleAnalytics {
     NSString *name = [NSString stringWithFormat:@"Pattern~%@", @"MZKMusicViewController"];
     
     // The UA-XXXXX-Y tracker ID is loaded automatically from the
@@ -143,8 +145,7 @@ static MZKMusicViewController *sharedInstance;
     // Dispose of any resources that can be recreated.
 }
 
--(void)setItemPID:(NSString *)itemPid
-{
+-(void)setItemPID:(NSString *)itemPid {
     if (!_datasource) {
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
@@ -153,11 +154,9 @@ static MZKMusicViewController *sharedInstance;
     [_datasource getItem:itemPid];
     
     [self startAnimating];
-    
 }
 
--(void)loadDataForController
-{
+-(void)loadDataForController {
     if (!_datasource) {
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
@@ -170,12 +169,9 @@ static MZKMusicViewController *sharedInstance;
     {
         [_datasource getItem:_currentItemPID];
     }
-    
-    
 }
 
--(void)downloadFailedWithError:(NSError *)error
-{
+-(void)downloadFailedWithError:(NSError *)error {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
@@ -193,7 +189,7 @@ static MZKMusicViewController *sharedInstance;
     }else if([error.domain isEqualToString:@"MZK"])
     {
         [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
-             [welf loadDataForController];
+            [welf loadDataForController];
             
         }];
         
@@ -207,8 +203,7 @@ static MZKMusicViewController *sharedInstance;
 }
 
 
--(void)setItem:(MZKItemResource *)item
-{
+-(void)setItem:(MZKItemResource *)item {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
@@ -222,8 +217,7 @@ static MZKMusicViewController *sharedInstance;
     [self loadDataForItem:_item];
 }
 
--(void)startAnimating
-{
+-(void)startAnimating {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
@@ -237,8 +231,7 @@ static MZKMusicViewController *sharedInstance;
     [activityIndicator startAnimating];
 }
 
--(void)stopAnimating
-{
+-(void)stopAnimating {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
@@ -252,8 +245,7 @@ static MZKMusicViewController *sharedInstance;
     [activityIndicator stopAnimating];
 }
 
--(void)loadDataForItem:(MZKItemResource *)item
-{
+-(void)loadDataForItem:(MZKItemResource *)item {
     if (!_datasource) {
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
@@ -264,8 +256,7 @@ static MZKMusicViewController *sharedInstance;
     [_datasource getChildrenForItem:item.pid];
 }
 
--(void)detailForItemLoaded:(MZKItemResource *)item
-{
+-(void)detailForItemLoaded:(MZKItemResource *)item {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
@@ -286,8 +277,7 @@ static MZKMusicViewController *sharedInstance;
     
 }
 
--(void)childrenForItemLoaded:(NSArray *)items
-{
+-(void)childrenForItemLoaded:(NSArray *)items {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
@@ -310,8 +300,7 @@ static MZKMusicViewController *sharedInstance;
     }
 }
 
--(void)playWithAVPlayer:(NSString *)pid
-{
+-(void)playWithAVPlayer:(NSString *)pid {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/streams/MP3",delegate.defaultDatasourceItem.url, pid];
@@ -319,7 +308,7 @@ static MZKMusicViewController *sharedInstance;
     if (_player) {
         // stop playback
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:[_player currentItem]];
-        
+        [_player pause];
         [_player removeObserver:self forKeyPath:@"status"];
         
         _player = nil;
@@ -337,7 +326,6 @@ static MZKMusicViewController *sharedInstance;
                                                object:[_player currentItem]];
     
     [_player addObserver:self forKeyPath:@"status" options:0 context:nil];
-    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -363,8 +351,7 @@ static MZKMusicViewController *sharedInstance;
     }
 }
 
--(void)playAfterLoad
-{
+-(void)playAfterLoad {
     isSeeking = NO;
     
     [self prepareSlider];
@@ -372,29 +359,22 @@ static MZKMusicViewController *sharedInstance;
     [_player play];
     
     if ([self playerPlaying]) {
-        
-        
+
         if (_timeSlider.value > 0) {
             //scrubbed before play
             [_player seekToTime:CMTimeMakeWithSeconds(_timeSlider.value, NSEC_PER_SEC)];
         }
-        
-        
+
         [_play setImage:[UIImage imageNamed:@"audioPause"] forState:UIControlStateNormal];
     }
     else{
         [_play setImage:[UIImage imageNamed:@"audioPlay"] forState:UIControlStateNormal];
-        
-        
     }
-    
-    
+
     [self scheduleTimer];
-    
 }
 
--(void)setCurrentTrackToInfoCenter
-{
+-(void)setCurrentTrackToInfoCenter {
     Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
     if (playingInfoCenter) {
         
@@ -418,27 +398,19 @@ static MZKMusicViewController *sharedInstance;
     [[AVAudioSession sharedInstance] setActive:NO error:nil];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker|AVAudioSessionCategoryOptionMixWithOthers error:nil];
     [[AVAudioSession sharedInstance] setActive: YES error: nil];
-    
-    
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
-    
-    //  code here to play next sound file
-    NSLog(@"Played to end");
-    
+
     [self resetPlayer];
     [_player seekToTime:CMTimeMakeWithSeconds(0, NSEC_PER_SEC)];
     
     [self setCurrentTrackToInfoCenter];
-    
+    NSLog(@"Player did reach end!");
     _timeSlider.maximumValue = [self playbackDuration];
-    
 }
 
-
--(BOOL)playerPlaying
-{
+-(BOOL)playerPlaying {
     if (_player) {
         if(_player.rate >0)
         {
@@ -448,8 +420,7 @@ static MZKMusicViewController *sharedInstance;
     return NO;
 }
 
--(float)playbackDuration
-{
+-(float)playbackDuration {
     float duration = -1;
     if (_player.currentItem) {
         duration = CMTimeGetSeconds(_playerItem.duration);
@@ -458,8 +429,7 @@ static MZKMusicViewController *sharedInstance;
     return duration;
 }
 
--(void)prepareNotificationsForPlayer
-{
+-(void)prepareNotificationsForPlayer {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -476,15 +446,14 @@ static MZKMusicViewController *sharedInstance;
     
 }
 
--(void)playbackDidFinish:(NSNotification *)notf
-{
+-(void)playbackDidFinish:(NSNotification *)notf {
     [self resetPlayer];
     [[AVAudioSession sharedInstance] setActive:NO error:nil];
     
 }
 
--(void)onDatasourceChanged:(NSNotification *)notf
-{
+-(void)onDatasourceChanged:(NSNotification *)notf {
+    // main thread here?
     if (_player) {
         [self resetPlayer];
         _currentItem = nil;
@@ -501,11 +470,9 @@ static MZKMusicViewController *sharedInstance;
         _player = nil;
         _playerItem = nil;
     }
-    
 }
 
--(void)resetPlayer
-{
+-(void)resetPlayer {
     [_player pause];
     [self prepareSlider];
     [tickTimer invalidate];
@@ -514,13 +481,11 @@ static MZKMusicViewController *sharedInstance;
     _elapsedTime.text = @"00:00:00";
 }
 
--(void)prepareSlider
-{
+-(void)prepareSlider {
     _timeSlider.minimumValue = 0;
     _timeSlider.maximumValue = 0;
     _timeSlider.value = 0;
 }
-
 
 #pragma mark - audio route changed
 - (void)routeChange:(NSNotification*)notification {
@@ -610,7 +575,6 @@ static MZKMusicViewController *sharedInstance;
     }
 }
 
-
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
@@ -626,19 +590,12 @@ static MZKMusicViewController *sharedInstance;
     return YES;
 }
 
-
 #pragma mark - Playback handling
 -(void)saveLastPlayedMusic
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     [delegate saveLastPlayedMusic:self.item.pid];
-    
-}
-
--(void)loadLastPlayerMusic
-{
-    
 }
 
 - (IBAction)onMoreInformation:(id)sender {
@@ -646,12 +603,9 @@ static MZKMusicViewController *sharedInstance;
 }
 
 - (IBAction)onSliderValueChanged:(id)sender {
-    
-    
 }
 
-- (IBAction)beginScrubbing:(id)sender
-{
+- (IBAction)beginScrubbing:(id)sender {
     isSeeking = YES;
     if (tickTimer) {
         
@@ -659,8 +613,7 @@ static MZKMusicViewController *sharedInstance;
     }
 }
 
-- (IBAction)endScrubbing:(id)sender
-{
+- (IBAction)endScrubbing:(id)sender {
     isSeeking = NO;
     
     [_player pause];
@@ -669,8 +622,7 @@ static MZKMusicViewController *sharedInstance;
     [self scheduleTimer];
 }
 
-- (IBAction)scrub:(id)sender
-{
+- (IBAction)scrub:(id)sender {
     isSeeking = YES;
     
     long currentTime = _timeSlider.value;
@@ -678,8 +630,7 @@ static MZKMusicViewController *sharedInstance;
     int currentHour = currentTime/3600;
     int currenctMin =  (currentTime % 3600) / 60;
     int currentSecs = currentTime % 60;
-    
-    
+
     _elapsedTime.text =[NSString stringWithFormat:@"%02d:%02d:%02d", currentHour, currenctMin, currentSecs];
 }
 
@@ -713,9 +664,7 @@ static MZKMusicViewController *sharedInstance;
             
         }
         [self scheduleTimer];
-        
     }
-    
 }
 - (IBAction)onFF:(id)sender {
     
@@ -727,8 +676,7 @@ static MZKMusicViewController *sharedInstance;
         });
         return;
     }
-    
-    
+
     NSTimeInterval timeInterval = [self playbackDuration];
     long seconds = lroundf(timeInterval); // Since modulo operator (%) below needs int or long
     
@@ -751,8 +699,7 @@ static MZKMusicViewController *sharedInstance;
         });
         return;
     }
-    
-    
+
     long currentTime = CMTimeGetSeconds(_player.currentItem.currentTime);
     if (currentTime -10 >= 0) {
         [_player seekToTime:CMTimeMakeWithSeconds(currentTime -10 , NSEC_PER_SEC)];
@@ -761,8 +708,7 @@ static MZKMusicViewController *sharedInstance;
     }
 }
 
--(void)updatePlayerViewsWithCurrentTime
-{
+-(void)updatePlayerViewsWithCurrentTime {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
@@ -800,11 +746,9 @@ static MZKMusicViewController *sharedInstance;
         _timeSlider.value = currentTime;
         
     }
-    
 }
 
--(void)scheduleTimer
-{
+-(void)scheduleTimer {
     if (tickTimer) {
         [tickTimer invalidate];
     }
@@ -812,8 +756,7 @@ static MZKMusicViewController *sharedInstance;
     tickTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updatePlayerViewsWithCurrentTime) userInfo:nil repeats:YES];
 }
 
--(void)loadFullImageForItem:(NSString *)itemPID
-{
+-(void)loadFullImageForItem:(NSString *)itemPID {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",delegate.defaultDatasourceItem.url, itemPID ];
@@ -823,27 +766,23 @@ static MZKMusicViewController *sharedInstance;
     
 }
 
--(void)loadThumbnailImageForItem:(NSString *)itemPID
-{
+-(void)loadThumbnailImageForItem:(NSString *)itemPID {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
     NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/full",delegate.defaultDatasourceItem.url, itemPID ];
     
     [_artWork sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
 }
--(void)viewDidLayoutSubviews
-{
+
+-(void)viewDidLayoutSubviews{
     [self addBlurEffect];
 }
 
-
--(void)addBlurEffect
-{
+-(void)addBlurEffect {
     visualBlurEffectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
 }
 
--(NSString *)getTimeStringFromSeconds:(int)seconds
-{
+-(NSString *)getTimeStringFromSeconds:(int)seconds {
     NSDateComponentsFormatter *dcFormatter = [[NSDateComponentsFormatter alloc] init];
     dcFormatter.zeroFormattingBehavior = NSDateComponentsFormatterZeroFormattingBehaviorPad;
     dcFormatter.allowedUnits = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
@@ -851,27 +790,20 @@ static MZKMusicViewController *sharedInstance;
     return [dcFormatter stringFromTimeInterval:seconds];
 }
 
-- (BOOL)isScrubbing
-{
+- (BOOL)isScrubbing {
     return mRestoreAfterScrubbingRate != 0.f;
 }
 
--(void)enableScrubber
-{
+-(void)enableScrubber {
     _timeSlider.enabled = YES;
 }
 
--(void)disableScrubber
-{
+-(void)disableScrubber {
     _timeSlider.enabled = NO;
 }
 
-
-
 /* If the media is playing, show the stop button; otherwise, show the play button. */
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Make sure your segue name in storyboard is the same as this line
     if ([[segue identifier] isEqualToString:@"OpenInfoDetail"])
     {
@@ -879,7 +811,6 @@ static MZKMusicViewController *sharedInstance;
         MZKDetailInformationViewController *vc = [segue destinationViewController];
         
         NSString *targetPid;
-        
         if (_currentItem.rootPid) {
             targetPid = _currentItem.rootPid;
             [vc setType:[_item getLocalizedItemType]];
@@ -887,7 +818,6 @@ static MZKMusicViewController *sharedInstance;
         
         // Pass any objects to the view controller here, like...
         [vc setItem:targetPid];
-        
     }
 }
 
