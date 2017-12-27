@@ -587,7 +587,7 @@
                                 <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MZKSearchTableViewCell2" id="O1D-dK-Sg5" customClass="MZKSearchTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MZKSearchTableViewCell2" id="O1D-dK-Sg5" customClass="MZKSearchTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="768" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O1D-dK-Sg5" id="zE6-rA-elf">
@@ -1484,13 +1484,13 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G1C-Ja-ZuS">
-                                                            <rect key="frame" x="8" y="12" width="527" height="21"/>
+                                                            <rect key="frame" x="8" y="12" width="89" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9j0-lC-g4a">
-                                                            <rect key="frame" x="543" y="11" width="42" height="21"/>
+                                                            <rect key="frame" x="105" y="11" width="42" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -2107,7 +2107,7 @@ Najdete zde dokumenty, které již nepodléhají autorskému zákonu - beletrii,
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="wpv-e5-UGR"/>
-        <segue reference="W3i-pO-fpE"/>
+        <segue reference="JCy-F2-sM5"/>
         <segue reference="X8j-sX-hEs"/>
     </inferredMetricsTieBreakers>
 </document>

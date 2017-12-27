@@ -34,8 +34,6 @@ const int kHeaderHeight = 95;
     NSArray *_recentSearches;
     UIRefreshControl *refreshControl;
     NSDictionary *_searchResults;
-    BOOL dialogVisible;
-    
     MZKSearchViewController *_searchViewController;
     
 }
@@ -52,14 +50,12 @@ const int kHeaderHeight = 95;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewContainerTopConstraint;
 @property (strong, nonatomic) UILabel *headerTitleLabel;
 @property (weak, nonatomic) IBOutlet UIView *navigationItemContainerView;
-
 @end
 
 @implementation MZKMainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
 
     self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.library", @"mzk title");
     //prepare header
@@ -75,11 +71,36 @@ const int kHeaderHeight = 95;
     _headerTitleLabel.font = [UIFont fontWithDescriptor:fontD size:0];
 
     [_headerTitleLabel setMinimumScaleFactor:0.5];
-    self.navigationItem.titleView = _headerTitleLabel;
 
+    if (@available(iOS 11.0, *)) {
+        self.navigationController.navigationBar.prefersLargeTitles = false;
+    } else {
+        // Fallback on earlier versions
+        // there are some problems w
+        _headerTitleLabel.frame = CGRectMake(3, 3, _headerTitleLabel.frame.size.width, _headerTitleLabel.frame.size.height);
+
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        NSDictionary *attributtes = @{ NSParagraphStyleAttributeName: paragraphStyle };
+        [_segmentControll setTitleTextAttributes:attributtes forState:UIControlStateSelected];
+        _segmentControll.translatesAutoresizingMaskIntoConstraints = NO;
+
+        float fWidth = 150;
+
+        _segmentControll.frame = CGRectMake(_headerTitleLabel.frame.size.width + 8, 3, fWidth , _segmentControll.frame.size.height);
+
+        [NSLayoutConstraint constraintWithItem:_segmentControll
+                                     attribute:NSLayoutAttributeWidth
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:_segmentControll
+                                     attribute:NSLayoutAttributeWidth
+                                    multiplier:1.0
+                                      constant:150.0].active = YES;
+        _headerTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+
+    self.navigationItem.titleView = _headerTitleLabel;
     _headerTitleLabel.adjustsFontSizeToFitWidth = YES;
-    
-    dialogVisible = NO;
 
     // segment controll
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.latest", @"") forSegmentAtIndex:0];
@@ -95,13 +116,6 @@ const int kHeaderHeight = 95;
         [self refreshAllValues];
         [self initGoogleAnalytics];
         [self refreshTitle];
-    }
-
-
-    if (@available(iOS 11.0, *)) {
-        self.navigationController.navigationBar.prefersLargeTitles = true;
-    } else {
-        // Fallback on earlier versions
     }
 }
 
