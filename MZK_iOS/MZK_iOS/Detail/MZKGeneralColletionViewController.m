@@ -73,9 +73,48 @@
         [self hideBarButtonItem:self.filterButton];
     }
     
-    // ipad device
+    // ipad device is okay setup for iphone.
     if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad)
     {   // debugPrint("ipad show")
+        if (_shouldDisplayFilters) {
+
+            // filters should be shown
+            // clean constraints from collection view and filters view
+            [self.collectionView removeConstraints:self.collectionView.constraints];
+
+            UILayoutGuide *safe;
+            if (@available(iOS 11.0, *)) {
+                NSLog(@"newest");
+                 safe = self.view.safeAreaLayoutGuide;
+            } else {
+                NSLog(@"not newest");
+                safe = self.view.layoutMarginsGuide;
+            }
+
+            _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+
+            [NSLayoutConstraint activateConstraints:@[
+                                                      [safe.trailingAnchor constraintEqualToAnchor:_collectionView.trailingAnchor],
+                                                      [_collectionView.leadingAnchor constraintEqualToAnchor:safe.leadingAnchor],
+                                                      [_collectionView.topAnchor constraintEqualToAnchor:safe.topAnchor],
+                                                      [safe.bottomAnchor constraintEqualToAnchor:_collectionView.bottomAnchor]
+                                                      ]];
+
+
+            [self.filtersViewControllerContainerView removeConstraints:self.filtersViewControllerContainerView.constraints];
+
+
+            _filtersViewControllerContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+
+            _filtersContainerViewTopConstraint = [_filtersViewControllerContainerView.topAnchor constraintEqualToAnchor:safe.topAnchor];
+
+            [NSLayoutConstraint activateConstraints:@[
+                                                      [safe.trailingAnchor constraintEqualToAnchor:_filtersViewControllerContainerView.trailingAnchor],
+                                                      [_filtersViewControllerContainerView.leadingAnchor constraintEqualToAnchor:safe.leadingAnchor],
+                                                      _filtersContainerViewTopConstraint,
+                                                      [safe.bottomAnchor constraintEqualToAnchor:_filtersViewControllerContainerView.bottomAnchor]
+                                                      ]];
+        }
         
         _filtersContainerViewTopConstraint.constant = self.view.frame.size.height;
     }
