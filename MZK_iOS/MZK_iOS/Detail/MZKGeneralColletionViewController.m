@@ -43,6 +43,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *activeFiltersHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIView *filtersViewControllerContainerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *filtersContainerViewTopConstraint;
+@property (weak, nonatomic) IBOutlet UICollectionView *fullScreenCollectionView;
 
 @end
 
@@ -54,7 +55,7 @@
     self.backButton.title = @"❮";
     
     if (_items) {
-        [self.collectionView reloadData];
+        [self refreshDataForCollectionView];
     }
     
     [self hideDimmingView];
@@ -68,14 +69,28 @@
     if (_shouldDisplayFilters) {
         self.navigationItem.title = NSLocalizedString(@"mzk.searchResults", @"titulek obrazovky");
         [self showBarButtonItem:self.filterButton];
+
+        [self.view bringSubviewToFront:_collectionView];
+        [self.view bringSubviewToFront:_filtersViewControllerContainerView];
+        [self.view sendSubviewToBack:_fullScreenCollectionView];
+        _fullScreenCollectionView.hidden = YES;
     }
-    else{
+    else {
+        if (([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)) {
+
+            // hide collection view for filters and filters
+            [self.view bringSubviewToFront:_fullScreenCollectionView];
+            [self.view sendSubviewToBack:_collectionView];
+            [self.view sendSubviewToBack:_filtersViewControllerContainerView];
+        }
+
         [self hideBarButtonItem:self.filterButton];
     }
     
     // ipad device is okay setup for iphone.
     if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad)
-    {   // debugPrint("ipad show")
+    {
+        // debugPrint("ipad show")
         if (_shouldDisplayFilters) {
 
             // filters should be shown
@@ -527,7 +542,7 @@
     
     _items = items;
     
-    [self.collectionView reloadData];
+    [self refreshDataForCollectionView];
     [self hideLoadingIndicator];
     
 }
@@ -751,10 +766,18 @@
     self.items = results;
     
     // reload table views, move this to view will appear - on smaller devices there is no need to refresh data - collection view is not visible ...
-    [self.collectionView reloadData];
-    
-    // refresh filters -
-    
+
+    [self refreshDataForCollectionView];
+}
+
+-(void)refreshDataForCollectionView {
+
+    if (self.shouldDisplayFilters) {
+          [self.collectionView reloadData];
+
+    } else {
+          [self.fullScreenCollectionView reloadData];
+    }
 }
 
 /**

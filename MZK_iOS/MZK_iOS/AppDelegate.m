@@ -425,7 +425,6 @@
         if (recentlyOpenedDocumentForLibrary) {
             _recentlyOpenedDocuments = [[NSMutableArray alloc] initWithArray:recentlyOpenedDocumentForLibrary];
         }
-        
     }
     
     if (!_recentlyOpenedDocuments) {
@@ -439,7 +438,7 @@
 {
     _recentlyOpenedDocuments = [self loadRecentlyOpened];
     
-    if (_recentlyOpenedDocuments.count>0) {
+    if (_recentlyOpenedDocuments.count > 0) {
         if (![self wasDocumentRecentlyOpened:item.pid]) {
             [_recentlyOpenedDocuments addObject:item];
         }

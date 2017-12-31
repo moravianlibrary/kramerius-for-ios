@@ -55,7 +55,7 @@ protocol MZKDataLoadedDelegate : class {
 }
 
 class MZKDatasourceS: NSObject {
-    
+
     // queries for filtered searches
     // search results
     // search hints
@@ -162,9 +162,7 @@ class MZKDatasourceS: NSObject {
         let parameters: Parameters = ["fl":"PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime",
                                       "q":tmpQuery,
                                       "q1": query]
-        
-//        @"/search/api/v5.0/search/";
-//        components.query = [NSString stringWithFormat:@"fl=PID,dostupnost,keywords,dc.creator,dc.title,datum_str,fedora.model,img_full_mime&q=\"%@\"*+AND+%@&rows=30&start=0&defType=edismax&qf=dc.title^20.0+dc.creator^3+keywords^0.3", [searchString lowercaseString],visible?@"dostupnost:*public*+AND":@""];
+
         performRequest(headers: headers, parameters: parameters, requestType: .Search, activeFacet: "")
     }
     
@@ -209,7 +207,7 @@ class MZKDatasourceS: NSObject {
                 }
         }
         
-        print(postRequest.debugDescription)
+       // print(postRequest.debugDescription)
     }
     
     /**

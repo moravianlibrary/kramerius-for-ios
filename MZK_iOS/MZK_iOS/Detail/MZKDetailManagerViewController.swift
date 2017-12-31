@@ -167,17 +167,16 @@
         
         if (barsVisible) {
             //hide bars
-            self.topBarTopConstant.constant = -70
-            self.bottomBarBottomConstant.constant = -50
-            UIApplication.shared.setStatusBarHidden(true, with: UIStatusBarAnimation.slide)
+            self.topBarTopConstant.constant = -100
+            self.bottomBarBottomConstant.constant = -100
+             UIApplication.shared.setStatusBarHidden(true, with: UIStatusBarAnimation.slide)
         }
         else
         {
             //show bars
-            
             self.topBarTopConstant.constant = 0
             self.bottomBarBottomConstant.constant = 0
-            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+             UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
         }
         
         UIView.animate(withDuration: 0.5, animations: {

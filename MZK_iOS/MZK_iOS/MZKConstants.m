@@ -11,7 +11,7 @@
 @implementation MZKConstants
 
 int const kMinimalRecentSearchesVersion = 3;
-int const kMinimalRecentDocumentsVersion = 2;
+int const kMinimalRecentDocumentsVersion = 3;
 int const kMinimalLibrariesCacheVersionNumber = 1;
 int const kMinimalBookmarkVerion = 1;
 int const kLibrariesViewControllerIndex = 3;

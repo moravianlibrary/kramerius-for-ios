@@ -19,9 +19,11 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "MZKConstants.h"
 #import "AFNetworking.h"
+
 static void *AVPlayerDemoPlaybackViewControllerRateObservationContext = &AVPlayerDemoPlaybackViewControllerRateObservationContext;
 static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPlayerDemoPlaybackViewControllerStatusObservationContext;
 static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext;
+
 static MZKMusicViewController *sharedInstance;
 @interface MZKMusicViewController ()<DataLoadedDelegate, AVAudioPlayerDelegate, AVAudioSessionDelegate>
 {
@@ -67,9 +69,7 @@ static MZKMusicViewController *sharedInstance;
     dispatch_once(&once, ^{
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         sharedInstance = [storyboard instantiateViewControllerWithIdentifier:@"MZKMusicViewController"];
-        
         [sharedInstance view];
-        
     });
     return sharedInstance;
 }
@@ -114,12 +114,6 @@ static MZKMusicViewController *sharedInstance;
         [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     }
     self.title =  self.navigationController.tabBarItem.title;
-}
-
--(void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    NSLog(@"View will appear!");
-
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
@@ -302,8 +296,11 @@ static MZKMusicViewController *sharedInstance;
 
 -(void)playWithAVPlayer:(NSString *)pid {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/streams/MP3",delegate.defaultDatasourceItem.url, pid];
+    // first version of player used this URL
+    NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/streams/MP3", delegate.defaultDatasourceItem.url, pid];
+    // Android is using this way
+    NSString *pathAlternative = [NSString stringWithFormat:@"%@/search/audioProxy/%@.mp3", delegate.defaultDatasourceItem.url, pid];
+                                                      //http://kramerius.mzk.cz/search/audioProxy/" + pid + "/" + format;]
     
     if (_player) {
         // stop playback
@@ -316,7 +313,7 @@ static MZKMusicViewController *sharedInstance;
         [self prepareSlider];
     }
     
-    AVPlayer *player = [[AVPlayer alloc]initWithURL:[NSURL URLWithString:path]];
+    AVPlayer *player = [[AVPlayer alloc]initWithURL:[NSURL URLWithString:pathAlternative]];
     _player = player;
     _playerItem = _player.currentItem;
     
@@ -579,6 +576,13 @@ static MZKMusicViewController *sharedInstance;
     [super viewDidAppear:animated];
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     [self becomeFirstResponder];
+}
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@"View will appear!");
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
