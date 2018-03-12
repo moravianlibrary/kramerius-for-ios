@@ -224,19 +224,23 @@
 // error states
 -(void)downloadFailedWithError:(NSError *)error
 {
-    if([error.domain isEqualToString:NSURLErrorDomain])
+    __weak typeof(self) welf = self;
+
+    if(![[NSThread currentThread] isMainThread])
     {
-        // load from cache;
-        // inform user that there is problem with connection
-        _libraries = [self loadJSONFileFromLocal];
-        [self.tableView reloadData];
-    }
-    else
-    {
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf downloadFailedWithError:error];
+        });
+        return;
+    } else {
+        if([error.domain isEqualToString:NSURLErrorDomain])
+        {
+            // load from cache;
+            // inform user that there is problem with connection
+            _libraries = [self loadJSONFileFromLocal];
+            [self.tableView reloadData];
+        }
     }
 }
-
-
-
+    
 @end

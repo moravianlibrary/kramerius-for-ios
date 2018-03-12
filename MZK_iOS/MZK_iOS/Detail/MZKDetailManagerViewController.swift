@@ -8,10 +8,9 @@
  
  import UIKit
  import iOSTiledViewer
- import TSMessages
- 
- 
- class MZKDetailManagerViewController:UIViewController, DataLoadedDelegate, PageIndexDelegate, UIPageViewControllerDelegate {
+
+
+ class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, PageIndexDelegate, UIPageViewControllerDelegate {
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var tapGestureRecognizerView: UIView!
@@ -405,9 +404,10 @@
             
             if(error?.domain == "MZK")
             {
-                MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "Error title of message box"), subtitle: "Something went wrong".localizedWithComment(comment: "Generic kramerius error"), completion: {
-                    self.reloadData()
-                })
+                // TODO: messages
+//                MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "Error title of message box"), subtitle: "Something went wrong".localizedWithComment(comment: "Generic kramerius error"), completion: {
+//                    self.reloadData()
+//                })
             }
             else
             {

@@ -18,6 +18,7 @@
 #import <Google/Analytics.h>
 #import "MZKConstants.h"
 #import "MZK_iOS-Swift.h"
+@import RMessage;
 
 
 @interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, MZKDataLoadedDelegateObjc>
@@ -302,27 +303,29 @@
     
     if ([error.domain isEqualToString:NSURLErrorDomain]) {
         //NSError Domain Code
-        [self showTsErrorWithNSError:error andConfirmAction:^{
-            
-            [welf showLoadingIndicator];
-            [welf loadDataForController];
-        }];
-    }else if([error.domain isEqualToString:@"MZK"])
-    {
-        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
-            [welf showLoadingIndicator];
-            [welf loadDataForController];
-            
-        }];
-        
-    }
-    else
-    {
-        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error") confirmAction:^{
-            [welf showLoadingIndicator];
-            [welf loadDataForController];
-            
-        }];
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba")
+                                   subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error")
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 [welf showLoadingIndicator];
+                                 [welf loadDataForController];
+                             }];
+    } else if([error.domain isEqualToString:@"MZK"]) {
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba")
+                                   subtitle:[error.userInfo objectForKey:@"details"]
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 [welf showLoadingIndicator];
+                                 [welf loadDataForController];
+                             }];
+    } else {
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba")
+                                   subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error")
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 [welf showLoadingIndicator];
+                                 [welf loadDataForController];
+                             }];
     }
 }
 
@@ -459,9 +462,13 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
         
-    }
-    else
-    {
+    } else {
+//        [RMessage showNotificationWithTitle:@"Pozor"
+//                                   subtitle:@"Tento dokument není veřejně přístupný."
+//                                       type:RMessageTypeWarning
+//                             customTypeName:nil callback:^{
+//                             }];
+
         [self showErrorWithCancelActionAndTitle:@"Pozor" subtitle:@"Tento dokument není veřejně přístupný." withCompletion:nil];
     }
     

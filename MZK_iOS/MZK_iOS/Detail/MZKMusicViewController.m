@@ -20,6 +20,8 @@
 #import "MZKConstants.h"
 #import "AFNetworking.h"
 
+@import RMessage;
+
 static void *AVPlayerDemoPlaybackViewControllerRateObservationContext = &AVPlayerDemoPlaybackViewControllerRateObservationContext;
 static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPlayerDemoPlaybackViewControllerStatusObservationContext;
 static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext;
@@ -177,22 +179,26 @@ static MZKMusicViewController *sharedInstance;
     
     if ([error.domain isEqualToString:NSURLErrorDomain]) {
         //NSError Domain Code
-        [self showTsErrorWithNSError:error andConfirmAction:^{
-            [welf loadDataForController];
-        }];
-    }else if([error.domain isEqualToString:@"MZK"])
-    {
-        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
-            [welf loadDataForController];
-            
-        }];
-        
-    }
-    else
-    {
-        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error") confirmAction:^{
-            [welf loadDataForController];
-        }];
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error.networkConnectionLost", @"Obecna chyba")
+                                   subtitle:NSLocalizedString(@"mzk.error.checkYourInternetConnection", "generic error")
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 [welf loadDataForController];
+                             }];
+    }else if([error.domain isEqualToString:@"MZK"]) {
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba")
+                                   subtitle:[error.userInfo objectForKey:@"details"]
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 [welf loadDataForController];
+                             }];
+    } else {
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba")
+                                   subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error")
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 [welf loadDataForController];
+                             }];
     }
 }
 

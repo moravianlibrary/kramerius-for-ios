@@ -250,9 +250,10 @@ extension MZKPageDetailViewController : ITVScrollViewDelegate
           //  })
         } else {
             if error != nil {
+                // TODO: messages
             print(error?.description)
-            MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "When error occures"), subtitle: "mzk.error.checkYourInternetConnection".localizedWithComment(comment: ""), completion: {(_) -> Void in
-            })
+//            MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "When error occures"), subtitle: "mzk.error.checkYourInternetConnection".localizedWithComment(comment: ""), completion: {(_) -> Void in
+//            })
         }
         }
 

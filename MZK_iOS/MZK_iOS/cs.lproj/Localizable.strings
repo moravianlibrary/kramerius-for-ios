@@ -45,6 +45,7 @@
 "mzk.filters" = "Filtry";
 
 "mzk.error" = "Chyba";
+"mzk.warning" = "Pozor";
 "mzk.error.url.unknown" = "Neznámá chyba.";
 "mzk.error.requestCancelled" = "Zušeno";
 "mzk.error.connectionTimeout" = "Čas vypršel, zkontrolujte připojení k internetu";
@@ -57,6 +58,7 @@
 "mzk.error.coulNotFind" = "Nenalezeno";
 "mzk.error.noRecordsFound" = "Vašemu dotazu neodpovídá žádný titul";
 "mzk.error.kramerius" = "Získání dat se nezdařilo.";
+"mzk.error.changeSearchTerm" = "Zkuste změnit hledaný výraz.";
 
 "public" = "Veřejný";
 "private" = "Neveřejný";

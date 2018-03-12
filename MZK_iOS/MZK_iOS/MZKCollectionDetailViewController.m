@@ -18,6 +18,7 @@
 #import "MZK_iOS-Swift.h"
 
 @import SDWebImage;
+@import RMessage;
 
 @interface MZKCollectionDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, DataLoadedDelegate>
 {
@@ -103,22 +104,26 @@
     //[self hideLoadingIndicator];
     if ([error.domain isEqualToString:NSURLErrorDomain]) {
         //NSError Domain Code
-        [self showTsErrorWithNSError:error andConfirmAction:^{
-
-            [welf loadDataForController];
-        }];
-    }else if([error.domain isEqualToString:@"MZK"])
-    {
-        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
-            [welf loadDataForController];
-        }];
-        
-    }
-    else
-    {
-        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error") confirmAction:^{
-            [welf loadDataForController];
-        }];
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error.networkConnectionLost", @"Obecna chyba")
+                                   subtitle:NSLocalizedString(@"mzk.error.checkYourInternetConnection", "generic error")
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 [welf loadDataForController];
+                             }];
+    }else if([error.domain isEqualToString:@"MZK"]) {
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba")
+                                   subtitle:[error.userInfo objectForKey:@"details"]
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 [welf loadDataForController];
+                             }];
+    } else {
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba")
+                                   subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error")
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 [welf loadDataForController];
+                             }];
     }
 }
 
@@ -237,17 +242,13 @@
 
 - (IBAction)onBack:(id)sender {
     
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{ }];
 }
 
 #pragma mark - Datasource delegate methods
 -(void)collectionItemsLoaded:(NSArray *)collectionItems
 {
     // open colleciton detail from here
-    
-    
     if(![[NSThread currentThread] isMainThread])
     {
         __weak typeof(self) welf = self;
@@ -274,10 +275,7 @@
         
         [_datasource getCollectionItems:_collectionPID withRangeFrom:start numberOfItems:count];
     }
-    
-    
-    NSLog(@"Collection items count:%lu", (unsigned long)_loadedItems.count);
-
+   // NSLog(@"Collection items count:%lu", (unsigned long)_loadedItems.count);
 }
 
 #pragma mark - segues

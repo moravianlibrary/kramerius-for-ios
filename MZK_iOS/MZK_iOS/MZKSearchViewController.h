@@ -22,4 +22,6 @@
 @property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, assign) id<MZKSearchDelegateProtocol> delegate;
 
+-(void)searchCancelled;
+
 @end

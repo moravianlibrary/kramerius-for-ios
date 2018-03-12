@@ -16,6 +16,7 @@
 #import "MZKConstants.h"
 #import "MZKSearchTableViewCell.h"
 #import "MZK_iOS-Swift.h"
+@import RMessage;
 
 @interface MZKSearchViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DataLoadedDelegate>
 {
@@ -55,15 +56,12 @@
     self.searchResultsTableView.tableFooterView = [[UIView alloc] init];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
+-(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.searchResultsTableView setContentOffset:CGPointMake(0, -50) animated:false];
 }
 
-
--(void)onDatasourceChanged:(NSNotification *)notf
-{
+-(void)onDatasourceChanged:(NSNotification *)notf {
     
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
@@ -79,8 +77,7 @@
     _searchBar.text = @"";
 }
 
--(void)initGoogleAnalytics
-{
+-(void)initGoogleAnalytics {
     NSString *name = [NSString stringWithFormat:@"Pattern~%@", @"MZKSearchViewController"];
     
     // The UA-XXXXX-Y tracker ID is loaded automatically from the
@@ -99,8 +96,7 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)setStringItem:(NSString *)stringItem
-{
+-(void)setStringItem:(NSString *)stringItem {
     _stringItem = stringItem;
     
     //should load details for string item
@@ -109,11 +105,9 @@
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
     }
-
 }
 
--(void)downloadFailedWithError:(NSError *)error
-{
+-(void)downloadFailedWithError:(NSError *)error {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
@@ -122,36 +116,30 @@
         });
         return;
     }
-    NSLog(@"Download error:%@", [error description]);
-    
+
     if ([error.domain isEqualToString:NSURLErrorDomain]) {
         //NSError Domain Code
         if (error.code != -999) {
-            [self showTsErrorWithNSError:error andConfirmAction:^{
-                // [welf loadDataForController];
-            }];
-
+            //NSError Domain Code
+            [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error.networkConnectionLost", @"Obecna chyba")
+                                       subtitle:NSLocalizedString(@"mzk.error.checkYourInternetConnection", "generic error")
+                                           type:RMessageTypeWarning
+                                 customTypeName:nil callback:^{
+                                    
+                                 }];
         }
-        else
-        {
-            NSLog(@"Canceled request");
-        }
-
-    }else if([error.domain isEqualToString:@"MZK"])
-    {
-        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
-           // [welf loadDataForController];
-            
-        }];
+        else { NSLog(@"Canceled request"); }
+    } else if([error.domain isEqualToString:@"MZK"]) {
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.warning", @"Obecna chyba") subtitle:@"Některé části dokumentu nemusí být veřejně dostupné." type:RMessageTypeWarning customTypeName:nil callback:nil];
         
+    } else {
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba")
+                                   subtitle:NSLocalizedString(@"mzk.error.url.unknown", @"general error")
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                               //  [welf loadDataForController];
+                             }];
     }
-    else
-    {
-        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error") confirmAction:^{
-           // [welf loadDataForController];
-        }];
-    }
-
 
 }
 
@@ -240,14 +228,19 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [self.view endEditing:YES];
-    [searchBar resignFirstResponder];
-    searchBar.text = @"";
-    [self hideDimmingView];
+    [self searchCancelled];
     
     if ([self.delegate respondsToSelector:@selector(searchEnded)]) {
         [self.delegate searchEnded];
     }
+}
+
+-(void)searchCancelled {
+    [self.view endEditing:YES];
+    [_searchBar resignFirstResponder];
+    _searchBar.text = @"";
+    [self hideDimmingView];
+
 }
 
 #pragma mark - search table view delegate and datasource
@@ -334,7 +327,6 @@
         NSLog(@"0 HINTS results");
     }
     else{
-        
         _searchHints= results;
         _searchResultsTableView.hidden = NO;
         [_searchResultsTableView reloadData];
@@ -355,21 +347,20 @@
     [self hideDimmingView];
     
     if (results.count == 0) {
-        // display message
-        
-        [self showTSMessageWithTitle:NSLocalizedString(@"mzk.error.coulNotFind", @"No results found") subtitle:NSLocalizedString(@"mzk.error.noRecordsFound", @"No results found") type:TSMessageNotificationTypeError];
-    }
-    else
-    {
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error.noRecordsFound", @"Obecna chyba")
+                                   subtitle:NSLocalizedString(@"mzk.error.changeSearchTerm", @"general error")
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 //  [welf loadDataForController];
+                             }];
+    } else {
         _searchResults = results;
-        
         [self performSegueWithIdentifier:@"OpenGeneralList" sender:nil];
     }
     
     if ([self.delegate respondsToSelector:@selector(searchEnded)]) {
         [self.delegate searchEnded];
     }
-    
 }
 
 #pragma mark segues for general view controller
@@ -438,14 +429,12 @@
     return [filteredResults copy];
 }
 
--(void)saveRecentSearches
-{
+-(void)saveRecentSearches {
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_recentMutableSearches] forKey:kRecentSearches];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
--(NSMutableSet *)loadRecentSearches
-{
+-(NSMutableSet *)loadRecentSearches {
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     NSData *dataRepresentingSavedArray = [currentDefaults objectForKey:kRecentSearches];
     NSMutableSet *savedData;
@@ -462,21 +451,16 @@
     }
     
     return savedData;
-    
 }
 
 #pragma mark - search bar
--(void)removeSearchBarBorder
-{
+-(void)removeSearchBarBorder {
     if ([self.searchBar respondsToSelector:@selector(setBarTintColor:)]) {
         self.searchBar.barTintColor = [UIColor clearColor];
     }
 }
 
--(void)dealloc
-{
+-(void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
-
 @end

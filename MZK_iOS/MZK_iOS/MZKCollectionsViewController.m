@@ -13,6 +13,7 @@
 #import "MZKCollectionDetailViewController.h"
 #import "MZKConstants.h"
 #import <Google/Analytics.h>
+@import RMessage;
 
 @interface MZKCollectionsViewController ()<DataLoadedDelegate,UITableViewDataSource, UITableViewDelegate>
 {
@@ -111,25 +112,29 @@
         return;
     }
     
+    //[self hideLoadingIndicator];
     if ([error.domain isEqualToString:NSURLErrorDomain]) {
         //NSError Domain Code
-        [self showTsErrorWithNSError:error andConfirmAction:^{
-            [welf loadDataForController];
-        }];
-        
-    }
-    else if([error.domain isEqualToString:@"MZK"])
-    {
-        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
-            [welf loadDataForController];
-        }];
-      
-    }
-    else
-    {
-        [self showErrorWithTitle:@"Problém při stahování" subtitle:@"Přejete si opakovat akci?" confirmAction:^{
-            [welf loadDataForController];
-        }];
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error.networkConnectionLost", @"Obecna chyba")
+                                   subtitle:NSLocalizedString(@"mzk.error.checkYourInternetConnection", "generic error")
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 [welf loadDataForController];
+                             }];
+    }else if([error.domain isEqualToString:@"MZK"]) {
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba")
+                                   subtitle:[error.userInfo objectForKey:@"details"]
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 [welf loadDataForController];
+                             }];
+    } else {
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba")
+                                   subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error")
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+                                 [welf loadDataForController];
+                             }];
     }
     
 }

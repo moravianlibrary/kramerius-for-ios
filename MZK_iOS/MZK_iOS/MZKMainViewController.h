@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "MZKBaseViewController.h"
 
-@interface MZKMainViewController : MZKBaseViewController
+@interface MZKMainViewController: MZKBaseViewController
 
 @end

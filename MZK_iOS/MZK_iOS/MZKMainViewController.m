@@ -1,3 +1,5 @@
+
+
 //
 //  MZKMainViewController.m
 //  MZK_iOS
@@ -19,14 +21,14 @@
 #import "UINavigationBar+CustomHeight.h"
 #import "MZK_iOS-Swift.h"
 
+@import RMessage;
 @import SDWebImage;
 
 const int kHeaderHeight = 95;
 
-
 #import "MZKSearchViewController.h"
 
-@interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, MZKSearchDelegateProtocol> //, UIViewControllerPreviewingDelegate
+@interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, MZKSearchDelegateProtocol> 
 {
     MZKDatasource *datasource;
     NSArray *_recent;
@@ -102,6 +104,7 @@ const int kHeaderHeight = 95;
     self.navigationItem.titleView = _headerTitleLabel;
     _headerTitleLabel.adjustsFontSizeToFitWidth = YES;
 
+
     // segment controll
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.latest", @"") forSegmentAtIndex:0];
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.interesting", @"") forSegmentAtIndex:1];
@@ -117,6 +120,15 @@ const int kHeaderHeight = 95;
         [self initGoogleAnalytics];
         [self refreshTitle];
     }
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    // clean up search while leaving screen
+    [self searchEnded];
+    self.searchBar.text = @"";
+
+    [_searchViewController searchCancelled];
 }
 
 -(void)viewDidLayoutSubviews
@@ -180,7 +192,7 @@ const int kHeaderHeight = 95;
     [self showLoadingIndicator];
 }
 
--(void)reloadValues
+-(void)reloadValuesFinished
 {
     [refreshControl endRefreshing];
 }
@@ -205,6 +217,7 @@ const int kHeaderHeight = 95;
     dispatch_async(dispatch_get_main_queue(), ^{
         [wealf.collectionView reloadData];
         [wealf hideLoadingIndicator];
+        [wealf reloadValuesFinished];
         
     });
     
@@ -224,33 +237,22 @@ const int kHeaderHeight = 95;
         });
         return;
     }
-    
+    // if error is saying anything with connection
     if ([error.domain isEqualToString:NSURLErrorDomain]) {
-        //NSError Domain Code
-        [self showTsErrorWithNSError:error andConfirmAction:^{
-            
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:@"mzk.error.checkYourInternetConnection" type:RMessageTypeWarning customTypeName:nil callback:^{
             [welf refreshAllValues];
-            
         }];
-        
-    }
-    else if([error.domain isEqualToString:@"MZK"])
-    {
-        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:[error.userInfo objectForKey:@"details"]  confirmAction:^{
-             [welf refreshAllValues];
-            
-        }];
-        
-    }
-    else
-    {
-        [self showErrorWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba") subtitle:NSLocalizedString(@"mzk.error.kramerius", "generic error") confirmAction:^{
-             [welf refreshAllValues];
-            
+    } else {
+        [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba")
+                                   subtitle:NSLocalizedString(@"mzk.error.url.unknown", @"general error")
+                                       type:RMessageTypeWarning
+                             customTypeName:nil callback:^{
+            [welf refreshAllValues];
         }];
     }
-    [self hideLoadingIndicator];
-    
+
+    [welf hideLoadingIndicator];
+    [welf reloadValuesFinished];
 }
 
 
@@ -330,7 +332,7 @@ const int kHeaderHeight = 95;
         }
         else
         {
-            [self showErrorWithCancelActionAndTitle:@"Pozor" subtitle:@"Tento dokument není veřejně dostupný"];
+            [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.warning", @"Obecna chyba") subtitle:@"Některé části dokumentu nemusí být veřejně dostupné." type:RMessageTypeWarning customTypeName:nil callback:nil];
         }
     }
     else
@@ -339,7 +341,6 @@ const int kHeaderHeight = 95;
     }
     
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
-    
 }
 
 - (void)collectionView:(UICollectionView *)colView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -353,9 +354,7 @@ const int kHeaderHeight = 95;
 }
 
 #pragma mark - Collection View Flow Layout Delegate
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     float desiredWidth = [self calculateCellWidthFromScreenWidth:collectionView.frame.size.width];
     
     CGSize sizeOfCell = CGSizeMake(desiredWidth, 140);
@@ -363,8 +362,7 @@ const int kHeaderHeight = 95;
     return sizeOfCell;
 }
 
--(float)calculateCellWidthFromScreenWidth:(float)width
-{
+-(float)calculateCellWidthFromScreenWidth:(float)width {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     int numberOfItemsPerRow = 0;
     int kMinCellWidth = 304;
@@ -411,7 +409,6 @@ const int kHeaderHeight = 95;
     return nil;
 }
 
-
 #pragma mark - segues
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -436,11 +433,11 @@ const int kHeaderHeight = 95;
         [vc setParentPID:((MZKItemResource *)sender).pid];
         vc.isFirst = YES;
     }
+
+    [_searchViewController searchCancelled];
 }
 
--(void)prepareDataForSegue:(MZKItemResource *)item
-{
-    
+-(void)prepareDataForSegue:(MZKItemResource *)item {
     switch (item.model) {
         case Map :
         case Monograph:
@@ -489,11 +486,13 @@ const int kHeaderHeight = 95;
 }
 
 #pragma mark - segment controll
-- (IBAction)segmentControllValueChanged:(UISegmentedControl *)sender
-{
+- (IBAction)segmentControllValueChanged:(UISegmentedControl *)sender {
+    [_searchViewController searchCancelled];
+
     switch (_segmentControll.selectedSegmentIndex) {
         case 0:
             [_collectionView reloadData];
+
             break;
             
         case 1:
@@ -505,22 +504,18 @@ const int kHeaderHeight = 95;
     }
 }
 
--(void)showLoadingIndicator
-{
+-(void)showLoadingIndicator {
     self.activityIndicatorContentView.hidden = self.activityIndicator.hidden = NO;
     [self.view bringSubviewToFront:self.activityIndicatorContentView];
     [self.activityIndicator startAnimating];
-    
 }
 
--(void)hideLoadingIndicator
-{
+-(void)hideLoadingIndicator {
     [self.activityIndicator stopAnimating];
     self.activityIndicatorContentView.hidden = self.activityIndicator.hidden = YES;
 }
 
--(void) detailForItemLoaded:(MZKItemResource *)item
-{
+-(void) detailForItemLoaded:(MZKItemResource *)item {
     if(![[NSThread currentThread] isMainThread])
     {
         __weak typeof(self) welf = self;
@@ -534,8 +529,7 @@ const int kHeaderHeight = 95;
 }
 
 #pragma mark - Search
--(void)searchStarted
-{
+-(void)searchStarted {
     // shows dimming view and bring the focus to the search bar
     [self.view bringSubviewToFront:self.searchViewContainer];
     
@@ -551,16 +545,14 @@ const int kHeaderHeight = 95;
     [_collectionView setContentOffset:CGPointMake(_collectionView.contentOffset.x, offsetY - contentInsetY - sectionInsetY) animated:YES];
 }
 
--(void)searchEnded
-{
+-(void)searchEnded {
     // search ended, enable scrolling and hide dimming view
     [self.view sendSubviewToBack:self.searchViewContainer];
     
     self.collectionView.scrollEnabled = YES;
 }
 
--(void)setupSearchHeader
-{
+-(void)setupSearchHeader {
     if (!_searchViewController) {
         
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -591,30 +583,21 @@ const int kHeaderHeight = 95;
 }
 
 #pragma mark - rotation handling
--(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
-    // rotation handling
-    // best call super just in case
-    
+-(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
     // will execute before rotation
     [self updateCollectionViewLayoutWithSize:size];
     
     [coordinator animateAlongsideTransition:^(id  _Nonnull context) {
-        
-        // will execute during rotation
-      //  _navigationItemContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, kHeaderHeight);
-        
+
     } completion:^(id  _Nonnull context) {
         
         // will execute after rotation
     }];
 }
 
--(void)dealloc
-{
+-(void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
 @end

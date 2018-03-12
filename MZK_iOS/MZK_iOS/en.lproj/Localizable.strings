@@ -30,6 +30,7 @@
 "mzk.filters" = "Filters";
 
 "mzk.error" = "Error";
+"mzk.warning" = "Warning";
 "mzk.error.url.unknown" = "Unknown error occured";
 "mzk.error.requestCancelled" = "Request canceled";
 "mzk.error.connectionTimeout" = "Connection timeout";
@@ -44,6 +45,7 @@
 
 "mzk.error.coulNotFind" = "Could not find";
 "mzk.error.noRecordsFound" = "No search results found";
+"mzk.error.changeSearchTerm" = "Try to change search term";
 
 "public" = "Public";
 "private" = "Private";
