@@ -421,7 +421,7 @@
         }
         
         NSArray *recentlyOpenedDocumentForLibrary = [savedData objectForKey:self.defaultDatasourceItem.code];
-        
+        // TODO: Je to uplne rozbity 😱💩
         if (recentlyOpenedDocumentForLibrary) {
             _recentlyOpenedDocuments = [[NSMutableArray alloc] initWithArray:recentlyOpenedDocumentForLibrary];
         }

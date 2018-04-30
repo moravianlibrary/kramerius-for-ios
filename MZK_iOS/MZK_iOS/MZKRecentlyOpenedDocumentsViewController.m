@@ -42,6 +42,7 @@
 
 -(void)onDatasourceChanged:(NSNotification *)notf
 {
+    NSLog(@"Datasource changes, clear recent");
     _recentlyOpened = nil;
     [_collectionView reloadData];
 
@@ -50,11 +51,30 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
+    __weak typeof(self) welf = self;
+
+    if(![[NSThread currentThread] isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [welf refresh];
+
+        });
+        return;
+    }
+
+    [self refresh];
+
+}
+
+-(void) refresh {
+
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     self.title = self.navigationController.tabBarItem.title;
-    
+
     _recentlyOpened = delegate.loadRecentlyOpened;
     [_collectionView reloadData];
+
 }
 
 - (void)didReceiveMemoryWarning {
