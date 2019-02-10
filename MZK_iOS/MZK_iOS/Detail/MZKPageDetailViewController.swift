@@ -134,6 +134,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     }
     
     func didTap(event: UITouch) {
+        print("DidTap - UITouch")
         let location = event.location(in: self.iTVReaderView)
         let distanceLeft = self.iTVReaderView.frame.width / 5
         let distanceRight = self.iTVReaderView.frame.width - distanceLeft
@@ -153,40 +154,41 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     }
     
     func didTap(type: ITVGestureEventType, location: CGPoint) {
-        if type == ITVGestureEventType.singleTap {
-            
-            print("Location: ", location)
-            let approximatedX = location.x
-            //            if(self.zoomifyIIIFReaderScrollView.zoomScale > 2)
-            //            {
-            //                approximatedX = approximatedX / (zoomifyIIIFReaderScrollView.zoomScale/2)
-            //            }
-            
-            print( "width: ", self.view.bounds.width)
-            
-            let leftBandWidth  = self.view.bounds.width / 4
-            let rightBandOffset = self.view.bounds.width - leftBandWidth
-            
-            print("Left: ", leftBandWidth, "Right: ", rightBandOffset, "ApproximatedX: ", approximatedX)
-            
-          //  if self.iTVReaderView.zoomScale > 2 {
-                
-                if approximatedX <= leftBandWidth {
-                    print ("left, previous page")
-                    //previous page
-                    userActivityDelegate?.previousPage()
-                } else if approximatedX >= rightBandOffset {
-                    print("right, next page")
-                    // next page
-                    userActivityDelegate?.nextPage()
-                }
-                else
-                {
-                    print ("single tap, middle = show/hide bars")
-                    userActivityDelegate?.userDidSingleTapped()
-                }
-           // }
-        }
+        print("DidTap - ITVGestureEventType, Location: \(location)")
+//        if type == ITVGestureEventType.singleTap {
+//            
+//            print("Location: ", location)
+//            let approximatedX = location.x
+//            //            if(self.zoomifyIIIFReaderScrollView.zoomScale > 2)
+//            //            {
+//            //                approximatedX = approximatedX / (zoomifyIIIFReaderScrollView.zoomScale/2)
+//            //            }
+//            
+//            print( "width: ", self.view.bounds.width)
+//            
+//            let leftBandWidth  = self.view.bounds.width / 4
+//            let rightBandOffset = self.view.bounds.width - leftBandWidth
+//            
+//            print("Left: ", leftBandWidth, "Right: ", rightBandOffset, "ApproximatedX: ", approximatedX)
+//            
+//          //  if self.iTVReaderView.zoomScale > 2 {
+//                
+//                if approximatedX <= leftBandWidth {
+//                    print ("left, previous page")
+//                    //previous page
+//                    userActivityDelegate?.previousPage()
+//                } else if approximatedX >= rightBandOffset {
+//                    print("right, next page")
+//                    // next page
+//                    userActivityDelegate?.nextPage()
+//                }
+//                else
+//                {
+//                    print ("single tap, middle = show/hide bars")
+//                    userActivityDelegate?.userDidSingleTapped()
+//                }
+//           // }
+//        }
         
     }
 }
@@ -259,11 +261,9 @@ extension MZKPageDetailViewController : ITVScrollViewDelegate
 
     }
 
-    func errorDidOccur(error: NSError)
-    {
+    func errorDidOccur(error: NSError) {
         DispatchQueue.main.async (execute: { () -> Void in
-            MZKSwiftErrorMessageHandler().showTSMessageTest(viewController: self, error: error as NSError, completion: {(_) -> Void in
-            })
+            MZKSwiftErrorMessageHandler().showTSMessageTest(viewController: self, error: error as NSError, completion: nil)
         })
     }
 }

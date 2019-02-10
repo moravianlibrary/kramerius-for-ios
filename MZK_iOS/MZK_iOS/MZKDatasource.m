@@ -32,8 +32,7 @@ enum _downloadOperation{
 };
 typedef enum _downloadOperation downloadOperation;
 
-@implementation MZKDatasource
-{
+@implementation MZKDatasource {
     NSURLRequest *_lastRequest;
     NSURL *_lastURL;
     downloadOperation lastOperation;
@@ -41,8 +40,7 @@ typedef enum _downloadOperation downloadOperation;
     AFHTTPRequestOperation *currentOperation;
 }
 
--(id)init
-{
+-(id)init {
     self = [super init];
     if (self) {
         [self checkAndSetBaseUrl];
@@ -54,29 +52,22 @@ typedef enum _downloadOperation downloadOperation;
     return self;
 }
 
--(id)initWithoutBaseURL
-{
+-(id)initWithoutBaseURL {
     self = [super init];
-    if (self) {
-        
-    }
-    
+
     downloadQ = [NSOperationQueue new];
     downloadQ.name = @"download";
     
     return self;
 }
 
--(void)resendLastRequest
-{
+-(void)resendLastRequest {
     if (_lastURL && lastOperation) {
         [self downloadDataFromURL:_lastURL withOperation:lastOperation];
     }
 }
 
-
--(void)getInfoAboutCollections
-{
+-(void)getInfoAboutCollections {
     [self checkAndSetBaseUrl];
     
     NSString *itemDataStr =@"/search/api/v5.0/vc";
@@ -87,8 +78,7 @@ typedef enum _downloadOperation downloadOperation;
 }
 
 
--(void)getChildrenForItem:(NSString *)pid
-{
+-(void)getChildrenForItem:(NSString *)pid {
     NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/item/%@/children", pid];
     [self checkAndSetBaseUrl];
     
@@ -98,8 +88,7 @@ typedef enum _downloadOperation downloadOperation;
     [self downloadDataFromURL:url withOperation:downloadChildren];
 }
 
--(void)getItem:(NSString *)pid
-{
+-(void)getItem:(NSString *)pid {
     NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/item/%@", pid];
     [self checkAndSetBaseUrl];
     
@@ -110,20 +99,30 @@ typedef enum _downloadOperation downloadOperation;
     
 }
 
--(void)getCollectionItems:(NSString *)collectionPID withNumberOfResults:(NSInteger)numberOfResults
-{
+-(void)getSiblingsForItem:(NSString *)pid {
+    ///search/api/v5.0/item/<pid>/siblings
+    NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/item/%@/siblings", pid];
+    [self checkAndSetBaseUrl];
+
+    NSString *finalString = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
+    NSURL *url = [[NSURL alloc] initWithString:finalString];
+
+    [self downloadDataFromURL:url withOperation:downloadSiblings];
+}
+
+-(void)getCollectionItems:(NSString *)collectionPID withNumberOfResults:(NSInteger)numberOfResults {
     if (numberOfResults != 0) {
         NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/search?q=collection:\"%@\" AND dostupnost:*public* AND (fedora.model:monograph OR fedora.model:periodical OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:map OR fedora.model:sheetmusic OR fedora.model:soundrecording)&rows=%ld", collectionPID, (long)numberOfResults];
         
         [self checkAndSetBaseUrl];
         NSString *finalStringURL = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
-        NSString *finalString  = [finalStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [[NSURL alloc] initWithString:finalString];
+       
+        NSCharacterSet *set = [NSCharacterSet URLHostAllowedCharacterSet];
+        NSString *escapedStringURL = [finalStringURL stringByAddingPercentEncodingWithAllowedCharacters:set];
+        NSURL *url = [[NSURL alloc] initWithString:escapedStringURL];
         
         [self downloadDataFromURL:url withOperation:downloadCollectionItems];
-    }
-    else
-    {
+    } else {
         [self getCollectionItems:collectionPID];
     }
 }
@@ -135,35 +134,34 @@ typedef enum _downloadOperation downloadOperation;
     [self checkAndSetBaseUrl];
     
     NSString *finalStringURL = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
-    NSString *finalString  = [finalStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    NSCharacterSet *set = [NSCharacterSet URLHostAllowedCharacterSet];
+    NSString *escapedStringURL = [finalStringURL stringByAddingPercentEncodingWithAllowedCharacters:set];
+    NSURL *url = [[NSURL alloc] initWithString:escapedStringURL];
     
     [self downloadDataFromURL:url withOperation:downloadCollectionItems];
 }
 
--(void)getCollectionItems:(NSString *)collectionPID withRangeFrom:(NSInteger)from numberOfItems:(NSInteger)numberOfItems
-{
+-(void)getCollectionItems:(NSString *)collectionPID withRangeFrom:(NSInteger)from numberOfItems:(NSInteger)numberOfItems {
     NSString *itemDataStr =[NSString stringWithFormat:@"/search/api/v5.0/search?q=collection:\"%@\" AND dostupnost:*public* AND (fedora.model:monograph OR fedora.model:periodical OR fedora.model:graphic OR fedora.model:archive OR fedora.model:manuscript OR fedora.model:map OR fedora.model:sheetmusic OR fedora.model:soundrecording)&start=%ld&rows=%ld", collectionPID, from, numberOfItems];
     
     [self checkAndSetBaseUrl];
     NSString *finalStringURL = [NSString stringWithFormat:@"%@%@", self.baseStringURL, itemDataStr];
-    NSString *finalString  = [finalStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [[NSURL alloc] initWithString:finalString];
+    NSCharacterSet *set = [NSCharacterSet URLHostAllowedCharacterSet];
+    NSString *escapedStringURL = [finalStringURL stringByAddingPercentEncodingWithAllowedCharacters:set];
+    NSURL *url = [[NSURL alloc] initWithString:escapedStringURL];
     
     [self downloadDataFromURL:url withOperation:downloadCollectionItems];
 }
 
 
--(void)getImagePropertiesForPageItem:(NSString *)pid
-{
+-(void)getImagePropertiesForPageItem:(NSString *)pid {
     NSString *finalString = [NSString stringWithFormat:@"http://kramerius.mzk.cz/search/zoomify/%@/ImageProperties.xml", pid];
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
     [self downloadDataFromURL:url withOperation:downloadImageProperties];
 }
 
--(void)getMostRecent
-{
+-(void)getMostRecent {
     //  BOOL showOnlyPublic = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettingsShowOnlyPublicDocuments] boolValue];
     //according to this: https://github.com/moravianlibrary/kramerius-for-ios/issues/110
     // show only public in most recent document ignoring settings
@@ -178,8 +176,7 @@ typedef enum _downloadOperation downloadOperation;
     [self downloadDataFromURL:url withOperation:downloadMostRecent];
 }
 
--(void)getRecommended
-{
+-(void)getRecommended {
     BOOL showOnlyPublic = [[[NSUserDefaults standardUserDefaults] objectForKey:kSettingsShowOnlyPublicDocuments] boolValue];
     NSString *desired = showOnlyPublic ? @"/search/api/v5.0/feed/custom?policy=public" : @"/search/api/v5.0/feed/custom";
     
@@ -189,16 +186,14 @@ typedef enum _downloadOperation downloadOperation;
     NSURL *url = [[NSURL alloc] initWithString:finalString];
     
     [self downloadDataFromURL:url withOperation:downloadRecommended];
-    
 }
 
--(void)getSearchResultsAsHints:(NSString *)searchString
-{
+-(void)getSearchResultsAsHints:(NSString *)searchString {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *recent = [defaults objectForKey:kSettingsShowOnlyPublicDocuments];
     BOOL visible = NO;
     if (recent) {
-        visible= [recent boolValue];
+        visible = [recent boolValue];
     }
     
     [self checkAndSetBaseUrl];
@@ -215,8 +210,7 @@ typedef enum _downloadOperation downloadOperation;
     [self downloadDataFromURL:url withOperation:searchHints];
 }
 
--(void)getSearchResults:(NSString *)searchString
-{
+-(void)getSearchResults:(NSString *)searchString {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *recent = [defaults objectForKey:kSettingsShowOnlyPublicDocuments];
     BOOL visible = NO;
@@ -238,8 +232,7 @@ typedef enum _downloadOperation downloadOperation;
     [self downloadDataFromURL:url withOperation:search];
 }
 
--(void)getLibraries
-{
+-(void)getLibraries {
     // dedicated url for getting libraries
     // response as JSON
     // implement caching mechanism (when app is offline show the cached list)
@@ -252,8 +245,7 @@ typedef enum _downloadOperation downloadOperation;
 }
 
 #pragma mark - privateMethods
--(void) checkAndSetBaseUrl
-{
+-(void) checkAndSetBaseUrl {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MZKLibraryItem *item = appDelegate.getDatasourceItem;
     if (item) {
@@ -261,19 +253,16 @@ typedef enum _downloadOperation downloadOperation;
     }
 }
 
--(void)downloadFailedWithError:(NSError *)error
-{
+-(void)downloadFailedWithError:(NSError *)error {
     NSLog(@"Download Failed with error");
     [self hideLoadingIndicator];
     
     if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
         [self.delegate downloadFailedWithError:error];
     }
-    
 }
 
--(NSArray *)parseJSONData:(NSData*)data error:(NSError *)error withOperation:(downloadOperation)operation
-{
+-(NSArray *)parseJSONData:(NSData*)data error:(NSError *)error withOperation:(downloadOperation)operation {
     NSString *dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
     NSData *theData = [dataStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -303,10 +292,7 @@ typedef enum _downloadOperation downloadOperation;
                 }
             }
         }
-    }
-    else
-    {
-        
+    } else {
         NSArray *tmpObjects = [parsedObject objectForKey:@"data"];
         
         NSMutableArray *results = [NSMutableArray new];
@@ -356,12 +342,10 @@ typedef enum _downloadOperation downloadOperation;
         
         return;
     }
-    
-    
+
     localError = nil;
     
     if ([self checkResponseForKrameriusError:parsedObject andError:&localError]) {
-        
         if (localError) {
             if([localError.domain isEqualToString:@"MZK"])
             {
@@ -373,10 +357,7 @@ typedef enum _downloadOperation downloadOperation;
                 }
             }
         }
-    }
-    else
-    {
-        
+    } else {
         MZKItemResource *resItem = [self parseObjectFromDictionary:parsedObject];
         if ([self.delegate respondsToSelector:@selector(detailForItemLoaded:)]) {
             [self.delegate detailForItemLoaded:resItem];
@@ -384,8 +365,7 @@ typedef enum _downloadOperation downloadOperation;
     }
 }
 
--(NSArray *)parseJSONDataForChildren:(NSData*)data error:(NSError *)error
-{
+-(NSArray *)parseJSONDataForChildren:(NSData*)data error:(NSError *)error {
     NSError *localError = nil;
     NSArray *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
     
@@ -416,23 +396,18 @@ typedef enum _downloadOperation downloadOperation;
                 
                 if ([[objArray objectAtIndex:0] isKindOfClass:[NSString class]]) {
                     pageTitle = [objArray objectAtIndex:0];
-                }
-                else if ([[objArray objectAtIndex:0] isKindOfClass:[NSNumber class]])
-                {
+                } else if ([[objArray objectAtIndex:0] isKindOfClass:[NSNumber class]]) {
                     NSNumber *number = [objArray objectAtIndex:0];
                     
                     pageTitle = [number stringValue];
                 }
-                
-            }
-            else if ([[currentObject objectForKey:@"title"] isKindOfClass:[NSString class]])
-            {
+            } else if ([[currentObject objectForKey:@"title"] isKindOfClass:[NSString class]]) {
                 pageTitle = [currentObject objectForKey:@"title"];
             }
             
             page.title = pageTitle;
             
-            if([currentObject objectForKey:@"details"]){
+            if ([currentObject objectForKey:@"details"]) {
                 page.type = [[currentObject objectForKey:@"details"] objectForKey:@"type"];
                 
                 if ([[[currentObject objectForKey:@"details"] objectForKey:@"year"] isKindOfClass:[NSString class]]) {
@@ -455,19 +430,15 @@ typedef enum _downloadOperation downloadOperation;
                         }
                     }
                 }
-                
-                
             }
             
             page.datanode= [[currentObject objectForKey:@"datanode"] boolValue];
-            
-            
+
             [pages addObject:page];
         }
     }
     
-    if(pages.count >0)
-    {
+    if (pages.count > 0 ) {
         if ([self.delegate respondsToSelector:@selector(pagesLoadedForItem:)]) {
             [self.delegate pagesLoadedForItem:pages];
         }
@@ -475,13 +446,10 @@ typedef enum _downloadOperation downloadOperation;
         {
             [self.delegate childrenForItemLoaded:pages];
         }
-    }
-    else
-    {
+    } else {
         if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
             [self.delegate downloadFailedWithError:[NSError errorWithDomain:@"Nothing downloaded" code:-10000 userInfo:[NSMutableDictionary new]]];
         }
-        
     }
     
     [self hideLoadingIndicator];
@@ -489,8 +457,7 @@ typedef enum _downloadOperation downloadOperation;
     return pages;
 }
 
--(NSArray *)parseJSONDataForCollections:(NSData*)data error:(NSError *)error
-{
+-(NSArray *)parseJSONDataForCollections:(NSData*)data error:(NSError *)error {
     NSError *localError = nil;
     NSArray *parsedObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
     
@@ -502,7 +469,6 @@ typedef enum _downloadOperation downloadOperation;
     NSMutableArray *results = [[NSMutableArray alloc] init];
     
     for (int i = 0; i<parsedObject.count; i++) {
-        
         MZKCollectionItem *cItem = [MZKCollectionItem new];
         
         cItem.pid = [[parsedObject objectAtIndex:i] objectForKey:@"pid"];
@@ -523,8 +489,7 @@ typedef enum _downloadOperation downloadOperation;
     return results;
 }
 
--(NSArray *)parseJSONDataForCollectionItems:(NSData*)data error:(NSError *)error
-{
+-(NSArray *)parseJSONDataForCollectionItems:(NSData*)data error:(NSError *)error {
     NSError *localError = nil;
     NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
     
@@ -534,9 +499,7 @@ typedef enum _downloadOperation downloadOperation;
     }
     
     localError = nil;
-    
     if ([self checkResponseForKrameriusError:response andError:&localError]) {
-        
         if (localError) {
             if([localError.domain isEqualToString:@"MZK"])
             {
@@ -548,14 +511,7 @@ typedef enum _downloadOperation downloadOperation;
                 }
             }
         }
-    }
-    else
-    {
-        
-        
-        
-        
-        
+    } else {
         NSMutableArray *results = [[NSMutableArray alloc] init];
         
         NSInteger numberOfResults =[[[response objectForKey:@"response"] objectForKey:@"numFound"] integerValue];
@@ -584,9 +540,7 @@ typedef enum _downloadOperation downloadOperation;
                     [authors appendString:name];
                     
                 }
-            }
-            else
-            {
+            } else {
                 authors = [itemDict objectForKey:@"dc.creator"];
             }
             cItem.authors = authors;
@@ -614,8 +568,7 @@ typedef enum _downloadOperation downloadOperation;
 
 
 // AF Networking parsing method!
--(NSArray *)parseJSONDataForHints:(NSDictionary*)response error:(NSError *)error
-{
+-(NSArray *)parseJSONDataForHints:(NSDictionary*)response error:(NSError *)error {
     // paging not used for hints!
     if ([response objectForKey:@"message"] && [response objectForKey:@"status"]) {
         NSLog(@"Message: %@ and Status:%@", [response objectForKey:@"message"],[response objectForKey:@"status"] );
@@ -647,8 +600,7 @@ typedef enum _downloadOperation downloadOperation;
     return [resultsArray copy];
 }
 
--(NSArray *)parseJSONdataForSearchHints:(NSData *)data error:(NSError *)error
-{
+-(NSArray *)parseJSONdataForSearchHints:(NSData *)data error:(NSError *)error {
     NSError *localError = nil;
     NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
     
@@ -690,8 +642,7 @@ typedef enum _downloadOperation downloadOperation;
     return [resultsArray copy];
 }
 
--(NSArray *)parseJSONdataForSearch:(NSData *)data error:(NSError *)error
-{
+-(NSArray *)parseJSONdataForSearch:(NSData *)data error:(NSError *)error {
     NSError *localError = nil;
     NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
     
@@ -734,8 +685,7 @@ typedef enum _downloadOperation downloadOperation;
     return [results copy];
 }
 
--(void)parseJSONDataForLibraries:(NSData *)data error:(NSError *)error
-{
+-(void)parseJSONDataForLibraries:(NSData *)data error:(NSError *)error {
     NSError *localError = nil;
     NSArray *result = [NSJSONSerialization JSONObjectWithData:data
                                                       options:kNilOptions error:&error];
@@ -769,8 +719,7 @@ typedef enum _downloadOperation downloadOperation;
     
 }
 
--(MZKItemResource *)parseObjectFromDictionary:(NSDictionary *)rawData
-{
+-(MZKItemResource *)parseObjectFromDictionary:(NSDictionary *)rawData {
     MZKItemResource *newItem = [MZKItemResource new];
     
     newItem.pid = [rawData objectForKey:@"pid"];
@@ -829,9 +778,51 @@ typedef enum _downloadOperation downloadOperation;
     return newItem;
 }
 
+-(NSArray *)parseJSONDataForSiblings:(NSData*)data error:(NSError *)error {
+    NSError *localError = nil;
+    NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data options:0 error:&localError];
 
--(CGRect)parseImagePropertiesWithData:(NSData *)data error:(NSError *)error
-{
+    if (localError != nil) {
+        error = localError;
+        return nil;
+    }
+
+    localError = nil;
+
+    if ([self checkResponseForKrameriusError:response andError:&localError]) {
+
+        if (localError) {
+            if([localError.domain isEqualToString:@"MZK"])
+            {
+                if ([self.delegate respondsToSelector:@selector(downloadFailedWithError:)]) {
+                    NSError *err = [NSError errorWithDomain:@"MZK" code:404 userInfo:@{
+                                                                                       NSLocalizedDescriptionKey:NSLocalizedString(@"mzk.error.kramerius", @"generic kramerius error")
+                                                                                       }];
+                    [self.delegate downloadFailedWithError:err];
+                }
+            }
+        }
+    } else {
+
+        NSArray *tmpObjects = [response objectForKey:@"siblings"];
+
+        NSMutableArray *results = [NSMutableArray new];
+
+        for (int i =0; i<tmpObjects.count; i++) {
+
+            NSDictionary *tmpDataObject = [tmpObjects objectAtIndex:i];
+            if (![[tmpDataObject allKeys] containsObject:@"exception"]) {
+                [results addObject:[self parseObjectFromDictionary:tmpDataObject]];
+            }
+        }
+
+        return results;
+    }
+
+    return nil;
+}
+
+-(CGRect)parseImagePropertiesWithData:(NSData *)data error:(NSError *)error {
     NSDictionary *dict = [XMLReader dictionaryForXMLData:data
                                                  options:XMLReaderOptionsProcessNamespaces
                                                    error:&error];
@@ -844,9 +835,7 @@ typedef enum _downloadOperation downloadOperation;
     
 }
 
--(void)downloadDataFromURL:(NSURL *)strURL withOperation:(downloadOperation)operation
-{
-    
+-(void)downloadDataFromURL:(NSURL *)strURL withOperation:(downloadOperation)operation {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
     
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:strURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
@@ -863,7 +852,6 @@ typedef enum _downloadOperation downloadOperation;
         return;
     }
     __weak typeof(self) wealf = self;
-    
     [NSURLConnection sendAsynchronousRequest:[req copy] queue:downloadQ completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)  {
         
         if (error) {
@@ -915,18 +903,20 @@ typedef enum _downloadOperation downloadOperation;
                     
                 case libraries:
                     [wealf parseJSONDataForLibraries:data error:error];
-                    
+                    break;
+
+                case downloadSiblings:
+                    [wealf parseJSONDataForSiblings:data error:error];
+                    break;
+
                 default:
                     break;
             }
         }
     }];
-    
-    
 }
 
--(BOOL)checkResponseForKrameriusError:(NSDictionary *)responseDictionary andError:(NSError **)error
-{
+-(BOOL)checkResponseForKrameriusError:(NSDictionary *)responseDictionary andError:(NSError **)error {
     if ([responseDictionary objectForKey:@"status"]) {
         NSNumber *errorNumber = [responseDictionary objectForKey:@"status"];
         NSString *errorDescription = [responseDictionary objectForKey:@"message"];
@@ -942,20 +932,17 @@ typedef enum _downloadOperation downloadOperation;
             return YES;
         }
     }
-    
     return NO;
-    
 }
 
--(NSString*) encodeToPercentEscapeString:(NSString *)string  {
+-(NSString*) encodeToPercentEscapeString:(NSString *)string {
     return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
                                                                                  (CFStringRef) string,
                                                                                  NULL,
                                                                                  (CFStringRef) @"!*'();:@&=+$,/?%#[]",
                                                                                  kCFStringEncodingUTF8)); }
 #pragma mark - AFNetworking
--(void)downloadSearchHintsWithRequest:(NSMutableURLRequest *)request withOperation:(downloadOperation)operation
-{
+-(void)downloadSearchHintsWithRequest:(NSMutableURLRequest *)request withOperation:(downloadOperation)operation {
     __weak typeof(self) wealf = self;
     
     if (currentOperation) {
@@ -975,22 +962,15 @@ typedef enum _downloadOperation downloadOperation;
             [wealf.delegate downloadFailedWithError:error];
         }
     }];
-    
     // 5
     [currentOperation start];
-    
 }
 
 // loading indicator
-
 -(void)hideLoadingIndicator {
-    __weak typeof(self) welf = self;
-    if(![[NSThread currentThread] isMainThread])
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
-        });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+    });
 }
 
 @end

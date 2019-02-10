@@ -36,13 +36,10 @@
 @property (nonatomic, strong) NSNumber *indexLastOpenedPage;
 @property (nonatomic, strong) NSString *fallbackModel;
 
-
 -(NSString *)getAuthorsStringRepresentation;
 -(NSString *)getLocalizedItemType;
-
 -(void)setModel:(MZKModel)model;
-
 -(void)encodeWithCoder:(NSCoder *)aCoder;
-- (id)initWithCoder:(NSCoder *)coder;
+-(id)initWithCoder:(NSCoder *)coder;
 
 @end

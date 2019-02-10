@@ -68,12 +68,10 @@
         let shouldDimmDisplay = UserDefaults.standard.object(forKey: kShouldDimmDisplay) as! NSNumber
         
         let shouldDimm = shouldDimmDisplay.boolValue
-        
-        //print("Should DIMM:\(shouldDimm)")
+
         UIApplication.shared.isIdleTimerDisabled = shouldDimm
         
-        self.enableUserInteraction(enable: false)
-        
+        enableUserInteraction(enable: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,7 +98,7 @@
                 destinationVC.item = self.item
                 childVC = destinationVC
                 childVC.pageIndexDelegate = self
-                self.addChildViewController(destinationVC)
+                self.addChild(destinationVC)
             }
         }
     }
@@ -215,13 +213,10 @@
     @IBAction func onShowBookmarks(_ sender: Any) {
         self.bookmarkTableView.reloadData()
         
-        if (bookmarkContainerLeadingConstraint.constant == 0)
-        {
+        if (bookmarkContainerLeadingConstraint.constant == 0) {
             self.bookmarkContainerLeadingConstraint.constant = -bookmarkContainer.frame.size.width
             self.showBookmarks.isSelected = false
-        }
-        else
-        {
+        } else {
             bookmarkContainerLeadingConstraint.constant = 0
             self.showBookmarks.isSelected = true
             self.bookmarkContainer.isHidden = false
@@ -244,22 +239,22 @@
     }
     
     @IBAction func onNextPage(_ sender: Any) {
+        print("Button - NEXT")
         
         self.childVC.nextPage()
     }
     @IBAction func onPreviousPage(_ sender: Any) {
+         print("Button - PREVIOUS")
         self.childVC.previousPage()
     }
     
     // MARK: - Loading of pages
-    
-    func loadItem(_ pid:String) ->()
-    {
+    func loadItem(_ pid:String) {
         mzkDatasource.delegate = self
         mzkDatasource.getItem(self.itemPID)
     }
     
-    func loadPages(_ pid:String) -> () {
+    func loadPages(_ pid:String) {
         mzkDatasource.delegate = self
         mzkDatasource .getChildrenForItem(self.itemPID)
     }
@@ -285,44 +280,41 @@
         })
     }
     
-    func detail(forItemLoaded item: MZKItemResource!) {
-        DispatchQueue.main.async (execute: { () -> Void in
-            self.itemTitle.text = item.title
-            
-            self.item = item
-            
+    func detail(forItemLoaded item: MZKItemResource) {
+        DispatchQueue.main.async { [weak self] in
+            guard let strongSelf = self else { return }
+
+            strongSelf.itemTitle.text = item.title
+
+            strongSelf.item = item
+
             // enable user interaction
-            self.enableUserInteraction(enable: true)
-            
-            self.loadPages(self.itemPID)
-            
-            if (item.pdfUrl != nil)
-            {
-                self.childVC.item = item
-                self.childVC.setUpForPDF(item: item)
-                self.bottomBarView.isHidden = true
+            strongSelf.enableUserInteraction(enable: true)
+
+            strongSelf.loadPages(strongSelf.itemPID)
+
+            if (item.pdfUrl != nil) {
+                strongSelf.childVC.item = item
+                strongSelf.childVC.setUpForPDF(item: item)
+                strongSelf.bottomBarView.isHidden = true
             }
-        })
+        }
     }
     
-    func setupSlider() -> ()
-    {
-        self.pageSlider.popUpViewCornerRadius = 6.0;
-        self.pageSlider .setMaxFractionDigitsDisplayed(0)
-        self.pageSlider.popUpViewColor = UIColor.init(colorLiteralRed: 0, green: 118/255, blue: 255/255, alpha: 0.8)
-        self.pageSlider.font = UIFont.systemFont(ofSize: 22)
-        self.pageSlider.textColor = UIColor.black
-        self.pageSlider.tintColor = self.pageSlider.popUpViewColor
-        self.pageSlider.minimumTrackTintColor = self.pageSlider.popUpViewColor
-        
+    func setupSlider() {
+        pageSlider.popUpViewCornerRadius = 6.0;
+        pageSlider .setMaxFractionDigitsDisplayed(0)
+        pageSlider.popUpViewColor = UIColor(red: 0, green: 118/255, blue: 255/255, alpha: 0.8)
+            //UIColor(colorLiteralRed: 0, green: 118/255, blue: 255/255, alpha: 0.8)
+        pageSlider.font = UIFont.systemFont(ofSize: 22)
+        pageSlider.textColor = UIColor.black
+        pageSlider.tintColor = pageSlider.popUpViewColor
+        pageSlider.minimumTrackTintColor = pageSlider.popUpViewColor
     }
     
-    func setupBookmarkViews() -> Void
-    {
-        if(bookmarks != nil)
-        {
-            if (bookmarks.count > 0)
-            {
+    func setupBookmarkViews() {
+        if(bookmarks != nil) {
+            if (bookmarks.count > 0) {
                 showBookmarks.isEnabled = true
             }
         }
@@ -336,8 +328,7 @@
      - parameter tutorialPageViewController: the TutorialPageViewController instance
      - parameter index: the index of the currently visible page.
      */
-    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate, didUpdatePageIndex index: Int)
-    {
+    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate, didUpdatePageIndex index: Int) {
         DispatchQueue.main.async (execute: { () -> Void in
             self.currentPageNumber.text = "\(index)/\(self.pages.count)"
             self.pageSlider.minimumValue=1
@@ -353,10 +344,9 @@
         }
     }
     
-    func enableUserInteraction(enable:Bool) -> Void {
+    func enableUserInteraction(enable: Bool) {
         // back button should be always enabled, everything else should be disabled until content is loaded
-        
-        self.createBookmark.isEnabled = enable
+        createBookmark.isEnabled = enable
         
         if(bookmarks != nil)
         {
@@ -366,16 +356,15 @@
             }
         }
         
-        self.infoButton.isEnabled = enable
-        self.showThumbnailButton.isEnabled = enable
-        self.pageSlider.isEnabled = enable
+        infoButton.isEnabled = enable
+        showThumbnailButton.isEnabled = enable
+        pageSlider.isEnabled = enable
         
-      self.nextPageButton.isEnabled = enable
-       self.previousPageButton.isEnabled = enable
+        nextPageButton.isEnabled = enable
+        previousPageButton.isEnabled = enable
     }
     
-    func reloadData () -> Void
-    {
+    func reloadData () {
         if(self.item == nil)
         {
             self.loadItem(self.itemPID)
@@ -396,42 +385,38 @@
      */
     
     func downloadFailedWithError(_ error: Error!) {
-        
-        
-        let error = error as NSError!
-        
-        DispatchQueue.main.async (execute: { () -> Void in
-            
-            if(error?.domain == "MZK")
-            {
-                // TODO: messages
-//                MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "Error title of message box"), subtitle: "Something went wrong".localizedWithComment(comment: "Generic kramerius error"), completion: {
-//                    self.reloadData()
-//                })
+        let error = error as NSError?
+        if error != nil {
+            DispatchQueue.main.async { [weak self] in
+                guard let strongSelf = self else { return }
+                if(error?.domain == "MZK") {
+                    // TODO: messages
+                    //                MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "Error title of message box"), subtitle: "Something went wrong".localizedWithComment(comment: "Generic kramerius error"), completion: {
+                    //                    self.reloadData()
+                    //                })
+                }
             }
-            else
-            {
-                MZKSwiftErrorMessageHandler().showTSMessageTest(viewController: self, error: error! as NSError, completion: {(_) -> Void in
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                guard let strongSelf = self else { return }
+                MZKSwiftErrorMessageHandler().showTSMessageTest(viewController: strongSelf, error: error! as NSError, completion: { [weak self] in
+                    guard let strongSelf = self else { return }
                     print("Reloading values")
-                    self.reloadData()
+                    strongSelf.reloadData()
                 })
-                
             }
-        })
+        }
     }
  }
  
- extension MZKDetailManagerViewController : UICollectionViewDelegate
- {
+ extension MZKDetailManagerViewController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        self.goToPage(indexPath.row)
-        self .onShowThumbnails(Any.self)
+        goToPage(indexPath.row)
+        onShowThumbnails(Any.self)
     }
  }
  
- extension MZKDetailManagerViewController : UICollectionViewDataSource
- {
+ extension MZKDetailManagerViewController : UICollectionViewDataSource {
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -460,7 +445,7 @@
         
         cell.pageNumber.text = pageObject.title
         
-        cell.pageThumbnail .sd_setImage(with: NSURL(string: thumbURL) as URL!)
+        cell.pageThumbnail .sd_setImage(with: NSURL(string: thumbURL) as URL?)
         
         cell.page = pageObject
         
@@ -468,35 +453,33 @@
     }
  }
  
- extension MZKDetailManagerViewController : UITableViewDelegate
- {
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+ extension MZKDetailManagerViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
             let bookmarkToDelete = bookmarks[indexPath.row]
             
             self.bookmarkDatasource.deleteBookmark(bookmarkToDelete.pagePID!, bookmarkParentPID: bookmarkToDelete.parentPID!)
-            self.bookmarks = self.bookmarkDatasource.getBookmarks(itemPID)
+            self.bookmarks = bookmarkDatasource.getBookmarks(itemPID)
             
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.reloadData()
             tableView.endUpdates()
-            
         }
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return UITableViewCellEditingStyle.delete
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return UITableViewCell.EditingStyle.delete
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let bookmark = bookmarks[indexPath.row]
         
         if let pageIndex = Int(bookmark.pageIndex!) {
-            self.childVC.goToPage(pageIndex-1)
+            childVC.goToPage(pageIndex-1)
             
-            self .onShowBookmarks(self)
+            onShowBookmarks(self)
         }
     }
  }
@@ -508,8 +491,7 @@
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (bookmarks != nil)
-        {
+        if (bookmarks != nil) {
             return bookmarks.count
         }
         
@@ -530,17 +512,16 @@
     }
  }
  
- extension MZKDetailManagerViewController : MZKUserActivityDelegate
- {
+ extension MZKDetailManagerViewController: MZKUserActivityDelegate {
     func userDidSingleTapped() {
-        self.onShowHideBars(self)
+        onShowHideBars(self)
     }
     
     func nextPage() {
-        self.onNextPage(self)
+        onNextPage(self)
     }
     
     func previousPage() {
-        self.onPreviousPage(self)
+        onPreviousPage(self)
     }
  }

@@ -9,7 +9,6 @@
 
 import UIKit
 import Alamofire
-import AlamofireObjectMapper
 
 struct MZKKrameriusAPI {
     
@@ -38,20 +37,20 @@ enum MZKRequestType {
 }
 
 // class limits protocol adoption to classes only.
-protocol MZKDataLoadedDelegate : class {
+protocol MZKDataLoadedDelegate: class {
     /**
      Replace delegate with closure :)
      */
-    func facetDataLoaded(facet : String, filterFacets : [MZKFilterFacetItem]) -> Void
+    func facetDataLoaded(facet: String, filterFacets: [MZKFilterFacetItem]) -> Void
 }
 
 /**
  * defined as temporary solution until Whole Datasource will be rewriten to Swift!
  */
 
-@objc protocol MZKDataLoadedDelegateObjc : class {
+@objc protocol MZKDataLoadedDelegateObjc: class {
     
-    func searchFilterDataLoaded(results : Array<Any>)
+    func searchFilterDataLoaded(results: Array<Any>)
 }
 
 class MZKDatasourceS: NSObject {

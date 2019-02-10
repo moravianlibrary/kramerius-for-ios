@@ -47,6 +47,9 @@
 		2D41FF011C3BBF970087F22E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D41FF001C3BBF970087F22E /* libsqlite3.tbd */; };
 		2D41FF051C3BBFE50087F22E /* MZKDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D41FF041C3BBFE50087F22E /* MZKDatabaseManager.m */; };
 		2D44DF3F1CB397EF001EF49F /* MZKTabBarMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D44DF3E1CB397EF001EF49F /* MZKTabBarMenuViewController.m */; };
+		2D455E8F20973EC4009BD294 /* MusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D455E8D20973EC4009BD294 /* MusicViewController.swift */; };
+		2D455E93209741C6009BD294 /* MusicItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D455E91209741C6009BD294 /* MusicItemTableViewCell.swift */; };
+		2D455E94209741C6009BD294 /* MusicItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D455E92209741C6009BD294 /* MusicItemTableViewCell.xib */; };
 		2D47472F1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */; };
 		2D4747321D4684BD00D6F5F8 /* MZKSearchHistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D4747311D4684BD00D6F5F8 /* MZKSearchHistoryItem.m */; };
 		2D5154C11DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5154C01DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift */; };
@@ -93,7 +96,8 @@
 		2DE387601AE523B400A2004E /* MZKItemResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE3875F1AE523B400A2004E /* MZKItemResource.m */; };
 		2DE387631AE526AB00A2004E /* MZKDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE387621AE526AA00A2004E /* MZKDatasource.m */; };
 		2DE98BD01C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE98BCF1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m */; };
-		F09A386669D46BDEE58A9AA5 /* Pods_MZK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF10FF506514EF7716F9AF05 /* Pods_MZK_iOS.framework */; };
+		2DFF115421AADC6C007A7361 /* MusicStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DFF115321AADC6C007A7361 /* MusicStoryboard.storyboard */; };
+		795E8218D092EE08432F34F0 /* Pods_MZK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A1AB6EB2C8031124F3E704 /* Pods_MZK_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -173,6 +177,9 @@
 		2D41FF041C3BBFE50087F22E /* MZKDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDatabaseManager.m; sourceTree = "<group>"; };
 		2D44DF3D1CB397EF001EF49F /* MZKTabBarMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKTabBarMenuViewController.h; sourceTree = "<group>"; };
 		2D44DF3E1CB397EF001EF49F /* MZKTabBarMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKTabBarMenuViewController.m; sourceTree = "<group>"; };
+		2D455E8D20973EC4009BD294 /* MusicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewController.swift; sourceTree = "<group>"; };
+		2D455E91209741C6009BD294 /* MusicItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicItemTableViewCell.swift; sourceTree = "<group>"; };
+		2D455E92209741C6009BD294 /* MusicItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MusicItemTableViewCell.xib; sourceTree = "<group>"; };
 		2D47472D1D467E4B00D6F5F8 /* MZKSearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSearchTableViewCell.h; sourceTree = "<group>"; };
 		2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchTableViewCell.m; sourceTree = "<group>"; };
 		2D4747301D4684BD00D6F5F8 /* MZKSearchHistoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKSearchHistoryItem.h; path = ../MZKSearchHistoryItem.h; sourceTree = "<group>"; };
@@ -248,9 +255,10 @@
 		2DE387621AE526AA00A2004E /* MZKDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDatasource.m; sourceTree = "<group>"; };
 		2DE98BCE1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKRecentlyOpenedDocumentsViewController.h; path = ../MZKRecentlyOpenedDocumentsViewController.h; sourceTree = "<group>"; };
 		2DE98BCF1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKRecentlyOpenedDocumentsViewController.m; path = ../MZKRecentlyOpenedDocumentsViewController.m; sourceTree = "<group>"; };
-		2E30F286A6AA731501162BE2 /* Pods-MZK_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		AF4F7B02D28D6D01A07593A9 /* Pods-MZK_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.release.xcconfig"; sourceTree = "<group>"; };
-		FF10FF506514EF7716F9AF05 /* Pods_MZK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MZK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DFF115321AADC6C007A7361 /* MusicStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MusicStoryboard.storyboard; sourceTree = "<group>"; };
+		31A1AB6EB2C8031124F3E704 /* Pods_MZK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MZK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8D0137B38B31A815BE08E93 /* Pods-MZK_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.release.xcconfig"; sourceTree = "<group>"; };
+		D3B48A31C0BB1A6C894891E3 /* Pods-MZK_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,7 +271,7 @@
 				2D41FF011C3BBF970087F22E /* libsqlite3.tbd in Frameworks */,
 				2D2787C61BF4BB4A0007D00E /* AVFoundation.framework in Frameworks */,
 				2D2787C41BF4B92A0007D00E /* MediaPlayer.framework in Frameworks */,
-				F09A386669D46BDEE58A9AA5 /* Pods_MZK_iOS.framework in Frameworks */,
+				795E8218D092EE08432F34F0 /* Pods_MZK_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +317,10 @@
 				2D113CB01DC0D7780042B9ED /* MZKPageDetailViewController.swift */,
 				2D07BE251F27873B0046F06E /* MZKFiltersViewController.swift */,
 				2D8966651F83C3DB00278ADD /* MZKFilterTableViewCell.swift */,
+				2D455E8D20973EC4009BD294 /* MusicViewController.swift */,
+				2D455E91209741C6009BD294 /* MusicItemTableViewCell.swift */,
+				2D455E92209741C6009BD294 /* MusicItemTableViewCell.xib */,
+				2DFF115321AADC6C007A7361 /* MusicStoryboard.storyboard */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -419,7 +431,7 @@
 				2DB8A7B01ACD073400A1BB2E /* MZK_iOSTests */,
 				2DB8A7921ACD073400A1BB2E /* Products */,
 				C4864A5EBA3AC6CFFA83C9E9 /* Frameworks */,
-				6BDE55CB56242E63E095E717 /* Pods */,
+				CD70EB9ECE71A04BFD2137DF /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -434,58 +446,58 @@
 		2DB8A7931ACD073400A1BB2E /* MZK_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				2D0F65451DD5C5E900CEC252 /* MZK_iOS-Bridging-Header.h */,
-				2D79665B1DB6B11100891B94 /* Model */,
-				2D44DF3C1CB397BB001EF49F /* Menu */,
 				2DB5E44B1CB25CF300C90D36 /* 3rdParty */,
-				2D9150EF1C82F4C200AD380F /* NSURLRequest */,
-				2D2DA51D1BEF9B3A00423447 /* Detail */,
-				2DAA60761BA759350004A718 /* Collections */,
-				2DD5839D1B6FA0BA001ED3B3 /* XMLParser */,
-				2D89DB7A1B5E57DA00E69119 /* OpenLayers */,
-				2D41FF021C3BBFC90087F22E /* Database */,
 				2DB8A7981ACD073400A1BB2E /* AppDelegate.h */,
 				2DB8A7991ACD073400A1BB2E /* AppDelegate.m */,
-				2D5BB44D1DBA267D001EAB35 /* NSString+MD5.h */,
-				2D5BB44E1DBA267D001EAB35 /* NSString+MD5.m */,
+				2DAA60761BA759350004A718 /* Collections */,
+				2D41FF021C3BBFC90087F22E /* Database */,
+				2D2DA51D1BEF9B3A00423447 /* Detail */,
 				2DB88C1A1C15B0E900AC7070 /* GoogleService-Info.plist */,
-				2D8F0C6A1FFD6A24002BD929 /* MZKGeneralViewController.swift */,
-				2DA030501C0A002800B7759B /* MZKBaseViewController.h */,
-				2DA030511C0A002800B7759B /* MZKBaseViewController.m */,
-				2D24F06B1B7378740073FC83 /* MZKSearchViewController.h */,
-				2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */,
-				2D2A647E1AF8EF3800D82E04 /* MZKMainViewController.h */,
-				2D2A647F1AF8EF3800D82E04 /* MZKMainViewController.m */,
-				2DCAE25A1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.h */,
-				2DCAE25B1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m */,
-				2D24F06E1B7387E40073FC83 /* MZKChangeLibraryViewController.h */,
-				2D24F06F1B7387E40073FC83 /* MZKChangeLibraryViewController.m */,
-				2D409B761B8B460E00B49EAD /* MZKDataSourceTableViewCell.h */,
-				2D409B771B8B460E00B49EAD /* MZKDataSourceTableViewCell.m */,
-				2DB8A7A11ACD073400A1BB2E /* Main.storyboard */,
-				2DD1B9EC1D9D4AE0004011FC /* MZKNavigationViewController.h */,
-				2DD1B9ED1D9D4AE0004011FC /* MZKNavigationViewController.m */,
-				2D78B2951C200DC0004341DA /* MZKAboutViewController.h */,
-				2D78B2961C200DC0004341DA /* MZKAboutViewController.m */,
 				2DB8A7A41ACD073400A1BB2E /* Images.xcassets */,
 				2DB8A7A61ACD073400A1BB2E /* LaunchScreen.xib */,
-				2D2505C51AFE08C30079F70E /* MZKItemTableViewCell.h */,
-				2D2505C61AFE08C30079F70E /* MZKItemTableViewCell.m */,
+				2DB8A7A11ACD073400A1BB2E /* Main.storyboard */,
+				2D44DF3C1CB397BB001EF49F /* Menu */,
+				2D79665B1DB6B11100891B94 /* Model */,
+				2D0F65451DD5C5E900CEC252 /* MZK_iOS-Bridging-Header.h */,
+				2D78B2951C200DC0004341DA /* MZKAboutViewController.h */,
+				2D78B2961C200DC0004341DA /* MZKAboutViewController.m */,
+				2DA030501C0A002800B7759B /* MZKBaseViewController.h */,
+				2DA030511C0A002800B7759B /* MZKBaseViewController.m */,
+				2D24F06E1B7387E40073FC83 /* MZKChangeLibraryViewController.h */,
+				2D24F06F1B7387E40073FC83 /* MZKChangeLibraryViewController.m */,
 				2D2505CB1AFE73300079F70E /* MZKConstants.h */,
 				2D2505CC1AFE73300079F70E /* MZKConstants.m */,
 				2DE387611AE526AA00A2004E /* MZKDatasource.h */,
 				2DE387621AE526AA00A2004E /* MZKDatasource.m */,
-				2DB8A7941ACD073400A1BB2E /* Supporting Files */,
-				2D33C3551C2819E9002BA7D1 /* MZKSettingsViewController.h */,
-				2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */,
-				2D47472D1D467E4B00D6F5F8 /* MZKSearchTableViewCell.h */,
-				2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */,
-				2DA29B981DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift */,
-				2D6EA1221FB34AF800706085 /* MZKPillLabel.swift */,
-				2DA364D11FBDE87600F62149 /* MZKHeaderView.xib */,
+				2D409B761B8B460E00B49EAD /* MZKDataSourceTableViewCell.h */,
+				2D409B771B8B460E00B49EAD /* MZKDataSourceTableViewCell.m */,
+				2D8F0C6A1FFD6A24002BD929 /* MZKGeneralViewController.swift */,
 				2DA364D31FBDEA2400F62149 /* MZKHeaderView.h */,
 				2DA364D41FBDEA2400F62149 /* MZKHeaderView.m */,
+				2DA364D11FBDE87600F62149 /* MZKHeaderView.xib */,
+				2D2505C51AFE08C30079F70E /* MZKItemTableViewCell.h */,
+				2D2505C61AFE08C30079F70E /* MZKItemTableViewCell.m */,
+				2D2A647E1AF8EF3800D82E04 /* MZKMainViewController.h */,
+				2D2A647F1AF8EF3800D82E04 /* MZKMainViewController.m */,
+				2DD1B9EC1D9D4AE0004011FC /* MZKNavigationViewController.h */,
+				2DD1B9ED1D9D4AE0004011FC /* MZKNavigationViewController.m */,
+				2D6EA1221FB34AF800706085 /* MZKPillLabel.swift */,
 				2D0C2C8C1FC47FDF004F7FA1 /* MZKPushSegue.swift */,
+				2DCAE25A1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.h */,
+				2DCAE25B1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m */,
+				2D47472D1D467E4B00D6F5F8 /* MZKSearchTableViewCell.h */,
+				2D47472E1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m */,
+				2D24F06B1B7378740073FC83 /* MZKSearchViewController.h */,
+				2D24F06C1B7378740073FC83 /* MZKSearchViewController.m */,
+				2D33C3551C2819E9002BA7D1 /* MZKSettingsViewController.h */,
+				2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */,
+				2DA29B981DF41E9000648317 /* MZKSwiftErrorMessageHandler.swift */,
+				2D5BB44D1DBA267D001EAB35 /* NSString+MD5.h */,
+				2D5BB44E1DBA267D001EAB35 /* NSString+MD5.m */,
+				2D9150EF1C82F4C200AD380F /* NSURLRequest */,
+				2D89DB7A1B5E57DA00E69119 /* OpenLayers */,
+				2DB8A7941ACD073400A1BB2E /* Supporting Files */,
+				2DD5839D1B6FA0BA001ED3B3 /* XMLParser */,
 			);
 			path = MZK_iOS;
 			sourceTree = "<group>";
@@ -537,15 +549,6 @@
 			path = XMLParser;
 			sourceTree = "<group>";
 		};
-		6BDE55CB56242E63E095E717 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				2E30F286A6AA731501162BE2 /* Pods-MZK_iOS.debug.xcconfig */,
-				AF4F7B02D28D6D01A07593A9 /* Pods-MZK_iOS.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		C4864A5EBA3AC6CFFA83C9E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -554,9 +557,18 @@
 				2D41FF001C3BBF970087F22E /* libsqlite3.tbd */,
 				2D2787C51BF4BB4A0007D00E /* AVFoundation.framework */,
 				2D2787C31BF4B92A0007D00E /* MediaPlayer.framework */,
-				FF10FF506514EF7716F9AF05 /* Pods_MZK_iOS.framework */,
+				31A1AB6EB2C8031124F3E704 /* Pods_MZK_iOS.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CD70EB9ECE71A04BFD2137DF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D3B48A31C0BB1A6C894891E3 /* Pods-MZK_iOS.debug.xcconfig */,
+				C8D0137B38B31A815BE08E93 /* Pods-MZK_iOS.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -566,13 +578,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2DB8A7B71ACD073400A1BB2E /* Build configuration list for PBXNativeTarget "MZK_iOS" */;
 			buildPhases = (
-				EB2BDBD3C2319D0E48AD250D /* [CP] Check Pods Manifest.lock */,
+				31D62CA57E422226D75EC5D0 /* [CP] Check Pods Manifest.lock */,
 				2DB8A78D1ACD073400A1BB2E /* Sources */,
 				2DB8A78E1ACD073400A1BB2E /* Frameworks */,
 				2DB8A78F1ACD073400A1BB2E /* Resources */,
 				2D9378501DA293DF005B2ED3 /* Embed Frameworks */,
 				2D511C641F54A9910039550A /* ShellScript */,
-				0E0AFC70881B5AD196D00ABE /* [CP] Embed Pods Frameworks */,
+				46256ECFF75D69111200992B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -595,7 +607,7 @@
 					2DB8A7901ACD073400A1BB2E = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 873S4GA3KJ;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 1010;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -640,12 +652,14 @@
 				2D2763D71B6B641900CC7E4F /* index.html in Resources */,
 				2DB8A7A51ACD073400A1BB2E /* Images.xcassets in Resources */,
 				2DB88C1B1C15B0E900AC7070 /* GoogleService-Info.plist in Resources */,
+				2DFF115421AADC6C007A7361 /* MusicStoryboard.storyboard in Resources */,
 				2D1FD9201CAC15A700408166 /* libraries.json in Resources */,
 				2DA364D21FBDE87600F62149 /* MZKHeaderView.xib in Resources */,
 				2D13D54E1C3E8B8C00DB4190 /* values.sql in Resources */,
 				2D2763D81B6B641900CC7E4F /* ol.js in Resources */,
 				2DAB71A81D803E2700765AF7 /* MZKDetail.storyboard in Resources */,
 				2D13D54C1C3E66BD00DB4190 /* relators.sql in Resources */,
+				2D455E94209741C6009BD294 /* MusicItemTableViewCell.xib in Resources */,
 				2D13D54B1C3E66BD00DB4190 /* languages.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -653,7 +667,38 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E0AFC70881B5AD196D00ABE /* [CP] Embed Pods Frameworks */ = {
+		2D511C641F54A9910039550A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		31D62CA57E422226D75EC5D0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MZK_iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		46256ECFF75D69111200992B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -695,37 +740,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2D511C641F54A9910039550A /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
-		};
-		EB2BDBD3C2319D0E48AD250D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MZK_iOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -761,6 +775,7 @@
 				2D409B7B1B8B4C8B00B49EAD /* MZKLibraryItem.m in Sources */,
 				2D4747321D4684BD00D6F5F8 /* MZKSearchHistoryItem.m in Sources */,
 				2DAA60721BA758AB0004A718 /* MZKCollectionDetailViewController.m in Sources */,
+				2D455E93209741C6009BD294 /* MusicItemTableViewCell.swift in Sources */,
 				2DA364D51FBDEA2400F62149 /* MZKHeaderView.m in Sources */,
 				2D6EA1231FB34AF800706085 /* MZKPillLabel.swift in Sources */,
 				2DCAE25C1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m in Sources */,
@@ -793,6 +808,7 @@
 				2D0C2C8D1FC47FDF004F7FA1 /* MZKPushSegue.swift in Sources */,
 				2D2505C71AFE08C30079F70E /* MZKItemTableViewCell.m in Sources */,
 				2DAB71A11D802F0000765AF7 /* MZKDetailManagerViewController.m in Sources */,
+				2D455E8F20973EC4009BD294 /* MusicViewController.swift in Sources */,
 				2DAB71A51D803A6300765AF7 /* MZKDetailPageViewController.m in Sources */,
 				2D5154C11DE1EE72009E0B7E /* MZKBookmarkTableViewCell.swift in Sources */,
 				2D0DD5711DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift in Sources */,
@@ -877,6 +893,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -917,13 +934,14 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		2DB8A7B81ACD073400A1BB2E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2E30F286A6AA731501162BE2 /* Pods-MZK_iOS.debug.xcconfig */;
+			baseConfigurationReference = D3B48A31C0BB1A6C894891E3 /* Pods-MZK_iOS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -955,14 +973,15 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MZK_iOS/MZK_iOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		2DB8A7B91ACD073400A1BB2E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AF4F7B02D28D6D01A07593A9 /* Pods-MZK_iOS.release.xcconfig */;
+			baseConfigurationReference = C8D0137B38B31A815BE08E93 /* Pods-MZK_iOS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -993,7 +1012,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MZK_iOS/MZK_iOS-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

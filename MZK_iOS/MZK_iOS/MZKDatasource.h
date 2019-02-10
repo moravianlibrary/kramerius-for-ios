@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "MZKLibraryItem.h"
 
-#warning Add documentation to methods
-/// TODO: Add documentation
-
 @class MZKItemResource;
 
 @protocol DataLoadedDelegate <NSObject>
@@ -28,14 +25,15 @@
 -(void)searchResultsLoaded:(NSArray *)results;
 -(void)searchHintsLoaded:(NSArray *)results;
 -(void)librariesLoaded:(NSArray *)results;
+-(void)siblingsForItemLoaded:(NSArray *)results;
+
 
 // error states
 -(void)downloadFailedWithError:(NSError *)error;
 -(void)downloadFailedWithError:(NSString *)title subtitle:(NSString *)subtitle;
 @end
 
-@interface MZKDatasource : NSObject
-{
+@interface MZKDatasource: NSObject {
     MZKLibraryItem *_defaultDatasourceItem;
 }
 @property (nonatomic, weak) __weak id<DataLoadedDelegate> delegate;
@@ -44,8 +42,6 @@
 // get methos, each sends a request to current kramerius backend
 -(void)getItem:(NSString *)pid;
 -(void)getChildrenForItem:(NSString *)pid;
-// Get siblings is not implemented - probably it will not be implemeted - It is not needed. 
-//-(void)getSiblingsForItem:(NSString *)pid;
 -(void)getImagePropertiesForPageItem:(NSString *)pid;
 
 -(void)getMostRecent;
@@ -62,6 +58,7 @@
 -(void)getSearchResultsAsHints:(NSString *)searchString;
 -(void)getFullSearchResults:(NSString *)searchString;
 -(void)getLibraries;
+-(void)getSiblingsForItem:(NSString *)pid;
 
 -(id)init;
 -(id)initWithoutBaseURL;

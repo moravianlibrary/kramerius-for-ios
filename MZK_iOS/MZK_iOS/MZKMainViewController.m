@@ -329,14 +329,10 @@ const int kHeaderHeight = 95;
     if (cell.item.policy ) {
         if ([cell.item.policy isEqualToString:@"public"]) {
             [self prepareDataForSegue:cell.item];
-        }
-        else
-        {
+        } else {
             [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.warning", @"Obecna chyba") subtitle:@"Některé části dokumentu nemusí být veřejně dostupné." type:RMessageTypeWarning customTypeName:nil callback:nil];
         }
-    }
-    else
-    {
+    } else {
         [self prepareDataForSegue:cell.item];
     }
     
@@ -410,24 +406,18 @@ const int kHeaderHeight = 95;
 }
 
 #pragma mark - segues
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"OpenReader"])
-    {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"OpenReader"]) {
         // Get reference to the destination view controller
         MZKDetailManagerViewController *vc = [segue destinationViewController];
         
         // Pass any objects to the view controller here, like...
         [vc setItemPID:((MZKItemResource *)sender).pid];
         
-    }else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
-    {
-        MZKMusicViewController *vc = [segue destinationViewController];
-        [vc setItem:sender];
-        //set item
-    }
-    else if ([[segue identifier] isEqualToString:@"OpenGeneralList"])
-    {
+    } else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"]) {
+        MusicViewController *vc = [segue destinationViewController];
+        vc.itemPID = ((MZKItemResource *)sender).pid;
+    } else if ([[segue identifier] isEqualToString:@"OpenGeneralList"]) {
         UINavigationController *navVC =[segue destinationViewController];
         MZKGeneralColletionViewController *vc =(MZKGeneralColletionViewController *)navVC.topViewController;
         [vc setParentPID:((MZKItemResource *)sender).pid];
@@ -449,11 +439,13 @@ const int kHeaderHeight = 95;
         case Archive:
         case InternalPart:
         case Supplement:
-        case Sheetmusic:
             [self performSegueWithIdentifier:@"OpenReader" sender:item];
             break;
-            
+        case Sheetmusic:
         case SoundRecording:
+        case SoundUnit:
+             [self performSegueWithIdentifier:@"OpenSoundDetail" sender:item];
+             break;
         case Periodical:
             [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];
             

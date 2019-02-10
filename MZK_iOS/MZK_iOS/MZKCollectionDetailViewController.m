@@ -171,7 +171,7 @@
     
     if ([item.policy isEqualToString:@"public"]) {
         
-        if (item.model == SoundUnit || item.model ==SoundRecording) {
+        if (item.model == SoundUnit || item.model == SoundRecording) {
         
             AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
             
@@ -246,65 +246,48 @@
 }
 
 #pragma mark - Datasource delegate methods
--(void)collectionItemsLoaded:(NSArray *)collectionItems
-{
-    // open colleciton detail from here
-    if(![[NSThread currentThread] isMainThread])
-    {
-        __weak typeof(self) welf = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [welf collectionItemsLoaded:collectionItems];
-        });
-        return;
-    }
-    
-    if (!_loadedItems) {
-        _loadedItems = [NSMutableArray new];
-    }
-    
-    [_loadedItems addObjectsFromArray:[collectionItems copy]];
-    [self.collectionView reloadData];
-   
-    MZKCollectionItemResource *firstItem = collectionItems.firstObject;
-    if (firstItem.numFound != _loadedItems.count) {
-        NSInteger start = _loadedItems.count;
-        NSInteger count = firstItem.numFound - start;
-        if (count >30) {
-            count =30;
+-(void)collectionItemsLoaded:(NSArray *)collectionItems {
+    __weak typeof(self) welf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!_loadedItems) {
+            _loadedItems = [NSMutableArray new];
         }
-        
-        [_datasource getCollectionItems:_collectionPID withRangeFrom:start numberOfItems:count];
-    }
-   // NSLog(@"Collection items count:%lu", (unsigned long)_loadedItems.count);
+
+        [_loadedItems addObjectsFromArray:[collectionItems copy]];
+        [self.collectionView reloadData];
+
+        MZKCollectionItemResource *firstItem = collectionItems.firstObject;
+        if (firstItem.numFound != _loadedItems.count) {
+            NSInteger start = _loadedItems.count;
+            NSInteger count = firstItem.numFound - start;
+            if (count > 30) {
+                count = 30;
+            }
+
+            [_datasource getCollectionItems:_collectionPID withRangeFrom:start numberOfItems:count];
+        }
+    });
 }
 
 #pragma mark - segues
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    NSLog(@"Prepare for segue");
-    
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Make sure your segue name in storyboard is the same as this line
-    if ([[segue identifier] isEqualToString:@"OpenReader"])
-    {
+    if ([[segue identifier] isEqualToString:@"OpenReader"]) {
         // Get reference to the destination view controller
         MZKDetailManagerViewController *vc = [segue destinationViewController];
         
         // Pass any objects to the view controller here, like...
         [vc setItemPID:_selectedItem.pid];
         _selectedItem = nil;
-    }
-    else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
-    {
+    } else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"]) {
         MZKMusicViewController *vc = [segue destinationViewController];
         [vc setItem:_selectedItem];
         _selectedItem = nil;
     }
-    
 }
 
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
-{
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     if (_selectedItem) {
         return YES;
     }

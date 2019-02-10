@@ -275,7 +275,7 @@ extension MZKFiltersViewController : UITableViewDataSource
 extension MZKFiltersViewController : UITableViewDelegate
 {
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         // filter actions only for active filters, other action should be ignored
         if (indexPath.section == FilterSections.activeFilters.rawValue ) {
             

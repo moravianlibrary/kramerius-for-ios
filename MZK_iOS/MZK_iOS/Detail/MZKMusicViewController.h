@@ -11,7 +11,7 @@
 #import "MZKBaseViewController.h"
 
 
-@interface MZKMusicViewController : MZKBaseViewController
+@interface MZKMusicViewController :MZKBaseViewController
 
 @property (nonatomic, strong) MZKItemResource *item;
 +(instancetype)sharedInstance;

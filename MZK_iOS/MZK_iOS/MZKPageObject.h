@@ -20,8 +20,7 @@
 
 @end
 
-@interface MZKPageObject : NSObject
-{
+@interface MZKPageObject: NSObject {
     NSString *baseURL;
 }
 

@@ -11,9 +11,9 @@ pod 'AFNetworking', '~> 2.0'
 pod 'Google/Analytics'
 pod 'TTTAttributedLabel'
 pod 'Alamofire', '~> 4.4'
-pod 'AlamofireObjectMapper', '~> 4.0'
-pod 'ObjectMapper', '~> 2.2'
 pod 'SWXMLHash', '~> 4.0.0'
 pod 'RMessage'
+pod 'ObjectMapper', :git => 'https://github.com/tristanhimmelman/ObjectMapper.git', :branch => 'master'
+pod 'AlamofireObjectMapper', '~> 5.0'
 end
 

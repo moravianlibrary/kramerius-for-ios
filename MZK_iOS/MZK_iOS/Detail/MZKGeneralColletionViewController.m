@@ -434,7 +434,6 @@
     }
     
     if ([po.policy isEqualToString:@"public"]) {
-        
         if (po.model == PeriodicalItem || po.model == Manuscript || po.model == Monograph || po.model == Map || po.model == Graphic || po.model == Page || po.model == Article || po.model == Archive || po.model == InternalPart || po.model == Sheetmusic || po.model == Supplement) {
             
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MZKDetail" bundle: nil];
@@ -444,13 +443,10 @@
             [vc setItemPID:po.pid];
             
             [self presentViewController:vc animated:YES completion:^{
-                
             }];
-            
         }
         
-        if (po.model== PeriodicalVolume || po.model ==Periodical)
-        {
+        if (po.model== PeriodicalVolume || po.model ==Periodical) {
             //[self performSegueWithIdentifier:@"OpenDetail" sender:cell.item];
             
             MZKGeneralColletionViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MZKGeneralColletionViewController"];

@@ -27,8 +27,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext;
 
 static MZKMusicViewController *sharedInstance;
-@interface MZKMusicViewController ()<DataLoadedDelegate, AVAudioPlayerDelegate, AVAudioSessionDelegate>
-{
+@interface MZKMusicViewController ()<DataLoadedDelegate, AVAudioPlayerDelegate, AVAudioSessionDelegate> {
     
     __weak IBOutlet UILabel *titleLabel;
     __weak IBOutlet UIImageView *_blurryImage;
@@ -147,6 +146,7 @@ static MZKMusicViewController *sharedInstance;
         _datasource.delegate = self;
     }
     _currentItemPID = itemPid;
+    [_datasource getSiblingsForItem:_currentItemPID];
     [_datasource getItem:itemPid];
     
     [self startAnimating];
@@ -205,14 +205,10 @@ static MZKMusicViewController *sharedInstance;
 
 -(void)setItem:(MZKItemResource *)item {
     __weak typeof(self) welf = self;
-    if(![[NSThread currentThread] isMainThread])
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [welf setItem:item];
-        });
-        return;
-    }
-    
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [welf setItem:item];
+    });
     _item = item;
     [self loadDataForItem:_item];
 }
