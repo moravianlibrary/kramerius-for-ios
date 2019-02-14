@@ -15,13 +15,13 @@
 #import "AFNetworkReachabilityManager.h"
 #import "MZKTabBarMenuViewController.h"
 #import "MZKDatasource.h"
+#import "MZK_iOS-Swift.h"
 
 @interface AppDelegate ()<DataLoadedDelegate>
 {
     MZKDatasource *_datasource;
-    
+    MusicViewController *_musicViewController;
 }
-
 
 @end
 
@@ -32,8 +32,6 @@
     
     return [AFNetworkReachabilityManager sharedManager].reachable;
 }
-
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -169,29 +167,23 @@
 #pragma mark - data loaded delegate methods
 -(void)librariesLoaded:(NSArray *)results
 {
-    __weak typeof(self) welf = self;
-    if(![[NSThread currentThread] isMainThread])
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [welf librariesLoaded:results];
-            
-        });
-        return;
-    }
-    
-    UINavigationController *controller = [[((UITabBarController *)self.window.rootViewController) viewControllers] objectAtIndex:kLibrariesViewControllerIndex];
-    MZKChangeLibraryViewController *changeLibVC = [controller.viewControllers objectAtIndex:0];
-    changeLibVC.libraries = results;
-    
-    if (results.count >0) {
-        MZKLibraryItem *libItem = results[0];
-        
-        if (!self.defaultDatasourceItem) {
-            [self saveToUserDefaults:libItem];
-            // send notification about default library
-            [[NSNotificationCenter defaultCenter] postNotificationName:kDatasourceItemChanged object:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+
+        UINavigationController *controller = [[((UITabBarController *)self.window.rootViewController) viewControllers] objectAtIndex:kLibrariesViewControllerIndex];
+        MZKChangeLibraryViewController *changeLibVC = [controller.viewControllers objectAtIndex:0];
+        changeLibVC.libraries = results;
+
+        if (results.count >0) {
+            MZKLibraryItem *libItem = results[0];
+
+            if (!self.defaultDatasourceItem) {
+                [self saveToUserDefaults:libItem];
+                // send notification about default library
+                [[NSNotificationCenter defaultCenter] postNotificationName:kDatasourceItemChanged object:nil];
+            }
         }
-    }
+
+    });
 }
 
 // error states
@@ -516,7 +508,6 @@
 }
 
 #pragma mark - menu tab bar
-
 -(void)transitionToMusicViewControllerWithSelectedMusic:(NSString *)pid {
     [self.menuTabBar setSelectedIndex:4];
     
@@ -534,7 +525,24 @@
             [tmpMusicVC view];
         }
     }
-    
+}
+
+-(void)presentMusicViewControllerWithMusic:(NSString *)pid {
+
+    if (!_musicViewController) {
+        NSString * storyboardName = @"MusicStoryboard";
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+        MusicViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MusicViewController"];
+        _musicViewController = vc;
+    }
+
+    [_musicViewController playMusicWithPid:pid];
+
+    UIViewController *presenter = self.window.rootViewController;
+
+    [presenter presentViewController:_musicViewController animated:YES completion:^{
+
+    }];
 }
 
 -(void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
@@ -542,6 +550,5 @@
 
     }
 }
-
 
 @end

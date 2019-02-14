@@ -326,16 +326,25 @@ const int kHeaderHeight = 95;
 {
     MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     
-    if (cell.item.policy ) {
+    if (cell.item.policy) {
         if ([cell.item.policy isEqualToString:@"public"]) {
-            [self prepareDataForSegue:cell.item];
+            if ([cell.item isModelMusic]) {
+                NSString *itemPid = cell.item.pid;
+                dispatch_async(dispatch_get_main_queue(), ^{
+
+                    AppDelegate *appDelegate = (AppDelegate*)[UIApplication.sharedApplication delegate];
+                    [appDelegate presentMusicViewControllerWithMusic:itemPid];
+                });
+            } else {
+                [self prepareDataForSegue:cell.item];
+            }
         } else {
             [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.warning", @"Obecna chyba") subtitle:@"Některé části dokumentu nemusí být veřejně dostupné." type:RMessageTypeWarning customTypeName:nil callback:nil];
         }
     } else {
         [self prepareDataForSegue:cell.item];
     }
-    
+
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
 }
 
@@ -413,10 +422,7 @@ const int kHeaderHeight = 95;
         
         // Pass any objects to the view controller here, like...
         [vc setItemPID:((MZKItemResource *)sender).pid];
-        
-    } else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"]) {
-        MusicViewController *vc = [segue destinationViewController];
-        vc.itemPID = ((MZKItemResource *)sender).pid;
+
     } else if ([[segue identifier] isEqualToString:@"OpenGeneralList"]) {
         UINavigationController *navVC =[segue destinationViewController];
         MZKGeneralColletionViewController *vc =(MZKGeneralColletionViewController *)navVC.topViewController;
@@ -444,7 +450,6 @@ const int kHeaderHeight = 95;
         case Sheetmusic:
         case SoundRecording:
         case SoundUnit:
-             [self performSegueWithIdentifier:@"OpenSoundDetail" sender:item];
              break;
         case Periodical:
             [self performSegueWithIdentifier:@"OpenGeneralList" sender:item];

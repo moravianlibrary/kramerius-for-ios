@@ -9,7 +9,8 @@
 import UIKit
 import AVFoundation
 
-class MusicViewController: UIViewController {
+@objc
+public class MusicViewController: UIViewController {
     // shared instace for singleton purposes
     static let shared = MusicViewController()
 
@@ -32,18 +33,24 @@ class MusicViewController: UIViewController {
 
     private var playlist = [AVPlayerItem]()
     private var queuePlayer = AVQueuePlayer()
-    private var timer: Timer?
+
     private var currenItem: AVAsset?
 
-    private var uiRefreshObserver: NSObject?
     private var lastTime = CMTime()
     private var numberOfTracks = 0
+
+    private var timeObserver: Any?
+
+    private var isTracklistVisible: Bool {
+        return tracklistTableView.alpha == 1 && albumImageView.alpha == 0
+    }
 
     lazy var datasource = MZKDatasource()
 
     private let startTime = "00:00"
     // we have to be able to play one song or whole album
-    @objc var itemPID: String? {
+    @objc
+    public var itemPID: String? {
         didSet {
            // datasource.siblings
             //GET http://localhost:8080/search/api/v5.0/item/<pid>/siblings
@@ -52,7 +59,7 @@ class MusicViewController: UIViewController {
         }
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupViews()
@@ -60,18 +67,30 @@ class MusicViewController: UIViewController {
         addUIObserver()
 
         tracklistTableView.register(UINib(nibName: "MusicItemTableViewCell", bundle: nil), forCellReuseIdentifier: "MusicItemTableViewCell")
+
+        showTracklist()
     }
 
     private func setupViews() {
         progressBar.minimumValue = 0
+        progressBar.isContinuous = true
         progressBar.value = 0
         elapsedTimeLabel.text = startTime
         remainingTimeLabel.text = startTime
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    /**
+     Main method for music playback
+     */
+    @objc
+    public func playMusic(pid: String) {
+        itemPID = pid
+        playlist = [AVPlayerItem]()
     }
 
     private func loadChildren() {
@@ -89,11 +108,16 @@ class MusicViewController: UIViewController {
     }
 
     private func addUIObserver() {
-        queuePlayer.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: nil) { [weak self](time) in
+        timeObserver = queuePlayer.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: nil) { [weak self](time) in
             guard let strongSelf = self else { return }
 
             strongSelf.updateUI(withCurrentTime: time)
         }
+    }
+
+    private func removeUIObserver() {
+        guard let timeObserver = timeObserver else { return }
+        queuePlayer.removeTimeObserver(timeObserver)
     }
 
     @objc private func updateUI(withCurrentTime time: CMTime) {
@@ -118,18 +142,23 @@ class MusicViewController: UIViewController {
 
         // elapsed time
         let elapsedSeconds = CMTimeGetSeconds(time)
-        let (ehours, emin, esec) = secondsToHoursMinutesSeconds(seconds: Int(elapsedSeconds))
 
-        if hours != 0 {
-            elapsedTimeLabel.text = String(format: "%02d:%02d:%02d", ehours, emin, esec)
-        } else {
-            elapsedTimeLabel.text = String(format: "%02d:%02d", emin, esec)
-        }
+        updateElapsedTime(seconds: Int(elapsedSeconds))
 
         // slider position
         progressBar.maximumValue = Float(seconds)
         progressBar.value = Float(elapsedSeconds)
 
+    }
+
+    private func updateElapsedTime(seconds: Int) {
+        let (ehours, emin, esec) = secondsToHoursMinutesSeconds(seconds: seconds)
+
+        if ehours != 0 {
+            elapsedTimeLabel.text = String(format: "%02d:%02d:%02d", ehours, emin, esec)
+        } else {
+            elapsedTimeLabel.text = String(format: "%02d:%02d", emin, esec)
+        }
     }
 
     func preparePlayerItems() {
@@ -229,6 +258,10 @@ class MusicViewController: UIViewController {
         queuePlayer.play()
     }
 
+    @IBAction func close(_ sender: Any) {
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+
     @IBAction func playPause(_ sender: Any) {
         if queuePlayer.rate == 0 {
             queuePlayer.play()
@@ -250,11 +283,58 @@ class MusicViewController: UIViewController {
             playItemAtIndex(index: finalIndex)
         }
     }
+
+    @IBAction func sliderValueChanged(_ sender: UISlider, forEvent event: UIEvent) {
+        if let touchEvent = event.allTouches?.first {
+            switch touchEvent.phase {
+            case .began:
+                queuePlayer.pause()
+                removeUIObserver()
+                break
+            case .moved:
+                updateElapsedTime(seconds: Int(sender.value))
+                break
+            case .ended:
+                let finalTime = CMTimeMakeWithSeconds(Float64(sender.value), preferredTimescale: 1000) //CMTimeMake(value: Int64(sender.value), timescale: Int32(NSEC_PER_SEC))
+
+                print("FinalTime: \(finalTime)")
+
+                queuePlayer.seek(to: finalTime) { [weak self](finished) in
+                    guard let strongSelf = self else { return }
+                    strongSelf.progressBar.value = sender.value
+                    strongSelf.queuePlayer.play()
+                    strongSelf.addUIObserver()
+                }
+            default:
+                break
+            }
+        }
+    }
+
+    @IBAction func changeTracklistView(_ sender: Any) {
+        isTracklistVisible ? showAlbumImageView() : showTracklist()
+    }
+
+    private func showTracklist() {
+        UIView.animate(withDuration: 0.2) {[weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.tracklistTableView.alpha = 1
+            strongSelf.albumImageView.alpha = 0
+        }
+    }
+
+    private func showAlbumImageView() {
+        UIView.animate(withDuration: 0.2) {[weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.tracklistTableView.alpha = 0
+            strongSelf.albumImageView.alpha = 1
+        }
+    }
 }
 
 extension MusicViewController {
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(AVPlayerItem.status) {
 
             let status: AVPlayerItem.Status
@@ -291,11 +371,11 @@ extension MusicViewController: UITableViewDelegate {
 }
 
 extension MusicViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return allTracks.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "MusicItemTableViewCell", for: indexPath) as! MusicItemTableViewCell
         cell.setup(withItem: allTracks[indexPath.row])

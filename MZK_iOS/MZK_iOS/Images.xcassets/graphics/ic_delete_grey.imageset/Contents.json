@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "ic_delete_grey.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "ic_delete_grey.png",
       "scale" : "2x"
     },
     {

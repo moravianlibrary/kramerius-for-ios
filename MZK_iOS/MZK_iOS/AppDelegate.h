@@ -42,8 +42,10 @@
 // get information from local db
 -(NSArray *)getLanguageFromCode:(NSString *)languageCode;
 -(NSString *)getLocationFromCode:(NSString *)locationCode;
-
+// deprecated method
 -(void)transitionToMusicViewControllerWithSelectedMusic:(NSString *)pid;
+// replacement of deprecated method
+-(void)presentMusicViewControllerWithMusic:(NSString *)pid;
 
 @end
 

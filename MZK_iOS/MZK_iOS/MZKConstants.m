@@ -199,5 +199,16 @@ NSString *const kDocumentInternalpart =@"Vnitřní část";
 }
 
 
++ (BOOL)isMusic:(MZKModel)model {
+    switch (model) {
+        case Sheetmusic:
+        case Track:
+        case SoundUnit:
+        case SoundRecording:
+            return  true;
+        default:
+            return false;
+    }
+}
 
 @end

@@ -153,4 +153,16 @@
     return self;
 }
 
+- (BOOL)isModelMusic {
+    switch (self.model) {
+        case Sheetmusic:
+        case Track:
+        case SoundUnit:
+        case SoundRecording:
+            return YES;
+        default:
+            return NO;
+    }
+}
+
 @end

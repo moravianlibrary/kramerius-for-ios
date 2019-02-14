@@ -115,5 +115,6 @@ extern NSString *const kDocumentInternalpart;
 + (NSString*)modelTypeToString:(MZKModel)model;
 + (MZKModel)stringToModel:(NSString *)strToModel;
 
++ (BOOL)isMusic:(MZKModel)model;
 
 @end

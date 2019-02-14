@@ -42,4 +42,6 @@
 -(void)encodeWithCoder:(NSCoder *)aCoder;
 -(id)initWithCoder:(NSCoder *)coder;
 
+- (BOOL)isModelMusic;
+
 @end
