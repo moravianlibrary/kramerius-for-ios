@@ -163,29 +163,24 @@
     return newCell;
 }
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     MZKCollectionItemResource *item = [_loadedItems objectAtIndex:indexPath.row];
     
-     _selectedItem = item;
+    _selectedItem = item;
     
     if ([item.policy isEqualToString:@"public"]) {
         
         if (item.model == SoundUnit || item.model == SoundRecording) {
-        
+
             AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
             
             [delegate transitionToMusicViewControllerWithSelectedMusic:item.pid];
-       
-        }
-        else{
-            
+
+        } else {
             [self performSegueWithIdentifier:@"OpenReader" sender:nil];
         }
- 
-    }
-    else
-    {
+    } else {
         [self showErrorWithCancelActionAndTitle:@"Pozor" subtitle:@"Tato sbírka není veřejně dostupná." withCompletion:nil];
     }
 }

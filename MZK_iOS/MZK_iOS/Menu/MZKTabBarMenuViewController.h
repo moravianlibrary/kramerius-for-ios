@@ -12,6 +12,4 @@
 
 @interface MZKTabBarMenuViewController : UITabBarController<UINavigationControllerDelegate>
 
-@property (nonatomic, strong) IBOutlet MZKMusicViewController *musicVC;
-
 @end

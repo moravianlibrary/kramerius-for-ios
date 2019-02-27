@@ -15,7 +15,7 @@
 @class MZKTabBarMenuViewController;
 @class MSDynamicsDrawerViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) MZKLibraryItem *defaultDatasourceItem;

@@ -119,6 +119,8 @@
     self.menuTabBar = (MZKTabBarMenuViewController*)self.window.rootViewController;
     
     self.menuTabBar.delegate = self;
+    self.menuTabBar.moreNavigationController.delegate = self;
+   // self.menuTabBar.moreNavigationController
     
     // Configure tracker from GoogleService-Info.plist.
     NSError *configureError;
@@ -527,6 +529,28 @@
     }
 }
 
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    NSLog(@"Selected view controllers");
+
+    if([viewController isKindOfClass:[UINavigationController class]]) {
+
+    }
+
+    if (tabBarController.moreNavigationController == viewController) {
+        NSLog(@"More");
+    }
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController willBeginCustomizingViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers {
+    NSLog(@"Shoudl begin customizing view controllers");
+}
+
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+
+    return true;
+}
+
+
 -(void)presentMusicViewControllerWithMusic:(NSString *)pid {
 
     if (!_musicViewController) {
@@ -545,10 +569,8 @@
     }];
 }
 
--(void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    if([viewController isKindOfClass:[UINavigationController class]]) {
-
-    }
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+     NSLog(@"viewController");
 }
 
 @end

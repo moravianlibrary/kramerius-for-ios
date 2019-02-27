@@ -256,6 +256,14 @@ public class MusicViewController: UIViewController {
         }
 
         queuePlayer.play()
+        highlightCurrentSong()
+    }
+
+    private func highlightCurrentSong() {
+        if let currentItem = queuePlayer.currentItem, let currentItemIndex = playlist.index(of: currentItem) {
+            let targetIndexPath = IndexPath(row: currentItemIndex, section: 0)
+            tracklistTableView.selectRow(at: targetIndexPath, animated:true, scrollPosition: .none)
+        }
     }
 
     @IBAction func close(_ sender: Any) {
@@ -268,6 +276,8 @@ public class MusicViewController: UIViewController {
         } else {
             queuePlayer.pause()
         }
+
+        highlightCurrentSong()
     }
 
     @IBAction func nextItem(_ sender: Any) {
@@ -365,8 +375,9 @@ extension MusicViewController {
 }
 
 extension MusicViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    private func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         playItemAtIndex(index: indexPath.row)
+        highlightCurrentSong()
     }
 }
 
