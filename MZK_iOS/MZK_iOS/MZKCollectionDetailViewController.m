@@ -15,12 +15,13 @@
 #import "MZKItemCollectionViewCell.h"
 #import <Google/Analytics.h>
 #import "AppDelegate.h"
+#import "PresentMusicViewControllerProtocol.h"
 #import "MZK_iOS-Swift.h"
 
 @import SDWebImage;
 @import RMessage;
 
-@interface MZKCollectionDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, DataLoadedDelegate>
+@interface MZKCollectionDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, DataLoadedDelegate, PresentMusicViewControllerProtocol>
 {
     MZKDatasource *_datasource;
     NSMutableArray *_loadedItems;
@@ -170,13 +171,9 @@
     _selectedItem = item;
     
     if ([item.policy isEqualToString:@"public"]) {
-        
         if (item.model == SoundUnit || item.model == SoundRecording) {
-
             AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            
-            [delegate transitionToMusicViewControllerWithSelectedMusic:item.pid];
-
+            [self presentMusicViewController:delegate.musicViewController withItem:item.pid];
         } else {
             [self performSegueWithIdentifier:@"OpenReader" sender:nil];
         }
@@ -222,21 +219,18 @@
 }
 
 - (void)updateCollectionViewLayoutWithSize:(CGSize)size {
-    
     UICollectionViewFlowLayout *flowLayout = (id)self.collectionView.collectionViewLayout;
     float desiredWidth = [self calculateCellWidthFromScreenWidth:size.width];
-    
+
     CGSize sizeOfCell = CGSizeMake(desiredWidth, 140);
-    
+
     flowLayout.itemSize = sizeOfCell;
-    
+
     [flowLayout invalidateLayout];
-    
 }
 
-
 - (IBAction)onBack:(id)sender {
-    
+
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{ }];
 }
 
@@ -271,7 +265,7 @@
     if ([[segue identifier] isEqualToString:@"OpenReader"]) {
         // Get reference to the destination view controller
         MZKDetailManagerViewController *vc = [segue destinationViewController];
-        
+
         // Pass any objects to the view controller here, like...
         [vc setItemPID:_selectedItem.pid];
         _selectedItem = nil;
@@ -288,4 +282,9 @@
     }
     return NO;
 }
+
+- (void)presentMusicViewController:(MusicViewController *)controller withItem:(NSString *)item {
+    // TODO: Present music view controller 
+}
+
 @end

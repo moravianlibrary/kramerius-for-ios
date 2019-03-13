@@ -17,12 +17,12 @@
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
 #import "MZKConstants.h"
+#import "PresentMusicViewControllerProtocol.h"
 #import "MZK_iOS-Swift.h"
 @import RMessage;
 
 
-@interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, MZKDataLoadedDelegateObjc>
-{
+@interface MZKGeneralColletionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, DataLoadedDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, MZKDataLoadedDelegateObjc, PresentMusicViewControllerProtocol> {
     MZKDatasource *_datasource;
     MZKDatasourceS *s_datasource;
     MZKItemResource *parentItemResource;
@@ -75,10 +75,8 @@
         [self.view bringSubviewToFront:_filtersViewControllerContainerView];
         [self.view sendSubviewToBack:_fullScreenCollectionView];
         _fullScreenCollectionView.hidden = YES;
-    }
-    else {
+    } else {
         if (([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)) {
-
             // hide collection view for filters and filters
             [self.view bringSubviewToFront:_fullScreenCollectionView];
             [self.view sendSubviewToBack:_collectionView];
@@ -89,11 +87,9 @@
     }
     
     // ipad device is okay setup for iphone.
-    if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad)
-    {
+    if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad) {
         // debugPrint("ipad show")
         if (_shouldDisplayFilters) {
-
             // filters should be shown
             // clean constraints from collection view and filters view
             [self.collectionView removeConstraints:self.collectionView.constraints];
@@ -133,15 +129,13 @@
         }
         
         _filtersContainerViewTopConstraint.constant = self.view.frame.size.height;
-    }
-    else {
+    } else {
         _filterButton.enabled = false;
         _filterButton.tintColor = [UIColor clearColor];
     }
 }
 
--(void)initGoogleAnalytics
-{
+- (void)initGoogleAnalytics {
     NSString *name = [NSString stringWithFormat:@"Pattern~%@", @"MZKGeneralCollectionViewController"];
     
     // The UA-XXXXX-Y tracker ID is loaded automatically from the
@@ -155,8 +149,7 @@
     // [END screen_view_hit_objc]
 }
 
--(void)refreshTitle
-{
+- (void)refreshTitle {
     // title has to be different based on type of parent resource!!!
     NSMutableString *title = [NSMutableString new];
     
@@ -183,10 +176,8 @@
             NSLog(@"Year:%@", parentItemResource.year);
         }
     }
-    
-    
+
     if (parentItemResource.model == PeriodicalItem) {
-        
         // do we have a root title?
         if (parentItemResource.rootTitle) {
             [title appendString:parentItemResource.rootTitle];
@@ -207,9 +198,7 @@
     
     if (title) {
         self.navigationItem.title = title;
-    }
-    else
-    {
+    } else {
         NSLog(@"There is no usable title! Using default instead!");
         self.navigationItem.title = parentItemResource.title;
     }
@@ -217,29 +206,31 @@
     // should display search icon in header bar
     if (_shouldDisplayFilters) {
         [self showBarButtonItem:self.filterButton];
-    }
-    else{
+    } else{
         [self hideBarButtonItem:self.filterButton];
     }
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.collectionView setContentOffset:CGPointMake(0, -50) animated:false];
 }
 
--(IBAction)onClose:(id)sender
-{
+- (IBAction)onClose:(id)sender {
+    if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad) {
+        if (self.filtersContainerViewTopConstraint.constant == 0) {
+            [self onFilterButton:nil];
+            return;
+        }
+    }
+
     if (self.isFirst) {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-            
+
         }];
-    }
-    else{
+    } else {
         [self.navigationController popViewControllerAnimated:YES];
     }
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -247,21 +238,18 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)setItems:(NSArray *)items
-{
+- (void)setItems:(NSArray *)items {
     _items = items;
 }
 
--(void)setParentObject:(MZKItemResource *)parentObject
-{
+-(void)setParentObject:(MZKItemResource *)parentObject {
     [self showLoadingIndicator];
     _parentObject = parentObject;
     [self loadDataForController];
     
 }
 
--(void)loadDataForController
-{
+- (void)loadDataForController {
     if (!_datasource) {
         _datasource  = [MZKDatasource new];
         _datasource.delegate = self;
@@ -276,9 +264,7 @@
     }
 }
 
-
--(void)setParentPID:(NSString *)parentPID
-{
+- (void)setParentPID:(NSString *)parentPID {
     [self showLoadingIndicator];
     _parentPID = parentPID;
     if (!_datasource) {
@@ -288,8 +274,7 @@
     [_datasource getItem:_parentPID];
 }
 
--(void)downloadFailedWithError:(NSError *)error
-{
+- (void)downloadFailedWithError:(NSError *)error {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
@@ -310,7 +295,7 @@
                                  [welf showLoadingIndicator];
                                  [welf loadDataForController];
                              }];
-    } else if([error.domain isEqualToString:@"MZK"]) {
+    } else if ([error.domain isEqualToString:@"MZK"]) {
         [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.error", @"Obecna chyba")
                                    subtitle:[error.userInfo objectForKey:@"details"]
                                        type:RMessageTypeWarning
@@ -329,20 +314,8 @@
     }
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
 #pragma mark - CollectionView Delegate and Datasource
-
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    
     return _items.count;
 }
 
@@ -363,8 +336,6 @@
         cell.publicOnlyIcon.hidden = [item.policy isEqualToString:@"public"]? YES:NO;
         
         if (item.model == PeriodicalVolume) {
-            
-            
             if (item.year) {
                 cell.itemName.text = item.year;
             }
@@ -387,11 +358,8 @@
             if ([cell.itemName.text caseInsensitiveCompare:@""] ==NSOrderedSame) {
                 // we dont have a title
                 cell.itemName.text = [NSString stringWithFormat:@"Číslo %@", item.issueNumber];
-            }
-            else
-            {
+            } else {
                 cell.itemAuthors.text = [NSString stringWithFormat:@"Číslo %@", item.issueNumber];
-                
             }
             
             if (!item.title) {
@@ -411,20 +379,16 @@
 }
 
 #pragma mark - UICollectionViewDelegate
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-    MZKPageObject *po =[_items objectAtIndex:indexPath.row];
+    MZKPageObject *po = [_items objectAtIndex:indexPath.row];
     
-    if (po.model == SoundUnit) {
+    if (po.model == SoundUnit || po.model == SoundRecording) {
+       // [self onClose:nil];
         
-        [self onClose:nil];
-        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        
-        [delegate transitionToMusicViewControllerWithSelectedMusic:po.pid];
-        
-    }
-    else if (po.datanode) {
+        [self presentMusicViewController:nil withItem:po.pid];
+
+    } else if (po.datanode) {
         //should dive deeper
         MZKGeneralColletionViewController *nextViewController = [storyboard instantiateViewControllerWithIdentifier:@"MZKGeneralColletionViewController"];
         [nextViewController setParentPID:po.pid];
@@ -483,8 +447,7 @@
 }
 
 #pragma mark - Collection View Flow Layout Delegate
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     float desiredWidth = [self calculateCellWidthFromScreenWidth:collectionView.frame.size.width];
     
@@ -494,8 +457,7 @@
     
 }
 
--(float)calculateCellWidthFromScreenWidth:(float)width
-{
+- (float)calculateCellWidthFromScreenWidth:(float)width {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     int numberOfItemsPerRow = 0;
     int kMinCellWidth = 250;
@@ -519,21 +481,19 @@
 }
 
 - (void)updateCollectionViewLayoutWithSize:(CGSize)size {
-    
+
     UICollectionViewFlowLayout *flowLayout = (id)self.collectionView.collectionViewLayout;
     float desiredWidth = [self calculateCellWidthFromScreenWidth:size.width];
-    
+
     CGSize sizeOfCell = CGSizeMake(desiredWidth, 140);
-    
+
     flowLayout.itemSize = sizeOfCell;
-    
+
     [flowLayout invalidateLayout];
-    
 }
 
 #pragma mark - Data Loaded delegate and Datasource methods
--(void)childrenForItemLoaded:(NSArray *)items
-{
+- (void)childrenForItemLoaded:(NSArray *)items {
     if(![[NSThread currentThread] isMainThread])
     {
         __weak typeof(self) welf = self;
@@ -542,17 +502,15 @@
         });
         return;
     }
-    
+
     _items = items;
-    
+
     [self refreshDataForCollectionView];
     [self hideLoadingIndicator];
-    
 }
 
 #pragma mark - Search bar delegate
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length >3) {
         if (!_datasource) {
             _datasource = [MZKDatasource new];
@@ -569,98 +527,83 @@
     }
 }
 
--(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     [self showDimmingView];
 }
 
--(void)showDimmingView
-{
+- (void)showDimmingView {
     [UIView animateWithDuration:0.4 animations:^{
         _dimmingView.alpha = 0.4;
     }];
 }
 
--(void)hideDimmingView
-{
+- (void)hideDimmingView {
     _searchResultsTableView.hidden = YES;
     [UIView animateWithDuration:0.4 animations:^{
         _dimmingView.alpha = 0.0;
     }];
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
     searchBar.text = @"";
     [self hideDimmingView];
 }
 
--(void)showLoadingIndicator
-{
+- (void)showLoadingIndicator {
     self.activityIndicatorContainerView.hidden = self.activityIndicator.hidden = NO;
     [self.view bringSubviewToFront:self.activityIndicatorContainerView];
     [self.activityIndicator startAnimating];
-    
 }
 
--(void)hideLoadingIndicator
-{
+- (void)hideLoadingIndicator {
     [self.activityIndicator stopAnimating];
     self.activityIndicatorContainerView.hidden = self.activityIndicator.hidden = YES;
 }
 
 #pragma mark - search table view delegate and datasource
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return  _searchResults.allKeys.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchHintCell"];
-    
-    
+
     cell.textLabel.text = [_searchResults.allKeys objectAtIndex:indexPath.row];
     return cell;
-    
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *key = [_searchResults.allKeys objectAtIndex:indexPath.row];
     NSString *targetPid = [_searchResults objectForKey:key];
-    
+
     [_datasource getItem:targetPid];
-    
+
     [_searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+
     [self resetSearch];
 }
 
--(void) detailForItemLoaded:(MZKItemResource *)item
-{
-    if(![[NSThread currentThread] isMainThread])
-    {
+- (void)detailForItemLoaded:(MZKItemResource *)item {
+    if(![[NSThread currentThread] isMainThread]) {
         __weak typeof(self) welf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             [welf detailForItemLoaded:item];
         });
         return;
     }
-    
+
     parentItemResource = item;
-    
+
     [self refreshTitle];
     [_datasource getChildrenForItem:parentItemResource.pid];
 }
 
--(void)resetSearch
-{
+- (void)resetSearch {
     [self hideDimmingView];
     [self hideLoadingIndicator];
     _searchResultsTableView.hidden = YES;
@@ -669,13 +612,10 @@
 
 #pragma MARK - Filters
 - (IBAction)onFilterButton:(id)sender {
-    
     // change constraints
     // ipad device
-    if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad)
-    {   // debugPrint("ipad show")
+    if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad) {   // debugPrint("ipad show")
         if (_filtersContainerViewTopConstraint.constant == 0) {
-            
             _filtersContainerViewTopConstraint.constant = self.view.frame.size.height;
             // change page title
             self.navigationItem.title = NSLocalizedString(@"mzk.searchResults", @"titulek obrazovky");
@@ -683,49 +623,45 @@
             _filtersContainerViewTopConstraint.constant = 0;
             self.navigationItem.title = NSLocalizedString(@"mzk.filters", @"titulek obrazovky");
         }
-        
+
         // animate change
         [UIView animateWithDuration:0.25 animations:^{
             [self.view layoutIfNeeded];
         }];
-        
     }
-    
-    
 }
 
--(void) refreshFiltersWithQuery:(MZKFilterQuery *)query {
-    if  (!s_datasource) {
+- (void)refreshFiltersWithQuery:(MZKFilterQuery *)query {
+    if (!s_datasource) {
         s_datasource = [[MZKDatasourceS alloc] init];
     }
-    
+
     // set delegate
     [s_datasource setDelegate:self];
-    
+
     // refresh Search Results with selected filter facet
     [s_datasource getSearchResultsFrom:_searchTerm WithQuery:query facet:@""];
-    
+
     //save query
     filterQuery = query;
-    
+
     // refresh filter facets
     [self setupActiveFilters: [filterQuery getAllActiveFilters]];
 }
 
--(void) hideBarButtonItem :(UIBarButtonItem *)myButton {
+- (void)hideBarButtonItem:(UIBarButtonItem *)myButton {
     // Get the reference to the current toolbar buttons
     NSMutableArray *navBarBtns = [self.navigationItem.rightBarButtonItems mutableCopy];
-    
+
     // This is how you remove the button from the toolbar and animate it
     [navBarBtns removeObject:myButton];
     [self.navigationItem setRightBarButtonItems:navBarBtns animated:YES];
 }
 
-
--(void) showBarButtonItem :(UIBarButtonItem *)myButton {
+- (void)showBarButtonItem:(UIBarButtonItem *)myButton {
     // Get the reference to the current toolbar buttons
     NSMutableArray *navBarBtns = [self.navigationItem.rightBarButtonItems mutableCopy];
-    
+
     // This is how you add the button to the toolbar and animate it
     if (![navBarBtns containsObject:myButton]) {
         [navBarBtns addObject:myButton];
@@ -736,18 +672,18 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    
+
     if ([segue.identifier isEqual: @"FiltersSegue"]) {
         if  (_shouldDisplayFilters){
             // filter segue
             if (!_filtersVC) {
                 _filtersVC = [segue destinationViewController] ;
             }
-            
+
             if(!filterQuery) {
                 filterQuery = [[MZKFilterQuery alloc] initWithQuery:_searchTerm publicOnly:YES];
             }
-            
+
             _filtersVC.currentQuery = filterQuery;
             [_filtersVC setSearchTerm: _searchTerm];
             __weak typeof(self) welf = self;
@@ -767,30 +703,29 @@
 - (void)searchFilterDataLoadedWithResults:(NSArray * _Nonnull)results {
     // set new items
     self.items = results;
-    
+
     // reload table views, move this to view will appear - on smaller devices there is no need to refresh data - collection view is not visible ...
 
     [self refreshDataForCollectionView];
 }
 
--(void)refreshDataForCollectionView {
-
+- (void)refreshDataForCollectionView {
     if (self.shouldDisplayFilters) {
-          [self.collectionView reloadData];
+        [self.collectionView reloadData];
 
     } else {
-          [self.fullScreenCollectionView reloadData];
+        [self.fullScreenCollectionView reloadData];
     }
 }
 
 /**
  * method that setup views representing active filters
  */
--(void)setupActiveFilters:(NSArray *)filters {
-    
+- (void)setupActiveFilters:(NSArray *)filters {
+
     // check if array contains any values?
     if (filters.count > 0) {
-        
+
         // clean views
         for (UIView * filterView in _activeFiltersStackView.subviews) {
             [_activeFiltersStackView removeArrangedSubview:filterView];
@@ -801,11 +736,11 @@
             filterLabel.textColor = [UIColor whiteColor];
             filterLabel.numberOfLines = 0;
             filterLabel.text = filter;
-            
+
             filterLabel.backgroundColor = [UIColor colorWithRed:0.0f green:0.22f blue:122.0/255.0 alpha:1.0f];
             filterLabel.font = [UIFont fontWithName:filterLabel.font.fontName size:15.0];
             filterLabel.translatesAutoresizingMaskIntoConstraints = false;
-            
+
             //[UIColor colorWithRed:70.0 green:122.0 blue:21.0 alpha:1.0];
             [_activeFiltersStackView addArrangedSubview:filterLabel];
         }
@@ -813,8 +748,30 @@
         // if not -> hide filters view
         // change height of filter container to 0, constraint for height defined -> change to 0
         _activeFiltersHeightConstraint.constant = 0.0;
-        
+
     }
 }
 
+- (void)presentMusicViewController:(MusicViewController *)controller withItem:(NSString *)item {
+    MusicViewController *musicViewController = nil;
+
+    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    musicViewController = del.musicViewController;
+
+    UIPopoverPresentationController *presentationController = musicViewController.popoverPresentationController;
+    presentationController.sourceView = self.view;
+    presentationController.sourceRect = CGRectMake(20, 20, 20, 20);
+    presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+        musicViewController.preferredContentSize = CGSizeMake(375, 667);
+    }
+
+    // present
+    [self presentViewController:musicViewController animated:YES completion:^{
+        if (item) {
+            [musicViewController playMusicWithPid:item];
+        }
+    }];
+}
 @end

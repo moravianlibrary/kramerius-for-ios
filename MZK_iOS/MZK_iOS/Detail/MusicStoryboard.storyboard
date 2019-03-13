@@ -118,6 +118,7 @@
                                             </tableView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CA4-5R-0r3">
                                                 <rect key="frame" x="0.0" y="0.0" width="335" height="388"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -191,7 +192,7 @@
                         <viewLayoutGuide key="safeArea" id="wt8-7B-dCc"/>
                     </view>
                     <connections>
-                        <outlet property="albumImageView" destination="CA4-5R-0r3" id="eb7-pF-fhJ"/>
+                        <outlet property="albumImageView" destination="CA4-5R-0r3" id="NHB-vF-zDB"/>
                         <outlet property="controllsContainer" destination="mE0-gV-Kt9" id="64r-7z-MMh"/>
                         <outlet property="elapsedTimeLabel" destination="i3Z-W9-GLo" id="HHg-Xo-Vpq"/>
                         <outlet property="fastForwardButton" destination="pjD-oI-auv" id="fJX-rY-kJq"/>

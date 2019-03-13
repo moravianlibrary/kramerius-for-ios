@@ -18,8 +18,7 @@
 #import "MZK_iOS-Swift.h"
 @import RMessage;
 
-@interface MZKSearchViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DataLoadedDelegate>
-{
+@interface MZKSearchViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DataLoadedDelegate> {
     NSArray *_searchHints;
     NSArray *_searchResults;
     MZKDatasource *_datasource;
@@ -56,12 +55,12 @@
     self.searchResultsTableView.tableFooterView = [[UIView alloc] init];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.searchResultsTableView setContentOffset:CGPointMake(0, -50) animated:false];
 }
 
--(void)onDatasourceChanged:(NSNotification *)notf {
+- (void)onDatasourceChanged:(NSNotification *)notf {
     
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
@@ -77,7 +76,7 @@
     _searchBar.text = @"";
 }
 
--(void)initGoogleAnalytics {
+- (void)initGoogleAnalytics {
     NSString *name = [NSString stringWithFormat:@"Pattern~%@", @"MZKSearchViewController"];
     
     // The UA-XXXXX-Y tracker ID is loaded automatically from the
@@ -96,7 +95,7 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)setStringItem:(NSString *)stringItem {
+- (void)setStringItem:(NSString *)stringItem {
     _stringItem = stringItem;
     
     //should load details for string item
@@ -107,7 +106,7 @@
     }
 }
 
--(void)downloadFailedWithError:(NSError *)error {
+- (void)downloadFailedWithError:(NSError *)error {
     __weak typeof(self) welf = self;
     if(![[NSThread currentThread] isMainThread])
     {
@@ -125,7 +124,7 @@
                                        subtitle:NSLocalizedString(@"mzk.error.checkYourInternetConnection", "generic error")
                                            type:RMessageTypeWarning
                                  customTypeName:nil callback:^{
-                                    
+
                                  }];
         }
         else { NSLog(@"Canceled request"); }
@@ -137,7 +136,7 @@
                                    subtitle:NSLocalizedString(@"mzk.error.url.unknown", @"general error")
                                        type:RMessageTypeWarning
                              customTypeName:nil callback:^{
-                               //  [welf loadDataForController];
+                                 //  [welf loadDataForController];
                              }];
     }
 
@@ -145,27 +144,23 @@
 
 #pragma mark - SearchBar Delegate
 
-- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
+- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     _isRemovingTextWithBackspace = ([searchBar.text stringByReplacingCharactersInRange:range withString:text].length == 0);
     return YES;
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     // Do the search...
     [self performSearchWithItem:searchBar.text];
-    
 }
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     self.searchBar = searchBar;
     _searchResultsTableView.hidden = NO;
     
     _filteredRecentSearches = [self getSearchHintsFromRecentWithString:searchText];
     
-    if (searchText.length == 0 && !_isRemovingTextWithBackspace)
-    {
+    if (searchText.length == 0 && !_isRemovingTextWithBackspace) {
         [self searchBarCancelButtonClicked:searchBar];
         
         // show recent
@@ -174,11 +169,9 @@
             [self.delegate searchStarted];
         }
         
-    }else if (searchText.length >=1) {
+    } else if (searchText.length >=1) {
         [self performHintSearchWithText:searchText];
-    }
-    else
-    {
+    } else {
         [self showDimmingView];
         _searchHints= [NSArray new];
         _searchResultsTableView.hidden = NO;
@@ -187,8 +180,7 @@
     [_searchResultsTableView reloadData];
 }
 
--(void)performHintSearchWithText:(NSString *)searchText
-{
+- (void)performHintSearchWithText:(NSString *)searchText {
     if (!_datasource) {
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
@@ -196,8 +188,7 @@
     [_datasource getSearchResultsAsHints:searchText];
 }
 
--(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     [self showDimmingView];
     if([self.delegate respondsToSelector:@selector(searchStarted)])
     {
@@ -207,8 +198,7 @@
     [self.searchResultsTableView reloadData];
 }
 
--(void)showDimmingView
-{
+-(void)showDimmingView {
     if (_dimmingView.hidden) {
         _dimmingView.hidden = NO;
     }
@@ -218,16 +208,14 @@
     }];
 }
 
--(void)hideDimmingView
-{
+- (void)hideDimmingView {
     _searchResultsTableView.hidden = YES;
     [UIView animateWithDuration:0.4 animations:^{
         _dimmingView.alpha = 0.0;
     }];
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [self searchCancelled];
     
     if ([self.delegate respondsToSelector:@selector(searchEnded)]) {
@@ -235,7 +223,7 @@
     }
 }
 
--(void)searchCancelled {
+- (void)searchCancelled {
     [self.view endEditing:YES];
     [_searchBar resignFirstResponder];
     _searchBar.text = @"";
@@ -244,17 +232,15 @@
 }
 
 #pragma mark - search table view delegate and datasource
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return  _searchHints.count + _filteredRecentSearches.count;
 }
 
--(MZKSearchTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (MZKSearchTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MZKSearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MZKSearchTableViewCell2" forIndexPath:indexPath];
     
     if (_filteredRecentSearches.count > 0 && indexPath.row <= _filteredRecentSearches.count-1 ) {
@@ -276,14 +262,11 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *key;
     if (_filteredRecentSearches.count > 0 && indexPath.row <= _filteredRecentSearches.count-1 ) {
         key = [_filteredRecentSearches objectAtIndex:indexPath.row];
-    }
-    else
-    {
+    } else {
         key = [_searchHints objectAtIndex:indexPath.row - _filteredRecentSearches.count];
     }
     
@@ -294,16 +277,14 @@
 
 #pragma mark - regular search
 
--(void)performSearchWithItem:(NSString *)title
-{
+- (void)performSearchWithItem:(NSString *)title {
     if (!_datasource) {
         _datasource = [MZKDatasource new];
         _datasource.delegate = self;
     }
     
     [_datasource getSearchResults:title];
-    
-    
+
     if (![_recentMutableSearches containsObject:title]) {
         [_recentMutableSearches addObject:title];
         [self saveRecentSearches];
@@ -312,10 +293,8 @@
 
 #pragma mark - datasource delegate
 
--(void)searchHintsLoaded:(NSArray *)results
-{
-    if(![[NSThread currentThread] isMainThread])
-    {
+-(void)searchHintsLoaded:(NSArray *)results {
+    if(![[NSThread currentThread] isMainThread]) {
         __weak typeof(self) welf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             [welf searchHintsLoaded:results];
@@ -325,18 +304,15 @@
     
     if (results.count == 0) {
         NSLog(@"0 HINTS results");
-    }
-    else{
+    } else{
         _searchHints= results;
         _searchResultsTableView.hidden = NO;
         [_searchResultsTableView reloadData];
     }
 }
 
--(void)searchResultsLoaded:(NSArray *)results
-{
-    if(![[NSThread currentThread] isMainThread])
-    {
+- (void)searchResultsLoaded:(NSArray *)results {
+    if(![[NSThread currentThread] isMainThread]) {
         __weak typeof(self) welf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             [welf searchResultsLoaded:results];
@@ -365,25 +341,21 @@
 
 #pragma mark segues for general view controller
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Make sure your segue name in storyboard is the same as this line
-    if ([[segue identifier] isEqualToString:@"OpenReader"])
-    {
+    if ([[segue identifier] isEqualToString:@"OpenReader"]) {
         // Get reference to the destination view controller
         MZKDetailManagerViewController *vc = [segue destinationViewController];
         
         // Pass any objects to the view controller here, like...
         [vc setItemPID:sender];
         
-    }else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
-    {
+    } else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"]) {
         MZKMusicViewController *vc = [segue destinationViewController];
+        [self presentMusicViewController:nil withItem:sender];
         [vc setItem:sender];
         //set item
-    }
-    else if ([[segue identifier] isEqualToString:@"OpenGeneralList"])
-    {
+    } else if ([[segue identifier] isEqualToString:@"OpenGeneralList"]) {
         UINavigationController *navVC =[segue destinationViewController];
         MZKGeneralColletionViewController *vc =(MZKGeneralColletionViewController *)navVC.topViewController;
      
@@ -400,8 +372,7 @@
 }
 
 #pragma mark - recent searches
--(NSArray *)getSearchHintsFromRecentWithString:(NSString *)key
-{
+- (NSArray *)getSearchHintsFromRecentWithString:(NSString *)key {
     
     NSMutableSet *results = [NSMutableSet new];
     // create NSPredicate with correct format
@@ -415,49 +386,68 @@
     
     NSMutableArray *filteredResults = [NSMutableArray new];
     
-    if (results.count >3) {
-        
+    if (results.count > 3) {
         for (int i = 0; i<3; i++) {
             [filteredResults addObject:results.allObjects[i]];
         }
-    }
-    else
-    {
+    } else {
         filteredResults = [results.allObjects copy];
     }
     
     return [filteredResults copy];
 }
 
--(void)saveRecentSearches {
+- (void)saveRecentSearches {
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_recentMutableSearches] forKey:kRecentSearches];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
--(NSMutableSet *)loadRecentSearches {
+- (NSMutableSet *)loadRecentSearches {
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     NSData *dataRepresentingSavedArray = [currentDefaults objectForKey:kRecentSearches];
     NSMutableSet *savedData;
-    if (dataRepresentingSavedArray)
-    {
+
+    if (dataRepresentingSavedArray) {
         savedData = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
         if (!savedData) {
             savedData = [NSMutableSet new];
         }
-    }else
-    {
+    } else {
         return [NSMutableSet new];
-        
     }
     
     return savedData;
 }
 
 #pragma mark - search bar
--(void)removeSearchBarBorder {
+- (void)removeSearchBarBorder {
     if ([self.searchBar respondsToSelector:@selector(setBarTintColor:)]) {
         self.searchBar.barTintColor = [UIColor clearColor];
     }
+}
+
+- (void)presentMusicViewController:(MusicViewController *)controller withItem:(NSString *)item {
+
+    MusicViewController *musicViewController = nil;
+
+    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    musicViewController = del.musicViewController;
+
+    UIPopoverPresentationController *presentationController = musicViewController.popoverPresentationController;
+    presentationController.sourceView = self.view;
+    presentationController.sourceRect = CGRectMake(20, 20, 20, 20);
+    presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+        musicViewController.preferredContentSize = CGSizeMake(375, 667);
+    }
+
+    // present
+    [self presentViewController:musicViewController animated:YES completion:^{
+        if (item) {
+            [musicViewController playMusicWithPid:item];
+        }
+    }];
 }
 
 -(void)dealloc {

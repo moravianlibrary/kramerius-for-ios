@@ -15,10 +15,15 @@
 #import "AFNetworkReachabilityManager.h"
 #import "MZKTabBarMenuViewController.h"
 #import "MZKDatasource.h"
+#import "MZKPlaceholderViewController.h"
 #import "MZK_iOS-Swift.h"
 
-@interface AppDelegate ()<DataLoadedDelegate>
-{
+#import <AVFoundation/AVFoundation.h>
+
+#define IDIOM    UI_USER_INTERFACE_IDIOM()
+#define IPAD     UIUserInterfaceIdiomPad
+
+@interface AppDelegate ()<DataLoadedDelegate> {
     MZKDatasource *_datasource;
     MusicViewController *_musicViewController;
 }
@@ -28,14 +33,18 @@
 @implementation AppDelegate
 
 //Use the return value to check the Internet connection
-+(BOOL)connected {
++ (BOOL)connected {
     
     return [AFNetworkReachabilityManager sharedManager].reachable;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
+
+    NSError *sessionError = nil;
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&sessionError];
+    [[AVAudioSession sharedInstance] setActive:YES error:&sessionError];
+
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     
     
@@ -52,9 +61,7 @@
         
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kMinimalRecentSearchesVersion] forKey:kMinimalRecentSearches];
         [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    else
-    {
+    } else {
         NSLog(@"Version is OK! SEARCHES");
     }
     
@@ -65,9 +72,7 @@
         
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kMinimalRecentDocumentsVersion] forKey:kRecentlyOpenedDocumentsVersion];
         [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    else
-    {
+    } else {
         NSLog(@"Version is OK! DOCS");
     }
     
@@ -79,9 +84,7 @@
         
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:kMinimalBookmarkVerion] forKey:kMinimalBookmarkVersionKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    else
-    {
+    } else {
         NSLog(@"Version is OK! Bookmarks");
     }
 
@@ -120,8 +123,7 @@
     
     self.menuTabBar.delegate = self;
     self.menuTabBar.moreNavigationController.delegate = self;
-   // self.menuTabBar.moreNavigationController
-    
+
     // Configure tracker from GoogleService-Info.plist.
     NSError *configureError;
     [[GGLContext sharedInstance] configureWithError:&configureError];
@@ -135,15 +137,22 @@
     // track uncaught exceptions!
     [[GAI sharedInstance] setTrackUncaughtExceptions:YES];
     
- [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
     [self loadSQL];
+
+    // create music view controller
+    NSString * storyboardName = @"MusicStoryboard";
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+    MusicViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MusicViewController"];
+    _musicViewController = vc;
+
+    _musicViewController.modalPresentationStyle = UIModalPresentationPopover;
 
     return YES;
 }
 
--(void)loadSQL
-{
+- (void)loadSQL {
     // init DB manager
     __weak typeof(self) wealf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -158,8 +167,8 @@
     });
 }
 
--(void)downloadLibrariesJsonFromServer
-{    // download json from server
+- (void)downloadLibrariesJsonFromServer {
+    // download json from server
     // save json
     _datasource = [[MZKDatasource alloc] initWithoutBaseURL];
     _datasource.delegate = self;
@@ -167,8 +176,7 @@
 }
 
 #pragma mark - data loaded delegate methods
--(void)librariesLoaded:(NSArray *)results
-{
+- (void)librariesLoaded:(NSArray *)results {
     dispatch_async(dispatch_get_main_queue(), ^{
 
         UINavigationController *controller = [[((UITabBarController *)self.window.rootViewController) viewControllers] objectAtIndex:kLibrariesViewControllerIndex];
@@ -189,7 +197,7 @@
 }
 
 // error states
--(void)downloadFailedWithError:(NSError *)error
+- (void)downloadFailedWithError:(NSError *)error
 {
     if([error.domain isEqualToString:NSURLErrorDomain])
     {
@@ -209,6 +217,7 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [_musicViewController pause];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -232,15 +241,12 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
--(void)setDefaultDatasource
-{
+- (void)setDefaultDatasource {
     //load from user defaults
     MZKLibraryItem *item  = [self loadDatasourceFromUserDefaults];
     if (item) {
         self.defaultDatasourceItem = item;
-    }
-    else
-    {
+    } else {
         // notify user about connection problems, check wifi and try again
     }
     self.recentlyOpenedDocuments = nil;
@@ -250,8 +256,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kDatasourceItemChanged object:nil];
 }
 
--(MZKLibraryItem*)loadDatasourceFromUserDefaults
-{
+- (MZKLibraryItem*)loadDatasourceFromUserDefaults {
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     NSData *dataRepresentingDatasource = [currentDefaults objectForKey:kDefaultDatasourceItem];
     MZKLibraryItem *savedLibrary;
@@ -266,10 +271,8 @@
     return savedLibrary;
 }
 
--(void)saveToUserDefaults:(MZKLibraryItem *)item
-{
+- (void)saveToUserDefaults:(MZKLibraryItem *)item {
     if (![self.defaultDatasourceItem.name isEqualToString:item.name]) {
-
         self.defaultDatasourceItem = item;
         
         [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:item] forKey:kDefaultDatasourceItem];
@@ -282,27 +285,23 @@
     }
 }
 
--(MZKLibraryItem *)getDatasourceItem
-{
+- (MZKLibraryItem *)getDatasourceItem {
       return self.defaultDatasourceItem;
 }
 
--(void)saveLastPlayedMusic:(NSString *)pid
-{
+- (void)saveLastPlayedMusic:(NSString *)pid {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:pid forKey:kRecentMusicPlayed];
     [defaults synchronize];
 }
 
--(NSString *)loadLastPlayerMusic
-{
+- (NSString *)loadLastPlayerMusic {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *recent = [defaults objectForKey:kRecentMusicPlayed];
     return recent;
 }
 
--(void)loadDataForInstitutions
-{
+- (void)loadDataForInstitutions {
     // Form the query.
     NSString *query = @"select * from institution";
     _dbInstitutionsInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
@@ -314,8 +313,7 @@
     
 }
 
--(void)loadDataForRelations
-{
+- (void)loadDataForRelations {
     // Form the query.
     NSString *query = @"select * from relator";
     _dbResultsInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
@@ -324,11 +322,9 @@
         [self insertValuesToRelator];
     }
     NSLog(@"Vaues count: %lu", (unsigned long)_dbResultsInfo.count);
-    
 }
 
--(void)loadDataForLanguages
-{
+- (void)loadDataForLanguages {
     // Form the query.
     NSString *query = @"select * from language";
     _dbLangInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
@@ -337,31 +333,26 @@
         [self insertValuesToLanguage];
     }
     NSLog(@"Vaues count: %lu", (unsigned long)_dbLangInfo.count);
-    
 }
 
--(void)insertValuesToInstitution
-{
+- (void)insertValuesToInstitution {
     NSString *fileContent = [self getFileWithName:@"inst"];
     [self splitAndExecute:fileContent];
     
 }
 
--(void)insertValuesToRelator
-{
+- (void)insertValuesToRelator {
     NSString *fileContent = [self getFileWithName:@"relators"];
     [self splitAndExecute:fileContent];
     
 }
 
--(void)insertValuesToLanguage
-{
+- (void)insertValuesToLanguage {
     NSString *fileContent = [self getFileWithName:@"languages"];
     [self splitAndExecute:fileContent];
 }
 
--(NSString *)getFileWithName:(NSString *)name
-{
+- (NSString *)getFileWithName:(NSString *)name {
     NSError *error;
     NSString *strFileContent = [NSString stringWithContentsOfFile:[[NSBundle mainBundle]
                                                                    pathForResource:name ofType: @"sql"] encoding:NSUTF8StringEncoding error:&error];
@@ -372,8 +363,7 @@
     return strFileContent;
 }
 
--(void)splitAndExecute:(NSString *)fileContent
-{
+- (void)splitAndExecute:(NSString *)fileContent {
     NSArray* allLinedStrings = [fileContent componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     
     for (NSString *s in allLinedStrings) {
@@ -383,8 +373,7 @@
 
 #pragma mark - recently opened documents handling
 
--(void)saveRecentlyOpened
-{
+- (void)saveRecentlyOpened {
     if (_recentlyOpenedDocuments) {
         
         NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
@@ -403,8 +392,7 @@
     }
 }
 
--(NSMutableArray *)loadRecentlyOpened
-{
+- (NSMutableArray *)loadRecentlyOpened {
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     NSData *dataRepresentingSavedArray = [currentDefaults objectForKey:kRecentlyOpenedDocuments];
     if (dataRepresentingSavedArray)
@@ -428,8 +416,7 @@
     return _recentlyOpenedDocuments;
 }
 
--(void)addRecentlyOpenedDocument:(MZKItemResource *)item
-{
+- (void)addRecentlyOpenedDocument:(MZKItemResource *)item {
     _recentlyOpenedDocuments = [self loadRecentlyOpened];
     
     if (_recentlyOpenedDocuments.count > 0) {
@@ -449,8 +436,7 @@
     [self saveRecentlyOpened];
 }
 
--(BOOL)wasDocumentRecentlyOpened:(NSString *)uuid
-{
+- (BOOL)wasDocumentRecentlyOpened:(NSString *)uuid {
     for (MZKItemResource* rItem in _recentlyOpenedDocuments) {
         if ([rItem.pid caseInsensitiveCompare:uuid] == NSOrderedSame ) {
             return YES;
@@ -459,8 +445,7 @@
     return NO;
 }
 
--(void)updateRecentlyOpenedDocument:(MZKItemResource *)item withDate:(NSString *)strDate
-{
+- (void)updateRecentlyOpenedDocument:(MZKItemResource *)item withDate:(NSString *)strDate {
     for (MZKItemResource *rItem in _recentlyOpenedDocuments) {
         if (rItem.pid == item.pid) {
             rItem.lastOpened = strDate;
@@ -478,15 +463,13 @@
     [defs synchronize];
 }
 
-
 /**
  Method gets language from code
 
  @param languageCode String describing language code
  @return array containing data read from DB
  */
--(NSArray *)getLanguageFromCode:(NSString *)languageCode
-{
+- (NSArray *)getLanguageFromCode:(NSString *)languageCode {
     for (NSArray *array in _dbLangInfo) {
         
         if ([array[0] caseInsensitiveCompare:languageCode] == NSOrderedSame && ([array[2] caseInsensitiveCompare:@"cs"] ==NSOrderedSame)) {
@@ -497,8 +480,7 @@
     return nil;
 }
 
--(NSString *)getLocationFromCode:(NSString *)locationCode
-{
+- (NSString *)getLocationFromCode:(NSString *)locationCode {
     for (NSArray *array in _dbInstitutionsInfo) {
         
         if ([array[0] caseInsensitiveCompare:locationCode] ==NSOrderedSame) {
@@ -529,48 +511,36 @@
     }
 }
 
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    NSLog(@"Selected view controllers");
-
-    if([viewController isKindOfClass:[UINavigationController class]]) {
-
-    }
-
-    if (tabBarController.moreNavigationController == viewController) {
-        NSLog(@"More");
-    }
-}
-
-- (void)tabBarController:(UITabBarController *)tabBarController willBeginCustomizingViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers {
-    NSLog(@"Shoudl begin customizing view controllers");
-}
-
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-
-    return true;
-}
-
-
--(void)presentMusicViewControllerWithMusic:(NSString *)pid {
-
-    if (!_musicViewController) {
-        NSString * storyboardName = @"MusicStoryboard";
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
-        MusicViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MusicViewController"];
-        _musicViewController = vc;
-    }
-
-    [_musicViewController playMusicWithPid:pid];
-
-    UIViewController *presenter = self.window.rootViewController;
-
-    [presenter presentViewController:_musicViewController animated:YES completion:^{
-
-    }];
-}
-
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-     NSLog(@"viewController");
+
+    if (_musicViewController) {
+        if ( _musicViewController.itemPID) {
+            if([viewController isKindOfClass:[MZKPlaceholderViewController class]]) {
+                if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad) {
+                    [self.menuTabBar.moreNavigationController popViewControllerAnimated:NO];
+                }
+                
+                [self.menuTabBar setSelectedIndex:0];
+
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"presentMusicViewController" object:nil];
+            }
+        } else {
+            [self.menuTabBar setSelectedIndex:0];
+            [self.menuTabBar.moreNavigationController popViewControllerAnimated:NO];
+        }
+    }
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    //Write your code here
+    if([viewController isKindOfClass:[MZKPlaceholderViewController class]]) {
+        [self.menuTabBar setSelectedIndex:0];
+        if ( _musicViewController.itemPID) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"presentMusicViewController" object:nil];
+        } else {
+            // TODO: display message
+        }
+    }
 }
 
 @end

@@ -118,8 +118,8 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     
     // MARK : zooming methods
     private func updateMinZoomScaleForSize(size: CGSize) {
-        let widthScale = size.width / imageReaderImageView.bounds.width //CGFloat(self.imageWidth)
-        let heightScale = size.height / imageReaderImageView.bounds.height //CGFloat(self.imageHeight)
+        let widthScale = size.width / imageReaderImageView.bounds.width
+        let heightScale = size.height / imageReaderImageView.bounds.height
         let minScale = min(widthScale, heightScale)
         
         imageReaderScrollView.minimumZoomScale = minScale
@@ -146,9 +146,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
             
             // next page
             //   userActivityDelegate?.nextPage()
-        }
-        else
-        {
+        } else {
             userActivityDelegate?.userDidSingleTapped()
         }
     }
@@ -267,8 +265,3 @@ extension MZKPageDetailViewController : ITVScrollViewDelegate
         })
     }
 }
-
-
-
-
-

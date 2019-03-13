@@ -112,12 +112,12 @@
         let controller = storyboard.instantiateViewController(withIdentifier: "MZKDetailInformationViewController") as! MZKDetailInformationViewController
         
         
-        if((self.item.rootPid) != nil)
-        {
+        if((self.item.rootPid) != nil) {
             controller.rootPID = self.item.rootPid
         }
-            controller.item = self.itemPID
-       // controller.type = MZKConstants.modelType(toString: self.item.model)
+        
+        controller.item = self.itemPID
+
         
         self.present(controller, animated: true, completion: nil)
     }
@@ -130,7 +130,7 @@
     @IBAction func onClose(_ sender: Any) {
         
         if item != nil {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             
             let date = Date()
             
@@ -139,7 +139,7 @@
             formatter.dateFormat = "dd.MM.yyyy"
             
             item.lastOpened = formatter.string(from: date)
-            item.indexLastOpenedPage = childVC.currentIndex as NSNumber!
+            item.indexLastOpenedPage = childVC.currentIndex as NSNumber
             
             print("Date recently opened:\(formatter.string(from: date))")
             
@@ -166,10 +166,13 @@
             //hide bars
             self.topBarTopConstant.constant = -100
             self.bottomBarBottomConstant.constant = -100
-             UIApplication.shared.setStatusBarHidden(true, with: UIStatusBarAnimation.slide)
-        }
-        else
-        {
+            UIApplication.shared.setStatusBarHidden(true, with: UIStatusBarAnimation.slide)
+
+            //override var prefersStatusBarHidden: Bool{
+           // return isHidden
+        //}
+
+        } else {
             //show bars
             self.topBarTopConstant.constant = 0
             self.bottomBarBottomConstant.constant = 0
@@ -226,15 +229,11 @@
             self.view.layoutIfNeeded()
         }, completion:  {(_) -> Void in
             
-            if(self.bookmarkContainerLeadingConstraint.constant == 0)
-            {
+            if(self.bookmarkContainerLeadingConstraint.constant == 0) {
                 self.bookmarkContainer.isHidden = false
-            }
-            else
-            {
+            } else {
                 self.bookmarkContainer.isHidden = true
             }
-            
         })
     }
     
@@ -243,9 +242,40 @@
         
         self.childVC.nextPage()
     }
+
     @IBAction func onPreviousPage(_ sender: Any) {
-         print("Button - PREVIOUS")
+        print("Button - PREVIOUS")
         self.childVC.previousPage()
+    }
+
+    @IBAction func onMusicTapped(_ sender: UIButton) {
+        print("Button - Music")
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        guard let musicViewController = appDelegate.musicViewController else { return }
+
+        musicViewController.modalPresentationStyle = .popover
+        // 1. request an UITraitCollection instance
+        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
+
+        // 2. check the idiom
+        switch (deviceIdiom) {
+        case .unspecified:
+            musicViewController.preferredContentSize = CGSize(width: 375, height: 667)
+        case .phone:
+            break
+        case .pad:
+            musicViewController.preferredContentSize = CGSize(width: 375, height: 667)
+        case .tv:
+            break
+        case .carPlay:
+            break
+        }
+
+        let popoverPresentationController = musicViewController.presentationController as! UIPopoverPresentationController
+        popoverPresentationController.sourceView = sender
+        popoverPresentationController.sourceRect = sender.frame
+
+        present(musicViewController, animated: true)
     }
     
     // MARK: - Loading of pages
@@ -260,7 +290,7 @@
     }
     
     func children(forItemLoaded items: [Any]!) {
-        pages = items as! [MZKPageObject]!
+        pages = items as? [MZKPageObject]
         childVC .pagesLoaded(pages)
         
         DispatchQueue.main.async (execute: { () -> Void in
@@ -365,13 +395,11 @@
     }
     
     func reloadData () {
-        if(self.item == nil)
-        {
+        if(self.item == nil) {
             self.loadItem(self.itemPID)
         }
         
-        if(self.pages == nil)
-        {
+        if(self.pages == nil) {
             self.loadPages(self.itemPID)
         }
     }
@@ -445,7 +473,7 @@
         
         cell.pageNumber.text = pageObject.title
         
-        cell.pageThumbnail .sd_setImage(with: NSURL(string: thumbURL) as URL?)
+        cell.pageThumbnail.sd_setImage(with: NSURL(string: thumbURL) as URL?)
         
         cell.page = pageObject
         
@@ -484,8 +512,7 @@
     }
  }
  
- extension MZKDetailManagerViewController : UITableViewDataSource
- {
+ extension MZKDetailManagerViewController : UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -524,4 +551,11 @@
     func previousPage() {
         onPreviousPage(self)
     }
+ }
+
+ // MARK: - Music handling
+ extension MZKDetailManagerViewController {
+
+  //  let appDel = UIApplication.shared.delegate
+
  }

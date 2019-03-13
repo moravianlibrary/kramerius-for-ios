@@ -11,7 +11,7 @@
 #import "MZKDatabaseManager.h"
 #import "MZKItemResource.h"
 
-
+@class MusicViewController;
 @class MZKTabBarMenuViewController;
 @class MSDynamicsDrawerViewController;
 
@@ -26,7 +26,8 @@
 @property (nonatomic, strong) NSMutableArray *recentlyOpenedDocuments;
 @property (nonatomic, strong) MZKTabBarMenuViewController *menuTabBar;
 @property (nonatomic, strong) NSMutableDictionary *recentlyOpenedDocumentsDictionary;
-
+// music view controller
+@property (nonatomic, strong) MusicViewController *musicViewController;
 
 +(BOOL)connected;
 
@@ -42,10 +43,5 @@
 // get information from local db
 -(NSArray *)getLanguageFromCode:(NSString *)languageCode;
 -(NSString *)getLocationFromCode:(NSString *)locationCode;
-// deprecated method
--(void)transitionToMusicViewControllerWithSelectedMusic:(NSString *)pid;
-// replacement of deprecated method
--(void)presentMusicViewControllerWithMusic:(NSString *)pid;
-
 @end
 

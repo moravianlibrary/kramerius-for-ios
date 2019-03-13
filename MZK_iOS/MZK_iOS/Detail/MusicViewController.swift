@@ -69,6 +69,8 @@ public class MusicViewController: UIViewController {
         tracklistTableView.register(UINib(nibName: "MusicItemTableViewCell", bundle: nil), forCellReuseIdentifier: "MusicItemTableViewCell")
 
         showTracklist()
+
+        loadImages()
     }
 
     private func setupViews() {
@@ -77,6 +79,17 @@ public class MusicViewController: UIViewController {
         progressBar.value = 0
         elapsedTimeLabel.text = startTime
         remainingTimeLabel.text = startTime
+
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showFullscreenImage))
+        gestureRecognizer.numberOfTapsRequired = 1
+
+        albumImageView.addGestureRecognizer(gestureRecognizer)
+        albumImageView.contentMode = .scaleAspectFit
+    }
+
+    @objc
+    private func showFullscreenImage() {
+
     }
 
     override public func didReceiveMemoryWarning() {
@@ -89,8 +102,20 @@ public class MusicViewController: UIViewController {
      */
     @objc
     public func playMusic(pid: String) {
+        // TODO: cleanup
+        if queuePlayer.items().count > 0 {
+            queuePlayer.removeAllItems()
+
+            allTracks = [MZKPageObject]()
+        }
+
         itemPID = pid
         playlist = [AVPlayerItem]()
+    }
+
+    @objc
+    public func pause() {
+        queuePlayer.pause()
     }
 
     private func loadChildren() {
@@ -281,14 +306,14 @@ public class MusicViewController: UIViewController {
     }
 
     @IBAction func nextItem(_ sender: Any) {
-        if let currentItem = queuePlayer.currentItem, let currentItemIndex = playlist.index(of: currentItem), currentItemIndex > 0 {
+        if let currentItem = queuePlayer.currentItem, let currentItemIndex = playlist.index(of: currentItem), currentItemIndex < playlist.count-1 {
             let finalIndex = currentItemIndex + 1
             playItemAtIndex(index: finalIndex)
         }
     }
 
     @IBAction func previousItem(_ sender: Any) {
-        if let currentItem = queuePlayer.currentItem, let currentItemIndex = playlist.index(of: currentItem), currentItemIndex > 0 {
+        if let currentItem = queuePlayer.currentItem, let currentItemIndex = playlist.index(of: currentItem), currentItemIndex > 0{
             let finalIndex = currentItemIndex - 1
             playItemAtIndex(index: finalIndex)
         }
@@ -307,9 +332,7 @@ public class MusicViewController: UIViewController {
             case .ended:
                 let finalTime = CMTimeMakeWithSeconds(Float64(sender.value), preferredTimescale: 1000) //CMTimeMake(value: Int64(sender.value), timescale: Int32(NSEC_PER_SEC))
 
-                print("FinalTime: \(finalTime)")
-
-                queuePlayer.seek(to: finalTime) { [weak self](finished) in
+                queuePlayer.seek(to: finalTime) { [weak self] (finished) in
                     guard let strongSelf = self else { return }
                     strongSelf.progressBar.value = sender.value
                     strongSelf.queuePlayer.play()
@@ -338,6 +361,13 @@ public class MusicViewController: UIViewController {
             guard let strongSelf = self else { return }
             strongSelf.tracklistTableView.alpha = 0
             strongSelf.albumImageView.alpha = 1
+        }
+    }
+
+    private func loadImages() {
+        if let baseURL = (UIApplication.shared.delegate as? AppDelegate)?.defaultDatasourceItem.url, let itemPid = itemPID {
+        let imagePath = String(format:"%@/search/api/v5.0/item/%@/full", baseURL, itemPid)
+            albumImageView?.sd_setImage(with: NSURL(string: imagePath) as URL?)
         }
     }
 }
@@ -376,8 +406,10 @@ extension MusicViewController {
 
 extension MusicViewController: UITableViewDelegate {
     private func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        playItemAtIndex(index: indexPath.row)
-        highlightCurrentSong()
+        if let currentItem = queuePlayer.currentItem, let currentItemIndex = playlist.index(of: currentItem), currentItemIndex != indexPath.row {
+            playItemAtIndex(index: indexPath.row)
+            highlightCurrentSong()
+        }
     }
 }
 
@@ -395,7 +427,7 @@ extension MusicViewController: UITableViewDataSource {
 }
 
 extension MusicViewController: DataLoadedDelegate {
-    func detail(forItemLoaded item: MZKItemResource!) {
+    public func detail(forItemLoaded item: MZKItemResource!) {
         DispatchQueue.main.async { [weak self] in
             guard let strongSelf = self else { return }
 
@@ -414,14 +446,14 @@ extension MusicViewController: DataLoadedDelegate {
         }
     }
 
-    func siblings(forItemLoaded results: [Any]!) {
+    public func siblings(forItemLoaded results: [Any]!) {
         DispatchQueue.main.async { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.items = results as? [MZKPageObject]
         }
     }
 
-    func children(forItemLoaded items: [Any]!) {
+    public func children(forItemLoaded items: [Any]!) {
         DispatchQueue.main.async { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.items = items as? [MZKPageObject]
@@ -433,7 +465,7 @@ extension MusicViewController: DataLoadedDelegate {
                 } else if page.model == .Track {
                     strongSelf.numberOfTracks -= 1
                     strongSelf.allTracks.append(page)
-                    print("Append tracks")
+                
                     if(strongSelf.numberOfTracks == 0) {
                         strongSelf.tracksLoaded()
                         strongSelf.tracklistTableView.reloadData()

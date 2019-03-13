@@ -20,16 +20,18 @@
 #import "MZKLibraryItem.h"
 #import "UINavigationBar+CustomHeight.h"
 #import "MZK_iOS-Swift.h"
+#import "MZKSearchViewController.h"
+#import "PresentMusicViewControllerProtocol.h"
+
+#define IDIOM    UI_USER_INTERFACE_IDIOM()
+#define IPAD     UIUserInterfaceIdiomPad
 
 @import RMessage;
 @import SDWebImage;
 
 const int kHeaderHeight = 95;
 
-#import "MZKSearchViewController.h"
-
-@interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, MZKSearchDelegateProtocol> 
-{
+@interface MZKMainViewController ()<DataLoadedDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, MZKSearchDelegateProtocol, PresentMusicViewControllerProtocol> {
     MZKDatasource *datasource;
     NSArray *_recent;
     NSArray *_recommended;
@@ -37,8 +39,8 @@ const int kHeaderHeight = 95;
     UIRefreshControl *refreshControl;
     NSDictionary *_searchResults;
     MZKSearchViewController *_searchViewController;
-    
 }
+
 @property (weak, nonatomic) IBOutlet MZKSearchBarCollectionReusableView *searchBarContainerView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContentView;
@@ -58,6 +60,8 @@ const int kHeaderHeight = 95;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentMusic) name:@"presentMusicViewController" object:nil];
 
     self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.library", @"mzk title");
     //prepare header
@@ -114,8 +118,7 @@ const int kHeaderHeight = 95;
 
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
-    if (del.defaultDatasourceItem)
-    {
+    if (del.defaultDatasourceItem) {
         [self refreshAllValues];
         [self initGoogleAnalytics];
         [self refreshTitle];
@@ -131,15 +134,13 @@ const int kHeaderHeight = 95;
     [_searchViewController searchCancelled];
 }
 
--(void)viewDidLayoutSubviews
-{
+-(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
     self.collectionView.contentInset = UIEdgeInsetsMake(8, self.collectionView.contentInset.left, self.collectionView.contentInset.bottom, self.collectionView.contentInset.right);
 }
 
--(void)refreshTitle
-{
+-(void)refreshTitle {
     //get name of selected library
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *libName;
@@ -159,8 +160,7 @@ const int kHeaderHeight = 95;
     _headerTitleLabel.text = libName;
 }
 
--(void)initGoogleAnalytics
-{
+-(void)initGoogleAnalytics {
     NSString *name = [NSString stringWithFormat:@"Pattern~%@", @"MAIN"];
     
     // The UA-XXXXX-Y tracker ID is loaded automatically from the
@@ -174,8 +174,7 @@ const int kHeaderHeight = 95;
     // [END screen_view_hit_objc]
 }
 
--(void)refreshAllValues
-{
+-(void)refreshAllValues {
     if (!datasource) {
         datasource = [MZKDatasource new];
         datasource.delegate = self;
@@ -192,8 +191,7 @@ const int kHeaderHeight = 95;
     [self showLoadingIndicator];
 }
 
--(void)reloadValuesFinished
-{
+-(void)reloadValuesFinished {
     [refreshControl endRefreshing];
 }
 
@@ -213,7 +211,6 @@ const int kHeaderHeight = 95;
     }
     
     __weak typeof(self) wealf = self;
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         [wealf.collectionView reloadData];
         [wealf hideLoadingIndicator];
@@ -291,7 +288,8 @@ const int kHeaderHeight = 95;
         
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
-        NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",delegate.defaultDatasourceItem.url, item.pid ];
+        NSString*path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",delegate.defaultDatasourceItem.url, item.pid];
+        // preview
         
         [cell.itemImage sd_setImageWithURL:[NSURL URLWithString:path]
                           placeholderImage:nil];
@@ -322,8 +320,7 @@ const int kHeaderHeight = 95;
 }
 
 #pragma mark - UICollectionViewDelegate
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     MZKItemCollectionViewCell *cell = (MZKItemCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     
     if (cell.item.policy) {
@@ -331,9 +328,9 @@ const int kHeaderHeight = 95;
             if ([cell.item isModelMusic]) {
                 NSString *itemPid = cell.item.pid;
                 dispatch_async(dispatch_get_main_queue(), ^{
-
                     AppDelegate *appDelegate = (AppDelegate*)[UIApplication.sharedApplication delegate];
-                    [appDelegate presentMusicViewControllerWithMusic:itemPid];
+                    [self presentMusicViewController:appDelegate.musicViewController withItem:itemPid];
+
                 });
             } else {
                 [self prepareDataForSegue:cell.item];
@@ -594,7 +591,41 @@ const int kHeaderHeight = 95;
     }];
 }
 
+- (void)willTransitionToTraitCollection:(nonnull UITraitCollection *)newCollection withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
+
+}
+
+
 -(void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+- (void)presentMusicViewController:(MusicViewController *)controller withItem:(NSString *)item {
+
+    MusicViewController *musicViewController = nil;
+
+    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    musicViewController = del.musicViewController;
+
+    UIPopoverPresentationController *presentationController = musicViewController.popoverPresentationController;
+    presentationController.sourceView = self.view;
+    presentationController.sourceRect = CGRectMake(20, 20, 20, 20);
+    presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+        musicViewController.preferredContentSize = CGSizeMake(375, 667);
+    }
+
+    // present
+    [self presentViewController:musicViewController animated:YES completion:^{
+        if (item) {
+            [musicViewController playMusicWithPid:item];
+        }
+    }];
+}
+
+- (void)presentMusic {
+    [self presentMusicViewController:nil withItem:nil];
+}
+
 @end

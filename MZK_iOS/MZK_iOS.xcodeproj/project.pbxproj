@@ -96,6 +96,7 @@
 		2DE387601AE523B400A2004E /* MZKItemResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE3875F1AE523B400A2004E /* MZKItemResource.m */; };
 		2DE387631AE526AB00A2004E /* MZKDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE387621AE526AA00A2004E /* MZKDatasource.m */; };
 		2DE98BD01C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE98BCF1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m */; };
+		2DFEDB56223836E100F83B47 /* MZKPlaceholderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFEDB55223836E100F83B47 /* MZKPlaceholderViewController.m */; };
 		2DFF115421AADC6C007A7361 /* MusicStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DFF115321AADC6C007A7361 /* MusicStoryboard.storyboard */; };
 		795E8218D092EE08432F34F0 /* Pods_MZK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A1AB6EB2C8031124F3E704 /* Pods_MZK_iOS.framework */; };
 /* End PBXBuildFile section */
@@ -220,6 +221,7 @@
 		2DA364D11FBDE87600F62149 /* MZKHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MZKHeaderView.xib; sourceTree = "<group>"; };
 		2DA364D31FBDEA2400F62149 /* MZKHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MZKHeaderView.h; sourceTree = "<group>"; };
 		2DA364D41FBDEA2400F62149 /* MZKHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MZKHeaderView.m; sourceTree = "<group>"; };
+		2DA7FD782233B61900F7ADA7 /* PresentMusicViewControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PresentMusicViewControllerProtocol.h; sourceTree = "<group>"; };
 		2DAA60701BA758AB0004A718 /* MZKCollectionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKCollectionDetailViewController.h; sourceTree = "<group>"; };
 		2DAA60711BA758AB0004A718 /* MZKCollectionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionDetailViewController.m; sourceTree = "<group>"; };
 		2DAA60731BA7590B0004A718 /* MZKDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDetailCollectionViewCell.h; sourceTree = "<group>"; };
@@ -255,6 +257,8 @@
 		2DE387621AE526AA00A2004E /* MZKDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDatasource.m; sourceTree = "<group>"; };
 		2DE98BCE1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKRecentlyOpenedDocumentsViewController.h; path = ../MZKRecentlyOpenedDocumentsViewController.h; sourceTree = "<group>"; };
 		2DE98BCF1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKRecentlyOpenedDocumentsViewController.m; path = ../MZKRecentlyOpenedDocumentsViewController.m; sourceTree = "<group>"; };
+		2DFEDB54223836E100F83B47 /* MZKPlaceholderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MZKPlaceholderViewController.h; sourceTree = "<group>"; };
+		2DFEDB55223836E100F83B47 /* MZKPlaceholderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MZKPlaceholderViewController.m; sourceTree = "<group>"; };
 		2DFF115321AADC6C007A7361 /* MusicStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MusicStoryboard.storyboard; sourceTree = "<group>"; };
 		31A1AB6EB2C8031124F3E704 /* Pods_MZK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MZK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D0137B38B31A815BE08E93 /* Pods-MZK_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -321,6 +325,8 @@
 				2D455E91209741C6009BD294 /* MusicItemTableViewCell.swift */,
 				2D455E92209741C6009BD294 /* MusicItemTableViewCell.xib */,
 				2DFF115321AADC6C007A7361 /* MusicStoryboard.storyboard */,
+				2DFEDB54223836E100F83B47 /* MZKPlaceholderViewController.h */,
+				2DFEDB55223836E100F83B47 /* MZKPlaceholderViewController.m */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -498,6 +504,7 @@
 				2D89DB7A1B5E57DA00E69119 /* OpenLayers */,
 				2DB8A7941ACD073400A1BB2E /* Supporting Files */,
 				2DD5839D1B6FA0BA001ED3B3 /* XMLParser */,
+				2DA7FD782233B61900F7ADA7 /* PresentMusicViewControllerProtocol.h */,
 			);
 			path = MZK_iOS;
 			sourceTree = "<group>";
@@ -791,6 +798,7 @@
 				2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */,
 				2D854DD71F7A8B1F00344F82 /* MZKFilterFacetItem.swift in Sources */,
 				2D2DA5281BF1E03A00423447 /* MZKMusicViewController.m in Sources */,
+				2DFEDB56223836E100F83B47 /* MZKPlaceholderViewController.m in Sources */,
 				2DBE26D61DDEF32F00DE43A0 /* MZKBookmark.swift in Sources */,
 				2DE98BD01C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m in Sources */,
 				2D8BB7C71BCE3FC4008E53A1 /* MZKItemCollectionViewCell.m in Sources */,
