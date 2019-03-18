@@ -202,15 +202,12 @@
     return [librariesArray copy];
 }
 
--(void)downloadJsonFromServer
-{
+-(void)downloadJsonFromServer {
     // download json from server
     // save json
-    
     _datasource = [MZKDatasource new];
     _datasource.delegate = self;
     [_datasource getLibraries];
- 
 }
 
 #pragma mark - data loaded delegate methods

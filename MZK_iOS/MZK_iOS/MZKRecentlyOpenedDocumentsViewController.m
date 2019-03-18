@@ -141,8 +141,7 @@
 
 #pragma mark - segues
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Make sure your segue name in storyboard is the same as this line
     if ([[segue identifier] isEqualToString:@"OpenReader"])
     {
@@ -154,14 +153,11 @@
         
         [vc setItemPID:tmpItem.pid];
         
-    }else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"])
-    {
+    }else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"]) {
         MZKMusicViewController *vc = [segue destinationViewController];
         [vc setItem:sender];
         //set item
-    }
-    else if ([[segue identifier] isEqualToString:@"OpenGeneralList"])
-    {
+    } else if ([[segue identifier] isEqualToString:@"OpenGeneralList"]) {
         UINavigationController *navVC =[segue destinationViewController];
         MZKGeneralColletionViewController *vc =(MZKGeneralColletionViewController *)navVC.topViewController;
         [vc setParentPID:((MZKItemResource *)sender).pid];

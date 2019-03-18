@@ -612,7 +612,7 @@ const int kHeaderHeight = 95;
     presentationController.sourceRect = CGRectMake(20, 20, 20, 20);
     presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
 
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         musicViewController.preferredContentSize = CGSizeMake(375, 667);
     }
 

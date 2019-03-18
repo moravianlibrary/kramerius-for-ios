@@ -12,13 +12,10 @@ import iOSTiledViewer
 import Alamofire
 import SWXMLHash
 
-protocol MZKUserActivityDelegate : class {
-    
-    
+protocol MZKUserActivityDelegate: class {
     /**
      Method that notifies delegate about user activity - single tap gesture recognizer
      */
-    
     func userDidSingleTapped()
     func nextPage()
     func previousPage()
@@ -27,14 +24,12 @@ protocol MZKUserActivityDelegate : class {
 
 class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrollViewGestureDelegate {
     
-    var pagePID : String!
-    var xmlParser : XMLParser!
-    var imageWidth : Int!
-    var imageHeight : Int!
+    var pagePID: String?
+
     var pageIndex : Int!
     var pdfURL : String!
     
-    weak var userActivityDelegate : MZKUserActivityDelegate?
+    weak var userActivityDelegate: MZKUserActivityDelegate?
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -54,7 +49,6 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     @IBOutlet weak var pdfReaderViewContainer: UIView!
     @IBOutlet weak var pdfWebView: UIWebView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // load page resolution for current PID
@@ -67,15 +61,12 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        if(!self.iTVReaderView.isHidden)
-        {
+        if(!self.iTVReaderView.isHidden) {
             //self.zoomifyIIIFReaderScrollView.zoomToScale(1.0, animated: false)
             self.iTVReaderView.refreshTiles()
         }
     }
-    
-    
+
     func showPDFFile(item:MZKItemResource) -> Void {
         self.pdfURL = item.pdfUrl
         self.zoomifyIIFContainerView.isHidden = true
@@ -95,24 +86,24 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     
     /// Load image to ITVReaderScrollView
     func loadImage() {
-        
+        guard let pagePid = pagePID else { return }
+
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let libraryItem : MZKLibraryItem! = appDelegate.getDatasourceItem();
+        let libraryItem: MZKLibraryItem! = appDelegate.getDatasourceItem()
         
-        let imageURL = String(format: "%@/search/zoomify/%@/ImageProperties.xml", libraryItem.url , pagePID)
+        let imageURL = String(format: "%@/search/zoomify/%@/ImageProperties.xml", libraryItem.url , pagePid)
         
         iTVReaderView.loadImage(imageURL, api: ITVImageAPI.Raw)
         
-        DispatchQueue.main.async (execute: { () -> Void in
-            
-            self.imageReaderContainerView.isHidden = true
-            self.zoomifyIIFContainerView.isHidden = false
-            self.activityIndicator.stopAnimating()
+        DispatchQueue.main.async (execute: {[weak self] () -> Void in
+            guard let strongSelf = self else { return }
+            strongSelf.imageReaderContainerView.isHidden = true
+            strongSelf.zoomifyIIFContainerView.isHidden = false
+            strongSelf.activityIndicator.stopAnimating()
         })
     }
     
     func onShowHideBars(_ sender: UITapGestureRecognizer) -> Void {
-        
         userActivityDelegate?.userDidSingleTapped()
     }
     
@@ -153,7 +144,14 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     
     func didTap(type: ITVGestureEventType, location: CGPoint) {
         print("DidTap - ITVGestureEventType, Location: \(location)")
-//        if type == ITVGestureEventType.singleTap {
+
+        switch type {
+        case .singleTap:
+            userActivityDelegate?.userDidSingleTapped()
+        case .doubleTap:
+            break
+        }
+//       if type == ITVGestureEventType.singleTap {
 //            
 //            print("Location: ", location)
 //            let approximatedX = location.x
@@ -197,10 +195,8 @@ extension MZKPageDetailViewController: UIScrollViewDelegate {
     }
 }
 
-extension MZKPageDetailViewController : UIWebViewDelegate
-{
-    func webViewDidFinishLoad(_ webView: UIWebView)
-    {
+extension MZKPageDetailViewController : UIWebViewDelegate {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         self.activityIndicator.stopAnimating()
     }
     
@@ -211,52 +207,49 @@ extension MZKPageDetailViewController : UIWebViewDelegate
 }
 
 /// Extension - error messages
-extension MZKPageDetailViewController : ITVScrollViewDelegate
-{
-    func didFinishLoading(error: NSError?)
-    {
+extension MZKPageDetailViewController: ITVScrollViewDelegate {
+    func didFinishLoading(error: NSError?) {
         self.activityIndicator.stopAnimating()
 
         if error?.code == ITVError.unsupportedRaw.rawValue {
 
-//            DispatchQueue.main.async (execute: { [weak self] in
-//
-//                guard let strongSelf = self else { return }
+            //            DispatchQueue.main.async (execute: { [weak self] in
+            //
+            //                guard let strongSelf = self else { return }
 
-                guard let errCode = error?.code else { return }
-                    // not able to load image - SDWebImageLoad?
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let libraryItem : MZKLibraryItem! = appDelegate.getDatasourceItem();
+            guard let errCode = error?.code else { return }
+            // not able to load image - SDWebImageLoad?
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let libraryItem : MZKLibraryItem! = appDelegate.getDatasourceItem();
 
-                    guard let pagePID = self.pagePID else { return }
-                    let height = String(describing: Int(self.view.bounds.size.height*2))
+            guard let pagePID = self.pagePID else { return }
+            let height = String(describing: Int(self.view.bounds.size.height*2))
 
-                    let imageStrUrl = String(format: "%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", libraryItem.url , pagePID, height)
+            let imageStrUrl = String(format: "%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", libraryItem.url , pagePID, height)
 
-                   iTVReaderView.loadImage(imageStrUrl, api: .Raw)
-//                        let url = URL(string: imageStrUrl)
+            iTVReaderView.loadImage(imageStrUrl, api: .Raw)
+            //                        let url = URL(string: imageStrUrl)
 
 
-//            self.imageReaderImageView.sd_setImage(with: url, placeholderImage: nil, options: SDWebImageOptions.continueInBackground , completed: { (image, error, cache, url) in
-//                 // self.iTVReaderView.isHidden = true
-//
-//                let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.didTap(event:)))
-//                tapGestureRecognizer.numberOfTapsRequired = 1
-//                tapGestureRecognizer.cancelsTouchesInView = false
-//
-//                self.imageReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
-//            })
+            //            self.imageReaderImageView.sd_setImage(with: url, placeholderImage: nil, options: SDWebImageOptions.continueInBackground , completed: { (image, error, cache, url) in
+            //                 // self.iTVReaderView.isHidden = true
+            //
+            //                let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.didTap(event:)))
+            //                tapGestureRecognizer.numberOfTapsRequired = 1
+            //                tapGestureRecognizer.cancelsTouchesInView = false
+            //
+            //                self.imageReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
+            //            })
 
-          //  })
+            //  })
         } else {
             if error != nil {
                 // TODO: messages
-            print(error?.description)
-//            MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "When error occures"), subtitle: "mzk.error.checkYourInternetConnection".localizedWithComment(comment: ""), completion: {(_) -> Void in
-//            })
+                print(error?.description)
+                //            MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "When error occures"), subtitle: "mzk.error.checkYourInternetConnection".localizedWithComment(comment: ""), completion: {(_) -> Void in
+                //            })
+            }
         }
-        }
-
     }
 
     func errorDidOccur(error: NSError) {

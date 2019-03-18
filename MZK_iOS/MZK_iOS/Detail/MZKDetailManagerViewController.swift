@@ -9,8 +9,8 @@
  import UIKit
  import iOSTiledViewer
 
-
- class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, PageIndexDelegate, UIPageViewControllerDelegate {
+@objc
+public class MZKDetailManagerViewController: UIViewController, DataLoadedDelegate, PageIndexDelegate, UIPageViewControllerDelegate {
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var tapGestureRecognizerView: UIView!
@@ -45,14 +45,17 @@
     }()
     
     var item:MZKItemResource!
-    var itemPID:String!
+
+    @objc
+    public var itemPID:String!
+
     var pages:[MZKPageObject]!
     var bookmarks:[MZKBookmark]!
     var childVC:MZKPageViewController!
     var barsVisible:Bool = true
     
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
@@ -74,7 +77,7 @@
         enableUserInteraction(enable: false)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         let tracker = GAI.sharedInstance().defaultTracker
@@ -84,13 +87,13 @@
         tracker!.send(builder!.build() as [NSObject : AnyObject])
     }
     
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     // MARK Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if  segue.identifier == "ShowPageViewController"
         {
             if let destinationVC = segue.destination as? MZKPageViewController {
@@ -128,18 +131,16 @@
     }
     
     @IBAction func onClose(_ sender: Any) {
-        
         if item != nil {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            
             let date = Date()
-            
             let formatter = DateFormatter()
-            
             formatter.dateFormat = "dd.MM.yyyy"
             
             item.lastOpened = formatter.string(from: date)
-            item.indexLastOpenedPage = childVC.currentIndex as NSNumber
+            if childVC != nil, childVC.currentIndex != nil {
+                item.indexLastOpenedPage = childVC.currentIndex as NSNumber
+            }
             
             print("Date recently opened:\(formatter.string(from: date))")
             
@@ -158,10 +159,10 @@
     }
     
     @IBAction func pageSliderValueChanged(_ sender: Any) {
+
     }
     
     @IBAction func onShowHideBars(_ sender: Any) {
-        
         if (barsVisible) {
             //hide bars
             self.topBarTopConstant.constant = -100
@@ -176,7 +177,7 @@
             //show bars
             self.topBarTopConstant.constant = 0
             self.bottomBarBottomConstant.constant = 0
-             UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
         }
         
         UIView.animate(withDuration: 0.5, animations: {
@@ -252,8 +253,7 @@
         print("Button - Music")
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         guard let musicViewController = appDelegate.musicViewController else { return }
-
-        musicViewController.modalPresentationStyle = .popover
+        guard let _ = musicViewController.itemPID else { return}
         // 1. request an UITraitCollection instance
         let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
 
@@ -286,31 +286,38 @@
     
     func loadPages(_ pid:String) {
         mzkDatasource.delegate = self
-        mzkDatasource .getChildrenForItem(self.itemPID)
+        mzkDatasource.getChildrenForItem(self.itemPID)
     }
-    
-    func children(forItemLoaded items: [Any]!) {
+
+    @objc
+    public func children(forItemLoaded items: [Any]!) {
         pages = items as? [MZKPageObject]
-        childVC .pagesLoaded(pages)
+        childVC.pagesLoaded(pages)
         
-        DispatchQueue.main.async (execute: { () -> Void in
-            self.pageSlider.minimumValue=1
-            self.pageSlider.maximumValue = Float(self.pages.count)
-            self.pageSlider.value = 1
+        DispatchQueue.main.async (execute: { [weak self]() -> Void in
+            guard let strongSelf = self else { return }
+
+            strongSelf.pageSlider.minimumValue = 1
+            strongSelf.pageSlider.maximumValue = Float(strongSelf.pages.count)
+            strongSelf.pageSlider.value = 1
+
+            if strongSelf.pages.count == 1 {
+                strongSelf.pageSlider.isHidden = true
+            }
             
             let startIndex = 1
             
-            self.currentPageNumber.text = "\(startIndex as Int)/\(self.pages.count)"
-            self.pageThumbnailsCollectionView.reloadData()
-            self.setupSlider()
-            self.bookmarks = self.bookmarkDatasource.getBookmarks(self.itemPID)
-            self.setupBookmarkViews()
-            self.bookmarkTableView.reloadData()
-            
+            strongSelf.currentPageNumber.text = "\(startIndex as Int)/\(strongSelf.pages.count)"
+            strongSelf.pageThumbnailsCollectionView.reloadData()
+            strongSelf.setupSlider()
+            strongSelf.bookmarks = strongSelf.bookmarkDatasource.getBookmarks(strongSelf.itemPID)
+            strongSelf.setupBookmarkViews()
+            strongSelf.bookmarkTableView.reloadData()
         })
     }
     
-    func detail(forItemLoaded item: MZKItemResource) {
+    @objc
+    public func detail(forItemLoaded item: MZKItemResource) {
         DispatchQueue.main.async { [weak self] in
             guard let strongSelf = self else { return }
 
@@ -411,8 +418,8 @@
      * argument completion - completion block that is invoked when user taps button inside message
      
      */
-    
-    func downloadFailedWithError(_ error: Error!) {
+    @objc
+    public func downloadFailedWithError(_ error: Error!) {
         let error = error as NSError?
         if error != nil {
             DispatchQueue.main.async { [weak self] in
@@ -517,7 +524,7 @@
         return 1
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (bookmarks != nil) {
             return bookmarks.count
         }
@@ -525,7 +532,7 @@
         return 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "MZKBookmarkTableViewCell", for: indexPath) as! MZKBookmarkTableViewCell
         let bookmark = bookmarks[indexPath.row]

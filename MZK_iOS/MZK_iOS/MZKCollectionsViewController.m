@@ -15,8 +15,7 @@
 #import <Google/Analytics.h>
 @import RMessage;
 
-@interface MZKCollectionsViewController ()<DataLoadedDelegate,UITableViewDataSource, UITableViewDelegate>
-{
+@interface MZKCollectionsViewController ()<DataLoadedDelegate,UITableViewDataSource, UITableViewDelegate> {
     MZKDatasource * _datasource;
     NSArray *_collections;
     NSArray *_collectionItems;
@@ -36,6 +35,7 @@
     }
     return self;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -47,8 +47,7 @@
     [self initGoogleAnalytics];
 }
 
--(void)loadDataForController
-{
+- (void)loadDataForController {
     _datasource = [[MZKDatasource alloc] init];
     [_datasource setDelegate:self];
     [_datasource getInfoAboutCollections];
@@ -56,8 +55,7 @@
     
 }
 
--(void)initGoogleAnalytics
-{
+- (void)initGoogleAnalytics {
     NSString *name = [NSString stringWithFormat:@"Pattern~%@", @"MZKVirtualCollectionsViewController"];
     
     // The UA-XXXXX-Y tracker ID is loaded automatically from the
@@ -76,20 +74,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 #pragma mark - Datasource Delegate
--(void)collectionListLoaded:(NSArray *)collections
-{
-    if(![[NSThread currentThread] isMainThread])
-    {
+- (void)collectionListLoaded:(NSArray *)collections {
+    if(![[NSThread currentThread] isMainThread]) {
         __weak typeof(self) welf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             [welf collectionListLoaded:collections];
@@ -101,11 +88,9 @@
     [self.tableView reloadData];
 }
 
--(void)downloadFailedWithError:(NSError *)error
-{
+- (void)downloadFailedWithError:(NSError *)error {
     __weak typeof(self) welf = self;
-    if(![[NSThread currentThread] isMainThread])
-    {
+    if(![[NSThread currentThread] isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [welf downloadFailedWithError:error];
         });
@@ -136,23 +121,19 @@
                                  [welf loadDataForController];
                              }];
     }
-    
 }
 
 #pragma mark - UITableView Delegate and Datasource
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _collections.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MZKCollectionTableViewCell *cell = (MZKCollectionTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"MZKCollectionTableViewCell"];
     
     MZKCollectionItem  *item = [_collections objectAtIndex:indexPath.row];
@@ -163,40 +144,30 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MZKCollectionItem  *item = [_collections objectAtIndex:indexPath.row];
     [_datasource getCollectionItems:item.pid];
     _selectedCollectionName = item.nameCZ;
     _selectedCollectionPID= item.pid;
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
-    //[self performSegueWithIdentifier:@"OpenDetail" sender:item];
-    
+        
     [self performSegueWithIdentifier:@"OpenCollection" sender:self];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Make sure your segue name in storyboard is the same as this line
-    if ([[segue identifier] isEqualToString:@"OpenCollection"])
-    {
+    if ([[segue identifier] isEqualToString:@"OpenCollection"]) {
         // Get reference to the destination view controller
         MZKCollectionDetailViewController *vc = [segue destinationViewController];
-        
-        // Pass any objects to the view controller here, like...
-        
+
         [vc setCollectionPID:_selectedCollectionPID];
         [vc setSelectedCollectionName:_selectedCollectionName];
-        
     }
 }
 
-
 #pragma mark - notification handling
--(void)defaultDatasourceChangedNotification:(NSNotification *)notf
-{
+- (void)defaultDatasourceChangedNotification:(NSNotification *)notf {
     [self.navigationController popToRootViewControllerAnimated:NO];
     
     _datasource = [[MZKDatasource alloc] init];
@@ -205,9 +176,7 @@
     _selectedCollectionName = nil;
 }
 
-
--(void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
