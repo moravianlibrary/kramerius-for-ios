@@ -394,8 +394,7 @@ const int kHeaderHeight = 95;
     [flowLayout invalidateLayout];
 }
 
--(MZKItemResource *)itemAtIndexPath:(NSIndexPath *)path
-{
+- (MZKItemResource *)itemAtIndexPath:(NSIndexPath *)path {
     switch (_segmentControll.selectedSegmentIndex) {
         case 0:
             return [_recent objectAtIndex:path.row];

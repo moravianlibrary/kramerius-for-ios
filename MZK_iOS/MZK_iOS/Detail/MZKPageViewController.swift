@@ -21,25 +21,10 @@ protocol PageIndexDelegate: class {
      - parameter index: the index of the currently visible page.
      */
     func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate, didUpdatePageIndex index: Int)
-    
-    
-//    /**
-//     Called when the number of pages is updated.
-//     
-//     - parameter tutorialPageViewController: the TutorialPageViewController instance
-//     - parameter count: the total number of pages.
-//     */
-//    func pageIndexDelegate(pageIndexDelegate: PageIndexDelegate, didUpdatePageCount count: Int)
-    
-    /**
-     Called when user tapps inside ITVScrollview
-     
-     */
 }
 
 
 @objc class MZKPageViewController: UIPageViewController, DataLoadedDelegate {
-    
     // close can be used for initialize with params ...
     lazy fileprivate var mzkDatasource : MZKDatasource = {
         return MZKDatasource()
@@ -58,8 +43,7 @@ protocol PageIndexDelegate: class {
     fileprivate(set) lazy var orderedViewControllers: [UIViewController] = {
         return []
     }()
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         dataSource = self
@@ -100,15 +84,39 @@ protocol PageIndexDelegate: class {
     func dataLoaded(_ data: [Any]!, withKey key: String!) {
        
     }
+
+    public func displaySinglePage(pagePID: String) {
+        self.pages = [MZKPageObject]()
+        orderedViewControllers = [UIViewController]()
+        orderedViewControllers.append(newPageViewController(pagePID, index: 0))
+        DispatchQueue.main.async (execute: { [weak self] in
+            guard let strongSelf = self else { return }
+
+            if let firstViewController = strongSelf.orderedViewControllers.first as? MZKPageDetailViewController {
+                strongSelf.setViewControllers([firstViewController],
+                                        direction: .forward,
+                                        animated: true,
+                                        completion: { [weak self] _ in
+                                            guard let strongSelf = self else { return }
+
+                                            strongSelf.currentIndex = firstViewController.pageIndex
+                                            strongSelf.currentPagePID = firstViewController.pagePID
+                                            
+                                            if (strongSelf.item != nil) {
+                                                firstViewController.showPDFFile(item: strongSelf.item)
+                                            }
+                })
+            }
+        })
+    }
     
     func pagesLoaded(_ pages: [MZKPageObject]) {
         self.pages = pages
                
         orderedViewControllers = []
         
-        for i in 1...pages.count
-        {
-           orderedViewControllers .append(newPageViewController(pages[i-1].pid, index: i))
+        for i in 1...pages.count {
+           orderedViewControllers.append(newPageViewController(pages[i-1].pid, index: i))
         }
         
         DispatchQueue.main.async (execute: { () -> Void in
@@ -133,11 +141,9 @@ protocol PageIndexDelegate: class {
     }
 
     fileprivate func newPageViewController(_ itemPID: String, index: Int) -> UIViewController {
-        
         let pageVC : MZKPageDetailViewController = UIStoryboard(name: "MZKDetail", bundle: nil) .
             instantiateViewController(withIdentifier: "MZKPageDetailViewController") as! MZKPageDetailViewController
-        
-           
+
         pageVC.pagePID = itemPID
         pageVC.pageIndex = index
         pageVC.userActivityDelegate = self.pageIndexDelegate as! MZKUserActivityDelegate?
@@ -155,7 +161,7 @@ protocol PageIndexDelegate: class {
                 
             }
 
-            self.setViewControllers([orderedViewControllers[index]], direction: direction, animated: true, completion: {(_)->Void in
+            self.setViewControllers([orderedViewControllers[index]], direction: direction, animated: true, completion: { _ in
                 if let firstViewController = self.viewControllers?.first,
                     let vcIndex = self.orderedViewControllers.index(of: firstViewController) {
                 
@@ -169,8 +175,8 @@ protocol PageIndexDelegate: class {
         }
     }
     
-    func nextPage() -> Void {
-        let targetIndex = currentIndex!
+    func nextPage() {
+        guard let targetIndex = currentIndex else { return }
         if (currentIndex.advanced(by: 1) <= pages.count) {
             self.setViewControllers([orderedViewControllers[targetIndex]], direction: .forward, animated: true, completion: {(_)->Void in
                 if let firstViewController = self.viewControllers?.first,
@@ -186,14 +192,11 @@ protocol PageIndexDelegate: class {
         }
     }
     
-    func previousPage() -> Void {
-        if let firstVc = self.viewControllers?.first  {
-            
-            let tmpVc = firstVc as! MZKPageDetailViewController
-            currentIndex = tmpVc.pageIndex
-            
-        }
-        
+    func previousPage() {
+        guard let firstVc = self.viewControllers?.first, let tmpVc = firstVc as? MZKPageDetailViewController else { return }
+
+        currentIndex = tmpVc.pageIndex
+
         var targetIndex = currentIndex.advanced(by: -1)
         targetIndex = targetIndex.advanced(by: -1)
 
@@ -215,14 +218,11 @@ protocol PageIndexDelegate: class {
         }
     }
     
-    func setUpForPDF(item:MZKItemResource) -> Void {
-        
-        if let firstViewController = self.orderedViewControllers.first {
-            let tmpVC = firstViewController as! MZKPageDetailViewController
-            tmpVC.pdfURL = item.pdfUrl
-            tmpVC.showPDFFile(item: item)
-        }
-        
+    func setUpForPDF(item:MZKItemResource) {
+        guard let firstViewController = self.orderedViewControllers.first else { return }
+        let tmpVC = firstViewController as! MZKPageDetailViewController
+        tmpVC.pdfURL = item.pdfUrl
+        tmpVC.showPDFFile(item: item)
     }
 }
 
@@ -249,8 +249,6 @@ extension MZKPageViewController: UIPageViewControllerDelegate {
 
         return orderedViewControllers[previousIndex]
     }
-
-
 
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         pendingIndex = orderedViewControllers.index(of: orderedViewControllers.first!)

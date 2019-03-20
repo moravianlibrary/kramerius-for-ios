@@ -26,8 +26,8 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     
     var pagePID: String?
 
-    var pageIndex : Int!
-    var pdfURL : String!
+    var pageIndex: Int!
+    var pdfURL: String!
     
     weak var userActivityDelegate: MZKUserActivityDelegate?
     

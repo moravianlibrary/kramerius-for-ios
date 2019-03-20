@@ -328,7 +328,11 @@ public class MZKDetailManagerViewController: UIViewController, DataLoadedDelegat
             // enable user interaction
             strongSelf.enableUserInteraction(enable: true)
 
-            strongSelf.loadPages(strongSelf.itemPID)
+            if item.model != MZKModel.Page {
+                strongSelf.loadPages(strongSelf.itemPID)
+            } else {
+                strongSelf.setupForPage()
+            }
 
             if (item.pdfUrl != nil) {
                 strongSelf.childVC.item = item
@@ -347,6 +351,12 @@ public class MZKDetailManagerViewController: UIViewController, DataLoadedDelegat
         pageSlider.textColor = UIColor.black
         pageSlider.tintColor = pageSlider.popUpViewColor
         pageSlider.minimumTrackTintColor = pageSlider.popUpViewColor
+    }
+
+    func setupForPage() {
+        pageSlider.isHidden = true
+
+        childVC.displaySinglePage(pagePID: item.pid)
     }
     
     func setupBookmarkViews() {
