@@ -34,9 +34,6 @@ class MZKBookmark : NSObject, NSCoding{
         let dateCreated = decoder.decodeObject(forKey: "dateCreated") as! String
         
         self.init(parentPID: parentPID, pagePID: pagePID, dateCreated: dateCreated, pageIndex: pageIndex)
-
-        
-        
     }
     
     func encode(with aCoder: NSCoder)  {

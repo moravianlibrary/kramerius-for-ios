@@ -13,6 +13,9 @@
 #import "MZKCollectionDetailViewController.h"
 #import "MZKConstants.h"
 #import <Google/Analytics.h>
+#import "AppDelegate.h"
+
+@import SDWebImage;
 @import RMessage;
 
 @interface MZKCollectionsViewController ()<DataLoadedDelegate,UITableViewDataSource, UITableViewDelegate> {
@@ -140,7 +143,27 @@
     
     cell.collectionTitleLabel.text = item.nameCZ;
     cell.collectionItem = item;
-    
+
+    if (item.longDescriptionCZ) {
+        [cell.longDescription setHidden:NO];
+        [cell.longDescription setText:item.longDescriptionCZ];
+    } else {
+        [cell.numberOfDocuments setHidden:YES];
+    }
+
+    if (item.numberOfDocuments > 0) {
+        [cell.numberOfDocuments setHidden:NO];
+        [cell.numberOfDocuments setText:[NSString stringWithFormat:@"%ld dokumentů", (long)item.numberOfDocuments]];
+    } else {
+        [cell.numberOfDocuments setHidden:YES];
+    }
+
+    __weak AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
+    NSString *path = [NSString stringWithFormat:@"%@/search/api/v5.0/item/%@/thumb",delegate.defaultDatasourceItem.url, item.pid ];
+
+    [cell.collectionImageView sd_setImageWithURL:[NSURL URLWithString:path] placeholderImage:nil];
+
     return cell;
 }
 

@@ -364,7 +364,7 @@ const int kHeaderHeight = 95;
     return sizeOfCell;
 }
 
--(float)calculateCellWidthFromScreenWidth:(float)width {
+- (float)calculateCellWidthFromScreenWidth:(float)width {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     int numberOfItemsPerRow = 0;
     int kMinCellWidth = 304;

@@ -40,7 +40,6 @@
     
     if (!_libraries) {
         [self downloadJsonFromServer];
-      //   _libraries = [self createDataForLibraries];
     }
     
     self.title = self.navigationController.tabBarItem.title;
@@ -48,15 +47,12 @@
     [self initGoogleAnalytics];
     
     // highlight default library
-    NSIndexPath* selectedCellIndexPath= [self getSelectedIndexPath];
-    
-    [self.tableView selectRowAtIndexPath:selectedCellIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+    NSIndexPath *selectedCellIndexPath = [self getSelectedIndexPath];
 
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    
+     __weak typeof(self) welf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [welf.tableView selectRowAtIndexPath:selectedCellIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+    });
 }
 
 -(void)initGoogleAnalytics
@@ -79,16 +75,14 @@
     // Dispose of any resources that can be recreated.
 }
 
--(NSIndexPath *)getSelectedIndexPath
-{
+- (NSIndexPath *)getSelectedIndexPath {
     NSUInteger index;
     if (!_selectedLibrary) {
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         _selectedLibrary = appDelegate.defaultDatasourceItem;
     }
-    
-    
-    for (int i =0; i <_libraries.count; i++) {
+    // TODO: BUG
+    for (int i = 0; i <_libraries.count; i++) {
         if ([((MZKLibraryItem *)_libraries[i]).name caseInsensitiveCompare:_selectedLibrary.name] == NSOrderedSame) {
             index = i;
             break;
@@ -100,38 +94,21 @@
     }else{
       return [NSIndexPath indexPathForRow:0 inSection:0];
     }
-    
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MZKDataSourceTableViewCell *cell = (MZKDataSourceTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"MZKDataSourceTableViewCell"];
     
     MZKLibraryItem *tmpItem = [_libraries objectAtIndex:indexPath.row];
-    
-    
+
     NSString *libName;
     
     NSArray *supportedLanguages = [NSLocale preferredLanguages];
-    if(supportedLanguages.count >0)
-    {
+    if(supportedLanguages.count > 0) {
         NSString *selectedLang = supportedLanguages[0];
         if ([selectedLang containsString:@"cs"]) {
             libName = [tmpItem name];
-        }
-        else
-        {
+        } else {
             libName = [tmpItem nameEN];
         }
     }
@@ -145,37 +122,31 @@
     return cell;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (_libraries) {
         return _libraries.count;
     }
     return 0;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //set the default datasource...
-    
+    //set the default datasource..
     MZKLibraryItem *item = [_libraries objectAtIndex:indexPath.row];
     [self saveToUserDefaults:item];
 }
 
--(void)saveToUserDefaults:(MZKLibraryItem *)item
-{
+- (void)saveToUserDefaults:(MZKLibraryItem *)item {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    
+
     [appDelegate saveToUserDefaults:item];
     _selectedLibrary = item;
 }
 
--(NSArray *)loadJSONFileFromLocal
-{
+- (NSArray *)loadJSONFileFromLocal {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"libraries" ofType:@"json"];
     NSData* data = [NSData dataWithContentsOfFile:filePath];
     NSError* error = nil;
@@ -202,7 +173,7 @@
     return [librariesArray copy];
 }
 
--(void)downloadJsonFromServer {
+- (void)downloadJsonFromServer {
     // download json from server
     // save json
     _datasource = [MZKDatasource new];
@@ -211,16 +182,17 @@
 }
 
 #pragma mark - data loaded delegate methods
--(void)librariesLoaded:(NSArray *)results
-{
-     [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
-    _libraries = results;
-    [self.tableView reloadData];
+- (void)librariesLoaded:(NSArray *)results {
+    __weak typeof(self) welf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
+        _libraries = results;
+        [self.tableView reloadData];
+    });
 }
 
 // error states
--(void)downloadFailedWithError:(NSError *)error
-{
+- (void)downloadFailedWithError:(NSError *)error {
     __weak typeof(self) welf = self;
 
     if(![[NSThread currentThread] isMainThread])

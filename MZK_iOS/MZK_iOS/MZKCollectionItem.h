@@ -8,11 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MZKCollectionItem : NSObject
+@interface MZKCollectionItem: NSObject
 @property (nonatomic, strong) NSString *pid;
 @property (nonatomic, strong) NSString *nameCZ;
 @property (nonatomic, strong) NSString *nameENG;
 @property (nonatomic, strong) NSString *label;
 @property (readwrite) BOOL canLeave;
+@property (nonatomic, readwrite) NSInteger numberOfDocuments;
+@property (nonatomic, strong) NSString *longDescriptionCZ;
+@property (nonatomic, strong) NSString *longDescriptionENG;
 
 @end

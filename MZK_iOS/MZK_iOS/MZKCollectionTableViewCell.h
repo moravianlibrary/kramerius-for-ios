@@ -12,5 +12,8 @@
 @interface MZKCollectionTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *collectionTitleLabel;
 @property (nonatomic, strong) MZKCollectionItem *collectionItem;
+@property (weak, nonatomic) IBOutlet UIImageView *collectionImageView;
+@property (weak, nonatomic) IBOutlet UILabel *numberOfDocuments;
+@property (weak, nonatomic) IBOutlet UILabel *longDescription;
 
 @end

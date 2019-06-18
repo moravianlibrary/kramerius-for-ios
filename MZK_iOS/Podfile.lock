@@ -20,7 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Alamofire (4.7.3)
+  - Alamofire (4.8.2)
   - AlamofireObjectMapper (5.1.0):
     - Alamofire (~> 4.1)
     - ObjectMapper (~> 3.3)
@@ -77,18 +77,18 @@ PODS:
   - SDWebImage/WebP (4.4.2):
     - libwebp (~> 0.5)
     - SDWebImage/Core
-  - SWXMLHash (4.0.0)
+  - SWXMLHash (4.7.6)
   - TTTAttributedLabel (2.0.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
-  - Alamofire (~> 4.4)
+  - Alamofire (~> 4.8)
   - AlamofireObjectMapper (~> 5.0)
   - Google/Analytics
   - iOSTiledViewer (from `https://github.com/moravianlibrary/iOSTiledViewer.git`, branch `master`)
   - ObjectMapper (from `https://github.com/tristanhimmelman/ObjectMapper.git`, branch `master`)
   - RMessage
-  - SWXMLHash (~> 4.0.0)
+  - SWXMLHash (~> 4.7.0)
   - TTTAttributedLabel
 
 SPEC REPOS:
@@ -128,7 +128,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   AlamofireObjectMapper: 3395e698901d8b0e6f48b7d0c43bd47875325102
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
   FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
@@ -143,9 +143,9 @@ SPEC CHECKSUMS:
   PPTopMostController: 4e6f1e5f8c645bdcc74cd837a20f607ff262c048
   RMessage: 761f8ff71247b8d72d0c4a0be5a8e6ce8dfdedd0
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
-  SWXMLHash: 6bbc0bf72975a18ceda469fb7d6a886a26d81694
+  SWXMLHash: f6e0933ce74f2626669dc544851bc9fc1941670d
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: 096da3986f61a3921b24426c1314f39965e1bdd2
+PODFILE CHECKSUM: a1bafbc0b382a337ba6532c2a42cbbf72c84b00e
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

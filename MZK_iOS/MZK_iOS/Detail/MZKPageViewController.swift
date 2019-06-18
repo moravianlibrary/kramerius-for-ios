@@ -46,8 +46,6 @@ protocol PageIndexDelegate: class {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataSource = self
-        // dataSource = self set up from SB?
         delegate = self
     }
     
@@ -178,15 +176,16 @@ protocol PageIndexDelegate: class {
     func nextPage() {
         guard let targetIndex = currentIndex else { return }
         if (currentIndex.advanced(by: 1) <= pages.count) {
-            self.setViewControllers([orderedViewControllers[targetIndex]], direction: .forward, animated: true, completion: {(_)->Void in
-                if let firstViewController = self.viewControllers?.first,
-                    let vcIndex = self.orderedViewControllers.index(of: firstViewController) {
+            self.setViewControllers([orderedViewControllers[targetIndex]], direction: .forward, animated: true, completion: { [weak self] _ in
+                guard let strongSelf = self else { return }
+
+                if let firstViewController = strongSelf.viewControllers?.first,
+                    let vcIndex = strongSelf.orderedViewControllers.index(of: firstViewController) {
                     
                     let tmpVC = firstViewController as! MZKPageDetailViewController
-                    self.currentIndex = tmpVC.pageIndex
-                    self.currentPagePID = tmpVC.pagePID
-                    self.pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: self.pageIndexDelegate!, didUpdatePageIndex: vcIndex+1)
-                    
+                    strongSelf.currentIndex = tmpVC.pageIndex
+                    strongSelf.currentPagePID = tmpVC.pagePID
+                    strongSelf.pageIndexDelegate?.pageIndexDelegate(pageIndexDelegate: strongSelf.pageIndexDelegate!, didUpdatePageIndex: vcIndex+1)
                 }
             })
         }
@@ -202,7 +201,7 @@ protocol PageIndexDelegate: class {
 
         if (targetIndex >= 0) {
             // goToPage(targetIndex)
-            self.setViewControllers([orderedViewControllers[targetIndex]], direction: .reverse, animated: true, completion: {(_)->Void in
+            self.setViewControllers([orderedViewControllers[targetIndex]], direction: .reverse, animated: true, completion: { _ in
                 if let firstViewController = self.viewControllers?.first,
                     let vcIndex = self.orderedViewControllers.index(of: firstViewController) {
             
@@ -219,8 +218,8 @@ protocol PageIndexDelegate: class {
     }
     
     func setUpForPDF(item:MZKItemResource) {
-        guard let firstViewController = self.orderedViewControllers.first else { return }
-        let tmpVC = firstViewController as! MZKPageDetailViewController
+        print("📖 Setup for PDF")
+        guard let firstViewController = self.orderedViewControllers.first, let tmpVC = firstViewController as? MZKPageDetailViewController else { return }
         tmpVC.pdfURL = item.pdfUrl
         tmpVC.showPDFFile(item: item)
     }
@@ -230,7 +229,7 @@ extension MZKPageViewController: UIPageViewControllerDelegate {
 
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        print("View Controller for index")
+
         guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
             return nil
         }
@@ -271,19 +270,3 @@ extension MZKPageViewController: UIPageViewControllerDelegate {
     }
 
 }
-
-extension MZKPageViewController: UIPageViewControllerDataSource {
-    internal func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return orderedViewControllers.count
-    }
-
-    internal func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        guard let firstViewController = viewControllers?.first,
-            let firstViewControllerIndex = orderedViewControllers.index(of: firstViewController) else {
-                return 0
-        }
-
-        return firstViewControllerIndex
-    }
-}
-

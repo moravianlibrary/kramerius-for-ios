@@ -196,8 +196,7 @@
     
 }
 
--(float)calculateCellWidthFromScreenWidth:(float)width
-{
+- (float)calculateCellWidthFromScreenWidth:(float)width {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)_collectionView.collectionViewLayout;
     int numberOfItemsPerRow = 0;
     int kMinCellWidth = 304;

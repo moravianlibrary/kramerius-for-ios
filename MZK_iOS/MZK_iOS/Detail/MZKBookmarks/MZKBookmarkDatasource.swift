@@ -8,7 +8,8 @@
 
 import Foundation
 
-class MZKBookmarkDatasource {
+@objc
+public class MZKBookmarkDatasource: NSObject {
     
     var loadedBookmarks:[MZKBookmark]!
     
@@ -17,8 +18,8 @@ class MZKBookmarkDatasource {
      -parameter bookmarkPagePID: PID of bookmarked page
      -parameter bookmarkParentPID: PID of parent (document, item etc) of current bookmark
     */
-    
-    func deleteBookmark(_ bookmarkPagePID:String, bookmarkParentPID:String) -> Void {
+    @objc
+    public func deleteBookmark(_ bookmarkPagePID:String, bookmarkParentPID:String) -> Void {
         
         var bookmarks = getBookmarks(bookmarkParentPID)
         if (!bookmarks.isEmpty) {
@@ -119,8 +120,7 @@ class MZKBookmarkDatasource {
      
      -parameter forParentPID: PID of document for which bookmarks should be loaded
      */
-    func getBookmarks(_ forParentPID:String) ->[MZKBookmark]
-    {
+    func getBookmarks(_ forParentPID: String) -> [MZKBookmark] {
         if let data = UserDefaults.standard.object(forKey: kAllBookmarks) as? Data {
             
             let allBookmarks = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: [MZKBookmark]]
@@ -138,8 +138,7 @@ class MZKBookmarkDatasource {
     }
     
     // MARK: Test method
-    func test() -> Void
-    {
+    func test() {
         let bookmark1 = MZKBookmark()
         bookmark1.dateCreated = "Dneska"
         bookmark1.pageIndex = "1"
@@ -167,13 +166,10 @@ class MZKBookmarkDatasource {
         
         UserDefaults.standard.synchronize()
         
-        if let savedData = UserDefaults.standard.object(forKey: "test") as? Data
-        {
-            if let retrivedDict = NSKeyedUnarchiver.unarchiveObject(with: savedData) as? [String: [MZKBookmark]]
-            {
+        if let savedData = UserDefaults.standard.object(forKey: "test") as? Data {
+            if let retrivedDict = NSKeyedUnarchiver.unarchiveObject(with: savedData) as? [String: [MZKBookmark]] {
                 print("Cajk")
                 print("Retrived data: \(retrivedDict.description)")
-                
             }
         }
     }

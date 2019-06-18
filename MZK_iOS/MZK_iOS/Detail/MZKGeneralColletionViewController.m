@@ -460,16 +460,16 @@
 - (float)calculateCellWidthFromScreenWidth:(float)width {
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     int numberOfItemsPerRow = 0;
-    int kMinCellWidth = 250;
+    int kMinCellWidth = 304;
     float collectionViewWidth = width;
     float collectionViewInsetsL = flowLayout.sectionInset.left;
     float collectionViewInsetsR = flowLayout.sectionInset.right;
-    int calculatedWidth = 250;
+    int calculatedWidth = 304;
     
     float minCellSpacing = flowLayout.minimumInteritemSpacing;
     
     numberOfItemsPerRow = collectionViewWidth / kMinCellWidth;
-    float restOfWidth = collectionViewWidth - (numberOfItemsPerRow -1)* minCellSpacing - collectionViewInsetsL - collectionViewInsetsR - numberOfItemsPerRow * kMinCellWidth ;
+    float restOfWidth = collectionViewWidth - (numberOfItemsPerRow -1) * minCellSpacing - collectionViewInsetsL - collectionViewInsetsR - numberOfItemsPerRow * kMinCellWidth ;
     calculatedWidth = restOfWidth / numberOfItemsPerRow ;
     
     return calculatedWidth+kMinCellWidth;

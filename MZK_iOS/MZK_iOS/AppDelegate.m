@@ -276,12 +276,13 @@
         self.defaultDatasourceItem = item;
         
         [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:item] forKey:kDefaultDatasourceItem];
-        
         [[NSUserDefaults standardUserDefaults] synchronize];
-
         [self.menuTabBar setSelectedIndex:0];
-        
+
         [[NSNotificationCenter defaultCenter] postNotificationName:kDatasourceItemChanged object:nil];
+    } else {
+        NSLog(@"Library already selected");
+        [self.menuTabBar setSelectedIndex:0];
     }
 }
 

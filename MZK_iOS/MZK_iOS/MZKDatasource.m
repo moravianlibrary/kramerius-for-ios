@@ -405,22 +405,22 @@ typedef enum _downloadOperation downloadOperation;
                 page.type = [[currentObject objectForKey:@"details"] objectForKey:@"type"];
                 
                 if ([[[currentObject objectForKey:@"details"] objectForKey:@"year"] isKindOfClass:[NSString class]]) {
-                    page.year =[[currentObject objectForKey:@"details"] objectForKey:@"year"];
+                    page.year = [[currentObject objectForKey:@"details"] objectForKey:@"year"];
                 }
                 
                 if ([[[currentObject objectForKey:@"details"] objectForKey:@"date"] isKindOfClass:[NSString class]]) {
-                    page.date =[[currentObject objectForKey:@"details"] objectForKey:@"date"];
+                    page.date = [[currentObject objectForKey:@"details"] objectForKey:@"date"];
                 }
                 
                 if ([[[currentObject objectForKey:@"details"] objectForKey:@"volumeNumber"] isKindOfClass:[NSString class]]) {
-                    page.volumeNumber =[[currentObject objectForKey:@"details"] objectForKey:@"volumeNumber"];
+                    page.volumeNumber = [[currentObject objectForKey:@"details"] objectForKey:@"volumeNumber"];
                 }
                 
                 if ([[[currentObject objectForKey:@"details"] objectForKey:@"issueNumber"] isKindOfClass:[NSString class]]) {
                     page.issueNumber =[[currentObject objectForKey:@"details"] objectForKey:@"issueNumber"];
                     if ([page.issueNumber isEqualToString:@""]) {
                         if ([[[currentObject objectForKey:@"details"] objectForKey:@"partNumber"] isKindOfClass:[NSString class]]) {
-                            page.issueNumber =[[currentObject objectForKey:@"details"] objectForKey:@"partNumber"];
+                            page.issueNumber = [[currentObject objectForKey:@"details"] objectForKey:@"partNumber"];
                         }
                     }
                 }
@@ -461,21 +461,23 @@ typedef enum _downloadOperation downloadOperation;
     
     NSMutableArray *results = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i<parsedObject.count; i++) {
+    for (int i = 0; i < parsedObject.count; i++) {
         MZKCollectionItem *cItem = [MZKCollectionItem new];
         
         cItem.pid = [[parsedObject objectAtIndex:i] objectForKey:@"pid"];
         cItem.nameENG = [[[parsedObject objectAtIndex:i] objectForKey:@"descs"] objectForKey:@"en"];
         cItem.nameCZ = [[[parsedObject objectAtIndex:i] objectForKey:@"descs"] objectForKey:@"cs"];
-        cItem.label =[[parsedObject objectAtIndex:i] objectForKey:@"label"];
-        
+        cItem.label = [[parsedObject objectAtIndex:i] objectForKey:@"label"];
+
+        cItem.longDescriptionCZ = [[[parsedObject objectAtIndex:i] objectForKey:@"longDescs"] objectForKey:@"cs"];
+        cItem.longDescriptionENG = [[[parsedObject objectAtIndex:i] objectForKey:@"longDescs"] objectForKey:@"en"];
+        cItem.numberOfDocuments = [[[parsedObject objectAtIndex:i] objectForKey:@"numberOfDocs"] integerValue];
+
         [results addObject:cItem];
-        
     }
     
     if ([self.delegate respondsToSelector:@selector(collectionListLoaded:)]) {
         [self.delegate collectionListLoaded:[results copy]];
-        NSLog(@"Collections count:%lu", (unsigned long)results.count);
     }
     
     [self hideLoadingIndicator];

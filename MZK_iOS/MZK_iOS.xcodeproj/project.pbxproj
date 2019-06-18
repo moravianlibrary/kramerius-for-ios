@@ -243,6 +243,7 @@
 		2DB8A7B31ACD073400A1BB2E /* MZK_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MZK_iOSTests.m; sourceTree = "<group>"; };
 		2DBE26D51DDEF32F00DE43A0 /* MZKBookmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MZKBookmark.swift; path = ../Detail/MZKBookmarks/MZKBookmark.swift; sourceTree = "<group>"; };
 		2DBE26D71DDEF33D00DE43A0 /* MZKBookmarkDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKBookmarkDatasource.swift; sourceTree = "<group>"; };
+		2DC86B7B2244020C000CB20B /* MZK_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MZK_iOS.entitlements; sourceTree = "<group>"; };
 		2DCAE25A1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSearchBarCollectionReusableView.h; sourceTree = "<group>"; };
 		2DCAE25B1C09D6C8002DD38A /* MZKSearchBarCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSearchBarCollectionReusableView.m; sourceTree = "<group>"; };
 		2DD1B9EC1D9D4AE0004011FC /* MZKNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKNavigationViewController.h; sourceTree = "<group>"; };
@@ -452,6 +453,7 @@
 		2DB8A7931ACD073400A1BB2E /* MZK_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2DC86B7B2244020C000CB20B /* MZK_iOS.entitlements */,
 				2DB5E44B1CB25CF300C90D36 /* 3rdParty */,
 				2DB8A7981ACD073400A1BB2E /* AppDelegate.h */,
 				2DB8A7991ACD073400A1BB2E /* AppDelegate.m */,
@@ -619,6 +621,9 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 0;
+							};
 							com.apple.SafariKeychain = {
 								enabled = 0;
 							};
@@ -711,7 +716,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireObjectMapper/AlamofireObjectMapper.framework",
@@ -744,7 +749,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
