@@ -12,8 +12,6 @@
 #import "UIImageView+WebCache.h"
 #import "MZKDatasource.h"
 #import "MZKPageObject.h"
-#import "MZKMusicViewController.h"
-
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
 #import "MZKConstants.h"

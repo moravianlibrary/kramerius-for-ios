@@ -10,7 +10,6 @@ import UIKit
 import SDWebImage
 import iOSTiledViewer
 import Alamofire
-import SWXMLHash
 
 protocol MZKUserActivityDelegate: class {
     /**
@@ -51,6 +50,10 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // hide others
+        imageReaderContainerView.isHidden = true
+        pdfReaderViewContainer.isHidden = true
+
         // load page resolution for current PID
         imageReaderScrollView.delegate = self
         iTVReaderView.itvDelegate = self
@@ -62,7 +65,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     
     override func viewWillAppear(_ animated: Bool) {
         if(!self.iTVReaderView.isHidden) {
-            //self.zoomifyIIIFReaderScrollView.zoomToScale(1.0, animated: false)
+            iTVReaderView.zoomToScale(1.0, animated: false)
             iTVReaderView.refreshTiles()
         }
     }
@@ -130,7 +133,7 @@ class MZKPageDetailViewController: UIViewController, XMLParserDelegate, ITVScrol
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-      //  updateMinZoomScaleForSize(size: view.bounds.size)
+        updateMinZoomScaleForSize(size: view.bounds.size)
     }
 
     func didTap(type: ITVGestureEventType, location: CGPoint) {
@@ -173,13 +176,7 @@ extension MZKPageDetailViewController: ITVScrollViewDelegate {
     func didFinishLoading(error: NSError?) {
         hideLoading()
 
-        if error?.code == ITVError.unsupportedRaw.rawValue {
-
-            //            DispatchQueue.main.async (execute: { [weak self] in
-            //
-            //                guard let strongSelf = self else { return }
-
-            guard let errCode = error?.code else { return }
+        if let _ = error {
             // not able to load image - SDWebImageLoad?
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let libraryItem : MZKLibraryItem! = appDelegate.getDatasourceItem();
@@ -190,26 +187,10 @@ extension MZKPageDetailViewController: ITVScrollViewDelegate {
             let imageStrUrl = String(format: "%@/search/img?pid=%@&stream=IMG_FULL&action=SCALE&scaledHeight=%@", libraryItem.url , pagePID, height)
 
             iTVReaderView.loadImage(imageStrUrl, api: .Raw)
-            //                        let url = URL(string: imageStrUrl)
-
-
-            //            self.imageReaderImageView.sd_setImage(with: url, placeholderImage: nil, options: SDWebImageOptions.continueInBackground , completed: { (image, error, cache, url) in
-            //                 // self.iTVReaderView.isHidden = true
-            //
-            //                let tapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.didTap(event:)))
-            //                tapGestureRecognizer.numberOfTapsRequired = 1
-            //                tapGestureRecognizer.cancelsTouchesInView = false
-            //
-            //                self.imageReaderScrollView.addGestureRecognizer(tapGestureRecognizer)
-            //            })
-
-            //  })
         } else {
             if error != nil {
                 // TODO: messages
                 print(error?.description)
-                //            MZKSwiftErrorMessageHandler().showTSMessage(viewController: self, title: "Error".localizedWithComment(comment: "When error occures"), subtitle: "mzk.error.checkYourInternetConnection".localizedWithComment(comment: ""), completion: {(_) -> Void in
-                //            })
             }
         }
     }

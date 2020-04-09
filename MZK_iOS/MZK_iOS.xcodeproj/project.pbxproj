@@ -14,7 +14,6 @@
 		2D0DD5701DD0A0E100C0E3A8 /* HTTPStatusCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DD56E1DD0A0E100C0E3A8 /* HTTPStatusCodes.swift */; };
 		2D0DD5711DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DD56F1DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift */; };
 		2D113CB11DC0D7780042B9ED /* MZKPageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D113CB01DC0D7780042B9ED /* MZKPageDetailViewController.swift */; };
-		2D113CB31DC0DC4A0042B9ED /* MZKPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D113CB21DC0DC4A0042B9ED /* MZKPageViewController.swift */; };
 		2D13D54A1C3E66BD00DB4190 /* inst.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D5471C3E66BD00DB4190 /* inst.sql */; };
 		2D13D54B1C3E66BD00DB4190 /* languages.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D5481C3E66BD00DB4190 /* languages.sql */; };
 		2D13D54C1C3E66BD00DB4190 /* relators.sql in Resources */ = {isa = PBXBuildFile; fileRef = 2D13D5491C3E66BD00DB4190 /* relators.sql */; };
@@ -36,10 +35,10 @@
 		2D2A64801AF8EF3800D82E04 /* MZKMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2A647F1AF8EF3800D82E04 /* MZKMainViewController.m */; };
 		2D2A64821AF8FC9400D82E04 /* Menu-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D2A64811AF8FC9400D82E04 /* Menu-50.png */; };
 		2D2DA5201BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA51F1BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m */; };
-		2D2DA5281BF1E03A00423447 /* MZKMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA5271BF1E03A00423447 /* MZKMusicViewController.m */; };
 		2D2DA52E1BF2356900423447 /* MZKGeneralColletionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA52D1BF2356900423447 /* MZKGeneralColletionViewController.m */; };
 		2D33C3571C2819E9002BA7D1 /* MZKSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */; };
 		2D3698E41C8ADBF6008FEF3C /* MZKDetailInformationStringModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3698E31C8ADBF6008FEF3C /* MZKDetailInformationStringModel.m */; };
+		2D3A8553237800BC0099F38F /* UIDevice+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A8552237800BC0099F38F /* UIDevice+Extensions.swift */; };
 		2D409B781B8B460E00B49EAD /* MZKDataSourceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D409B771B8B460E00B49EAD /* MZKDataSourceTableViewCell.m */; };
 		2D409B7B1B8B4C8B00B49EAD /* MZKLibraryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D409B7A1B8B4C8B00B49EAD /* MZKLibraryItem.m */; };
 		2D41FEF81C3B03460087F22E /* MZKDetailInformationDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D41FEF71C3B03460087F22E /* MZKDetailInformationDataSource.m */; };
@@ -61,6 +60,7 @@
 		2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */; };
 		2D66DACD1DF1DEA200EBC89E /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D66DACC1DF1DEA200EBC89E /* AFNetworking.framework */; };
 		2D6EA1231FB34AF800706085 /* MZKPillLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6EA1221FB34AF800706085 /* MZKPillLabel.swift */; };
+		2D712E0F232E2EB200624F8A /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D712E0E232E2EB200624F8A /* UIView+Extensions.swift */; };
 		2D782BFE1DC9E4200086323E /* MZKDetailManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */; };
 		2D78B2971C200DC0004341DA /* MZKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D78B2961C200DC0004341DA /* MZKAboutViewController.m */; };
 		2D854DD71F7A8B1F00344F82 /* MZKFilterFacetItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D854DD61F7A8B1F00344F82 /* MZKFilterFacetItem.swift */; };
@@ -98,7 +98,7 @@
 		2DE98BD01C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE98BCF1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m */; };
 		2DFEDB56223836E100F83B47 /* MZKPlaceholderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFEDB55223836E100F83B47 /* MZKPlaceholderViewController.m */; };
 		2DFF115421AADC6C007A7361 /* MusicStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DFF115321AADC6C007A7361 /* MusicStoryboard.storyboard */; };
-		795E8218D092EE08432F34F0 /* Pods_MZK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A1AB6EB2C8031124F3E704 /* Pods_MZK_iOS.framework */; };
+		31DF5F9C226F9F585412B498 /* Pods_MZK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99AEBF05F2B9C00A94302F81 /* Pods_MZK_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -125,7 +125,6 @@
 		2D0DD56F1DD0A0E100C0E3A8 /* HTTPStatusCodes+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HTTPStatusCodes+Extensions.swift"; sourceTree = "<group>"; };
 		2D0F65451DD5C5E900CEC252 /* MZK_iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MZK_iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		2D113CB01DC0D7780042B9ED /* MZKPageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKPageDetailViewController.swift; sourceTree = "<group>"; };
-		2D113CB21DC0DC4A0042B9ED /* MZKPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKPageViewController.swift; sourceTree = "<group>"; };
 		2D13D5471C3E66BD00DB4190 /* inst.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = inst.sql; sourceTree = "<group>"; };
 		2D13D5481C3E66BD00DB4190 /* languages.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = languages.sql; sourceTree = "<group>"; };
 		2D13D5491C3E66BD00DB4190 /* relators.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = relators.sql; sourceTree = "<group>"; };
@@ -157,14 +156,13 @@
 		2D2A64811AF8FC9400D82E04 /* Menu-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-50.png"; sourceTree = "<group>"; };
 		2D2DA51E1BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKPageDetailCollectionViewCell.h; sourceTree = "<group>"; };
 		2D2DA51F1BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKPageDetailCollectionViewCell.m; sourceTree = "<group>"; };
-		2D2DA5261BF1E03A00423447 /* MZKMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKMusicViewController.h; sourceTree = "<group>"; };
-		2D2DA5271BF1E03A00423447 /* MZKMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKMusicViewController.m; sourceTree = "<group>"; };
 		2D2DA52C1BF2356900423447 /* MZKGeneralColletionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKGeneralColletionViewController.h; sourceTree = "<group>"; };
 		2D2DA52D1BF2356900423447 /* MZKGeneralColletionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKGeneralColletionViewController.m; sourceTree = "<group>"; };
 		2D33C3551C2819E9002BA7D1 /* MZKSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKSettingsViewController.h; sourceTree = "<group>"; };
 		2D33C3561C2819E9002BA7D1 /* MZKSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKSettingsViewController.m; sourceTree = "<group>"; };
 		2D3698E21C8ADBF6008FEF3C /* MZKDetailInformationStringModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKDetailInformationStringModel.h; path = ../Detail/Model/MZKDetailInformationStringModel.h; sourceTree = "<group>"; };
 		2D3698E31C8ADBF6008FEF3C /* MZKDetailInformationStringModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZKDetailInformationStringModel.m; path = ../Detail/Model/MZKDetailInformationStringModel.m; sourceTree = "<group>"; };
+		2D3A8552237800BC0099F38F /* UIDevice+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extensions.swift"; sourceTree = "<group>"; };
 		2D409B761B8B460E00B49EAD /* MZKDataSourceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKDataSourceTableViewCell.h; sourceTree = "<group>"; };
 		2D409B771B8B460E00B49EAD /* MZKDataSourceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKDataSourceTableViewCell.m; sourceTree = "<group>"; };
 		2D409B791B8B4C8B00B49EAD /* MZKLibraryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZKLibraryItem.h; path = ../MZKLibraryItem.h; sourceTree = "<group>"; };
@@ -197,6 +195,7 @@
 		2D665DBF1B03D98C00B11765 /* MZKCollectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKCollectionsViewController.m; sourceTree = "<group>"; };
 		2D66DACC1DF1DEA200EBC89E /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = "Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework"; sourceTree = "<group>"; };
 		2D6EA1221FB34AF800706085 /* MZKPillLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZKPillLabel.swift; sourceTree = "<group>"; };
+		2D712E0E232E2EB200624F8A /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MZKDetailManagerViewController.swift; sourceTree = "<group>"; };
 		2D78B2951C200DC0004341DA /* MZKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZKAboutViewController.h; sourceTree = "<group>"; };
 		2D78B2961C200DC0004341DA /* MZKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZKAboutViewController.m; sourceTree = "<group>"; };
@@ -261,9 +260,9 @@
 		2DFEDB54223836E100F83B47 /* MZKPlaceholderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MZKPlaceholderViewController.h; sourceTree = "<group>"; };
 		2DFEDB55223836E100F83B47 /* MZKPlaceholderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MZKPlaceholderViewController.m; sourceTree = "<group>"; };
 		2DFF115321AADC6C007A7361 /* MusicStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MusicStoryboard.storyboard; sourceTree = "<group>"; };
-		31A1AB6EB2C8031124F3E704 /* Pods_MZK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MZK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C8D0137B38B31A815BE08E93 /* Pods-MZK_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.release.xcconfig"; sourceTree = "<group>"; };
-		D3B48A31C0BB1A6C894891E3 /* Pods-MZK_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		99AEBF05F2B9C00A94302F81 /* Pods_MZK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MZK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A184291C5FFA38DA527A0F7D /* Pods-MZK_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.release.xcconfig"; path = "Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.release.xcconfig"; sourceTree = "<group>"; };
+		DB3CC1F38EFDCFA97EB45D94 /* Pods-MZK_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MZK_iOS.debug.xcconfig"; path = "Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,7 +275,7 @@
 				2D41FF011C3BBF970087F22E /* libsqlite3.tbd in Frameworks */,
 				2D2787C61BF4BB4A0007D00E /* AVFoundation.framework in Frameworks */,
 				2D2787C41BF4B92A0007D00E /* MediaPlayer.framework in Frameworks */,
-				795E8218D092EE08432F34F0 /* Pods_MZK_iOS.framework in Frameworks */,
+				31DF5F9C226F9F585412B498 /* Pods_MZK_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,8 +301,6 @@
 				2DE98BCF1C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m */,
 				2D2DA51E1BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.h */,
 				2D2DA51F1BEF9BCD00423447 /* MZKPageDetailCollectionViewCell.m */,
-				2D2DA5261BF1E03A00423447 /* MZKMusicViewController.h */,
-				2D2DA5271BF1E03A00423447 /* MZKMusicViewController.m */,
 				2D2DA52C1BF2356900423447 /* MZKGeneralColletionViewController.h */,
 				2D2DA52D1BF2356900423447 /* MZKGeneralColletionViewController.m */,
 				2D41FEF91C3B036D0087F22E /* MZKDetailInformationViewController.h */,
@@ -318,7 +315,6 @@
 				2DAB71A31D803A6300765AF7 /* MZKDetailPageViewController.m */,
 				2DAB71A71D803E2700765AF7 /* MZKDetail.storyboard */,
 				2D782BFD1DC9E4200086323E /* MZKDetailManagerViewController.swift */,
-				2D113CB21DC0DC4A0042B9ED /* MZKPageViewController.swift */,
 				2D113CB01DC0D7780042B9ED /* MZKPageDetailViewController.swift */,
 				2D07BE251F27873B0046F06E /* MZKFiltersViewController.swift */,
 				2D8966651F83C3DB00278ADD /* MZKFilterTableViewCell.swift */,
@@ -352,6 +348,15 @@
 				2D44DF3E1CB397EF001EF49F /* MZKTabBarMenuViewController.m */,
 			);
 			path = Menu;
+			sourceTree = "<group>";
+		};
+		2D712E0D232E2EA100624F8A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2D712E0E232E2EB200624F8A /* UIView+Extensions.swift */,
+				2D3A8552237800BC0099F38F /* UIDevice+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		2D79665B1DB6B11100891B94 /* Model */ = {
@@ -438,7 +443,7 @@
 				2DB8A7B01ACD073400A1BB2E /* MZK_iOSTests */,
 				2DB8A7921ACD073400A1BB2E /* Products */,
 				C4864A5EBA3AC6CFFA83C9E9 /* Frameworks */,
-				CD70EB9ECE71A04BFD2137DF /* Pods */,
+				4045218672FE0FE966BA5F05 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -453,6 +458,7 @@
 		2DB8A7931ACD073400A1BB2E /* MZK_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2D712E0D232E2EA100624F8A /* Extensions */,
 				2DC86B7B2244020C000CB20B /* MZK_iOS.entitlements */,
 				2DB5E44B1CB25CF300C90D36 /* 3rdParty */,
 				2DB8A7981ACD073400A1BB2E /* AppDelegate.h */,
@@ -558,6 +564,15 @@
 			path = XMLParser;
 			sourceTree = "<group>";
 		};
+		4045218672FE0FE966BA5F05 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DB3CC1F38EFDCFA97EB45D94 /* Pods-MZK_iOS.debug.xcconfig */,
+				A184291C5FFA38DA527A0F7D /* Pods-MZK_iOS.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		C4864A5EBA3AC6CFFA83C9E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -566,18 +581,9 @@
 				2D41FF001C3BBF970087F22E /* libsqlite3.tbd */,
 				2D2787C51BF4BB4A0007D00E /* AVFoundation.framework */,
 				2D2787C31BF4B92A0007D00E /* MediaPlayer.framework */,
-				31A1AB6EB2C8031124F3E704 /* Pods_MZK_iOS.framework */,
+				99AEBF05F2B9C00A94302F81 /* Pods_MZK_iOS.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		CD70EB9ECE71A04BFD2137DF /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				D3B48A31C0BB1A6C894891E3 /* Pods-MZK_iOS.debug.xcconfig */,
-				C8D0137B38B31A815BE08E93 /* Pods-MZK_iOS.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -587,13 +593,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2DB8A7B71ACD073400A1BB2E /* Build configuration list for PBXNativeTarget "MZK_iOS" */;
 			buildPhases = (
-				31D62CA57E422226D75EC5D0 /* [CP] Check Pods Manifest.lock */,
+				BCA04817A20DA5657ACEB240 /* [CP] Check Pods Manifest.lock */,
 				2DB8A78D1ACD073400A1BB2E /* Sources */,
 				2DB8A78E1ACD073400A1BB2E /* Frameworks */,
 				2DB8A78F1ACD073400A1BB2E /* Resources */,
 				2D9378501DA293DF005B2ED3 /* Embed Frameworks */,
 				2D511C641F54A9910039550A /* ShellScript */,
-				46256ECFF75D69111200992B /* [CP] Embed Pods Frameworks */,
+				6A77073796FB9FE9196B9DA9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -636,6 +642,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 				cs,
@@ -692,25 +699,7 @@
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
 		};
-		31D62CA57E422226D75EC5D0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MZK_iOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		46256ECFF75D69111200992B /* [CP] Embed Pods Frameworks */ = {
+		6A77073796FB9FE9196B9DA9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -726,7 +715,6 @@
 				"${BUILT_PRODUCTS_DIR}/PPTopMostController/PPTopMostController.framework",
 				"${BUILT_PRODUCTS_DIR}/RMessage/RMessage.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
 				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/iOSTiledViewer/iOSTiledViewer.framework",
 				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
@@ -742,7 +730,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PPTopMostController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RMessage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSTiledViewer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
@@ -750,6 +737,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MZK_iOS/Pods-MZK_iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BCA04817A20DA5657ACEB240 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MZK_iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -765,8 +774,10 @@
 				2DB8A79A1ACD073400A1BB2E /* AppDelegate.m in Sources */,
 				2DE387631AE526AB00A2004E /* MZKDatasource.m in Sources */,
 				2D28FD341DDC61CD00633DE4 /* ASValueTrackingSlider.m in Sources */,
+				2D712E0F232E2EB200624F8A /* UIView+Extensions.swift in Sources */,
 				2D2A64801AF8EF3800D82E04 /* MZKMainViewController.m in Sources */,
 				2D409B781B8B460E00B49EAD /* MZKDataSourceTableViewCell.m in Sources */,
+				2D3A8553237800BC0099F38F /* UIDevice+Extensions.swift in Sources */,
 				2D07BE261F27873B0046F06E /* MZKFiltersViewController.swift in Sources */,
 				2D44DF3F1CB397EF001EF49F /* MZKTabBarMenuViewController.m in Sources */,
 				2D9150F21C82F4C200AD380F /* MyURLProtocol.m in Sources */,
@@ -802,7 +813,6 @@
 				2D47472F1D467E4B00D6F5F8 /* MZKSearchTableViewCell.m in Sources */,
 				2D665DC01B03D98C00B11765 /* MZKCollectionsViewController.m in Sources */,
 				2D854DD71F7A8B1F00344F82 /* MZKFilterFacetItem.swift in Sources */,
-				2D2DA5281BF1E03A00423447 /* MZKMusicViewController.m in Sources */,
 				2DFEDB56223836E100F83B47 /* MZKPlaceholderViewController.m in Sources */,
 				2DBE26D61DDEF32F00DE43A0 /* MZKBookmark.swift in Sources */,
 				2DE98BD01C7F2FB20088018B /* MZKRecentlyOpenedDocumentsViewController.m in Sources */,
@@ -813,7 +823,6 @@
 				2DD583A01B6FA0BA001ED3B3 /* XMLReader.m in Sources */,
 				2D24F0701B7387E40073FC83 /* MZKChangeLibraryViewController.m in Sources */,
 				2D13D5671C3FC6AD00DB4190 /* MZKDetailInformationModel.m in Sources */,
-				2D113CB31DC0DC4A0042B9ED /* MZKPageViewController.swift in Sources */,
 				2DB1D9C91F2F171900BD5832 /* MZKFilterQuery.swift in Sources */,
 				2D5BB44F1DBA267D001EAB35 /* NSString+MD5.m in Sources */,
 				2D33C3571C2819E9002BA7D1 /* MZKSettingsViewController.m in Sources */,
@@ -954,13 +963,14 @@
 		};
 		2DB8A7B81ACD073400A1BB2E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3B48A31C0BB1A6C894891E3 /* Pods-MZK_iOS.debug.xcconfig */;
+			baseConfigurationReference = DB3CC1F38EFDCFA97EB45D94 /* Pods-MZK_iOS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 7;
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -995,13 +1005,14 @@
 		};
 		2DB8A7B91ACD073400A1BB2E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C8D0137B38B31A815BE08E93 /* Pods-MZK_iOS.release.xcconfig */;
+			baseConfigurationReference = A184291C5FFA38DA527A0F7D /* Pods-MZK_iOS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 7;
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

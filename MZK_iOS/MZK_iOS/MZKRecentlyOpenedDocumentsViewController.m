@@ -12,7 +12,6 @@
 #import "MZKConstants.h"
 #import "AppDelegate.h"
 #import "UIImageView+WebCache.h"
-#import "MZKMusicViewController.h"
 
 #import "MZK_iOS-Swift.h"
 
@@ -154,8 +153,7 @@
         [vc setItemPID:tmpItem.pid];
         
     }else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"]) {
-        MZKMusicViewController *vc = [segue destinationViewController];
-        [vc setItem:sender];
+        [self presentMusicViewController:nil withItem:sender];
         //set item
     } else if ([[segue identifier] isEqualToString:@"OpenGeneralList"]) {
         UINavigationController *navVC =[segue destinationViewController];
@@ -163,6 +161,30 @@
         [vc setParentPID:((MZKItemResource *)sender).pid];
         vc.isFirst = YES;
     }
+}
+
+- (void)presentMusicViewController:(MusicViewController *)controller withItem:(NSString *)item {
+
+    MusicViewController *musicViewController = nil;
+
+    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    musicViewController = del.musicViewController;
+
+    UIPopoverPresentationController *presentationController = musicViewController.popoverPresentationController;
+    presentationController.sourceView = self.view;
+    presentationController.sourceRect = CGRectMake(20, 20, 20, 20);
+    presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+        musicViewController.preferredContentSize = CGSizeMake(375, 667);
+    }
+
+    // present
+    [self presentViewController:musicViewController animated:YES completion:^{
+        if (item) {
+            [musicViewController playMusicWithPid:item];
+        }
+    }];
 }
 
 -(void)prepareDataForSegue:(MZKItemResource *)item

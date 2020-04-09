@@ -13,7 +13,6 @@
 #import "MZKConstants.h"
 #import "AppDelegate.h"
 #import "MZKItemCollectionViewCell.h"
-#import "MZKMusicViewController.h"
 #import "MZKGeneralColletionViewController.h"
 #import "MZKSearchBarCollectionReusableView.h"
 #import <Google/Analytics.h>
@@ -45,7 +44,6 @@ const int kHeaderHeight = 95;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *activityIndicatorContentView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControll;
 @property (weak, nonatomic) IBOutlet UIView *dimmingView;
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -54,6 +52,10 @@ const int kHeaderHeight = 95;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewContainerTopConstraint;
 @property (strong, nonatomic) UILabel *headerTitleLabel;
 @property (weak, nonatomic) IBOutlet UIView *navigationItemContainerView;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UILabel *libraryTitle;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControll;
+
 @end
 
 @implementation MZKMainViewController
@@ -62,52 +64,6 @@ const int kHeaderHeight = 95;
     [super viewDidLoad];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentMusic) name:@"presentMusicViewController" object:nil];
-
-    self.navigationController.tabBarItem.title = NSLocalizedString(@"mzk.library", @"mzk title");
-    //prepare header
-    _headerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, 3, _segmentControll.frame.origin.x - 6, 40)];
-    _headerTitleLabel.backgroundColor = [UIColor clearColor];
-    _headerTitleLabel.numberOfLines = 0;
-    _headerTitleLabel.textAlignment = NSTextAlignmentCenter;
-
-    // set bold font
-    UIFontDescriptor * fontD = [_headerTitleLabel.font.fontDescriptor
-                                fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
-    
-    _headerTitleLabel.font = [UIFont fontWithDescriptor:fontD size:0];
-
-    [_headerTitleLabel setMinimumScaleFactor:0.5];
-
-    if (@available(iOS 11.0, *)) {
-        self.navigationController.navigationBar.prefersLargeTitles = false;
-    } else {
-        // Fallback on earlier versions
-        // there are some problems w
-        _headerTitleLabel.frame = CGRectMake(3, 3, _headerTitleLabel.frame.size.width, _headerTitleLabel.frame.size.height);
-
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-        NSDictionary *attributtes = @{ NSParagraphStyleAttributeName: paragraphStyle };
-        [_segmentControll setTitleTextAttributes:attributtes forState:UIControlStateSelected];
-        _segmentControll.translatesAutoresizingMaskIntoConstraints = NO;
-
-        float fWidth = 150;
-
-        _segmentControll.frame = CGRectMake(_headerTitleLabel.frame.size.width + 8, 3, fWidth , _segmentControll.frame.size.height);
-
-        [NSLayoutConstraint constraintWithItem:_segmentControll
-                                     attribute:NSLayoutAttributeWidth
-                                     relatedBy:NSLayoutRelationEqual
-                                        toItem:_segmentControll
-                                     attribute:NSLayoutAttributeWidth
-                                    multiplier:1.0
-                                      constant:150.0].active = YES;
-        _headerTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-
-    self.navigationItem.titleView = _headerTitleLabel;
-    _headerTitleLabel.adjustsFontSizeToFitWidth = YES;
-
 
     // segment controll
     [_segmentControll setTitle:NSLocalizedString(@"mzk.mainPage.latest", @"") forSegmentAtIndex:0];
@@ -123,6 +79,38 @@ const int kHeaderHeight = 95;
         [self initGoogleAnalytics];
         [self refreshTitle];
     }
+
+    [self updateTopBarWithSize:UIScreen.mainScreen.bounds.size];
+
+    [self.view layoutIfNeeded];
+}
+
+-(void)updateTopBarWithSize:(CGSize)size {
+
+    CGFloat topAnchorVal = 0.0;
+    CGFloat targetHeight = 50;
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        targetHeight += 20;
+    }
+
+    if (@available(iOS 11.0, *)) {
+        NSLog(@"---- ---- width: %f height: %f", size.width, size.height);
+        if (size.height > size.width) {
+            topAnchorVal =  UIDevice.currentDevice.hasHomeButton ? 0 : 44;
+        } else if (size.width > size.height) {
+            topAnchorVal = 0;
+        }
+    } else {
+        // Fallback on earlier versions
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+
+    CGRect rect = CGRectMake(0, topAnchorVal, size.width, targetHeight);
+    _headerView.frame = rect;
+
+    [_libraryTitle setMinimumScaleFactor:0.5];
+    _libraryTitle.numberOfLines = 0;
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -157,7 +145,7 @@ const int kHeaderHeight = 95;
             libName = [[del getDatasourceItem] nameEN];
         }
     }
-    _headerTitleLabel.text = libName;
+    _libraryTitle.text = libName;
 }
 
 -(void)initGoogleAnalytics {
@@ -199,6 +187,7 @@ const int kHeaderHeight = 95;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark - Datasource methods
 -(void)dataLoaded:(NSArray *)data withKey:(NSString *)key
 {
@@ -330,10 +319,17 @@ const int kHeaderHeight = 95;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     AppDelegate *appDelegate = (AppDelegate*)[UIApplication.sharedApplication delegate];
                     [self presentMusicViewController:appDelegate.musicViewController withItem:itemPid];
-
                 });
             } else {
-                [self prepareDataForSegue:cell.item];
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"MZKDetail" bundle:NSBundle.mainBundle];
+                    MZKDetailManagerViewController *vc = [sb instantiateViewControllerWithIdentifier:@"MZKDetailManagerViewController"];
+                    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+                    [vc setItem:cell.item];
+                    [vc setItemPID:cell.item.pid];
+                    [self.navigationController presentViewController:vc animated:YES completion:nil];
+                });
             }
         } else {
             [RMessage showNotificationWithTitle:NSLocalizedString(@"mzk.warning", @"Obecna chyba") subtitle:@"Některé části dokumentu nemusí být veřejně dostupné." type:RMessageTypeWarning customTypeName:nil callback:nil];
@@ -556,6 +552,7 @@ const int kHeaderHeight = 95;
         _searchViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         _searchViewController.view.translatesAutoresizingMaskIntoConstraints = YES;
         _searchViewController.delegate = self;
+        [self addChildViewController:_searchViewController];
         
         UIBarButtonItem *right =
         [[UIBarButtonItem alloc] initWithTitle:@"Right"
@@ -581,6 +578,8 @@ const int kHeaderHeight = 95;
     
     // will execute before rotation
     [self updateCollectionViewLayoutWithSize:size];
+
+    [self updateTopBarWithSize:size];
     
     [coordinator animateAlongsideTransition:^(id  _Nonnull context) {
 

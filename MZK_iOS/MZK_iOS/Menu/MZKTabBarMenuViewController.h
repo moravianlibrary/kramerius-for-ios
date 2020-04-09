@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MZKMusicViewController.h"
 #import "MZKChangeLibraryViewController.h"
 
 @interface MZKTabBarMenuViewController : UITabBarController<UINavigationControllerDelegate>

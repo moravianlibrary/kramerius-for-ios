@@ -10,8 +10,6 @@
 #import "MZKDatasource.h"
 #import <Google/Analytics.h>
 #import "MZKItemResource.h"
-
-#import "MZKMusicViewController.h"
 #import "MZKGeneralColletionViewController.h"
 #import "MZKConstants.h"
 #import "MZKSearchTableViewCell.h"
@@ -351,9 +349,7 @@
         [vc setItemPID:sender];
         
     } else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"]) {
-        MZKMusicViewController *vc = [segue destinationViewController];
         [self presentMusicViewController:nil withItem:sender];
-        [vc setItem:sender];
         //set item
     } else if ([[segue identifier] isEqualToString:@"OpenGeneralList"]) {
         UINavigationController *navVC =[segue destinationViewController];

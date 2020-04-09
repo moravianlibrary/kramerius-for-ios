@@ -10,8 +10,6 @@
 #import "MZKDetailCollectionViewCell.h"
 #import "MZKCollectionItemResource.h"
 #import "MZKDatasource.h"
-
-#import "MZKMusicViewController.h"
 #import "MZKItemCollectionViewCell.h"
 #import <Google/Analytics.h>
 #import "AppDelegate.h"
@@ -270,8 +268,7 @@
         [vc setItemPID:_selectedItem.pid];
         _selectedItem = nil;
     } else if ([[segue identifier] isEqualToString:@"OpenSoundDetail"]) {
-        MZKMusicViewController *vc = [segue destinationViewController];
-        [vc setItem:_selectedItem];
+        [self presentMusicViewController:nil withItem:_selectedItem.pid];
         _selectedItem = nil;
     }
 }

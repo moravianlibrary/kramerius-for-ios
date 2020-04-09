@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "MZKConstants.h"
-#import "MZKMusicViewController.h"
 #import "MZKChangeLibraryViewController.h"
 #import <Google/Analytics.h>
 #import "AFNetworkActivityIndicatorManager.h"
@@ -500,12 +499,12 @@
       
         NSArray *morecontrollers = [self.menuTabBar.moreNavigationController viewControllers];
         if (morecontrollers.count > 1) {
-            MZKMusicViewController *tmpMusicVC = [morecontrollers objectAtIndex: 1];
+            MusicViewController *tmpMusicVC = [morecontrollers objectAtIndex: 1];
             [tmpMusicVC setItemPID:pid];
             [tmpMusicVC view];
         } else {
             UINavigationController *tmpNav = [self.menuTabBar.viewControllers objectAtIndex: 4];
-            MZKMusicViewController *tmpMusicVC = tmpNav.viewControllers[0];
+            MusicViewController *tmpMusicVC = tmpNav.viewControllers[0];
             [tmpMusicVC setItemPID:pid];
             [tmpMusicVC view];
         }

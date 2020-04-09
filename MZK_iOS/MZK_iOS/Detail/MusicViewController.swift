@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import MediaPlayer
 
 @objc
 public class MusicViewController: UIViewController {
@@ -31,6 +32,11 @@ public class MusicViewController: UIViewController {
     var currentItem: MZKItemResource?
     var allTracks: [MZKPageObject] = [MZKPageObject]()
 
+    // Observation objects
+    private var playPauseCommandCenterObservation: Any?
+    private var nextTrackCommandCenterObservation: Any?
+    private var previousTrackCommandCenterObservation: Any?
+
     private var playlist = [AVPlayerItem]()
     private var queuePlayer = AVQueuePlayer()
 
@@ -44,6 +50,10 @@ public class MusicViewController: UIViewController {
     private var isTracklistVisible: Bool {
         return tracklistTableView.alpha == 1 && albumImageView.alpha == 0
     }
+
+//    private var currentTrackIndex: Int {
+//        return allTracks?.index(of: currentItem) ?? 0
+//    }
 
     lazy var datasource = MZKDatasource()
 
@@ -250,10 +260,15 @@ public class MusicViewController: UIViewController {
 
     func addObservers() {
         queuePlayer.addObserver(self, forKeyPath: "rate", options: NSKeyValueObservingOptions.new, context: nil)
+        setupRemoteCommandsObservation()
     }
 
     func removeObservers() {
+        removeRemoteCommandsObservation()
+    }
 
+    deinit {
+        removeObservers()
     }
 
     private func resetPlayback() {
@@ -303,12 +318,14 @@ public class MusicViewController: UIViewController {
         }
 
         highlightCurrentSong()
+        updateNowPlaying()
     }
 
     @IBAction func nextItem(_ sender: Any) {
         if let currentItem = queuePlayer.currentItem, let currentItemIndex = playlist.index(of: currentItem), currentItemIndex < playlist.count-1 {
             let finalIndex = currentItemIndex + 1
             playItemAtIndex(index: finalIndex)
+            updateNowPlaying()
         }
     }
 
@@ -316,6 +333,7 @@ public class MusicViewController: UIViewController {
         if let currentItem = queuePlayer.currentItem, let currentItemIndex = playlist.index(of: currentItem), currentItemIndex > 0{
             let finalIndex = currentItemIndex - 1
             playItemAtIndex(index: finalIndex)
+            updateNowPlaying()
         }
     }
 
@@ -373,7 +391,6 @@ public class MusicViewController: UIViewController {
 }
 
 extension MusicViewController {
-
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(AVPlayerItem.status) {
 
@@ -479,5 +496,68 @@ extension MusicViewController: DataLoadedDelegate {
 extension MusicViewController {
     func secondsToHoursMinutesSeconds (seconds: Int) -> (Int, Int, Int) {
         return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+    }
+}
+
+// MARK: - Now playing
+extension MusicViewController {
+    func setupRemoteCommandsObservation() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+
+        commandCenter.seekBackwardCommand.isEnabled = false
+        commandCenter.seekForwardCommand.isEnabled = false
+        commandCenter.skipForwardCommand.isEnabled = false
+        commandCenter.skipBackwardCommand.isEnabled = false
+
+        playPauseCommandCenterObservation = commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
+            self?.playPause(self)
+            return .success
+        }
+
+        nextTrackCommandCenterObservation = commandCenter.nextTrackCommand.addTarget { [weak self] _ in
+            self?.nextItem(self)
+            return .success
+        }
+
+        previousTrackCommandCenterObservation = commandCenter.previousTrackCommand.addTarget { [weak self] _ in
+            self?.previousItem(self)
+            return .success
+        }
+    }
+
+    func removeRemoteCommandsObservation() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+
+        if let observation = playPauseCommandCenterObservation {
+            commandCenter.togglePlayPauseCommand.removeTarget(observation)
+            playPauseCommandCenterObservation = nil }
+
+        if let observation = nextTrackCommandCenterObservation {
+            commandCenter.nextTrackCommand.removeTarget(observation)
+            nextTrackCommandCenterObservation = nil
+        }
+
+        if let observation = previousTrackCommandCenterObservation {
+            commandCenter.previousTrackCommand.removeTarget(observation)
+            previousTrackCommandCenterObservation = nil
+        }
+    }
+
+    func updateNowPlaying() {
+        var nowPlayingInfo = [String: Any]()
+
+        nowPlayingInfo[MPMediaItemPropertyArtist] = Bundle.main.infoDictionary?["CFBundleName"] as? String
+        if #available(iOS 10.0, *) {
+            nowPlayingInfo[MPNowPlayingInfoPropertyMediaType] = MPNowPlayingInfoMediaType.audio.rawValue
+        }
+        nowPlayingInfo[MPMediaItemPropertyAlbumTrackCount] = items?.count
+       // nowPlayingInfo[MPMediaItemPropertyAlbumTrackNumber] = currentDocumentIndex
+
+        if let currentTitle = currentItem?.title {
+            nowPlayingInfo[MPMediaItemPropertyTitle] = currentTitle
+        }
+
+        let center = MPNowPlayingInfoCenter.default()
+        center.nowPlayingInfo = nowPlayingInfo
     }
 }
