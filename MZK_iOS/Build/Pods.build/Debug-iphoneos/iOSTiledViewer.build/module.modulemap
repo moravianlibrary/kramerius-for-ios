@@ -1,0 +1,11 @@
+framework module iOSTiledViewer {
+  umbrella header "iOSTiledViewer-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module iOSTiledViewer.Swift {
+    header "iOSTiledViewer-Swift.h"
+    requires objc
+}

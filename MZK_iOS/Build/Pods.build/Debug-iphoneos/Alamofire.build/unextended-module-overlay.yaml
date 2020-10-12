@@ -1,0 +1,13 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': '/Users/ondrejvyhlidal/Projects/Private/Kramerius/MZK_iOS/build/Debug-iphoneos/Alamofire/Alamofire.framework/Modules'
+    'contents': [{
+      'type': 'file',
+      'name': 'module.modulemap',
+      'external-contents': '/Users/ondrejvyhlidal/Projects/Private/Kramerius/MZK_iOS/build/Pods.build/Debug-iphoneos/Alamofire.build/unextended-module.modulemap',
+    }]
+  }]
+}
