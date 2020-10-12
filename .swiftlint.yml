@@ -1,0 +1,52 @@
+excluded:
+  - Pods
+identifier_name:
+  excluded:
+    - i
+    - in
+    - id
+    - to
+    - no
+    - URL
+nesting:
+    type_level: 2
+
+disabled_rules:
+  - line_length
+  - multiline_arguments
+  - object_literal
+  - trailing_comma
+  - unused_optional_binding
+
+opt_in_rules:
+  - attributes
+  - closure_end_indentation
+  - closure_spacing
+  - contains_over_first_not_nil
+  - empty_count
+  - fatal_error_message
+  - force_unwrapping
+  - implicit_return
+  - literal_expression_end_indentation
+  - multiline_arguments
+  - multiline_parameters
+  - nimble_operator
+  - no_extension_access_modifier
+  - operator_usage_whitespace
+  - operator_whitespace
+  - overridden_super_call
+  - override_in_extension
+  - private_action
+  - private_outlet
+  - prohibited_super_call
+  - quick_discouraged_call
+  - quick_discouraged_focused_test
+  - quick_discouraged_pending_test
+  - redundant_nil_coalescing
+  - required_enum_case
+  - single_test_class
+  - sorted_first_last
+  - strict_fileprivate
+  - trailing_closure
+  - unneeded_parentheses_in_closure_argument
+  - yoda_condition

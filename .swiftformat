@@ -1,0 +1,6 @@
+# format options
+--indent 4
+--swiftversion 5.2
+--importgrouping testable-bottom
+--ifdef no-indent
+
