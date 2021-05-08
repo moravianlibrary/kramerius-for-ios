@@ -13,15 +13,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
 
-    private var externalHosts = [
-        "twitter.com",
-        "pinterest.com",
-        "facebook.com",
-        "kramerius-edu.lib.cas.cz",
-        "kramerius-vs.techlib.cz",
-        "dnnt.mzk.cz",
-        "ndk.cz"
-    ]
+    private let baseUrl = URL(string: "https://webview.digitalniknihovna.cz/")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +34,7 @@ class ViewController: UIViewController {
 
         NSLayoutConstraint.activate(constraints)
 
-        guard let url = URL(string: "https://webview.digitalniknihovna.cz/") else { return }
+        guard let url = baseUrl else { return }
         let request = URLRequest(url: url)
 
         webView.load(request)
@@ -51,7 +43,7 @@ class ViewController: UIViewController {
 
 extension ViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if let url = navigationAction.request.url, let host = url.host, externalHosts.contains(host),
+        if let url = navigationAction.request.url, let host = url.host, baseUrl?.host != host,
            UIApplication.shared.canOpenURL(url) {
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(url)
