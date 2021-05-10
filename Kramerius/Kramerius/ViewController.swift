@@ -13,15 +13,17 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
 
-    private let baseUrl = URL(string: "https://webview.digitalniknihovna.cz/")
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        setupWebView()
+        guard let serverUrl = Bundle.main.object(forInfoDictionaryKey: "ServerURL") as? String else { return }
+
+        if let baseUrl = URL(string: serverUrl) {
+            setupWebView(url: baseUrl)
+        }
     }
 
-    private func setupWebView() {
+    private func setupWebView(url: URL) {
         let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
         webView.navigationDelegate = self
         webView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +36,6 @@ class ViewController: UIViewController {
 
         NSLayoutConstraint.activate(constraints)
 
-        guard let url = baseUrl else { return }
         let request = URLRequest(url: url)
 
         webView.load(request)
@@ -43,7 +44,19 @@ class ViewController: UIViewController {
 
 extension ViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if let url = navigationAction.request.url, let host = url.host, baseUrl?.host != host,
+        guard let serverUrl = Bundle.main.object(forInfoDictionaryKey: "ServerURL") as? String, let baseUrl = URL(string: serverUrl) else { return }
+
+        var requestTarget: String? = ""
+        if let url = navigationAction.request.url, let host = url.host {
+            if host.contains("www.") {
+                let clean = host.replacingOccurrences(of: "www.", with: "")
+                requestTarget = clean
+            } else {
+                requestTarget = host
+            }
+        }
+
+        if let url = navigationAction.request.url, let host = requestTarget, baseUrl.host != host,
            UIApplication.shared.canOpenURL(url) {
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(url)
